@@ -13,7 +13,7 @@ const MaxWidthWrapper = ({
         // cn() set default styles if className is not provided 
         // if className has passed, then they append to default styles  
         <div className={cn(
-            "max-auto w-full max-w-screen-xl px-2.5 md:px-20", 
+            "max-auto w-full px-2.5 md:px-20", 
             className
         )}>
             {children}
