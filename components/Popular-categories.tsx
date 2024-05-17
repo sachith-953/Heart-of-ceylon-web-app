@@ -1,78 +1,39 @@
+
 import CategoryCard from "./CategoryCard"
 
-export default function PopularCategories(){
 
-    const fetchedData = [
-        {
-            title: "Diamonds and Gems",
-            imageLink : "https://www.srilankabusiness.com/images/export_categories/diamonds_gems_jewellery.jpg"
-        },
+interface categoryType {
+    categoryId : number,
+    categoryName : string,
+    image : string,
+}
 
-        {
-            title: "Coconut and products",
-            imageLink : "https://www.srilankabusiness.com/images/export_categories/giftware.jpg"
-        },
+async function getData() {
+    const res = await fetch('http://localhost:8080/api/v1/pBuyer/getPopularCategories')
+    // The return value is *not* serialized
+    // You can return Date, Map, Set, etc.
 
-        {
-            title: "Fruits, Nuts and Vegitables",
-            imageLink : "https://www.srilankabusiness.com/images/export_categories/fruits-vegetables.jpg"
-        },
+    if (!res.ok) {
+        // This will activate the closest `error.js` Error Boundary
+        throw new Error('Failed to fetch data')
+    }
 
-        {
-            title: "Ceramics and Porcelain Products",
-            imageLink : "https://www.srilankabusiness.com/images/export_categories/ceramic.jpg"
-        },
-        
-        {
-            title: "Apparel and Textiles",
-            imageLink : "https://www.srilankabusiness.com/images/export_categories/apparel.jpg"
-        },
+    return res.json()
+}
 
-        {
-            title: "Ceylon Tea",
-            imageLink : "https://www.srilankabusiness.com/images/export_categories/tea.jpg"
-        },
-        
-        {
-            title: "Food, Feed and Beverages",
-            imageLink : "https://www.srilankabusiness.com/images/export_categories/food-beverages.jpg"
-        },
-        
-        {
-            title: "Spices, Oil",
-            imageLink : "https://www.srilankabusiness.com/images/export_categories/spices.jpg"
-        },
 
-        {
-            title: "Handloom Products",
-            imageLink : "https://www.srilankabusiness.com/images/export_categories/handloom.jpg"
-        },
 
-        {
-            title: "Leather Products",
-            imageLink : "https://www.srilankabusiness.com/images/export_categories/footwear.jpg"
-        },
-        
-        {
-            title: "Live Fish",
-            imageLink : "https://www.srilankabusiness.com/images/export_categories/ornamental-fish.jpg"
-        },
-        
-        {
-            title: "Wood and Wooden products",
-            imageLink : "https://www.srilankabusiness.com/images/export_categories/wooden-products.jpg"
-        },
-    ]
-    
-    // const name = "Coconut and products"
-    // // const imageLink = "/coconut-products.jpg"
-    // const imageLink = "https://www.srilankabusiness.com/images/export_categories/coconut-products.jpg"
+// for fetch data : 4.48=> https://www.youtube.com/watch?v=O0-rb1B74xs
+const  PopularCategories = async () => {
 
-    return(
+    const fetchedData = await getData()
+    // console.log(fetchedData)
+
+    return (
         <>
             <div className="">
                 {/* titile */}
-                <h1 
+                <h1
                     className="text-2xl md:text-3xl font-bold text-center text-gray-700 m-3"
                 >
                     Popular Categories
@@ -81,14 +42,17 @@ export default function PopularCategories(){
                 {/* category grid is controlled in here */}
                 <div className="m-4 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-6">
                     {/* popular categories list */}
-                    {fetchedData.map((data)=> {
-                        console.log(data.imageLink)
-                        return(
-                            <CategoryCard title={data.title} imageLink={data.imageLink} key={data.imageLink} ></CategoryCard>
-                        )  
+                    {fetchedData.map((data : categoryType) => {
+                        
+                        return (
+                            // check the next.config.mjs for refer externam image fetching configurations
+                            <CategoryCard title={data.categoryName} imageLink={data.image} key={data.categoryName} ></CategoryCard>
+                        )
                     })}
                 </div>
             </div>
         </>
     )
 }
+
+export default PopularCategories

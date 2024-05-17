@@ -13,6 +13,7 @@ export default function CategoryCard({
         <>
             <div className="">
                 <div>
+                   
                     <Image 
                         src={imageLink}
                         alt={title}
