@@ -32,7 +32,7 @@ export default function Home() {
         
         <PopularCategories />
 
-        
+
 
         {/* TODO : List products */}
       </MaxWidthWrapper>
