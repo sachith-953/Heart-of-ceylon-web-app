@@ -1,42 +1,56 @@
 
-import MaxWidthWrapper from "@/components/MaxWidthWrapper";
-import PopularCategories from "@/components/Popular-categories";
-import { Button, buttonVariants } from "@/components/ui/button";
-import Link from "next/link";
+// import MaxWidthWrapper from "@/components/MaxWidthWrapper";
+// import PopularCategories from "@/components/Popular-categories";
+// import { Button, buttonVariants } from "@/components/ui/button";
+// import Link from "next/link";
 
 
-export default function Home() {
+// export default function Home() {
 
 
-  return (
-    <>
-      <MaxWidthWrapper>
-        <div className="py-10 mx-auto text-center flex flex-col items-center">
+//   return (
+//     <>
+//       <MaxWidthWrapper>
+//         <div className="py-10 mx-auto text-center flex flex-col items-center">
           
-          {/*  {' '} part is used to preserve the white space */}
-          <h1 className="text-4xl font-bold tracking-tight text-gray-900 sm:text-6xl">Your Marketplace for high-quality{' '}
-            <br /><span className="text-blue-600">Sri Lankan Products</span>.
-          </h1>
-          <p className="mt-6 text-lg max-w-prose text-muted-foreground">Welcome to Heart Of Ceylon. Every product on our platform is verfied by our team to ensure our highest quality standers
-          </p>
-          <div className="flex flex-col sm:flex-row gap-4 mt-6">
+//           {/*  {' '} part is used to preserve the white space */}
+//           <h1 className="text-4xl font-bold tracking-tight text-gray-900 sm:text-6xl">Your Marketplace for high-quality{' '}
+//             <br /><span className="text-blue-600">Sri Lankan Products</span>.
+//           </h1>
+//           <p className="mt-6 text-lg max-w-prose text-muted-foreground">Welcome to Heart Of Ceylon. Every product on our platform is verfied by our team to ensure our highest quality standers
+//           </p>
+//           <div className="flex flex-col sm:flex-row gap-4 mt-6">
 
-            {/* this is set shadcn ui library button default  */}
-            <Link href="/products" className={buttonVariants()}>Browse Trending</Link>
+//             {/* this is set shadcn ui library button default  */}
+//             <Link href="/products" className={buttonVariants()}>Browse Trending</Link>
 
-            {/* &rarr; <= this is a inbuild right arrow */}
-            {/* we can choose button types from the ui library */}
-            <Button variant="ghost">Our quality promise &rarr;</Button>
-          </div>
-        </div>
+//             {/* &rarr; <= this is a inbuild right arrow */}
+//             {/* we can choose button types from the ui library */}
+//             <Button variant="ghost">Our quality promise &rarr;</Button>
+//           </div>
+//         </div>
         
-        <PopularCategories />
+//         <PopularCategories />
 
-        {/* TODO : List products */}
-      </MaxWidthWrapper>
-      </>
-  );
-}
+//         {/* TODO : List products */}
+//       </MaxWidthWrapper>
+//       </>
+//   );
+// }
+
+import React from 'react';
+import Login from '@/components/login/login';
+import Signup from '@/components/signup/Signup';
 
 
 
+const HomePage = () => {
+    return (
+        <div>
+            <Login />
+            <Signup/>
+        </div>
+    );
+};
+
+export default HomePage;
