@@ -1,8 +1,11 @@
 
+import Footer from "@/components/Footer";
 import MaxWidthWrapper from "@/components/MaxWidthWrapper";
 import PopularCategories from "@/components/Popular-categories";
 import { Button, buttonVariants } from "@/components/ui/button";
 import Link from "next/link";
+
+
 
 
 export default function Home() {
@@ -36,6 +39,7 @@ export default function Home() {
 
         {/* TODO : List products */}
       </MaxWidthWrapper>
+      <Footer/>
 
      
 
