@@ -1,8 +1,23 @@
-
 "use-client"
-import React from 'react';
+
+import React, { FormEvent } from 'react';
+
+async function onSubmitFunc(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault()
+ 
+    const formData = new FormData(event.currentTarget)
+    const response = await fetch('localhost:8080/api/v1/sign-up/buyer', {
+      method: 'POST',
+      body: formData,
+    })
+ 
+    // Handle response if necessary
+    const data = await response.json()
+    // ...
+  }
 
 export default function Signup() {
+
   return (
     <>
     
@@ -14,7 +29,8 @@ export default function Signup() {
         </div>
 
         <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
-          <form className="space-y-6" action="#" method="POST">
+          
+          <form className="space-y-6" onSubmit={onSubmitFunc}>
             <div>
               <label htmlFor="firstName" className="block text-sm font-medium leading-6 text-gray-900">
                 First Name

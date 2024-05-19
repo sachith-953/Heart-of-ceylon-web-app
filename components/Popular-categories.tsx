@@ -7,7 +7,7 @@ interface categoryType {
     categoryName : string,
     image : string,
 }
-
+// https://nextjs.org/docs/app/building-your-application/data-fetching/fetching-caching-and-revalidating
 async function getData() {
     const res = await fetch('http://localhost:8080/api/v1/pBuyer/getPopularCategories')
     // The return value is *not* serialized
