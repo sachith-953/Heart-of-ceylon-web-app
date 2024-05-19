@@ -2,12 +2,12 @@ import React from 'react';
 
 const Footer = () => {
     return (
-        <footer className="bg-blue-900 text-white py-8">
+        <footer className="bg-blue-900 text-white py-8 mt-8">
             <div className="max-w-7xl mx-auto px-4">
-                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-8 text-center md:text-left">
+                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-5 lg:grid-cols-5 gap-8 text-center md:text-left">
                     <div>
-                        <h2 className="text-lg font-bold mb-4">Selling</h2>
-                        <ul>
+                        <h2 className="text-lg font-bold mb-4 text-center">Selling</h2>
+                        <ul className="text-center">
                             <li className="mb-2">Start Selling</li>
                             <li className="mb-2">Learn to Sell</li>
                             <li className="mb-2">Ask Questions</li>
@@ -15,8 +15,8 @@ const Footer = () => {
                         </ul>
                     </div>
                     <div>
-                        <h2 className="text-lg font-bold mb-4">Buying</h2>
-                        <ul>
+                        <h2 className="text-lg font-bold mb-4 text-center">Buying</h2>
+                        <ul  className="text-center">
                             <li className="mb-2">Start Buying</li>
                             <li className="mb-2">How to Buy</li>
                             <li className="mb-2">Get Offers</li>
@@ -24,8 +24,8 @@ const Footer = () => {
                         </ul>
                     </div>
                     <div>
-                        <h2 className="text-lg font-bold mb-4">About Us</h2>
-                        <ul>
+                        <h2 className="text-lg font-bold mb-4 text-center">About Us</h2>
+                        <ul  className="text-center">
                             <li className="mb-2">Main Company</li>
                             <li className="mb-2">Learn to Sell</li>
                             <li className="mb-2">Policies</li>
@@ -33,8 +33,8 @@ const Footer = () => {
                         </ul>
                     </div>
                     <div>
-                        <h2 className="text-lg font-bold mb-4">Help and Support</h2>
-                        <ul>
+                        <h2 className="text-lg font-bold mb-4 text-center">Help and Support</h2>
+                        <ul  className="text-center">
                             <li className="mb-2">Start Selling</li>
                             <li className="mb-2">Learn to Sell</li>
                             <li className="mb-2">Ask Questions</li>
@@ -42,8 +42,8 @@ const Footer = () => {
                         </ul>
                     </div>
                     <div>
-                        <h2 className="text-lg font-bold mb-4">Follow us</h2>
-                        <ul>
+                        <h2 className="text-lg font-bold mb-4 text-center">Follow us</h2>
+                        <ul  className="text-center">
                             <li className="mb-2">Facebook</li>
                             <li className="mb-2">Youtube</li>
                             <li className="mb-2">Pinterest</li>
