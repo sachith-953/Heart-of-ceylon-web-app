@@ -1,19 +1,29 @@
-
-"use-client"
-import React from 'react';
+"use client";
+import React, { useState } from 'react';
 
 export default function Signup() {
+  const [country, setCountry] = useState('');
+  const [countryError, setCountryError] = useState('');
+
+  const validateCountry = (value:string) => {
+    const regex = /^[a-zA-Z\s]+$/;
+    if (!regex.test(value)) {
+      setCountryError('Only text is allowed.');
+    } else {
+      setCountryError('');
+    }
+    setCountry(value);
+  };
   return (
     <>
-    
-      <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
-        <div className="sm:mx-auto sm:w-full sm:max-w-sm">
+      <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8 bg-blue-200">
+        <div className="sm:mx-auto sm:w-full sm:max-w-md">
           <h2 className="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">
             Sign-Up to your account
           </h2>
         </div>
 
-        <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
+        <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-md bg-blue-300 p-6 rounded-lg shadow-lg">
           <form className="space-y-6" action="#" method="POST">
             <div>
               <label htmlFor="firstName" className="block text-sm font-medium leading-6 text-gray-900">
@@ -27,7 +37,9 @@ export default function Signup() {
                   autoComplete="given-name"
                   required
                   placeholder="Kevin"
-                  className="pl-3 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                  // className="pl-3 block w-full rounded-md border-0 py-1.5 text-gray-100 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-purple-600 sm:text-sm sm:leading-6 bg-blue-50"
+                  className=" pl-3 block w-full rounded-md bg border-transparent focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent bg-blue-50 ..."
+
                 />
               </div>
             </div>
@@ -44,7 +56,8 @@ export default function Signup() {
                   autoComplete="family-name"
                   required
                   placeholder="Peterson"
-                  className="pl-3 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                  // className="pl-3 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                  className=" pl-3 block w-full rounded-md bg border-transparent focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent bg-blue-50 ..."
                 />
               </div>
             </div>
@@ -61,7 +74,8 @@ export default function Signup() {
                   autoComplete="email"
                   required
                   placeholder="example@gmail.com"
-                  className="pl-3 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                  // className="pl-3 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                  className=" pl-3 block w-full rounded-md bg border-transparent focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent bg-blue-50 ..."
                 />
               </div>
             </div>
@@ -77,7 +91,8 @@ export default function Signup() {
                   type="password"
                   autoComplete="new-password"
                   required
-                  className="pl-3 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                  // className="pl-3 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                  className=" pl-3 block w-full rounded-md bg border-transparent focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent bg-blue-50 ..."
                 />
               </div>
             </div>
@@ -93,13 +108,14 @@ export default function Signup() {
                   type="password"
                   autoComplete="new-password"
                   required
-                  className="pl-3 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                  // className="pl-3 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                  className=" pl-3 block w-full rounded-md bg border-transparent focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent bg-blue-50 ..."
                 />
               </div>
             </div>
 
             <div>
-              <label htmlFor="phone number" className="block text-sm font-medium leading-6 text-gray-900">
+              <label htmlFor="phoneNumber" className="block text-sm font-medium leading-6 text-gray-900">
                 Phone number
               </label>
               <div className="mt-2">
@@ -107,117 +123,126 @@ export default function Signup() {
                   id="phoneNumber"
                   name="phoneNumber"
                   type="text"
-                  autoComplete="phoneNumber"
+                  autoComplete="tel"
                   required
                   placeholder="011-1234567"
-                  className="pl-3 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                  // className="pl-3 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                  className=" pl-3 block w-full rounded-md bg border-transparent focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent bg-blue-50 ..."
                 />
               </div>
             </div>
+
             <div>
-        <label htmlFor="address" className="block text-sm font-medium leading-6 text-gray-900">
-          Address
-        </label>
-        <div className="mt-2">
-          <input
-            id="address"
-            name="address"
-            type="text"
-            autoComplete="address"
-            required
-            placeholder="Street address"
-            className="pl-3 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-          />
-        </div>
-      </div>
+              <label htmlFor="address" className="block text-sm font-medium leading-6 text-gray-900">
+                Address
+              </label>
+              <div className="mt-2">
+                <input
+                  id="address"
+                  name="address"
+                  type="text"
+                  autoComplete="street-address"
+                  required
+                  placeholder="Street address"
+                  // className="pl-3 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                  className=" pl-3 block w-full rounded-md bg border-transparent focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent bg-blue-50 ..."
+                />
+              </div>
+            </div>
 
-      <div className="grid grid-cols-2 gap-x-4 mt-4">
-        <div>
-          <label htmlFor="city" className="block text-sm font-medium leading-6 text-gray-900">
-            City
-          </label>
-          <div className="mt-2">
-            <input
-              id="city"
-              name="city"
-              type="text"
-              autoComplete="address-level2"
-              required
-              placeholder="Kandy"
-              className="pl-3 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-            />
-          </div>
-        </div>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-4 mt-4">
+              <div>
+                <label htmlFor="city" className="block text-sm font-medium leading-6 text-gray-900">
+                  City
+                </label>
+                <div className="mt-2">
+                  <input
+                    id="city"
+                    name="city"
+                    type="text"
+                    autoComplete="address-level2"
+                    required
+                    placeholder="Kandy"
+                    // className="pl-3 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                    className=" pl-3 block w-full rounded-md bg border-transparent focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent bg-blue-50 ..."
+                  />
+                </div>
+              </div>
 
-        <div>
-          <label htmlFor="state" className="block text-sm font-medium leading-6 text-gray-900">
-            State/Province
-          </label>
-          <div className="mt-2">
-            <input
-              id="state"
-              name="state"
-              type="text"
-              autoComplete="address-level1"
-              required
-              placeholder="Central Province"
-              className="pl-3 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-            />
-          </div>
-        </div>
-      </div>
+              <div>
+                <label htmlFor="state" className="block text-sm font-medium leading-6 text-gray-900">
+                  State/Province
+                </label>
+                <div className="mt-2">
+                  <input
+                    id="state"
+                    name="state"
+                    type="text"
+                    autoComplete="address-level1"
+                    required
+                    placeholder="Central Province"
+                    // className="pl-3 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                    className=" pl-3 block w-full rounded-md bg border-transparent focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent bg-blue-50 ..."
+                  />
+                </div>
+              </div>
+            </div>
 
-      <div className="grid grid-cols-2 gap-x-4 mt-4">
-        <div>
-          <label htmlFor="postalCode" className="block text-sm font-medium leading-6 text-gray-900">
-            Postal Code
-          </label>
-          <div className="mt-2">
-            <input
-              id="postalCode"
-              name="postalCode"
-              type="text"
-              autoComplete="postal-code"
-              required
-              placeholder="00000"
-              className="pl-3 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-            />
-          </div>
-        </div>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-4 mt-4">
+              <div>
+                <label htmlFor="postalCode" className="block text-sm font-medium leading-6 text-gray-900">
+                  Postal Code
+                </label>
+                <div className="mt-2">
+                  <input
+                    id="postalCode"
+                    name="postalCode"
+                    type="text"
+                    autoComplete="postal-code"
+                    required
+                    placeholder="00000"
+                    // className="pl-3 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                    className=" pl-3 block w-full rounded-md bg border-transparent focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent bg-blue-50 ..."
+                  />
+                </div>
+              </div>
 
-        <div>
-          <label htmlFor="country" className="block text-sm font-medium leading-6 text-gray-900">
-            Country
-          </label>
-          <div className="mt-2">
-            <input
-              id="country"
-              name="country"
-              type="text"
-              autoComplete="country"
-              required
-              placeholder="Sri lanka"
-              className="pl-3 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-            />
-          </div>
-        </div>
-      </div>
+              <div>
+              <label htmlFor="country" className="block text-sm font-medium leading-6 text-gray-900">
+                Country
+              </label>
+              <div className="mt-2">
+              <input
+                  id="country"
+                  name="country"
+                  type="text"
+                  autoComplete="country"
+                  required
+                  placeholder="Sri Lanka"
+                  value={country}
+                  onChange={(e) => validateCountry(e.target.value)}
+                  className="pl-3 block w-full rounded-md border-transparent focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent bg-blue-50"
+                />
+                {countryError && (
+                  <p className="mt-2 text-sm text-red-600">{countryError}</p>
+                )}
+              </div>
+            </div>
 
-
+            </div>
 
             <div>
               <button
                 type="submit"
                 className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
               >
-                Sign in
+                Sign up
               </button>
             </div>
           </form>
         </div>
       </div>
+    
     </>
   );
 }
-
-
