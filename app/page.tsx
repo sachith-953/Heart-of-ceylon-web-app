@@ -1,7 +1,9 @@
 
+import CustomerService from "@/components/CustomerService";
 import Footer from "@/components/Footer";
 import MaxWidthWrapper from "@/components/MaxWidthWrapper";
 import PopularCategories from "@/components/Popular-categories";
+import SearchBar from "@/components/SearchBar";
 import { Button, buttonVariants } from "@/components/ui/button";
 import Link from "next/link";
 
@@ -15,6 +17,9 @@ export default function Home() {
     <>
       <MaxWidthWrapper>
         <div className="py-10 mx-auto text-center flex flex-col items-center">
+
+          {/* search bar */}
+          <SearchBar />
           
           {/*  {' '} part is used to preserve the white space */}
           <h1 className="text-4xl font-bold tracking-tight text-gray-900 sm:text-6xl">Your Marketplace for high-quality{' '}
@@ -35,8 +40,11 @@ export default function Home() {
         
         <PopularCategories />
 
+        <CustomerService />
+
         {/* TODO : List products */}
       </MaxWidthWrapper>
+
       <Footer/>
       </>
   );

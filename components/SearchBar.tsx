@@ -6,6 +6,7 @@ function onSearch() {}
 
 export default function SearchBar() {
   return (
+    
     <MaxWidthWrapper>
         <div className="flex flex-col gap-10 items-center p-6">
           <form className="flex justify-center w-2/3" onSubmit={onSearch}>

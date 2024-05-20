@@ -11,7 +11,7 @@ export default function CustomerService() {
               Suppliers, and the Export process?
             </p>
             <p>
-              Contact "Heart of Ceylon" Customer service for further assistance.
+              Contact {"\""}Heart of Ceylon{"\""} Customer service for further assistance.
             </p>
           </div>
           <div className="grid grid-cols-3">
