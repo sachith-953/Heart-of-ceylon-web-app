@@ -1,22 +1,40 @@
 "use-client"
 
+import { NextRequest } from 'next/server';
 import React, { FormEvent } from 'react';
 
-async function onSubmitFunc(event: FormEvent<HTMLFormElement>) {
-    event.preventDefault()
- 
-    const formData = new FormData(event.currentTarget)
-    const response = await fetch('localhost:8080/api/v1/sign-up/buyer', {
-      method: 'POST',
-      body: formData,
-    })
- 
-    // Handle response if necessary
-    const data = await response.json()
-    // ...
-  }
+
 
 export default function Signup() {
+
+  async function handleFormSubmit(formData: FormData) {
+    'use server';
+
+    const req = new NextRequest(
+      new Request(new URL('/testing', 'http://localhost:8080/api/v1/pBuyer/').toString())
+    );
+
+    const createInvoice = async (formData: FormData, req: NextRequest) => {
+      'use server';
+
+      const userName = formData.get('uname');
+      console.log(JSON.stringify(userName));
+
+      const response = await fetch(`http://localhost:8080/api/v1/pBuyer/test`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ uname: userName }),
+      });
+
+      // Handle the response as needed
+      // ...
+      console.log("response is" + response.json())
+    };
+
+    await createInvoice(formData, req);
+  }
 
   return (
     <>
@@ -30,7 +48,7 @@ export default function Signup() {
 
         <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
           
-          <form className="space-y-6" onSubmit={onSubmitFunc}>
+          <form className="space-y-6" action={handleFormSubmit}>
             <div>
               <label htmlFor="firstName" className="block text-sm font-medium leading-6 text-gray-900">
                 First Name
