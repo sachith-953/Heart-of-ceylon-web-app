@@ -11,26 +11,54 @@ export default function Signup() {
     'use server';
 
     const req = new NextRequest(
-      new Request(new URL('/testing', 'http://localhost:8080/api/v1/pBuyer/').toString())
+      new Request(new URL('/buyer', 'http://localhost:8080/api/v1/sign-up').toString())
     );
 
     const createInvoice = async (formData: FormData, req: NextRequest) => {
       'use server';
 
-      const userName = formData.get('uname');
-      console.log(JSON.stringify(userName));
+      const userData = {
+        firstName: formData.get('firstName'),
+        lastName: formData.get('lastName'),
+        phoneNumber: formData.get('phoneNumber'),
+        address: formData.get('address'),
+        city: formData.get('city'),
+        state: formData.get('state'),
+        postalCode: formData.get('postalCode'),
+        country: formData.get('country'),
+        email: formData.get('email'),
+        password: formData.get('password'),
+      };
 
-      const response = await fetch(`http://localhost:8080/api/v1/pBuyer/test`, {
+      // const userName = formData.get('uname');
+      console.log(JSON.stringify(userData));
+
+      const response = await fetch(`http://localhost:8080/api/v1/sign-up/buyer`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ uname: userName }),
+        body: JSON.stringify(userData),
       });
 
       // Handle the response as needed
-      // ...
-      console.log("response is" + response.json())
+
+      if (response.ok) {
+        const data = await response.json();
+        const accessToken = data.access_token;
+        const accessTokenExpiry = data.access_token_expiry;
+        const tokenType = data.token_type;
+        const userName = data.user_name;
+    
+        // Handle the response data as needed
+        console.log('Access Token:', accessToken);
+        console.log('Access Token Expiry:', accessTokenExpiry);
+        console.log('Token Type:', tokenType);
+        console.log('User Name:', userName);
+      // You can store the access token, expiry, and other data in a state or cookie,
+      // or use it for further operations like redirecting to a different page, etc.
+      }
+      
     };
 
     await createInvoice(formData, req);
@@ -38,7 +66,7 @@ export default function Signup() {
 
   return (
     <>
-    
+
       <div className=" flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
         <div className="sm:mx-auto sm:w-full sm:max-w-sm">
           <h2 className="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">
@@ -47,13 +75,13 @@ export default function Signup() {
         </div>
 
         <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
-          
-          <form className="space-y-6" action={handleFormSubmit}>
+
+          <form className="space-y-3" action={handleFormSubmit}>
             <div>
               <label htmlFor="firstName" className="block text-sm font-medium leading-6 text-gray-900">
                 First Name
               </label>
-              <div className="mt-2">
+              <div className="">
                 <input
                   id="firstName"
                   name="firstName"
@@ -70,7 +98,7 @@ export default function Signup() {
               <label htmlFor="lastName" className="block text-sm font-medium leading-6 text-gray-900">
                 Last Name
               </label>
-              <div className="mt-2">
+              <div className="">
                 <input
                   id="lastName"
                   name="lastName"
@@ -87,7 +115,7 @@ export default function Signup() {
               <label htmlFor="email" className="block text-sm font-medium leading-6 text-gray-900">
                 Email address
               </label>
-              <div className="mt-2">
+              <div className="">
                 <input
                   id="email"
                   name="email"
@@ -104,7 +132,7 @@ export default function Signup() {
               <label htmlFor="password" className="block text-sm font-medium leading-6 text-gray-900">
                 Password
               </label>
-              <div className="mt-2">
+              <div className="">
                 <input
                   id="password"
                   name="password"
@@ -120,7 +148,7 @@ export default function Signup() {
               <label htmlFor="confirmPassword" className="block text-sm font-medium leading-6 text-gray-900">
                 Confirm Password
               </label>
-              <div className="mt-2">
+              <div className="">
                 <input
                   id="confirmPassword"
                   name="confirmPassword"
@@ -136,7 +164,7 @@ export default function Signup() {
               <label htmlFor="phone number" className="block text-sm font-medium leading-6 text-gray-900">
                 Phone number
               </label>
-              <div className="mt-2">
+              <div className="">
                 <input
                   id="phoneNumber"
                   name="phoneNumber"
@@ -148,94 +176,96 @@ export default function Signup() {
                 />
               </div>
             </div>
+            
             <div>
-        <label htmlFor="address" className="block text-sm font-medium leading-6 text-gray-900">
-          Address
-        </label>
-        <div className="mt-2">
-          <input
-            id="address"
-            name="address"
-            type="text"
-            autoComplete="address"
-            required
-            placeholder="Street address"
-            className="pl-3 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-          />
-        </div>
-      </div>
+              <label htmlFor="address" className="block text-sm font-medium leading-6 text-gray-900">
+                Address
+              </label>
+              <div className="">
+                <input
+                  id="address"
+                  name="address"
+                  type="text"
+                  autoComplete="address"
+                  required
+                  placeholder="Street address"
+                  className="pl-3 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                />
+              </div>
+            </div>
 
-      <div className="grid grid-cols-2 gap-x-4 mt-4">
-        <div>
-          <label htmlFor="city" className="block text-sm font-medium leading-6 text-gray-900">
-            City
-          </label>
-          <div className="mt-2">
-            <input
-              id="city"
-              name="city"
-              type="text"
-              autoComplete="address-level2"
-              required
-              placeholder="Kandy"
-              className="pl-3 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-            />
-          </div>
-        </div>
+            <div className="grid grid-cols-2 gap-x-4 mt-4">
+              <div>
+                <label htmlFor="city" className="block text-sm font-medium leading-6 text-gray-900">
+                  City
+                </label>
+                <div className="">
+                  <input
+                    id="city"
+                    name="city"
+                    type="text"
+                    autoComplete="address-level2"
+                    required
+                    placeholder="Kandy"
+                    className="pl-3 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                  />
+                </div>
+              </div>
 
-        <div>
-          <label htmlFor="state" className="block text-sm font-medium leading-6 text-gray-900">
-            State/Province
-          </label>
-          <div className="mt-2">
-            <input
-              id="state"
-              name="state"
-              type="text"
-              autoComplete="address-level1"
-              required
-              placeholder="Central Province"
-              className="pl-3 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-            />
-          </div>
-        </div>
-      </div>
+              <div>
+                <label htmlFor="state" className="block text-sm font-medium leading-6 text-gray-900">
+                  State/Province
+                </label>
+                <div className="">
+                  <input
+                    id="state"
+                    name="state"
+                    type="text"
+                    autoComplete="address-level1"
+                    required
+                    placeholder="Central Province"
+                    className="pl-3 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                  />
+                </div>
+              </div>
+            </div>
 
-      <div className="grid grid-cols-2 gap-x-4 mt-4">
-        <div>
-          <label htmlFor="postalCode" className="block text-sm font-medium leading-6 text-gray-900">
-            Postal Code
-          </label>
-          <div className="mt-2">
-            <input
-              id="postalCode"
-              name="postalCode"
-              type="text"
-              autoComplete="postal-code"
-              required
-              placeholder="00000"
-              className="pl-3 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-            />
-          </div>
-        </div>
+            <div className="grid grid-cols-2 gap-x-4 mt-4">
+              
+              <div>
+                <label htmlFor="postalCode" className="block text-sm font-medium leading-6 text-gray-900">
+                  Postal Code
+                </label>
+                <div className="">
+                  <input
+                    id="postalCode"
+                    name="postalCode"
+                    type="text"
+                    autoComplete="postal-code"
+                    required
+                    placeholder="00000"
+                    className="pl-3 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                  />
+                </div>
+              </div>
 
-        <div>
-          <label htmlFor="country" className="block text-sm font-medium leading-6 text-gray-900">
-            Country
-          </label>
-          <div className="mt-2">
-            <input
-              id="country"
-              name="country"
-              type="text"
-              autoComplete="country"
-              required
-              placeholder="Sri lanka"
-              className="pl-3 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-            />
-          </div>
-        </div>
-      </div>
+              <div>
+                <label htmlFor="country" className="block text-sm font-medium leading-6 text-gray-900">
+                  Country
+                </label>
+                <div className="">
+                  <input
+                    id="country"
+                    name="country"
+                    type="text"
+                    autoComplete="country"
+                    required
+                    placeholder="Sri lanka"
+                    className="pl-3 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                  />
+                </div>
+              </div>
+            </div>
 
 
 
