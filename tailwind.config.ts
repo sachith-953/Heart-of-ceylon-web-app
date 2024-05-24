@@ -19,6 +19,7 @@ const config = {
     },
     extend: {
       colors: {
+        bankGradient: "#0179FE",
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",
@@ -52,6 +53,12 @@ const config = {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",
         },
+      },
+      backgroundImage: {
+        "bank-gradient": "linear-gradient(90deg, #0179FE 0%, #4893FF 100%)",
+      },
+      boxShadow: {
+        form: "0px 1px 2px 0px rgba(16, 24, 40, 0.05)",
       },
       borderRadius: {
         lg: "var(--radius)",

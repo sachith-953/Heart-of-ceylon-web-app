@@ -3,7 +3,7 @@ import MaxWidthWrapper from "./MaxWidthWrapper";
 export default function CustomerService() {
   return (
     <>
-      <MaxWidthWrapper>
+      {/* <MaxWidthWrapper> */}
         <div className="p-8 bg-neutral-300 space-y-4">
           <div className="font-bold text-center">
             <p>
@@ -26,7 +26,7 @@ export default function CustomerService() {
             </div>
           </div>
         </div>
-      </MaxWidthWrapper>
+      {/* </MaxWidthWrapper> */}
     </>
   );
 }

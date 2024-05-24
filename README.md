@@ -40,3 +40,11 @@ npm install lucide-react
 
 npm install axios
 npm install @tanstack/react-query
+
+
+# When creating the login sign up pages
+npx shadcn-ui@latest add form
+npx shadcn-ui@latest add input
+
+
+
