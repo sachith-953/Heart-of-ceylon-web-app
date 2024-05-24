@@ -1,12 +1,13 @@
 
 import CustomerService from "@/components/CustomerService";
 import Footer from "@/components/Footer";
-import ImageSlider from "@/components/ImageSlider";
+import ImageSlider from "@/components/TopSellingProducts";
 import MaxWidthWrapper from "@/components/MaxWidthWrapper";
 import PopularCategories from "@/components/Popular-categories";
 import SearchBar from "@/components/SearchBar";
 import { Button, buttonVariants } from "@/components/ui/button";
 import Link from "next/link";
+import TopSellingProducts from "@/components/TopSellingProducts";
 
 export default function Home() {
 
@@ -40,12 +41,11 @@ export default function Home() {
 
           {/* TODO : List products */}
         </MaxWidthWrapper>
-        <div className=" bg-gray-400 h-auto">
-          <header className='flex justify-center  text-gray-900 text-4xl'>
-            <h1 className=''>Top Selling Products</h1>
-          </header>
-          <ImageSlider />
-        </div>
+
+
+        <TopSellingProducts />
+
+        <hr />
 
         <CustomerService />
 
