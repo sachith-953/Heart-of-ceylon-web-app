@@ -1,10 +1,11 @@
 "use-client"
 
+import { cookies } from 'next/headers';
 import { NextRequest } from 'next/server';
 import React, { FormEvent } from 'react';
 
 
-export default function Signup() {
+export default function SignupSachith() {
 
   async function handleFormSubmit(formData: FormData) {
     'use server';
@@ -54,8 +55,14 @@ export default function Signup() {
         console.log('Access Token Expiry:', accessTokenExpiry);
         console.log('Token Type:', tokenType);
         console.log('User Name:', userName);
-      // You can store the access token, expiry, and other data in a state or cookie,
-      // or use it for further operations like redirecting to a different page, etc.
+        // You can store the access token, expiry, and other data in a state or cookie,
+        // or use it for further operations like redirecting to a different page, etc.
+      
+        const refreshToken = cookies().get('refresh_token')?.name;
+        const Expires = cookies().get('Expires')?.name;
+        console.log('Refresh Token:', refreshToken);
+        console.log('Expires time:', Expires);
+    
       }
       
     };
