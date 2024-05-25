@@ -1,74 +1,30 @@
 "use-client"
 
-import { cookies } from 'next/headers';
-import { NextRequest } from 'next/server';
+// to delete
+
+import { useRouter } from 'next/navigation';
 import React, { FormEvent } from 'react';
 
 
 export default function SignupSachith() {
 
-  async function handleFormSubmit(formData: FormData) {
-    'use server';
+  const router = useRouter()
 
-    const req = new NextRequest(
-      new Request(new URL('/buyer', 'http://localhost:8080/api/v1/sign-up').toString())
-    );
+  const handleFormSubmit = async (formData: FormData) => {
+    const res = await fetch('http://localhost:3000/api/login', {
+      method: 'POST',
+      body: formData
+    })
 
-    const createInvoice = async (formData: FormData, req: NextRequest) => {
-      'use server';
+    const ResponseData = await res.json()
+    console.log(ResponseData)
 
-      const userData = {
-        firstName: formData.get('firstName'),
-        lastName: formData.get('lastName'),
-        phoneNumber: formData.get('phoneNumber'),
-        address: formData.get('address'),
-        city: formData.get('city'),
-        state: formData.get('state'),
-        postalCode: formData.get('postalCode'),
-        country: formData.get('country'),
-        email: formData.get('email'),
-        password: formData.get('password'),
-      };
-
-      // const userName = formData.get('uname');
-      console.log(JSON.stringify(userData));
-
-      const response = await fetch(`http://localhost:8080/api/v1/sign-up/buyer`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(userData),
-      });
-
-      // Handle the response as needed
-
-      if (response.ok) {
-        const data = await response.json();
-        const accessToken = data.access_token;
-        const accessTokenExpiry = data.access_token_expiry;
-        const tokenType = data.token_type;
-        const userName = data.user_name;
-    
-        // Handle the response data as needed
-        console.log('Access Token:', accessToken);
-        console.log('Access Token Expiry:', accessTokenExpiry);
-        console.log('Token Type:', tokenType);
-        console.log('User Name:', userName);
-        // You can store the access token, expiry, and other data in a state or cookie,
-        // or use it for further operations like redirecting to a different page, etc.
-      
-        const refreshToken = cookies().get('refresh_token')?.name;
-        const Expires = cookies().get('Expires')?.name;
-        console.log('Refresh Token:', refreshToken);
-        console.log('Expires time:', Expires);
-    
-      }
-      
-    };
-
-    await createInvoice(formData, req);
+    // TODO : redirect
+    if (ResponseData.redirect === true) {
+      router.push('/')
+    }
   }
+
 
   return (
     <>
@@ -182,7 +138,7 @@ export default function SignupSachith() {
                 />
               </div>
             </div>
-            
+
             <div>
               <label htmlFor="address" className="block text-sm font-medium leading-6 text-gray-900">
                 Address
@@ -237,7 +193,7 @@ export default function SignupSachith() {
             </div>
 
             <div className="grid grid-cols-2 gap-x-4 mt-4">
-              
+
               <div>
                 <label htmlFor="postalCode" className="block text-sm font-medium leading-6 text-gray-900">
                   Postal Code
