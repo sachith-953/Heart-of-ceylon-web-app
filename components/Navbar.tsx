@@ -32,7 +32,7 @@ const Navbar = () => {
                                 <div className="hidden md:flex md:flex-1 md:items-center md:justify-end md:space-x-6">
                                     {/* if user is not null, then we give them Link */}
                                     {user ? null : (<Link href="/sign-in" className={buttonVariants({ variant: "ghost" })}>
-                                        Sign in</Link>)}
+                                        Log-In</Link>)}
 
                                     {/* for decoration purpose*/}
                                     {user ? null : (
@@ -51,12 +51,16 @@ const Navbar = () => {
                                         </div>
                                     )}
 
-                                    {/* cart */}
-                                    <div className="ml-4 flow-root md:ml-6 ">
-                                        <Cart />
-                                    </div>
+
+
                                 </div>
                             </div>
+
+                            {/* cart */}
+                            <div className="ml-4 flow-root md:ml-6 ">
+                                <Cart />
+                            </div>
+                            
                         </div>
                     </div>
                 </MaxWidthWrapper>

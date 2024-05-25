@@ -9,7 +9,9 @@ interface categoryType {
 }
 // https://nextjs.org/docs/app/building-your-application/data-fetching/fetching-caching-and-revalidating
 async function getData() {
-    const res = await fetch('http://localhost:8080/api/v1/pBuyer/getPopularCategories')
+    const res = await fetch('http://localhost:8080/api/v1/pBuyer/getPopularCategories',{ 
+        cache: 'no-store' 
+    })
     // The return value is *not* serialized
     // You can return Date, Map, Set, etc.
 
