@@ -2,9 +2,10 @@ import { cookies } from "next/headers";
 
 
 export async function POST(request : Request) {
+
     let formData = await request.formData()
 
-    console.log("in post api")
+    console.log("FORM RECIEVED TO THE NEXT JS ENDPOINT")
 
     try {
         const userData = {
@@ -63,8 +64,11 @@ export async function POST(request : Request) {
             // TODO : handle errors thrown by server side
             console.log("Error in server API")
             console.log(response.status)
-            // console.log(response.message)
-            const resData = {redirect : false}
+            console.log(response.body)
+            const resData = {
+              redirect : false,
+              message : response.body
+            }
             return new Response(JSON.stringify(resData))
         }
     }

@@ -2,7 +2,6 @@
 
 import { useRouter } from "next/navigation"
 
-
 // NOTE : check api/login/route.tsx file for server side codes
 
 export default function TestLogin2() {

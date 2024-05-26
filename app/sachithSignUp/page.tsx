@@ -7,13 +7,17 @@ export default function SignupSachith() {
   const router = useRouter()
 
   const handleFormSubmit = async (formData: FormData) => {
-    const res = await fetch('http://localhost:3000/api/login', {
+
+    console.log("sending form data to Next js API")
+
+    const res = await fetch('http://localhost:3000/api/signup', {
       method: 'POST',
       body: formData
     })
 
     const ResponseData = await res.json()
     console.log(ResponseData)
+    console.log(ResponseData.message)
 
     // TODO : redirect
     if (ResponseData.redirect === true) {

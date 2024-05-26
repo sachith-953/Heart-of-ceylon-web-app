@@ -1,10 +1,12 @@
 "use client"
 
-// this check post api in next js could handle the post request to
+import { useRouter } from "next/navigation"
 
-
+// NOTE : check api/login/route.tsx file for server side codes
 
 export default function TestLogin2() {
+
+  const router = useRouter()
 
     const handleFormSubmit = async (formData : FormData) => {
         const res = await fetch('http://localhost:3000/api/login',{
@@ -12,8 +14,13 @@ export default function TestLogin2() {
             body: formData
         })
 
-        const data = await res.json()
-        console.log(data)
+        const ResponseData = await res.json()
+        console.log(ResponseData)
+
+        // TODO : redirect
+        if(ResponseData.redirect === true){
+          router.push('/')
+        }
     }
 
   return (

@@ -31,7 +31,7 @@ const Navbar = () => {
                             <div className="ml-auto flex items-center">
                                 <div className="hidden md:flex md:flex-1 md:items-center md:justify-end md:space-x-6">
                                     {/* if user is not null, then we give them Link */}
-                                    {user ? null : (<Link href="/sign-in" className={buttonVariants({ variant: "ghost" })}>
+                                    {user ? null : (<Link href="/log-in" className={buttonVariants({ variant: "ghost" })}>
                                         Log-In</Link>)}
 
                                     {/* for decoration purpose*/}
