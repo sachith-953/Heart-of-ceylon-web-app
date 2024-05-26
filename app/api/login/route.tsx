@@ -1,7 +1,8 @@
 import { cookies } from "next/headers";
 
 
-export async function POST(request : Request) {
+export async function POST(request: Request) {
+
     let formData = await request.formData()
 
     try {
@@ -20,7 +21,7 @@ export async function POST(request : Request) {
         // Handle the response as needed
 
         if (response.ok) {
-            
+
             //get the response 
             const data = await response.json();
 
@@ -34,22 +35,35 @@ export async function POST(request : Request) {
             console.log('Access Token Expiry:', accessTokenExpiry);
             console.log('Token Type:', tokenType);
             console.log('User Name:', userName);
-            
+
             // set cookies
             cookies().set('accessToken', accessToken)
             cookies().set('userName', userName)
             cookies().set('tokenType', tokenType)
 
             // response
-            const resData = {redirect : true}
+            const responseBodyText = "Success"
+
+            console.log(response.status)
+            console.log(responseBodyText)
+
+            const resData = { success: true, message: responseBodyText }
             return new Response(JSON.stringify(resData))
 
         }
         else {
-            // TODO : handle errors thrown by server side
             console.log(response.status)
-            const resData = {redirect : false}
-            return new Response(JSON.stringify(resData))
+            // Get the response body as text
+            const responseBodyText = await response.text();
+
+            // TODO : handle errors thrown by server side
+            console.log("Error in server API")
+            console.log(response.status)
+            console.log(responseBodyText)
+
+            // return the response 
+            const resData = { success: false, message: responseBodyText }
+            return new Response(JSON.stringify(resData));
         }
     }
     catch (error) {

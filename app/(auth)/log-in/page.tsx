@@ -1,6 +1,7 @@
 "use client"
 
 import { useRouter } from "next/navigation"
+import { useState } from "react"
 
 // NOTE : check api/login/route.tsx file for server side codes
 
@@ -8,19 +9,30 @@ export default function TestLogin2() {
 
   const router = useRouter()
 
+  const [serverError, setServerError] = useState("")
+  const [success, setSuccess] = useState("")
+
     const handleFormSubmit = async (formData : FormData) => {
+
         const res = await fetch('http://localhost:3000/api/login',{
             method: 'POST',
             body: formData
         })
 
         const ResponseData = await res.json()
+
         console.log(ResponseData)
 
-        // TODO : redirect
-        if(ResponseData.redirect === true){
+
+        if(ResponseData.success === true){
           router.push('/')
         }
+        else{
+            setSuccess(ResponseData.success)
+            setServerError(ResponseData.message)
+        }
+
+
     }
 
   return (
@@ -30,6 +42,9 @@ export default function TestLogin2() {
                     <h2 className="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">
                         Log-in to your account
                     </h2>
+                    <p className='text-center mt-3 text-red-600'> 
+                        {!success && "Email or Password not Correct"}
+                    </p>
                 </div>
 
                 <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">

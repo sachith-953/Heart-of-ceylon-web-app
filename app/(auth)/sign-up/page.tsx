@@ -1,10 +1,14 @@
 "use client"
 
 import { useRouter } from 'next/navigation';
+import { useState } from 'react';
 
 export default function SignupSachith() {
 
   const router = useRouter()
+
+  const [serverError, setServerError] = useState("")
+  const [success, setSuccess] = useState("")
 
   const handleFormSubmit = async (formData: FormData) => {
 
@@ -19,10 +23,16 @@ export default function SignupSachith() {
     console.log(ResponseData)
     console.log(ResponseData.message)
 
-    // TODO : redirect
-    if (ResponseData.redirect === true) {
+
+    if (ResponseData.success === true) {
       router.push('/')
     }
+    else {
+      // if not success, show the error message
+      setSuccess(ResponseData.success)
+      setServerError(ResponseData.message)
+    }
+
   }
 
   return (
@@ -33,6 +43,9 @@ export default function SignupSachith() {
           <h2 className="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">
             Sign-Up to your account
           </h2>
+          <p className='text-center mt-3 text-red-600'>
+            {!success && serverError}
+          </p>
         </div>
 
         <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
