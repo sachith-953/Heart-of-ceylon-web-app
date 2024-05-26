@@ -5,16 +5,18 @@ import { useState } from "react"
 
 // NOTE : check api/login/route.tsx file for server side codes
 
+// TODO : handle server not found error in side try catch block. we may be able to return a new html inside catch block
+
 export default function TestLogin2() {
 
-  const router = useRouter()
+    const router = useRouter()
 
-  const [serverError, setServerError] = useState("")
-  const [success, setSuccess] = useState("")
+    const [serverError, setServerError] = useState("")
+    const [success, setSuccess] = useState("")
 
-    const handleFormSubmit = async (formData : FormData) => {
+    const handleFormSubmit = async (formData: FormData) => {
 
-        const res = await fetch('http://localhost:3000/api/login',{
+        const res = await fetch('http://localhost:3000/api/login', {
             method: 'POST',
             body: formData
         })
@@ -24,24 +26,24 @@ export default function TestLogin2() {
         console.log(ResponseData)
 
 
-        if(ResponseData.success === true){
-          router.push('/')
+        if (ResponseData.success === true) {
+            router.push('/')
         }
-        else{
+        else {
             setSuccess(ResponseData.success)
             setServerError("Email or Password is not Correct")
         }
     }
 
-  return (
-    <>
+    return (
+        <>
             <div className=" flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
                 <div className="sm:mx-auto sm:w-full sm:max-w-sm">
                     <h2 className="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">
                         Log-in to your account
                     </h2>
-                    <p className='text-center mt-3 text-red-600'> 
-                    {!success && serverError}
+                    <p className='text-center mt-3 text-red-600'>
+                        {!success && serverError}
                     </p>
                 </div>
 
@@ -60,8 +62,10 @@ export default function TestLogin2() {
                                     autoComplete="email"
                                     required
                                     placeholder="yourEmail@abc.com"
-                                    className="pl-3 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                                    className="pl-3 block w-full rounded-md py-1.5 text-gray-900 placeholder:text-gray-400 sm:text-sm sm:leading-6 bg-white border border-slate-300 focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500 invalid:text-red-600
+                                    focus:invalid:border-red-500 focus:invalid:ring-red-500 "
                                 />
+                                
                             </div>
                         </div>
 
@@ -74,10 +78,11 @@ export default function TestLogin2() {
                                     id="password"
                                     name="password"
                                     type="password"
-                                    autoComplete=""
+                                    minLength={8}
                                     required
                                     placeholder="your password"
-                                    className="pl-3 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                                    className="pl-3 block w-full rounded-md py-1.5 text-gray-900 placeholder:text-gray-400 sm:text-sm sm:leading-6 bg-white border border-slate-300 focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500 invalid:text-red-600
+                                    focus:invalid:border-red-500 focus:invalid:ring-red-500 "
                                 />
                             </div>
                         </div>
@@ -96,7 +101,7 @@ export default function TestLogin2() {
             </div>
 
         </>
-  );
+    );
 }
 
 
