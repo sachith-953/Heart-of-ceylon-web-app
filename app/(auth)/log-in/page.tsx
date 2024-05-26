@@ -29,10 +29,8 @@ export default function TestLogin2() {
         }
         else{
             setSuccess(ResponseData.success)
-            setServerError(ResponseData.message)
+            setServerError("Email or Password is not Correct")
         }
-
-
     }
 
   return (
@@ -43,7 +41,7 @@ export default function TestLogin2() {
                         Log-in to your account
                     </h2>
                     <p className='text-center mt-3 text-red-600'> 
-                        {!success && "Email or Password not Correct"}
+                    {!success && serverError}
                     </p>
                 </div>
 
