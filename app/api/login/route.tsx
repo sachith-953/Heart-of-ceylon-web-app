@@ -36,6 +36,16 @@ export async function POST(request: Request) {
             console.log('Token Type:', tokenType);
             console.log('User Name:', userName);
 
+            // Get the HTTP-Only cookie
+            const setCookieHeader = response.headers.get('Set-Cookie');
+            if (setCookieHeader) {
+                const httpOnlyCookie1 = setCookieHeader.split(';')[0];
+                const httpOnlyCookie = httpOnlyCookie1.split('=')[1];
+                console.log('HTTP-Only Cookie:', httpOnlyCookie);
+            } else {
+                console.log('No HTTP-Only cookie found in the response.');
+            }
+
             // set cookies
             cookies().set('accessToken', accessToken)
             cookies().set('userName', userName)
