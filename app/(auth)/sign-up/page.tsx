@@ -23,9 +23,8 @@ export default function SignupSachith() {
     console.log(ResponseData)
     console.log(ResponseData.message)
 
-
     if (ResponseData.success === true) {
-      router.push('/')
+      router.push('/sign-up/email-verification-message')
     }
     else {
       // if not success, show the error message
