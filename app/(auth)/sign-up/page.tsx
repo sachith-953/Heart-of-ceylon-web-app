@@ -141,8 +141,8 @@ export default function SignupSachith() {
                 <input
                   id="phoneNumber"
                   name="phoneNumber"
-                  type="text"
-                  autoComplete="phoneNumber"
+                  type='text'
+                  autoComplete="cc-number"
                   required
                   placeholder="011-1234567"
                   className="pl-3 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
