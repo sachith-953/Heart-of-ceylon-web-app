@@ -42,7 +42,7 @@ const  PopularCategories = async () => {
                 </h1>
 
                 {/* category grid is controlled in here */}
-                <div className="m-4 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-6">
+                <div className="m-4 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-4 gap-6">
                     {/* popular categories list */}
                     {fetchedData.map((data : categoryType) => {
                         
