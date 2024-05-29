@@ -9,6 +9,19 @@ interface categoryType {
 }
 // https://nextjs.org/docs/app/building-your-application/data-fetching/fetching-caching-and-revalidating
 async function getData() {
+
+    // TODO:
+    // use this try catch to handle server not found errors. 
+    // otherwise it shows erro codes in client side
+    // stop the backend server and load the home page. you'll see the issue
+    try{
+
+    }
+    catch(error){
+
+    }
+
+
     const res = await fetch('http://localhost:8080/api/v1/pBuyer/getPopularCategories',{ 
         cache: 'no-store' 
     })

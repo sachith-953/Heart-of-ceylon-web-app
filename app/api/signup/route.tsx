@@ -5,6 +5,9 @@ export async function POST(request: Request) {
 
   let formData = await request.formData()
 
+  // get the email as string
+  let userEmail = formData.get('email')?.toString() || '';
+
   console.log("FORM RECIEVED TO THE NEXT JS ENDPOINT")
 
   try {
@@ -50,10 +53,23 @@ export async function POST(request: Request) {
       console.log('Token Type:', tokenType);
       console.log('User Name:', userName);
 
+      // Get the HTTP-Only cookie
+      let httpOnlyCookie = ""
+      const setCookieHeader = response.headers.get('Set-Cookie');
+      if (setCookieHeader) {
+          const httpOnlyCookie1 = setCookieHeader.split(';')[0];
+          httpOnlyCookie = httpOnlyCookie1.split('=')[1];
+          console.log('HTTP-Only Cookie:', httpOnlyCookie);
+      } else {
+          console.log('No HTTP-Only cookie found in the response.');
+      }
+
       // set cookies
       cookies().set('accessToken', accessToken)
+      cookies().set('refreshToken', httpOnlyCookie)
       cookies().set('userName', userName)
       cookies().set('tokenType', tokenType)
+      cookies().set('email', userEmail)
 
       // response
       const responseBodyText = "Success"

@@ -27,7 +27,7 @@ export default function TestLogin2() {
 
 
         if (ResponseData.success === true) {
-            router.push('/')
+            router.push('http://localhost:3000/')
         }
         else {
             setSuccess(ResponseData.success)
