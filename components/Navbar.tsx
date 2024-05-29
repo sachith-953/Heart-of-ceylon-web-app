@@ -46,7 +46,7 @@ const Navbar = () => {
                                     {/* if user is True, then we hide login btn and show logout btn */}
                                     {user ?
 
-                                        (<Link href="http://localhost:3000/api/log-out" className={buttonVariants({ variant: "ghost" })}>
+                                        (<Link href="/log-out" className={buttonVariants({ variant: "ghost" })}>
                                             Log-Out</Link>)
                                         :
                                         (<Link href="/log-in" className={buttonVariants({ variant: "ghost" })}>
