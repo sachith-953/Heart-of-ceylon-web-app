@@ -1,27 +1,56 @@
-
+'use client';
 
 import Link from "next/link";
 import MaxWidthWrapper from "./MaxWidthWrapper";
 import { buttonVariants } from "./ui/button";
 import Cart from "./Cart";
-import { cookies } from "next/headers";
+import { useEffect, useState } from "react";
+import { getClientSideCookie } from "@/lib/utils";
+// import { cookies } from "next/headers";
+
 
 
 const Navbar = () => {
 
+    const [user, setUser] = useState(false)
 
-    let user = null
 
-    const cookieStore = cookies()
+    // uncomment if testing not working
 
-    if (cookieStore.has('userName')) {
-        user = cookieStore.get('userName')
-    }
+    // let user = null
 
+    // const cookieStore = cookies()
+
+    // if (cookieStore.has('userName')) {
+    //     user = cookieStore.get('userName')
+    // }else{
+    //     user = null
+    // }
+
+    //testing
+    //https://stackoverflow.com/questions/75225240/accessing-cookie-client-side-with-next-js
+
+    // const user = 
+
+    useEffect(() => {
+
+        const cookieVal = getClientSideCookie("userName")
+        console.log("log "+cookieVal)
+        
+        if(typeof cookieVal === "string"){
+            setUser(true)
+            console.log("log > user true")
+        }
+        else{
+            setUser(false)
+        }
+
+
+    },[]);
 
 
     return (
-        <div className="bg-white sticky z-50 top-0 inset-x-0 h-16">
+        <div className="bg-white sticky z-50 top-0 inset-x-0 h-16 font-sans antialiased">
             <header className="relative bg-white">
                 <MaxWidthWrapper>
                     <div className="border-b border-x-gray-200">
@@ -50,7 +79,7 @@ const Navbar = () => {
                                             Log-Out</Link>)
                                         :
                                         (<Link href="/log-in" className={buttonVariants({ variant: "ghost" })}>
-                                            Log-In</Link>)}
+                                            <p className="">Log-In</p></Link>)}
 
                                     {/* for decoration purpose => "|" */}
                                     {user ? null : (
