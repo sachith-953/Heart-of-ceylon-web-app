@@ -48,3 +48,7 @@ npx shadcn-ui@latest add input
 
 
 
+# Security Improvements
+
+in next.config.mjs, specify image fetching URL hostname
+
