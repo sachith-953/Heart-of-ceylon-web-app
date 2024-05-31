@@ -1,4 +1,5 @@
 /** @type {import('next').NextConfig} */
+
 const nextConfig = {
     // in here we specify images that are allowed to use in the application
     // refer to more 3:17 => https://www.youtube.com/watch?v=IU_qq_c_lKA&t=329s 
