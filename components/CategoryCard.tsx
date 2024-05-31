@@ -11,7 +11,7 @@ export default function CategoryCard({
 }){
     return (
         <>
-            <div className="group/item border-2 border-white hover:border-gray-400">
+            <div className="group/item border-2 border-white hover:border-gray-400 hover:scale-105">
                 <div>
                    
                     <Image 
