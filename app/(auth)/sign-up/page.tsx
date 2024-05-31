@@ -46,7 +46,6 @@ export default function SignupSachith() {
 
     try {
 
-      // buttonIsClicked()
 
       const res = await fetch('http://localhost:3000/api/signup', {
         method: 'POST',
