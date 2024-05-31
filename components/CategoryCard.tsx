@@ -14,7 +14,7 @@ export default function CategoryCard({
             <div className="">
                 <div>
                    
-                    <Image 
+                    <Image className="rounded-t-xl"
                         src={imageLink}
                         alt={title}
                         width={2000}
