@@ -1,5 +1,5 @@
-import { removeRequestMeta } from "next/dist/server/request-meta";
 
+export const dynamic = "force-dynamic";
 
 export async function GET() {
     
