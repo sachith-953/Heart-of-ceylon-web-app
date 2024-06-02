@@ -5,6 +5,9 @@ export async function POST(request: Request) {
 
     let formData = await request.formData()
 
+    // get the email as string
+    let userEmail = formData.get('email')?.toString() || '';
+
     try {
         const email = formData.get('email')
         const password = formData.get('password')
@@ -37,10 +40,11 @@ export async function POST(request: Request) {
             console.log('User Name:', userName);
 
             // Get the HTTP-Only cookie
+            let httpOnlyCookie = ""
             const setCookieHeader = response.headers.get('Set-Cookie');
             if (setCookieHeader) {
                 const httpOnlyCookie1 = setCookieHeader.split(';')[0];
-                const httpOnlyCookie = httpOnlyCookie1.split('=')[1];
+                httpOnlyCookie = httpOnlyCookie1.split('=')[1];
                 console.log('HTTP-Only Cookie:', httpOnlyCookie);
             } else {
                 console.log('No HTTP-Only cookie found in the response.');
@@ -48,8 +52,10 @@ export async function POST(request: Request) {
 
             // set cookies
             cookies().set('accessToken', accessToken)
+            cookies().set('refreshToken', httpOnlyCookie)
             cookies().set('userName', userName)
             cookies().set('tokenType', tokenType)
+            cookies().set('email', userEmail)
 
             // response
             const responseBodyText = "Success"

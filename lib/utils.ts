@@ -43,3 +43,14 @@ export const authFormSchema = (type: string) => z.object({
   email:type === 'sign-out'? z.string().optional(): z.string().email(),
   password:type === 'sign-out'? z.string().optional(): z.string().min(8),
 })
+
+
+// use to get cookies in client side
+export const getClientSideCookie = (name: string): string | undefined => {
+  const cookieValue = document.cookie
+      .split('; ')
+      .find((row) => row.startsWith(`${name}=`))
+      ?.split('=')[1];
+
+ return cookieValue;
+};

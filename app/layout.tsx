@@ -22,7 +22,7 @@ export default function RootLayout({
       {/* this cn() help us to add multiple class names and render then conditionally */}
       <body className={cn("relative h-full font-sans antialiased", inter.className)}>
         <main className="relative flex flex-col min-h-screen">
-          <Navbar />
+        {/* <Navbar /> */}
           <div className="flex-grow flex-1">{children}</div>
           
         </main>

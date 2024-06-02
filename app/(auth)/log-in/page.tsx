@@ -3,6 +3,7 @@
 import { useRouter } from "next/navigation"
 import { useState } from "react"
 
+
 // NOTE : check api/login/route.tsx file for server side codes
 
 // TODO : handle server not found error in side try catch block. we may be able to return a new html inside catch block
@@ -14,25 +15,45 @@ export default function TestLogin2() {
     const [serverError, setServerError] = useState("")
     const [success, setSuccess] = useState("")
 
+    // for form submit tracking 
+    const [isSub, setIsSub] = useState(false);
+
+    const buttonIsClicked = async () => {
+        // Set isSubmitting to true when the form is being submitted
+        setIsSub(true)
+        console.log("submitting :" + isSub)
+    }
+
     const handleFormSubmit = async (formData: FormData) => {
 
-        const res = await fetch('http://localhost:3000/api/login', {
-            method: 'POST',
-            body: formData
-        })
+        try {
+            const res = await fetch('http://localhost:3000/api/login', {
+                method: 'POST',
+                body: formData
+            })
 
-        const ResponseData = await res.json()
+            const ResponseData = await res.json()
 
-        console.log(ResponseData)
+            console.log(ResponseData)
 
 
-        if (ResponseData.success === true) {
-            router.push('/')
+            if (ResponseData.success === true) {
+                setServerError("Logged in. Please Wait...")
+                router.push('http://localhost:3000/')
+            }
+            else {
+                setSuccess(ResponseData.success)
+                setServerError("Email or Password is not Correct")
+            }
         }
-        else {
-            setSuccess(ResponseData.success)
-            setServerError("Email or Password is not Correct")
+        catch (error) {
+            console.error('Error submitting form:', error);
+        } finally {
+            // Set isSubmitting back to false after form submission
+            setIsSub(false);
         }
+
+
     }
 
     return (
@@ -49,7 +70,7 @@ export default function TestLogin2() {
 
                 <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
 
-                    <form className="space-y-3" action={handleFormSubmit}>
+                    <form className="space-y-3" action={handleFormSubmit} onSubmit={buttonIsClicked}>
                         <div>
                             <label htmlFor="firstName" className="block text-sm font-medium leading-6 text-gray-900">
                                 Email
@@ -65,7 +86,7 @@ export default function TestLogin2() {
                                     className="pl-3 block w-full rounded-md py-1.5 text-gray-900 placeholder:text-gray-400 sm:text-sm sm:leading-6 bg-white border border-slate-300 focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500 invalid:text-red-600
                                     focus:invalid:border-red-500 focus:invalid:ring-red-500 "
                                 />
-                                
+
                             </div>
                         </div>
 
@@ -90,9 +111,36 @@ export default function TestLogin2() {
                         <div>
                             <button
                                 type="submit"
-                                className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                                disabled={isSub}
+                                className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 disabled:opacity-50 disabled:cursor-not-allowed"
                             >
-                                Log-in
+                                {isSub ? (
+                                    <div className="flex items-center justify-center">
+                                        <svg
+                                            className="animate-spin -ml-1 mr-3 h-5 w-5 text-white"
+                                            xmlns="http://www.w3.org/2000/svg"
+                                            fill="none"
+                                            viewBox="0 0 24 24"
+                                        >
+                                            <circle
+                                                className="opacity-25"
+                                                cx="12"
+                                                cy="12"
+                                                r="10"
+                                                stroke="currentColor"
+                                                strokeWidth="4"
+                                            ></circle>
+                                            <path
+                                                className="opacity-75"
+                                                fill="currentColor"
+                                                d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                                            ></path>
+                                        </svg>
+                                        Submitting...
+                                    </div>
+                                ) : (
+                                    'Sign in'
+                                )}
                             </button>
                         </div>
 

@@ -8,12 +8,14 @@ import SearchBar from "@/components/SearchBar";
 import { Button, buttonVariants } from "@/components/ui/button";
 import Link from "next/link";
 import TopSellingProducts from "@/components/TopSellingProducts";
+import Navbar from "@/components/Navbar";
 
 export default function Home() {
 
   return (
     <>
       <div className="bg-white">
+      <Navbar />
         <MaxWidthWrapper>
           <div className="py-10 mx-auto text-center flex flex-col items-center">
 

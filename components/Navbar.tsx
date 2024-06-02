@@ -1,15 +1,56 @@
+'use client';
+
 import Link from "next/link";
 import MaxWidthWrapper from "./MaxWidthWrapper";
 import { buttonVariants } from "./ui/button";
 import Cart from "./Cart";
+import { useEffect, useState } from "react";
+import { getClientSideCookie } from "@/lib/utils";
+// import { cookies } from "next/headers";
+
 
 
 const Navbar = () => {
 
-    const user = null
+    const [user, setUser] = useState(false)
+
+
+    // uncomment if testing not working
+
+    // let user = null
+
+    // const cookieStore = cookies()
+
+    // if (cookieStore.has('userName')) {
+    //     user = cookieStore.get('userName')
+    // }else{
+    //     user = null
+    // }
+
+    //testing
+    //https://stackoverflow.com/questions/75225240/accessing-cookie-client-side-with-next-js
+
+    // const user = 
+
+    useEffect(() => {
+
+        const cookieVal = getClientSideCookie("userName")
+        console.log("log "+cookieVal)
+        
+        if(typeof cookieVal === "string"){
+            setUser(true)
+            console.log("log > user true")
+        }
+        else{
+            setUser(false)
+        }
+
+
+    },[]);
+
 
     return (
-        <div className="bg-white sticky z-50 top-0 inset-x-0 h-16">
+        <div className="bg-white sticky z-50 top-0 inset-x-0 h-16 font-sans antialiased">
             <header className="relative bg-white">
                 <MaxWidthWrapper>
                     <div className="border-b border-x-gray-200">
@@ -30,11 +71,17 @@ const Navbar = () => {
                             </div>
                             <div className="ml-auto flex items-center">
                                 <div className="hidden md:flex md:flex-1 md:items-center md:justify-end md:space-x-6">
-                                    {/* if user is not null, then we give them Link */}
-                                    {user ? null : (<Link href="/log-in" className={buttonVariants({ variant: "ghost" })}>
-                                        Log-In</Link>)}
+                                    
+                                    {/* if user is True, then we hide login btn and show logout btn */}
+                                    {user ?
 
-                                    {/* for decoration purpose*/}
+                                        (<Link href="/log-out" className={buttonVariants({ variant: "ghost" })}>
+                                            Log-Out</Link>)
+                                        :
+                                        (<Link href="/log-in" className={buttonVariants({ variant: "ghost" })}>
+                                            <p className="">Log-In</p></Link>)}
+
+                                    {/* for decoration purpose => "|" */}
                                     {user ? null : (
                                         <span className="h-6 w-px bg-gray-200" aria-hidden="true" />
                                     )}
@@ -60,7 +107,7 @@ const Navbar = () => {
                             <div className="ml-4 flow-root md:ml-6 ">
                                 <Cart />
                             </div>
-                            
+
                         </div>
                     </div>
                 </MaxWidthWrapper>

@@ -11,7 +11,7 @@ export default function CategoryCard({
 }){
     return (
         <>
-            <div className="">
+            <div className="group/item border-2 border-white hover:border-gray-400 hover:scale-105">
                 <div>
                    
                     <Image className="rounded-t-xl"
@@ -26,7 +26,7 @@ export default function CategoryCard({
                     />
                     {/* todo : set image alt for SEO */}
                 </div>
-                <div className="h-11 content-center bg-gray-300">
+                <div className="h-11 content-center bg-gray-300 group-hover/item:bg-gray-400">
                     <h1 className="text-center text-lg lg:text-base font-bold leading-none align-text-bottom">
                         {title}
                     </h1>
