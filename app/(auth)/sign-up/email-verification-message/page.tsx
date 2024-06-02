@@ -1,14 +1,10 @@
-
-
-
 export default function EmailVerificationMessage() {
-
 
     return (
         <>
-            <div className=" mx-24 my-10 text-center">
+            <div className=" mx-20 my-20 text-center space-y-6 py-5 px-4 sm:max-2xl:bg-blue-50">
 
-                <h1 className="text-3xl mt-5">Welcome Aboard! Just One More Step...</h1>
+                <h1 className="text-3xl mt-5 font-semibold">Welcome Aboard! Just One More Step...</h1>
                 
                 <h2 className="text-xl mt-5">Your account is almost ready!</h2>
                 
@@ -27,7 +23,7 @@ export default function EmailVerificationMessage() {
                 </p>
                 
 
-                <a href="" className="text-blue-600 hover:text-indigo-700 font-semibold">Resend Verification Link</a>
+                <a href="" className="text-blue-600 hover:text-indigo-700 font-semibold ">Resend Verification Link</a>
 
 
                 <p className=" mt-5">
