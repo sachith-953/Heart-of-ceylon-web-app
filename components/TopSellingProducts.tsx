@@ -228,7 +228,7 @@ const TopSellingProducts = async () => {
       console.log("request sending to nextjs API");
 
       const res = await fetch('http://localhost:3000/api/product/topSelling', {
-        method: 'GET',
+        cache: 'no-store'
       });
 
       console.log("res" + res);
