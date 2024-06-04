@@ -4,8 +4,9 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import MaxWidthWrapper from "./MaxWidthWrapper";
 
-export default function HomePage() {
+export default function SearchBar() {
   const router = useRouter();
+  
   const [searchQuery, setSearchQuery] = useState("");
 
   const handleSearch = () => {
