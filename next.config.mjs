@@ -7,7 +7,7 @@ const nextConfig = {
         remotePatterns: [
           {
             protocol: 'https',
-            hostname: 'www.srilankabusiness.com',
+            hostname: '**',
             port: '',
             pathname: '/**',
           },
