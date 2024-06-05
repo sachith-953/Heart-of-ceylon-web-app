@@ -9,6 +9,7 @@ import { Button, buttonVariants } from "@/components/ui/button";
 import Link from "next/link";
 import TopSellingProducts from "@/components/TopSellingProducts";
 import Navbar from "@/components/Navbar";
+import ProductProfile from "@/components/ProductProfile";
 
 export default function Home() {
 
@@ -43,6 +44,8 @@ export default function Home() {
 
           {/* TODO : List products */}
         </MaxWidthWrapper>
+
+        <ProductProfile />
 
 
         <TopSellingProducts />
