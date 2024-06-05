@@ -28,6 +28,11 @@ https://ui.shadcn.com/docs/installation/next
 commands intial installation
 npx shadcn-ui@latest init
 
+drop down :
+npx shadcn-ui@latest add dropdown-menu
+
+
+
 #### 2. lucide icon library 
 
 https://lucide.dev/guide/installation
