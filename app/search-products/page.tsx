@@ -30,6 +30,7 @@ export default function SearchPage() {
         productRatings: number
         productTotalItemSold: number
         //todo : add seller details
+        // change this in product.tsx too
     }
 
     const [data, setData] = useState<dataDataType[]>([]);
@@ -44,6 +45,25 @@ export default function SearchPage() {
     const handleChildDataChange = (newChildData: string) => {
         setSortMethod(newChildData);
         console.log("sort method set to :", newChildData)
+
+        // sorting based on sortingMethod selected
+        const sortedData = [...data].sort((a, b) => {
+            switch (newChildData) {
+                case "Price":
+                    return a.productPrice - b.productPrice;
+                case "Ratings":
+                    return b.productRatings - a.productRatings;
+                case "Top Selling":
+                    return b.productTotalItemSold - a.productTotalItemSold;
+                default:
+                    return 0;
+            }
+        });
+        setData(sortedData)
+        console.log("******data*******")
+        console.log(data)
+        console.log("******sortedData*******")
+        console.log(sortedData)
     };
 
     const handleSearch = () => {
@@ -110,20 +130,11 @@ export default function SearchPage() {
             </MaxWidthWrapper>
 
             <div>
-                <h1>Search Results for : {searchQuery}</h1>
                 <h2>{errorMessage === "" ? <p></p> : errorMessage}</h2>
                 {/* Render search results */}
             </div>
 
-            {/* <div className="container mx-auto px-4">
-                {data.map((d : dataDataType) => (
-                    <div key={d.productID}>
-                        <p>{d.productName}</p>
-                        <p>{d.productPrice}</p>
-                    </div>
 
-                ))}
-            </div> */}
 
             {/* ******************************************************** */}
 
@@ -133,8 +144,8 @@ export default function SearchPage() {
 
                     {/* left side */}
                     <div className="hidden sm:flex sm:w-1/3">
-                        
-                        
+
+
                     </div>
 
                     {/* right side */}
@@ -145,7 +156,7 @@ export default function SearchPage() {
 
                             {/* totoal search results */}
                             <div className="mr-3 content-center text-sm sm:text-base">
-                                <p>tea : 230 Results Found</p>
+                                <p>{searchKey} : 230 Results Found</p>
                             </div>
 
                             {/* Sort option */}
@@ -167,10 +178,10 @@ export default function SearchPage() {
                         <div className="border-t border-gray-700 my-2">
 
                         </div>
-                            <Product />
-                        <div>
-                            <p>{sortMethod}</p>
-                        </div>
+
+                        {/* Product Card */}
+                        <Product productData={data} />
+
                     </div>
                 </div>
             </div>
