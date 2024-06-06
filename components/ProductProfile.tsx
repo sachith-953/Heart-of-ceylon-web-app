@@ -29,7 +29,7 @@ const ProductProfile = () => {
           <h1 className='text-3xl font-bold'>Ceylon Black Tea</h1>
         </div>
         <div><p className='text-gray-800'>
-          Sri Lanka, formerly known as Ceylon, is one of the world's major tea-producing countries.
+          Sri Lanka, formerly known as Ceylon, is one of the world{"'"}s major tea-producing countries.
           The tea industry in Sri Lanka dates back to the 19th century when British colonists introduced tea cultivation to the island.
         </p></div>
         <h6 className='text-2xl font-semibold'>LKR 1500.00 <p>Approximately $ 5.00</p></h6>

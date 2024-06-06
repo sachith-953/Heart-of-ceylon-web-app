@@ -45,7 +45,7 @@ export default function Home() {
           {/* TODO : List products */}
         </MaxWidthWrapper>
 
-        <ProductProfile />
+        
 
 
         <TopSellingProducts />
