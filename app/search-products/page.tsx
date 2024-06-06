@@ -141,10 +141,10 @@ export default function SearchPage() {
                     <div className="w-full mx-2 sm:mx-0 sm:w-2/3 min-h-svh">
 
                         {/* sort option */}
-                        <div className="flex flex-row  justify-between bg-gray-300 py-1 content-center px-2">
+                        <div className="flex flex-col sm:flex-row justify-between bg-gray-300 py-1 content-center px-2">
 
                             {/* totoal search results */}
-                            <div className="mr-3 content-center">
+                            <div className="mr-3 content-center text-sm sm:text-base">
                                 <p>tea : 230 Results Found</p>
                             </div>
 
