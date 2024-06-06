@@ -132,12 +132,8 @@ export default function SearchPage() {
                 <div className="flex flex-row  max-w-screen-lg w-full">
 
                     {/* left side */}
-                    <div className="border-2 border-red-600 hidden sm:flex sm:w-1/3">
-                         
-                         <p> dev - Madushan. what to neet to do: fetch category1 name data from database,
-                         then using map() function, add Them into {"<Link>"} tag. so user can 
-                         click the link and goto category page.</p>
-                         
+                    <div className="hidden sm:flex sm:w-1/3">
+                        
                         
                     </div>
 

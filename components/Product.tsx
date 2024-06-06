@@ -4,15 +4,17 @@ import Image from "next/image";
 
 const Product = () => {
 
+    const productStars = 3
+
     return (
         <>
             {/* product cart */}
             <div className="flex flex-row h-40 sm:h-60 bg-gray-200">
 
                 {/* image */}
-                <div className="border-2 border-green-500 rounded-2xl w-2/5 overflow-hidden m-2">
+                <div className=" rounded-2xl w-2/5 overflow-hidden m-2">
                     <Image
-                        src= 'https://www.srilankabusiness.com/images/export_categories/fruits-vegetables.jpg'
+                        src='https://www.srilankabusiness.com/images/export_categories/fruits-vegetables.jpg'
                         width={2000}
                         height={2000}
                         alt="sample image"
@@ -26,46 +28,59 @@ const Product = () => {
                 </div>
 
                 {/* content */}
-                <div className="border-2 border-green-500 w-3/5 m-3">
-                    <p className="font-bold text-2xl leading-none">        
-                         {/* limit number of charactor in here */}
+                <div className="w-3/5 m-1 sm:m-2 border-2 border-red-700 ">
+                    <p className="font-bold text-sm sm:text-2xl  leading-none">
+                        {/* limit number of charactor in here */}
                         High Quality Green Tea Packent with special green tea mixing
                     </p>
-                    <p className="font-serif font-medium mt-1">
+                    <p className="font-serif font-medium mt-0 sm:mt-1 text-sm sm:text-base">
                         Watawela Tea Pvt Ltd
                     </p>
-                    <div className="flex flex-row">
-                        {/* rating start */}
-                        <div className="flex flex-row">
-                            <p>Ratings</p>
-                            <div className="flex flex-row">
-                                <Star />
-                                <Star />
-                                <Star />
-                                <Star />
-                                <Star />
+
+                    {/* ratings */}
+                    <div className="flex flex-col sm:flex-row mt-0 sm:mt-1 ">
+
+                        <div className="flex flex-row bg-white pr-1 justify-center sm:justify-normal">
+                            <p className="mr-1 hidden sm:flex min-w-16">Ratings :</p>
+                            <div className="flex flex-row ">
+                                {Array.from({ length: productStars }, () => (
+                                    <Star key={null} fill="#FFD254" strokeWidth={0} />
+                                ))}
+                                {Array.from({ length: 5 - productStars }, () => (
+                                    <Star key={null} fill="#111" strokeWidth={0} />
+                                ))}
                             </div>
                         </div>
 
                         {/* number of product ratings */}
-                        <div>
-                            <p>100 product ratings</p>
+                        <div className="pl-2">
+                            <p className="underline text-xs">100 product ratings</p>
                         </div>
                     </div>
-                    <p>$10.20</p>
-                    <p>Available</p>
-                    <p>Shipping Cost $3.20</p>
-                    <p>200 sold</p>
+
+                    <div className="flex flex-row sm:flex-col justify-between">
+                        <p className="font-bold text-lg sm:text-3xl">$10.20</p>
+                        <p className="font-mono text-green-600 content-center">Available</p>
+                    </div>
+
+                    <div className="flex flex-row sm:flex-col justify-between">
+                        <p className="text-sm sm:text-base">Shipping Cost $3.20</p>
+                        <p className="font-bold text-sm sm:text-base">200 sold</p>
+                    </div>
+
+
 
                 </div>
 
-                {/* horizontal black line  */}
-                <div className="border-t border-gray-700 my-2">
 
-                </div>
 
             </div>
 
+            {/* horizontal black line  */}
+            <div className="border-t border-gray-700 my-2">
+            </div>
+
+            make this responsive. we made it responsive for mob versions. check from md size 
         </>
     )
 }
