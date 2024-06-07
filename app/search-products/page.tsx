@@ -19,6 +19,7 @@ export default function SearchPage() {
 
     //for response handling 
     const [errorMessage, setErrorMessage] = useState("");
+    const [dataFetchError, setDataFetchError] = useState(false);
 
     interface dataDataType {
         productAvailableStokes: number
@@ -68,10 +69,10 @@ export default function SearchPage() {
 
     const handleSearch = () => {
         console.log(searchKey)
-        handleProductSearch()
+        handleProductSearch(searchKey)
     };
 
-    const handleProductSearch = async () => {
+    const handleProductSearch = async (searchKeyParam : string) => {
 
         console.log("sending keyword to Next.js Search Product API");
 
@@ -82,19 +83,21 @@ export default function SearchPage() {
                 headers: {
                     "Content-Type": "application/json",
                 },
-                body: JSON.stringify(searchKey),
+                body: JSON.stringify(searchKeyParam),
             }
         );
 
         if (res.ok) {
             const responseData = await res.json();
             console.log(responseData);
-            setData(responseData)
             setErrorMessage("")
+            setDataFetchError(false)
+            setData(responseData)
 
         } else {
             const responseData = await res.json();
             setErrorMessage(responseData.message);
+            setDataFetchError(true)
         }
     };
 
@@ -102,9 +105,14 @@ export default function SearchPage() {
     //this part triggers when component mounted. 
     // so this should work when user comming from the home page
     useEffect(() => {
+        const searchQuery = searchParams.get("query");
+        console.log("inside UseEffect : searchQuery :" + searchQuery)
+        setSearchKey(searchQuery || "") //assign "" if searchQuery is null
+        console.log("inside UseEffect : searchKey :" + searchKey)
 
-        setSearchKey(searchQuery || "")
-        handleProductSearch();
+
+        handleProductSearch(searchQuery || "");
+
 
     }, []); // without [] this run unstop
 
@@ -180,8 +188,12 @@ export default function SearchPage() {
                         </div>
 
                         {/* Product Card */}
-                        <Product productData={data} />
-
+                        {dataFetchError 
+                        ? 
+                        <p>Error</p> 
+                        : 
+                            <Product productData={data} />
+                        }
                     </div>
                 </div>
             </div>
