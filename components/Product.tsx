@@ -1,5 +1,14 @@
 import { Star } from "lucide-react";
 import Image from "next/image";
+import {
+    Pagination,
+    PaginationContent,
+    PaginationEllipsis,
+    PaginationItem,
+    PaginationLink,
+    PaginationNext,
+    PaginationPrevious,
+} from "@/components/ui/pagination"
 
 interface ChildProps {
     productData: productData[];
@@ -31,7 +40,7 @@ const Product: React.FC<ChildProps> = ({ productData, }) => {
                                 return (
                                     <div key={pData.productID}>
                                         {/* product cart */}
-                                        <div className="flex flex-row h-40 sm:h-60 bg-gray-200">
+                                        <div className="flex flex-row h-40 sm:h-60 bg-gray-200 hover:bg-gray-300">
 
                                             {/* image */}
                                             <div className=" rounded-2xl w-2/5 overflow-hidden m-2">
@@ -104,10 +113,39 @@ const Product: React.FC<ChildProps> = ({ productData, }) => {
                                         {/* horizontal black line  */}
                                         <div className="border-t border-gray-700 my-2"></div>
                                     </div>
+
                                 )
                             })
                         }
+                        <div className="m-2 mb-6">
+                            <Pagination>
+                                <PaginationContent>
+                                    <PaginationItem>
+                                        <PaginationPrevious href="">
+                                            <span>Previous</span>
+                                        </PaginationPrevious>
+                                    </PaginationItem>
+                                    <PaginationItem>
+                                        <PaginationLink href="#" isActive >1</PaginationLink>
+                                    </PaginationItem>
+                                    <PaginationItem>
+                                        <PaginationLink href="#" >2</PaginationLink>
+                                    </PaginationItem>
+                                    <PaginationItem>
+                                        <PaginationEllipsis />
+                                    </PaginationItem>
+                                    <PaginationItem>
+                                        <PaginationNext href="#" >
+                                            <span>Next</span>
+                                        </PaginationNext>
+                                    </PaginationItem>
+                                </PaginationContent>
+                            </Pagination>
+
+                        </div>
+
                     </div>
+                    
                     )
                     :
                     (

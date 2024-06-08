@@ -31,6 +31,9 @@ npx shadcn-ui@latest init
 drop down :
 npx shadcn-ui@latest add dropdown-menu
 
+pagination: pages
+npx shadcn-ui@latest add pagination
+
 
 
 #### 2. lucide icon library 
@@ -45,7 +48,6 @@ npm install lucide-react
 
 npm install axios
 npm install @tanstack/react-query
-
 
 # When creating the login sign up pages
 npx shadcn-ui@latest add form

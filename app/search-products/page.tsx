@@ -10,6 +10,8 @@ import { ArrowDownNarrowWide } from "lucide-react";
 import { useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 
+
+
 export default function SearchPage() {
 
     //get parameters
@@ -36,7 +38,7 @@ export default function SearchPage() {
     }
 
     const [data, setData] = useState<dataDataType[]>([]);
-    
+
 
     console.log("start Search Page");
 
@@ -74,7 +76,7 @@ export default function SearchPage() {
         handleProductSearch(searchKey)
     };
 
-    const handleProductSearch = async (searchKeyParam : string) => {
+    const handleProductSearch = async (searchKeyParam: string) => {
 
         console.log("sending keyword to Next.js Search Product API");
 
@@ -119,7 +121,7 @@ export default function SearchPage() {
     }, []); // without [] this run non-stop
     // we add variable names inside [] to ensure useEffect re-excecure when theose variable change values
 
-    
+
     return (
 
         <>
@@ -155,7 +157,7 @@ export default function SearchPage() {
                 <div className="flex flex-row  max-w-screen-lg w-full">
 
                     {/* left side- coded by madhushan    */}
-                    <Category_Level_1/>
+                    <Category_Level_1 />
 
                     {/* right side */}
                     <div className="w-full mx-2 sm:mx-0 sm:w-2/3 min-h-svh">
@@ -189,12 +191,14 @@ export default function SearchPage() {
                         </div>
 
                         {/* Product Card */}
-                        {dataFetchError 
-                        ? 
-                        <p>Error</p> 
-                        : 
+                        {dataFetchError
+                            ?
+                            <p>Error</p>
+                            :
                             <Product productData={data} />
                         }
+
+                        
                     </div>
                 </div>
             </div>
