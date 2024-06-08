@@ -24,12 +24,13 @@ export default function ProductProfile() {
                         className="rounded-t-xl"
                         src={imageLink}
                         alt={title}
-                        width={550}
-                        height={550}
+                        width={500}
+                        height={500}
                         style={{
                             maxWidth: "100%",
                             height: "auto",
-                            marginRight: "500px",
+                            marginRight: "350px",
+                            marginLeft:"100px",
                             marginBottom:"80px",
                         }}
                     />
