@@ -116,7 +116,8 @@ export default function SearchPage() {
         handleProductSearch(searchQuery || "");
 
 
-    }, []); // without [] this run unstop
+    }, []); // without [] this run non-stop
+    // we add variable names inside [] to ensure useEffect re-excecure when theose variable change values
 
     
     return (

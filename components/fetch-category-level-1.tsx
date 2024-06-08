@@ -33,7 +33,7 @@ const CategoryLevel1 = () => {
   return (
     <div className="hidden sm:flex sm:w-1/3 bg-gray-100">
       <div className="p-4">
-        <h2 className="text-lg font-semibold font-extrabold underline mb-2 text-4xl">All Categories</h2>
+        <h2 className="text-lg font-semibold underline mb-2">All Categories</h2>
         <ul className="list-none">
           {categories.map((category, index) => (
             <li key={index} className="p-2 border-b border-gray-300 hover:bg-gray-200">
