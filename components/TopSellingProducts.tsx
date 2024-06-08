@@ -63,20 +63,20 @@ const TopSellingProducts = () => {
 
   useEffect(() => {
     const handleLogOut = async () => {
-      console.log("request sending to nextjs API");
+      // console.log("request sending to nextjs API");
 
       const res = await fetch('http://localhost:3000/api/product/topSelling', {
         cache: 'no-store'
       });
 
-      console.log("res" + res);
+      // console.log("res" + res);
 
       const responseData = await res.json();
 
-      console.log(responseData);
+      // console.log(responseData);
 
-      console.log("img test");
-      console.log(responseData[0].productMainImage);
+      // console.log("img test");
+      // console.log(responseData[0].productMainImage);
 
       setData(responseData);
     };
