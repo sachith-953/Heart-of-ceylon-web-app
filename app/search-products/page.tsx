@@ -4,6 +4,7 @@ import Footer from "@/components/Footer";
 import MaxWidthWrapper from "@/components/MaxWidthWrapper";
 import Navbar from "@/components/Navbar";
 import Product from "@/components/Product";
+import Category_Level_1 from "@/components/fetch-category-level-1";
 import SearchProductSortDropDown from "@/components/SearchProductSortDropDown";
 import { ArrowDownNarrowWide } from "lucide-react";
 import { useSearchParams } from "next/navigation";
@@ -35,6 +36,7 @@ export default function SearchPage() {
     }
 
     const [data, setData] = useState<dataDataType[]>([]);
+    
 
     console.log("start Search Page");
 
@@ -114,8 +116,10 @@ export default function SearchPage() {
         handleProductSearch(searchQuery || "");
 
 
-    }, []); // without [] this run unstop
+    }, []); // without [] this run non-stop
+    // we add variable names inside [] to ensure useEffect re-excecure when theose variable change values
 
+    
     return (
 
         <>
@@ -150,11 +154,8 @@ export default function SearchPage() {
             <div className="bg-white flex justify-center">
                 <div className="flex flex-row  max-w-screen-lg w-full">
 
-                    {/* left side */}
-                    <div className="hidden sm:flex sm:w-1/3">
-
-
-                    </div>
+                    {/* left side- coded by madhushan    */}
+                    <Category_Level_1/>
 
                     {/* right side */}
                     <div className="w-full mx-2 sm:mx-0 sm:w-2/3 min-h-svh">

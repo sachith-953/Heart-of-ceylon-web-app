@@ -14,7 +14,7 @@ export default function CategoryCard({
             <div className="group/item border-2 border-white hover:border-gray-400 hover:scale-105">
                 <div>
                    
-                    <Image 
+                    <Image className="rounded-t-xl"
                         src={imageLink}
                         alt={title}
                         width={2000}

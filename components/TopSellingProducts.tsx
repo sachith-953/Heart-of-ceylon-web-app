@@ -63,18 +63,20 @@ const TopSellingProducts = () => {
 
   useEffect(() => {
     const handleLogOut = async () => {
-      console.log("request sending to nextjs API");
+      // console.log("request sending to nextjs API");
 
-      const res = await fetch('http://localhost:3000/api/product/topSelling', { cache: 'no-store' });
+      const res = await fetch('http://localhost:3000/api/product/topSelling', {
+        cache: 'no-store'
+      });
 
-      console.log("res" + res);
+      // console.log("res" + res);
 
       const responseData = await res.json();
 
-      console.log(responseData);
+      // console.log(responseData);
 
-      console.log("img test");
-      console.log(responseData[0].productMainImage);
+      // console.log("img test");
+      // console.log(responseData[0].productMainImage);
 
       setData(responseData);
     };
@@ -82,43 +84,42 @@ const TopSellingProducts = () => {
     handleLogOut();
   }, []);
 
-  return (
-
-    <div className='bg-gray-300 pt-5 pb-8 px-10'>
-      <h1
-        className="text-2xl md:text-3xl font-bold text-center text-gray-700 mb-3"
-      >
-        Top Selling Products
-      </h1>
-      <div className='m-auto'>
-
+  
+return (
+  <div className='bg-gray-300 pt-5 pb-8 px-10'>
+    <h1 className="text-2xl md:text-3xl font-bold text-center text-gray-700 mb-3">
+      Top Selling Products
+    </h1>
+    <div className='m-auto'>
+      {data.length > 0 ? (
         <Slider {...settings}>
-          {data.map((d, index) => (
-            <div key={index} className="bg-white h-80 md:h-96 text-black rounded-xl mb-5">
-            <div className="h-56 bg-indigo-500 rounded-t-xl relative">
-              <Image
-                src={d.productMainImage}
-                alt={d.productName}
-                layout="fill"
-                objectFit="cover"
-                className="rounded-t-xl"
-              />
-            </div>
-            <div className="flex flex-col justify-center items-center p-1 text-center md:h-40 max-h-40">
-              <p className="text-xl font-semibold sm:text-sm md:text-lg">{d.productName}</p>
-              <p className="text-xl mt-1 font-normal">${d.productPrice}</p>
-            </div>
+        {data.map((d, index) => (
+          <div key={index} className="bg-white h-80 md:h-96 text-black rounded-xl mb-5">
+          <div className="h-56 bg-indigo-500 rounded-t-xl relative">
+            <Image
+              src={d.productMainImage}
+              alt={d.productName}
+              layout="fill"
+              objectFit="cover"
+              className="rounded-t-xl"
+            />
           </div>
-          ))}
-        </Slider>
-      </div>
-
+          <div className="flex flex-col justify-center items-center p-1 text-center md:h-40 max-h-40">
+            <p className="text-xl font-semibold sm:text-sm md:text-lg">{d.productName}</p>
+            <p className="text-xl mt-1 font-normal">${d.productPrice}</p>
+          </div>
+        </div>
+        ))}
+      </Slider>
+      ) : (
+        <p>Loading...</p>
+      )}
     </div>
-
-
-  );
+  </div>
+);
 };
 
 
 
 export default TopSellingProducts;
+
