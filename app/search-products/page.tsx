@@ -121,7 +121,7 @@ export default function SearchPage() {
         <>
             <Navbar />
 
-            {/* this is the SEARCH BAR */}
+            {/* ******************** this is the SEARCH BAR ********************/}
             <MaxWidthWrapper>
                 <div className="flex flex-col items-center p-3">
                     <div className="flex justify-center w-full sm:w-2/3 max-w-96 sm:max-w-screen-md">
@@ -144,7 +144,7 @@ export default function SearchPage() {
 
 
 
-            {/* ******************************************************** */}
+            {/* *********************other parts*********************** */}
 
             {/* parent component */}
             <div className="bg-white flex justify-center">
