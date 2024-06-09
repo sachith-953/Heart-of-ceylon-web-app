@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
+import CategoryLevel1Skeliton from './fetch-category-level-1-skeliton';
 
 // Define the interface for the category objects
 interface Category {
@@ -7,6 +8,8 @@ interface Category {
 }
 
 const CategoryLevel1 = () => {
+
+  const [isLoading, setIsLoading] = useState(true)
   const [categories, setCategories] = useState<Category[]>([]); // Use the interface here
 
   useEffect(() => {
@@ -18,6 +21,8 @@ const CategoryLevel1 = () => {
       console.log("res" + res);
 
       const responseData = await res.json();
+
+      setIsLoading(false)
 
       console.log(responseData);
 
@@ -31,23 +36,36 @@ const CategoryLevel1 = () => {
   }, []);
 
   return (
-    <div className="hidden sm:flex sm:w-1/3 bg-gray-100">
-      <div className="p-4">
-        <h2 className="text-lg font-semibold underline mb-2">All Categories</h2>
-        <ul className="list-none">
-          {categories.map((category, index) => (
-            <li key={index} className="p-2 border-b border-gray-300 hover:bg-gray-200">
-              <Link
-                href={`/category/${category.categoryName.toLowerCase().replace(/ /g, '-')}`}
-                className="cursor-pointer"
-              >
-                <strong>{category.categoryName}</strong>
-              </Link>
-            </li>
-          ))}
-        </ul>
-      </div>
-    </div>
+
+    <>
+
+        {isLoading
+          ?
+          <div className='w-full'>
+            <CategoryLevel1Skeliton />
+          </div>
+          :
+          <div>
+            <div className="p-4">
+              <h2 className="text-lg font-semibold underline mb-2">All Categories</h2>
+              <ul className="list-none">
+                {categories.map((category, index) => (
+                  <li key={index} className="p-2 border-b border-gray-300 hover:bg-gray-200">
+                    <Link
+                      href={`/category/${category.categoryName.toLowerCase().replace(/ /g, '-')}`}
+                      className="cursor-pointer"
+                    >
+                      <strong>{category.categoryName}</strong>
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </div>
+        }
+
+    </>
+
   );
 };
 

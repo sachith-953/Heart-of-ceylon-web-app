@@ -9,6 +9,8 @@ import SearchProductSortDropDown from "@/components/SearchProductSortDropDown";
 import { ArrowDownNarrowWide } from "lucide-react";
 import { useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
+import ProductSkeliton from "@/components/ProductSkeliton";
+import CategoryLevel1Skeliton from "@/components/fetch-category-level-1-skeliton";
 
 
 
@@ -46,6 +48,8 @@ export default function SearchPage() {
 
     const [sortMethod, setSortMethod] = useState("")
 
+    const [isLoading, setIsLoading] = useState(true)
+
     //this handle by child component
     const handleChildDataChange = (newChildData: string) => {
         setSortMethod(newChildData);
@@ -73,6 +77,7 @@ export default function SearchPage() {
 
     const handleSearch = () => {
         console.log(searchKey)
+        setIsLoading(true)
         handleProductSearch(searchKey)
     };
 
@@ -97,6 +102,7 @@ export default function SearchPage() {
             setErrorMessage("")
             setDataFetchError(false)
             setData(responseData)
+            setIsLoading(false)
 
         } else {
             const responseData = await res.json();
@@ -157,7 +163,10 @@ export default function SearchPage() {
                 <div className="flex flex-row  max-w-screen-lg w-full">
 
                     {/* left side- coded by madhushan    */}
+                    <div className="hidden sm:flex sm:w-1/3 bg-gray-100">
                     <Category_Level_1 />
+                    </div>
+                    
 
                     {/* right side */}
                     <div className="w-full mx-2 sm:mx-0 sm:w-2/3 min-h-svh">
@@ -191,9 +200,15 @@ export default function SearchPage() {
                         </div>
 
                         {/* Product Card */}
-                        {dataFetchError
+                        {isLoading
                             ?
-                            <p>Error</p>
+                            <div>
+                                <ProductSkeliton />
+                                <ProductSkeliton />
+                                <ProductSkeliton />
+                                <ProductSkeliton />
+                                <ProductSkeliton />
+                            </div>
                             :
                             <Product productData={data} />
                         }
