@@ -4,13 +4,14 @@ import Footer from "@/components/Footer";
 import MaxWidthWrapper from "@/components/MaxWidthWrapper";
 import Navbar from "@/components/Navbar";
 import Product from "@/components/Product";
-import Category_Level_1 from "@/components/fetch-category-level-1";
+import Category_Level_1 from "@/components/CategoryLevel1";
 import SearchProductSortDropDown from "@/components/SearchProductSortDropDown";
-import { ArrowDownNarrowWide } from "lucide-react";
+import { ArrowDownNarrowWide, ChevronLeft, ChevronRight } from "lucide-react";
 import { useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import ProductSkeliton from "@/components/ProductSkeliton";
-import CategoryLevel1Skeliton from "@/components/fetch-category-level-1-skeliton";
+import CategoryLevel1Skeliton from "@/components/CategoryLevel1Skeliton";
+import Link from "next/link";
 
 
 
@@ -164,9 +165,9 @@ export default function SearchPage() {
 
                     {/* left side- coded by madhushan    */}
                     <div className="hidden sm:flex sm:w-1/3 bg-gray-100">
-                    <Category_Level_1 />
+                        <Category_Level_1 />
                     </div>
-                    
+
 
                     {/* right side */}
                     <div className="w-full mx-2 sm:mx-0 sm:w-2/3 min-h-svh">
@@ -213,10 +214,60 @@ export default function SearchPage() {
                             <Product productData={data} />
                         }
 
-                        
+                        {/* Pagination section */}
+                        <div className="flex flex-row justify-center gap-2 mb-10 mt-3">
+                            {/* previous */}
+                            <div className="flex flex-row justify-center">
+                                <Link
+                                    className="flex flex-row justify-center content-center pl-1 pr-3 py-1 rounded-lg hover:bg-gray-600 bg-gray-200 hover:text-white  border-2"
+                                    href={{
+                                        pathname: "/search-products",
+                                        query: {
+                                            keyword: "keyword",
+                                            page: "1"
+                                        },
+                                    }}>
+                                    <div className="content-center">
+                                        <ChevronLeft className="h-4 w-4" />
+                                    </div>
+
+                                    <span>Pervious</span>
+                                </Link>
+                            </div>
+
+                            {/* current page / total pages */}
+                            <div className="flex flex-row justify-center">
+                                <div
+                                    className="flex flex-row justify-center content-center px-1  py-1 rounded-lg  bg-white border-2 border-gray-300">
+                                    
+                                    <span>1 / 1000</span>
+                                </div>
+                            </div>
+
+                            {/* next */}
+                            <div className="flex flex-row justify-center">
+                                <Link
+                                    className="flex flex-row justify-center content-center pl-5 pr-3 py-1 rounded-lg hover:bg-gray-600 bg-gray-200 hover:text-white  border-2"
+                                    href={{
+                                        pathname: "/search-products",
+                                        query: {
+                                            keyword: "keyword",
+                                            page: "1"
+                                        },
+                                    }}>
+                                    <span>Next</span>
+                                    <div className="content-center">
+                                        <ChevronRight className="h-4 w-4" />
+                                    </div>
+                                </Link>
+                            </div>
+
+                        </div>
+
+
                     </div>
                 </div>
-            </div>
+            </div >
 
             <Footer />
         </>

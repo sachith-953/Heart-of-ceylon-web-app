@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
-import CategoryLevel1Skeliton from './fetch-category-level-1-skeliton';
+import CategoryLevel1Skeliton from './CategoryLevel1Skeliton';
 
 // Define the interface for the category objects
 interface Category {

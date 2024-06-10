@@ -117,32 +117,7 @@ const Product: React.FC<ChildProps> = ({ productData, }) => {
                                 )
                             })
                         }
-                        <div className="m-2 mb-6">
-                            <Pagination>
-                                <PaginationContent>
-                                    <PaginationItem>
-                                        <PaginationPrevious href="">
-                                            <span>Previous</span>
-                                        </PaginationPrevious>
-                                    </PaginationItem>
-                                    <PaginationItem>
-                                        <PaginationLink href="#" isActive >1</PaginationLink>
-                                    </PaginationItem>
-                                    <PaginationItem>
-                                        <PaginationLink href="#" >2</PaginationLink>
-                                    </PaginationItem>
-                                    <PaginationItem>
-                                        <PaginationEllipsis />
-                                    </PaginationItem>
-                                    <PaginationItem>
-                                        <PaginationNext href="#" >
-                                            <span>Next</span>
-                                        </PaginationNext>
-                                    </PaginationItem>
-                                </PaginationContent>
-                            </Pagination>
-
-                        </div>
+                        
 
                     </div>
                     
