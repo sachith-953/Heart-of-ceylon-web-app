@@ -13,19 +13,27 @@ import ProductSkeliton from "@/components/ProductSkeliton";
 import CategoryLevel1Skeliton from "@/components/CategoryLevel1Skeliton";
 import Link from "next/link";
 
-
+/**
+ * This page call API in two instances 
+ * 1. when user redirected to this page, by useState() call API to fetch data according to URL params
+ * 2. when user enter search keyword to search input and click the search button, onclick action call the API. 
+ * this both actions send requst to backend requesting page 1 data.
+ * 
+ * when user click in next and previous buttons, user redirect again to this page but with requestedPage url param with (currentPage + 1) or (currentPage - 1)
+ * 
+ */
 
 export default function SearchPage() {
+
+    //TODO : add this to env file
+    const PRODUCTS_PER_PRODUCT_SEARCH_RESULT = 4;
+
 
     //get parameters
     const searchParams = useSearchParams();
     const searchQuery = searchParams.get("query");
 
     console.log("data recived : " + searchQuery)
-
-    //for response handling 
-    const [errorMessage, setErrorMessage] = useState("");
-    const [dataFetchError, setDataFetchError] = useState(false);
 
     interface dataDataType {
         productAvailableStokes: number
@@ -40,18 +48,31 @@ export default function SearchPage() {
         // change this in product.tsx too
     }
 
-    const [data, setData] = useState<dataDataType[]>([]);
+    //for response handling 
+    const [errorMessage, setErrorMessage] = useState("");
+    const [dataFetchError, setDataFetchError] = useState(false);
 
+    // store fetched product data
+    const [data, setData] = useState<dataDataType[]>([]);
 
     console.log("start Search Page");
 
+    // store search keyword 
     const [searchKey, setSearchKey] = useState("");
 
     const [sortMethod, setSortMethod] = useState("")
 
     const [isLoading, setIsLoading] = useState(true)
 
-    //this handle by child component
+    // totoal rows matching for the keyword in database
+    const [totoalResultFound, setTotalResultFound] = useState(0)
+
+    // page user currently visited 
+    const [currentPage, setCurrentPage] = useState("1")
+
+
+    //this handle by child component. 
+    // use to get sort method selection
     const handleChildDataChange = (newChildData: string) => {
         setSortMethod(newChildData);
         console.log("sort method set to :", newChildData)
@@ -76,13 +97,15 @@ export default function SearchPage() {
         console.log(sortedData)
     };
 
+    // when search button clicked this triggers
     const handleSearch = () => {
         console.log(searchKey)
         setIsLoading(true)
-        handleProductSearch(searchKey)
+        handleProductSearch(searchKey, "1") // when new keyword added and click serach, we show new results in page 1
     };
 
-    const handleProductSearch = async (searchKeyParam: string) => {
+    // data fetching handle by this function
+    const handleProductSearch = async (searchKeyParam: string, requestedPage: string) => {
 
         console.log("sending keyword to Next.js Search Product API");
 
@@ -93,39 +116,57 @@ export default function SearchPage() {
                 headers: {
                     "Content-Type": "application/json",
                 },
-                body: JSON.stringify(searchKeyParam),
+                body: JSON.stringify({ searchKeyParam, requestedPage }),
             }
         );
 
         if (res.ok) {
             const responseData = await res.json();
+            
+            console.log("Data recived sucess");
             console.log(responseData);
-            setErrorMessage("")
+
+            setErrorMessage("") // remove error message 
             setDataFetchError(false)
-            setData(responseData)
-            setIsLoading(false)
+            setData(responseData.productList) // add data to data useState
+
+            console.log("responseData.productList");
+
+            setTotalResultFound(responseData.totalResults)
+
+            setIsLoading(false) // this stop display skeliton animation
 
         } else {
             const responseData = await res.json();
             setErrorMessage(responseData.message);
             setDataFetchError(true)
+            console.log("********failed********")
         }
     };
 
 
     //this part triggers when component mounted. 
-    // so this should work when user comming from the home page
+    // so this should work when user redirected from the home page
     useEffect(() => {
+
+        // get url parameters
         const searchQuery = searchParams.get("query");
+        const page = searchParams.get("page")
+
         console.log("inside UseEffect : searchQuery :" + searchQuery)
+        console.log("inside UseEffect : page :" + page)
+        
+        //set vales to use state
         setSearchKey(searchQuery || "") //assign "" if searchQuery is null
-        console.log("inside UseEffect : searchKey :" + searchKey)
+        setCurrentPage(page || "1") // if page is null, set 1 as default value
+
+        console.log("inside UseEffect => searchKey :" + searchKey + "page :" + page)
 
 
-        handleProductSearch(searchQuery || "");
+        //send data to to API
+        handleProductSearch(searchQuery || "", page || "1");
 
-
-    }, []); // without [] this run non-stop
+    }, [searchParams]); // without [] this run non-stop
     // we add variable names inside [] to ensure useEffect re-excecure when theose variable change values
 
 
@@ -142,6 +183,11 @@ export default function SearchPage() {
                             className="px-5 py-1 w-2/3 sm:px-5 sm:py-3 flex-1 text-zinc-600 bg-slate-300 focus:big-black rounded-l-3xl focus:outline-none"
                             placeholder="What are you looking for? "
                             onChange={(e) => setSearchKey(e.target.value)}
+                            onKeyDown={(e) => {
+                                if (e.key === "Enter") {
+                                    handleSearch()
+                                }
+                            }}
                         ></input>
                         <button className="bg-gray-200 px-6 rounded-r-3xl ml-px hover:bg-gray-600 hover hover:text-white"
                             onClick={handleSearch}
@@ -177,7 +223,7 @@ export default function SearchPage() {
 
                             {/* totoal search results */}
                             <div className="mr-3 content-center text-sm sm:text-base">
-                                <p>{searchKey} : 230 Results Found</p>
+                                <p>{"'"}{searchKey}{"'"}: Total {totoalResultFound} Results Found</p>
                             </div>
 
                             {/* Sort option */}
@@ -223,15 +269,16 @@ export default function SearchPage() {
                                     href={{
                                         pathname: "/search-products",
                                         query: {
-                                            keyword: "keyword",
-                                            page: "1"
+                                            query: searchKey,
+                                            page: String(Number(currentPage) - 1),
                                         },
-                                    }}>
+                                    }}
+                                    >
                                     <div className="content-center">
                                         <ChevronLeft className="h-4 w-4" />
                                     </div>
 
-                                    <span>Pervious</span>
+                                    <span>Previous</span>
                                 </Link>
                             </div>
 
@@ -239,8 +286,11 @@ export default function SearchPage() {
                             <div className="flex flex-row justify-center">
                                 <div
                                     className="flex flex-row justify-center content-center px-1  py-1 rounded-lg  bg-white border-2 border-gray-300">
-                                    
-                                    <span>1 / 1000</span>
+
+                                    <span>
+                                        {/* if total pages is less than 0 then set value to 1 */}
+                                        {currentPage} / {(totoalResultFound / PRODUCTS_PER_PRODUCT_SEARCH_RESULT) < 0 ? (totoalResultFound / PRODUCTS_PER_PRODUCT_SEARCH_RESULT) : 1}
+                                    </span>
                                 </div>
                             </div>
 
@@ -251,8 +301,8 @@ export default function SearchPage() {
                                     href={{
                                         pathname: "/search-products",
                                         query: {
-                                            keyword: "keyword",
-                                            page: "1"
+                                            query: searchKey,
+                                            page: String(Number(currentPage) + 1),
                                         },
                                     }}>
                                     <span>Next</span>
