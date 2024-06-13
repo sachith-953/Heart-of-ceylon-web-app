@@ -122,7 +122,7 @@ export default function SearchPage() {
 
         if (res.ok) {
             const responseData = await res.json();
-            
+
             console.log("Data recived sucess");
             console.log(responseData);
 
@@ -155,7 +155,7 @@ export default function SearchPage() {
 
         console.log("inside UseEffect : searchQuery :" + searchQuery)
         console.log("inside UseEffect : page :" + page)
-        
+
         //set vales to use state
         setSearchKey(searchQuery || "") //assign "" if searchQuery is null
         setCurrentPage(page || "1") // if page is null, set 1 as default value
@@ -264,54 +264,71 @@ export default function SearchPage() {
                         <div className="flex flex-row justify-center gap-2 mb-10 mt-3">
                             {/* previous */}
                             <div className="flex flex-row justify-center">
-                                <Link
-                                    className="flex flex-row justify-center content-center pl-1 pr-3 py-1 rounded-lg hover:bg-gray-600 bg-gray-200 hover:text-white  border-2"
-                                    href={{
-                                        pathname: "/search-products",
-                                        query: {
-                                            query: searchKey,
-                                            page: String(Number(currentPage) - 1),
-                                        },
-                                    }}
-                                    >
-                                    <div className="content-center">
-                                        <ChevronLeft className="h-4 w-4" />
+                                {currentPage === "1" ? (
+                                    <div className="flex flex-row justify-center content-center pl-1 pr-3 py-1 rounded-lg bg-gray-200 text-gray-400 border-2 opacity-50 cursor-not-allowed">
+                                        <div className="content-center">
+                                            <ChevronLeft className="h-4 w-4" />
+                                        </div>
+                                        <span>Previous</span>
                                     </div>
-
-                                    <span>Previous</span>
-                                </Link>
+                                ) : (
+                                    <Link
+                                        className="flex flex-row justify-center content-center pl-1 pr-3 py-1 rounded-lg hover:bg-gray-600 bg-gray-200 hover:text-white border-2"
+                                        href={{
+                                            pathname: "/search-products",
+                                            query: {
+                                                query: searchKey,
+                                                page: String(Number(currentPage) - 1),
+                                            },
+                                        }}
+                                    >
+                                        <div className="content-center">
+                                            <ChevronLeft className="h-4 w-4" />
+                                        </div>
+                                        <span>Previous</span>
+                                    </Link>
+                                )}
                             </div>
 
                             {/* current page / total pages */}
                             <div className="flex flex-row justify-center">
-                                <div
-                                    className="flex flex-row justify-center content-center px-1  py-1 rounded-lg  bg-white border-2 border-gray-300">
-
+                                <div className="flex flex-row justify-center content-center px-1 py-1 rounded-lg bg-white border-2 border-gray-300">
                                     <span>
-                                        {/* if total pages is less than 0 then set value to 1 */}
-                                        {currentPage} / {(totoalResultFound / PRODUCTS_PER_PRODUCT_SEARCH_RESULT) < 0 ? (totoalResultFound / PRODUCTS_PER_PRODUCT_SEARCH_RESULT) : 1}
+                                        {currentPage} /{" "}
+                                        {totoalResultFound > 0
+                                            ? Math.ceil(totoalResultFound / PRODUCTS_PER_PRODUCT_SEARCH_RESULT)
+                                            : 1}
                                     </span>
                                 </div>
                             </div>
 
                             {/* next */}
                             <div className="flex flex-row justify-center">
-                                <Link
-                                    className="flex flex-row justify-center content-center pl-5 pr-3 py-1 rounded-lg hover:bg-gray-600 bg-gray-200 hover:text-white  border-2"
-                                    href={{
-                                        pathname: "/search-products",
-                                        query: {
-                                            query: searchKey,
-                                            page: String(Number(currentPage) + 1),
-                                        },
-                                    }}>
-                                    <span>Next</span>
-                                    <div className="content-center">
-                                        <ChevronRight className="h-4 w-4" />
+                                {currentPage === String(Math.ceil(totoalResultFound / PRODUCTS_PER_PRODUCT_SEARCH_RESULT)) ? (
+                                    <div className="flex flex-row justify-center content-center pl-5 pr-3 py-1 rounded-lg bg-gray-200 text-gray-400 border-2 opacity-50 cursor-not-allowed">
+                                        <span>Next</span>
+                                        <div className="content-center">
+                                            <ChevronRight className="h-4 w-4" />
+                                        </div>
                                     </div>
-                                </Link>
+                                ) : (
+                                    <Link
+                                        className="flex flex-row justify-center content-center pl-5 pr-3 py-1 rounded-lg hover:bg-gray-600 bg-gray-200 hover:text-white border-2"
+                                        href={{
+                                            pathname: "/search-products",
+                                            query: {
+                                                query: searchKey,
+                                                page: String(Number(currentPage) + 1),
+                                            },
+                                        }}
+                                    >
+                                        <span>Next</span>
+                                        <div className="content-center">
+                                            <ChevronRight className="h-4 w-4" />
+                                        </div>
+                                    </Link>
+                                )}
                             </div>
-
                         </div>
 
 
