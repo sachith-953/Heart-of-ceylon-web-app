@@ -10,6 +10,13 @@ export async function POST(request: Request) {
     const searchKey = reqParams.searchKeyParam
     const requestedPageNo = reqParams.requestedPage
 
+    //if searchKey is not entered or empty spaces has entered, we return an error
+    if (searchKey === null || searchKey === undefined || searchKey.trim() === '') {
+        // return a response for a error
+        const resData = { success: false, message: "Enter a Search-Key word" }
+        return new Response(JSON.stringify(resData));
+    }
+
     console.log("request URL :" + `http://localhost:8080/api/v1/pBuyer/getSearchResults?searchWord=${searchKey}&pageNumber=${requestedPageNo}`)
 
     try {
