@@ -10,7 +10,7 @@ export default function SearchBar() {
   const router = useRouter();
   const [searchQuery, setSearchQuery] = useState("");
   const [suggestions, setSuggestions] = useState<string[]>([]);
-  const [debounced, setDebounced] = useState("") // use to delay sending req until user stop typing
+  const [isFocused, setIsFocused] = useState(false);
 
   // API Calling function
   const fetchSuggestions = async (query: string) => {
@@ -53,11 +53,26 @@ export default function SearchBar() {
   };
 
   useEffect(() => {
-    if (searchQuery.trim() !== "") {
-      fetchSuggestions(searchQuery);
-    } else {
-      setSuggestions([]);
+
+    console.log(searchQuery)
+
+    // wait for 0.5 second after the last keystroke before making the API call.
+    // If the user types again within that 0.5 second, the previous timeout is cleared and a new one is set.
+    const timeout = setTimeout(() => {
+      // setDebounced(searchQuery)
+      console.log("debounced: " + searchQuery)
+      if (searchQuery.trim() !== "") {
+        fetchSuggestions(searchQuery);
+      } else {
+        setSuggestions([]);
+      }
+    }, 500)
+
+    // Cleanup function to clear the timeout if the component unmounts
+    return () => {
+      clearTimeout(timeout)
     }
+
   }, [searchQuery]);
 
   return (
@@ -95,31 +110,34 @@ export default function SearchBar() {
                       handleSearch()
                     }
                   }}
+                  onFocus={() => setIsFocused(true)}
+                  onBlur={() => setIsFocused(false)}
                 />
                 <button className="z-40 bg-gray-200 px-6 rounded-r-3xl ml-px hover:bg-gray-600 hover hover:text-white"
                   onClick={handleSearch}
                 >
                   Search
                 </button>
-              
-              {/* Suggestion Section */}
               </div>
-              {suggestions.length > 0 && (
+
+              {/* Suggestion Section */}
+              {suggestions.length > 0 && isFocused && (
                 <div className="absolute inset-x-0 top-5 pt-8 pb-3 text-left bg-gray-100 w-full rounded-b-3xl max-h-96 overflow-auto overscroll-contain">
 
                   {suggestions.map((suggestion, index) => (
-                    <p 
-                    key={index}
-                    className="pl-5 hover:bg-gray-300 hover:font-bold"
-                    onClick={() => {
-                      setSearchQuery(suggestion);
-                      handleSearch();
-                    }}
-                  >
-                    {suggestion}
-                  </p>
+                    <p
+                      key={index}
+                      className="pl-5 hover:bg-gray-300 hover:font-bold cursor-pointer"
+                      onClick={() => {
+                        setSearchQuery(suggestion);
+                        handleSearch();
+                        setIsFocused(false);  // Hide suggestions after selection
+                      }}
+                    >
+                      {suggestion}
+                    </p>
                   ))}
-                  
+
 
                 </div>
               )}
