@@ -3,6 +3,7 @@
 import { useRouter } from "next/navigation";
 import { useActionState, useEffect, useState } from "react";
 import MaxWidthWrapper from "./MaxWidthWrapper";
+import { Loader } from "lucide-react";
 
 
 export default function SearchBar() {
@@ -12,6 +13,7 @@ export default function SearchBar() {
   const [suggestions, setSuggestions] = useState<string[]>([]);
   const [isFocused, setIsFocused] = useState(false);
   const [selectedIndex, setSelectedIndex] = useState(-1); // for let user to select suggestions using arrow keys
+  const [isSearching, setIsSearching] = useState(false)
 
   // API Calling function
   const fetchSuggestions = async (query: string) => {
@@ -49,6 +51,7 @@ export default function SearchBar() {
   };
 
   const handleSearch = () => {
+    setIsSearching(true)
     // Update the URL with the search query as a search parameter
     router.push(`search-products?query=${encodeURIComponent(searchQuery)}`);
   };
@@ -130,7 +133,23 @@ export default function SearchBar() {
                 <button className="z-40 bg-gray-200 px-6 rounded-r-3xl ml-px hover:bg-gray-600 hover hover:text-white"
                   onClick={handleSearch}
                 >
-                  Search
+                  {isSearching
+                    ?
+                    <div className="animate-spin">
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" className="lucide lucide-loader animate-spin">
+                        <path d="M12 2v4" />
+                        <path d="m16.2 7.8 2.9-2.9" />
+                        <path d="M18 12h4" />
+                        <path d="m16.2 16.2 2.9 2.9" />
+                        <path d="M12 18v4" />
+                        <path d="m4.9 19.1 2.9-2.9" />
+                        <path d="M2 12h4" />
+                        <path d="m4.9 4.9 2.9 2.9" />
+                      </svg>
+                    </div>
+                    :
+                    <p>Search</p>}
                 </button>
               </div>
 
@@ -145,7 +164,7 @@ export default function SearchBar() {
                       onMouseEnter={() => setSelectedIndex(index)}
                       onClick={() => {
                         setSearchQuery(suggestion);
-                        // handleSearch(); //on click on a suggestion search starts
+                        handleSearch(); //on click on a suggestion search starts
                         setIsFocused(false);
                       }}
                     >
