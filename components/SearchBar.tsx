@@ -11,6 +11,7 @@ export default function SearchBar() {
   const [searchQuery, setSearchQuery] = useState("");
   const [suggestions, setSuggestions] = useState<string[]>([]);
   const [isFocused, setIsFocused] = useState(false);
+  const [selectedIndex, setSelectedIndex] = useState(-1); // for let user to select suggestions using arrow keys
 
   // API Calling function
   const fetchSuggestions = async (query: string) => {
@@ -52,7 +53,42 @@ export default function SearchBar() {
     router.push(`search-products?query=${encodeURIComponent(searchQuery)}`);
   };
 
+  // handle keyboard navigation: for select suggestion using arrow keys
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (suggestions.length === 0) return;
+
+    switch (e.key) {
+      case 'ArrowDown':
+        e.preventDefault();
+        setSelectedIndex(prevIndex =>
+          prevIndex < suggestions.length - 1 ? prevIndex + 1 : prevIndex
+        );
+        break;
+      case 'ArrowUp':
+        e.preventDefault();
+        setSelectedIndex(prevIndex => (prevIndex > 0 ? prevIndex - 1 : -1));
+        break;
+      case 'Enter':
+        e.preventDefault();
+        if (selectedIndex >= 0) {
+          setSearchQuery(suggestions[selectedIndex]);
+          handleSearch();
+          setIsFocused(false);
+        } else {
+          handleSearch();
+        }
+        break;
+      case 'Escape':
+        setIsFocused(false);
+        break;
+    }
+  };
+
+
   useEffect(() => {
+
+    // Reset the selected index when the search query changes
+    setSelectedIndex(-1);
 
     console.log(searchQuery)
 
@@ -79,39 +115,17 @@ export default function SearchBar() {
     <>
       <MaxWidthWrapper>
         <div className="flex flex-col gap-10 items-center p-6">
-          {/* <div className="flex justify-center w-2/3">
-            <input
-              className="px-5 py-1 w-2/3 sm:px-5 sm:py-3 flex-1 text-zinc-600 bg-slate-300 focus:big-black rounded-l-3xl focus:outline-none"
-              placeholder="What are you looking for? "
-              onChange={(e) => setSearchQuery(e.target.value)}
-              onKeyDown={(e) => {
-                if (e.key === "Enter") {
-                  handleSearch()
-                }
-              }}
-            ></input>
-            <button className="bg-gray-200 px-6 rounded-r-3xl ml-px hover:bg-gray-600 hover hover:text-white"
-              onClick={handleSearch}
-            >
-              Search
-            </button>
-          </div> */}
-
-          {/* to remove */}
           <div className="w-2/3 items-start flex flex-row">
             <div className="relative flex flex-col
              w-full">
               <div className="flex flex-row w-full">
                 <input type="text" className="z-40 px-5 py-1 w-full sm:px-5 sm:py-3 flex-1 text-zinc-600 bg-slate-300 focus:big-black rounded-l-3xl focus:outline-none focus:bg-gray-200"
                   placeholder="What are you looking for? "
+                  value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  onKeyDown={(e) => {
-                    if (e.key === "Enter") {
-                      handleSearch()
-                    }
-                  }}
+                  onKeyDown={handleKeyDown}
                   onFocus={() => setIsFocused(true)}
-                  onBlur={() => setIsFocused(false)}
+                  onBlur={() => setTimeout(() => setIsFocused(false), 200)}
                 />
                 <button className="z-40 bg-gray-200 px-6 rounded-r-3xl ml-px hover:bg-gray-600 hover hover:text-white"
                   onClick={handleSearch}
@@ -123,27 +137,23 @@ export default function SearchBar() {
               {/* Suggestion Section */}
               {suggestions.length > 0 && isFocused && (
                 <div className="absolute inset-x-0 top-5 pt-8 pb-3 text-left bg-gray-100 w-full rounded-b-3xl max-h-96 overflow-auto overscroll-contain">
-
                   {suggestions.map((suggestion, index) => (
                     <p
                       key={index}
-                      className="pl-5 hover:bg-gray-300 hover:font-bold cursor-pointer"
+                      className={`pl-5 hover:bg-gray-300 hover:font-bold cursor-pointer ${index === selectedIndex ? 'bg-gray-300 font-bold' : ''
+                        }`}
+                      onMouseEnter={() => setSelectedIndex(index)}
                       onClick={() => {
                         setSearchQuery(suggestion);
-                        handleSearch();
-                        setIsFocused(false);  // Hide suggestions after selection
+                        // handleSearch(); //on click on a suggestion search starts
+                        setIsFocused(false);
                       }}
                     >
                       {suggestion}
                     </p>
                   ))}
-
-
                 </div>
               )}
-
-
-
             </div>
           </div>
         </div>
