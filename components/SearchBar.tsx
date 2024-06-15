@@ -56,6 +56,16 @@ export default function SearchBar() {
     router.push(`search-products?query=${encodeURIComponent(searchQuery)}`);
   };
 
+  // TODO : CREATE new method to handle onclick in suggestions
+  // pass parameter which is selected suggestion
+  // this may not work for arrow keys.  adapt it to arrow keys too
+  const handleSearchBySuggestions = (suggestion : string) => {
+    console.log("handleSearchBySuggestions"+ suggestion)
+    setIsSearching(true)
+    // Update the URL with the search query as a search parameter
+    router.push(`search-products?query=${encodeURIComponent(suggestion)}`);
+  };
+
   // handle keyboard navigation: for select suggestion using arrow keys
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (suggestions.length === 0) return;
@@ -75,7 +85,7 @@ export default function SearchBar() {
         e.preventDefault();
         if (selectedIndex >= 0) {
           setSearchQuery(suggestions[selectedIndex]);
-          handleSearch();
+          handleSearchBySuggestions(suggestions[selectedIndex]);
           setIsFocused(false);
         } else {
           handleSearch();
@@ -118,7 +128,7 @@ export default function SearchBar() {
     <>
       <MaxWidthWrapper>
         <div className="flex flex-col gap-10 items-center p-6">
-          <div className="w-2/3 items-start flex flex-row">
+          <div className="items-start flex flex-row w-full sm:w-2/3 max-w-96 sm:max-w-screen-md">
             <div className="relative flex flex-col
              w-full">
               <div className="flex flex-row w-full">
@@ -136,6 +146,7 @@ export default function SearchBar() {
                   {isSearching
                     ?
                     <div className="animate-spin">
+                      {/* spinner */}
                       <svg
                         xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" className="lucide lucide-loader animate-spin">
                         <path d="M12 2v4" />
@@ -164,7 +175,8 @@ export default function SearchBar() {
                       onMouseEnter={() => setSelectedIndex(index)}
                       onClick={() => {
                         setSearchQuery(suggestion);
-                        handleSearch(); //on click on a suggestion search starts
+                        console.log(suggestion)
+                        handleSearchBySuggestions(suggestion) //on click on a suggestion search starts
                         setIsFocused(false);
                       }}
                     >
