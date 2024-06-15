@@ -1,10 +1,8 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { useActionState, useEffect, useState } from "react";
+import { useActionState, useCallback, useEffect, useState } from "react";
 import MaxWidthWrapper from "./MaxWidthWrapper";
-import { Loader } from "lucide-react";
-
 
 export default function SearchBar() {
 
@@ -56,15 +54,13 @@ export default function SearchBar() {
     router.push(`search-products?query=${encodeURIComponent(searchQuery)}`);
   };
 
-  // TODO : CREATE new method to handle onclick in suggestions
-  // pass parameter which is selected suggestion
-  // this may not work for arrow keys.  adapt it to arrow keys too
-  const handleSearchBySuggestions = (suggestion : string) => {
-    console.log("handleSearchBySuggestions"+ suggestion)
-    setIsSearching(true)
-    // Update the URL with the search query as a search parameter
-    router.push(`search-products?query=${encodeURIComponent(suggestion)}`);
-  };
+  // use the useCallback hook to memoize the function and ensure it has the latest state, 
+  // and use the useEffect hook to perform the navigation after the state has been updated.
+  const handleSearchBySuggestions = useCallback((suggestion: string) => {
+    console.log("handleSearchBySuggestions " + suggestion);
+    setSearchQuery(suggestion);
+    setIsSearching(true);
+  }, []);
 
   // handle keyboard navigation: for select suggestion using arrow keys
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
@@ -81,16 +77,15 @@ export default function SearchBar() {
         e.preventDefault();
         setSelectedIndex(prevIndex => (prevIndex > 0 ? prevIndex - 1 : -1));
         break;
-      case 'Enter':
-        e.preventDefault();
-        if (selectedIndex >= 0) {
-          setSearchQuery(suggestions[selectedIndex]);
-          handleSearchBySuggestions(suggestions[selectedIndex]);
-          setIsFocused(false);
-        } else {
-          handleSearch();
-        }
-        break;
+        case 'Enter':
+          e.preventDefault();
+          if (selectedIndex >= 0) {
+            handleSearchBySuggestions(suggestions[selectedIndex]);
+            setIsFocused(false);
+          } else {
+            handleSearch();
+          }
+          break;        
       case 'Escape':
         setIsFocused(false);
         break;
@@ -123,6 +118,12 @@ export default function SearchBar() {
     }
 
   }, [searchQuery]);
+
+  useEffect(() => {
+    if (isSearching) {
+      router.push(`search-products?query=${encodeURIComponent(searchQuery)}`);
+    }
+  }, [isSearching, searchQuery, router]);
 
   return (
     <>
