@@ -12,6 +12,7 @@ import { useEffect, useState } from "react";
 import ProductSkeliton from "@/components/ProductSkeliton";
 import CategoryLevel1Skeliton from "@/components/CategoryLevel1Skeliton";
 import Link from "next/link";
+import SearchBarForSearchProduct from "@/components/ProductSearchBar";
 
 /**
  * This page call API in two instances 
@@ -176,7 +177,7 @@ export default function SearchPage() {
             <Navbar />
 
             {/* ******************** this is the SEARCH BAR ********************/}
-            <MaxWidthWrapper>
+            {/* <MaxWidthWrapper>
                 <div className="flex flex-col items-center p-3">
                     <div className="flex justify-center w-full sm:w-2/3 max-w-96 sm:max-w-screen-md">
                         <input
@@ -194,7 +195,9 @@ export default function SearchPage() {
                         >Search</button>
                     </div>
                 </div>
-            </MaxWidthWrapper>
+            </MaxWidthWrapper> */}
+
+            <SearchBarForSearchProduct />
 
             <div>
                 <h2>{errorMessage === "" ? <p></p> : <p className="justify-center">errorMessage</p>}</h2>
