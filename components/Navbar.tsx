@@ -60,8 +60,9 @@ const Navbar = () => {
                             {/* <MobileNav /> */}
 
                             {/* logo */}
-                            <div className="ml-4 flex lg:ml-0">
+                            <div className="ml-4 flex lg:ml-0 p-3 hover:bg-gray-300">
                                 <Link href="/">
+                                Home
                                     {/* <Icons.logo className="h-10 w-10"></Icons.logo> */}
                                 </Link>
                             </div>

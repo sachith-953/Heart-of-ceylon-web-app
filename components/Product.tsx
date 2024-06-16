@@ -61,9 +61,9 @@ const Product: React.FC<ChildProps> = ({ productData, }) => {
                                             {/* content */}
                                             <div className="w-3/5 m-1 sm:m-2">
                                                 <p className="font-bold text-sm sm:text-lg lg:text-2xl leading-none">
-                                                    {/* limit number of charactor in here. following text is maximum sample text */}
-                                                    {/* High Quality Green Tea Packent with special green tea mixing */}
-                                                    {pData.productName}
+                                                    {pData.productName.length > 50
+                                                        ? `${pData.productName.substring(0, 60)}...`
+                                                        : pData.productName}
                                                 </p>
                                                 <p className="font-serif font-medium mt-0 sm:mt-1 text-sm lg:text-base">
                                                     {/* TODO : get this from the database */}
@@ -117,14 +117,16 @@ const Product: React.FC<ChildProps> = ({ productData, }) => {
                                 )
                             })
                         }
-                        
+
 
                     </div>
-                    
+
                     )
                     :
                     (
-                        <p>No products found.</p>
+                        <p className="font-bold text-lg justify-center text-center h-96 content-center">
+                            No products found!
+                        </p>
                     )
                 }
             </div>

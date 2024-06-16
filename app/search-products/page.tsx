@@ -197,7 +197,7 @@ export default function SearchPage() {
             </MaxWidthWrapper>
 
             <div>
-                <h2>{errorMessage === "" ? <p></p> : errorMessage}</h2>
+                <h2>{errorMessage === "" ? <p></p> : <p className="justify-center">errorMessage</p>}</h2>
                 {/* Render search results */}
             </div>
 

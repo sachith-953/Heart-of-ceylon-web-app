@@ -12,6 +12,7 @@ export async function GET() {
     console.log("logout > refresh token not found");
   }
 
+
   try {
     const refreshTokenValue = refreshToken?.value ?? '';
     let refreshTokenString = JSON.stringify(refreshTokenValue);
