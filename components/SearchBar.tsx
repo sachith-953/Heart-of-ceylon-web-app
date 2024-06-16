@@ -92,7 +92,6 @@ export default function SearchBar() {
     }
   };
 
-
   useEffect(() => {
 
     // Reset the selected index when the search query changes
