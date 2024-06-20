@@ -7,6 +7,9 @@ import MaxWidthWrapper from "./MaxWidthWrapper";
 /**
  * this component set search keywords to the search-product page using URL parameters. 
  * this component change the url parameters. page catch the url params. 
+ * 
+ * DIFFERENCE WITH SearchBar.tsx is this Component has slightly different bg colors
+ * 
  */
 
 const SearchBarForSearchProduct = () => {
