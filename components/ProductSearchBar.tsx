@@ -7,6 +7,9 @@ import MaxWidthWrapper from "./MaxWidthWrapper";
 /**
  * this component set search keywords to the search-product page using URL parameters. 
  * this component change the url parameters. page catch the url params. 
+ * 
+ * DIFFERENCE WITH SearchBar.tsx is this Component has slightly different bg colors
+ * 
  */
 
 const SearchBarForSearchProduct = () => {
@@ -18,7 +21,7 @@ const SearchBarForSearchProduct = () => {
     const [selectedIndex, setSelectedIndex] = useState(-1); // for let user to select suggestions using arrow keys
     const [isSearching, setIsSearching] = useState(false)
 
-    // API Calling function
+    // API Calling function ..
     const fetchSuggestions = async (query: string) => {
         try {
             console.log("sending keyword to Next.js GetKeyword API");
