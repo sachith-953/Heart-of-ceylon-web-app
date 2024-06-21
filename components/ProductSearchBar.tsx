@@ -21,7 +21,7 @@ const SearchBarForSearchProduct = () => {
     const [selectedIndex, setSelectedIndex] = useState(-1); // for let user to select suggestions using arrow keys
     const [isSearching, setIsSearching] = useState(false)
 
-    // API Calling function
+    // API Calling function ..
     const fetchSuggestions = async (query: string) => {
         try {
             console.log("sending keyword to Next.js GetKeyword API");
