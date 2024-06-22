@@ -5,10 +5,10 @@ export const dynamic = "force-dynamic";
 export async function GET() {
     
     // console.log("top selling Nextjs API has Called");
-  
+
     try {
 
-      const response = await fetch('http://localhost:8080/api/v1/pBuyer/getLevel-1-Categories', { cache: 'no-store' });
+      const response = await fetch('http://localhost:8080/api/v1/pBuyer/getAllLevel1Categories', { cache: 'no-store' });
   
       // console.log("topselling request Sent");
   
@@ -25,7 +25,7 @@ export async function GET() {
 
       } else {
 
-        console.log("NextJs API failed : code " + response.status);
+        console.log("[category-level-1] NextJs API failed : code " + response.status);
 
         const responseBodyText = "something not right";
         // return the response

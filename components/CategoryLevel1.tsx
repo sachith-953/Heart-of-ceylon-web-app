@@ -4,7 +4,10 @@ import CategoryLevel1Skeliton from './CategoryLevel1Skeliton';
 
 // Define the interface for the category objects
 interface Category {
+  categoryId : number
   categoryName: string;
+  description : string
+  image : string
 }
 
 const CategoryLevel1 = () => {
@@ -52,10 +55,10 @@ const CategoryLevel1 = () => {
                 {categories.map((category, index) => (
                   <li key={index} className="p-2 border-b border-gray-300 hover:bg-gray-200">
                     <Link
-                      href={`/category/${category.categoryName.toLowerCase().replace(/ /g, '-')}`}
+                      href={`/category-home?parentCategoryId=${category.categoryId}`}
                       className="cursor-pointer"
                     >
-                      <strong>{category.categoryName}</strong>
+                      <strong className='hover:underline'>{category.categoryName}</strong>
                     </Link>
                   </li>
                 ))}

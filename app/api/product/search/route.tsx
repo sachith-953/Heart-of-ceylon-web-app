@@ -4,8 +4,8 @@ export const dynamic = "force-dynamic";
 export async function POST(request: Request) {
 
     const reqParams = await request.json()
-    console.log("reqParams.searchKeyParam :" + reqParams.searchKeyParam)
-    console.log("reqParams.requestedPage :" + reqParams.requestedPage)
+    // console.log("reqParams.searchKeyParam :" + reqParams.searchKeyParam)
+    // console.log("reqParams.requestedPage :" + reqParams.requestedPage)
 
     const searchKey = reqParams.searchKeyParam
     const requestedPageNo = reqParams.requestedPage
@@ -17,7 +17,7 @@ export async function POST(request: Request) {
         return new Response(JSON.stringify(resData));
     }
 
-    console.log("request URL :" + `http://localhost:8080/api/v1/pBuyer/getSearchResults?searchWord=${searchKey}&pageNumber=${requestedPageNo}`)
+    // console.log("request URL :" + `http://localhost:8080/api/v1/pBuyer/getSearchResults?searchWord=${searchKey}&pageNumber=${requestedPageNo}`)
 
     try {
 
@@ -26,17 +26,17 @@ export async function POST(request: Request) {
             { cache: 'no-store' }
         );
 
-        console.log("Request has send to backend api")
+        // console.log("Request has send to backend api")
 
         // Handle the response 
         if (response.ok) {
 
-            console.log("response OK")
+            // console.log("response OK")
 
 
             // Get the response body as JSON
             const responseData = await response.json();
-            console.log(responseData);
+            // console.log(responseData);
 
             // Return the response data
             return new Response(JSON.stringify(responseData));
