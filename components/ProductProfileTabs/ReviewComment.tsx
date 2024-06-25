@@ -1,15 +1,27 @@
 import { Star } from "lucide-react";
 
-export default function ReviewComment() {
+interface reviewCommentDataType {
+  reviewId: number;
+  rating: number;
+  reviewText: string;
+  reviewDateTime: string;
+  buyerName: string;
+}
+
+interface childProp {
+  comment: reviewCommentDataType;
+}
+
+const ReviewComment: React.FC<childProp> = ({ comment }) => {
   const rating = 3;
 
   return (
     <>
       {/* parent */}
-      <div>
+      <div className="bg-gray-100 hover:bg-gray-300 my-2">
         {/* buyer name */}
         <div>
-          <p>Jagath</p>
+          <p>{comment.buyerName}</p>
         </div>
 
         {/* rating */}
@@ -19,21 +31,21 @@ export default function ReviewComment() {
               <Star key={index} fill="#FFD254" strokeWidth={0} />
             ))}
             {Array.from({ length: 5 - rating }, (_, index) => (
-              <Star
-                key={5 * rating + index}
-                fill="#111"
-                strokeWidth={0}
-              />
+              <Star key={5 * rating + index} fill="#111" strokeWidth={0} />
             ))}
           </div>
         </div>
 
         {/* date and text */}
         <div>
-            <p>2024.06.24</p>
-            <p>Good product</p>
+          <p>{comment.reviewDateTime}</p>
+          <p>{comment.reviewText}</p>
         </div>
       </div>
+
+    
     </>
   );
-}
+};
+
+export default ReviewComment;
