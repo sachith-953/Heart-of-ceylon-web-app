@@ -36,8 +36,8 @@ const ItemsSpecifics: React.FC<childProp> = ({ specification }) => {
           </p>
           <p>
             Dimensions:{" "}
-            <span className="inline-block w-20">
-              {specification.productDimensions} inches
+            <span className="inline-block w-35">
+              {specification.productDimensions}
             </span>
           </p>
         </div>

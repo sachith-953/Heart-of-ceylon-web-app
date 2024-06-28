@@ -51,7 +51,7 @@ export default function AboutProduct() {
   };
 
   useEffect(() => {
-    fetchAboutProduct("1");
+    fetchAboutProduct("5");
   }, []);
 
   return (
@@ -70,7 +70,7 @@ export default function AboutProduct() {
         </div>
 
         {/* Item description space */}
-        <div className=" mb-4">
+        <div className="mb-4">
           <h3 className="text-xl font-semibold mb-2">
             Item description from the seller
           </h3>

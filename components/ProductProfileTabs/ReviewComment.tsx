@@ -27,7 +27,6 @@ const formatDateTime = (dateTimeString: string | number | Date) => {
 };
 
 const ReviewComment: React.FC<childProp> = ({ comment }) => {
-  const rating = 3;
 
   return (
     <>

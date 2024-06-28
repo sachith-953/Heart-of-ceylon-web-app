@@ -62,8 +62,8 @@ export default function Reviews() {
           <h3 className="text-xl font-semibold mb-2">Top reviews</h3>
 
           {/* comments */}
-          <div className="border-2 border-rose-950">
-            {/* comments */}
+          <div className="border-2 border-pink-300">
+            {/* one comment */}
             {reviewComment.map((singleComment: reviewCommentDataType) => (
               <ReviewComment
                 key={singleComment.reviewId}
