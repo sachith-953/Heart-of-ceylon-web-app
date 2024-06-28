@@ -51,7 +51,7 @@ export default function AboutProduct() {
   };
 
   useEffect(() => {
-    fetchAboutProduct("5");
+    fetchAboutProduct("1");
   }, []);
 
   return (
