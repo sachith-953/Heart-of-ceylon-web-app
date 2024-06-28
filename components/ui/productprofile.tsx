@@ -15,8 +15,6 @@ export default function ProductProfile() {
 
     return (
         <>
-            <Navbar />
-            <SearchBar />
             <div className="flex justify-end" style={{ width: '1400px', height: '400px' }}>
                 {/* First Container */}
                 <div className="image-container">
@@ -81,7 +79,6 @@ export default function ProductProfile() {
                     </div>
                 </div>
             </div>
-            <Footer />
         </>
     );
 }
