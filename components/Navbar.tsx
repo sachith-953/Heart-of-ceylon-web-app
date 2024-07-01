@@ -35,18 +35,18 @@ const Navbar = () => {
     useEffect(() => {
 
         const cookieVal = getClientSideCookie("userName")
-        console.log("log "+cookieVal)
-        
-        if(typeof cookieVal === "string"){
+        console.log("log " + cookieVal)
+
+        if (typeof cookieVal === "string") {
             setUser(true)
             console.log("log > user true")
         }
-        else{
+        else {
             setUser(false)
         }
 
 
-    },[]);
+    }, []);
 
 
     return (
@@ -62,25 +62,46 @@ const Navbar = () => {
                             {/* logo */}
                             <div className="ml-4 flex lg:ml-0 p-3 hover:bg-gray-300">
                                 <Link href="/">
-                                Home
+                                    Home
                                     {/* <Icons.logo className="h-10 w-10"></Icons.logo> */}
                                 </Link>
                             </div>
+
                             {/* hidden this for non-mobile screens */}
                             <div className="hidden z-50 lg:ml-8 lg:block lg:self-stretch">
                                 {/* <NavItems /> */}
                             </div>
+
                             <div className="ml-auto flex items-center">
                                 <div className="hidden md:flex md:flex-1 md:items-center md:justify-end md:space-x-6">
-                                    
-                                    {/* if user is True, then we hide login btn and show logout btn */}
-                                    {user ?
 
+                                    {/* ************** DashBoard button Start ************** */}
+                                    {/* if user is logged in, then we show buyer dashboard */}
+                                    {user
+                                        ?
+                                        (<Link href="/buyer-dashboard" className={buttonVariants({ variant: "ghost" })}>DashBoard</Link>)
+                                        :
+                                        (<p></p>)
+                                    }
+
+                                    {/* for decoration purpose => "|" */}
+                                    {user 
+                                    ? 
+                                    (<span className="h-6 w-px bg-gray-200" aria-hidden="true" />) 
+                                    : 
+                                    null
+                                    }
+                                    {/* ************** DashBoard button End ************** */}
+
+                                    {/* if user is True, then we hide login btn and show logout btn */}
+                                    {user
+                                        ?
                                         (<Link href="/log-out" className={buttonVariants({ variant: "ghost" })}>
                                             Log-Out</Link>)
                                         :
                                         (<Link href="/log-in" className={buttonVariants({ variant: "ghost" })}>
-                                            <p className="">Log-In</p></Link>)}
+                                            <p className="">Log-In</p></Link>)
+                                    }
 
                                     {/* for decoration purpose => "|" */}
                                     {user ? null : (

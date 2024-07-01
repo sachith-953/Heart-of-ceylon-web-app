@@ -1,5 +1,6 @@
 "use client"
 
+import Navbar from '@/components/Navbar';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 
@@ -81,6 +82,8 @@ export default function SignupSachith() {
   return (
     <>
 
+      <Navbar />
+
       <div className=" flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
         <div className="sm:mx-auto sm:w-full sm:max-w-sm">
           <h2 className="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">
@@ -107,7 +110,7 @@ export default function SignupSachith() {
                   required
                   placeholder="Kevin"
                   className="pl-3 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                  onChange={(data) => { setFirstName(data.target.value)} }
+                  onChange={(data) => { setFirstName(data.target.value) }}
                 />
                 {!nameRegex.test(firstName.trim())
                   ?
@@ -227,7 +230,7 @@ export default function SignupSachith() {
                   className="pl-3 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                   onChange={(data) => { setConfPassword(data.target.value) }}
                 />
-                { !(password === confPassword)
+                {!(password === confPassword)
                   ?
                   <p className='text-sm text-red-600'>Passwords are not matching</p>
                   :
