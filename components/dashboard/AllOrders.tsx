@@ -5,13 +5,13 @@ import { useEffect } from "react";
 const AllOrders = () => {
 
 
-    const handleProductSearch = async () => {
+    const dataFetching = async () => {
 
         try {
             console.log("fetch All Orders start");
 
             const res = await fetch(
-                "http://localhost:3000/api/buyer/dashboard/getAllOrders", 
+                "http://localhost:3000/api/buyer/dashboard/get-all-orders", 
                 { cache: 'no-store' }
             );
 
@@ -36,7 +36,7 @@ const AllOrders = () => {
 
     useEffect(() => {
 
-        handleProductSearch()
+        dataFetching()
 
     }, []);
 

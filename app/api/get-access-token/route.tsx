@@ -3,6 +3,7 @@ import { cookies } from "next/headers";
 export const dynamic = "force-dynamic"; // no cache
 
 /**
+ * NO USAGE CURRENTLY - REMOVE WHEN DEPLOY
  * this API use to get access token from the refresh token
  * refresh token is taken from the cookies.
  * @returns access token
