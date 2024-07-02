@@ -2,6 +2,7 @@ import { cookies } from "next/headers";
 
 export async function GET() {
   console.log("logout Nextjs API has Called");
+  
   const cookieStore = cookies();
   let refreshToken = null;
 
