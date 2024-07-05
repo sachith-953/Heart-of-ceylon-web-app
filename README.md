@@ -16,6 +16,10 @@ npm run dev
 step 5 : goto localhost:3000
 
 
+# usefull Tailwind styles
+
+- can use to findout the current screen size
+className="bg-red-500 sm:bg-yellow-500 md:bg-blue-700 lg:bg-fuchsia-600 xl:bg-stone-600"
 
 
 # Installed UI libraries 
