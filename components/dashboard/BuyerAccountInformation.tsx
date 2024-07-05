@@ -5,7 +5,6 @@ import { useEffect, useState } from "react";
 
 const BuyerAccountInformation = () => {
 
-    const addressHardcord = "124, Hurikaduwa East, Menikhinna"
 
     interface buyerDataType {
         email: string
@@ -58,20 +57,18 @@ const BuyerAccountInformation = () => {
             {/* Containter parent */}
             <div>
 
-                <p className="text-2xl font-bold mb-3">Account Information</p>
+                <div className="flex flex-row justify-between items-cente mb-3 bg-gray-200 sm:bg-white rounded-md pl-2">
+                    <p className="text-2xl font-bold">Account Information</p>
+                    <span className="text-sm text-blue-700 hover:bg-blue-300 hover:text-black content-center px-2 rounded-xl cursor-pointer">Edit</span>
+                </div>
 
                 {/* Buyer info */}
-                <div className="grid grid-cols-1 md:grid-cols-2">
+                <div className="grid grid-cols-1 md:grid-cols-2 pl-4">
 
                     {/* contact info */}
                     <div className="mr-2 mb-3">
-                        
-                        <div className="flex flex-row items-center justify-between">
-                            <p className="text-lg font-semibold">
-                                Account Details
-                            </p>
-                            <span className="text-sm text-blue-700 hover:bg-blue-300 hover:text-black content-center px-2 rounded-xl cursor-pointer">Edit</span>
-                        </div>
+
+                        <p className="text-lg font-semibold">Account Details</p>
 
                         {buyerDetails !== undefined
                             ?
@@ -92,29 +89,23 @@ const BuyerAccountInformation = () => {
                                 <p>Data not found</p>
                             )}
 
-
                     </div>
 
                     {/* Shipping address */}
                     <div className="">
-                        
-                        <div className="flex flex-row items-center justify-between">
-                            <p className="text-lg font-semibold">
-                                Shipping Address
-                            </p>
-                            <span className="text-sm text-blue-700 hover:bg-blue-300 hover:text-black content-center px-2 rounded-xl cursor-pointer">Edit</span>
-                        </div>
+
+                        <p className="text-lg font-semibold">Shipping Address</p>
 
                         {buyerDetails?.shippingAddress !== null
                             ?
                             (
                                 /* address */
                                 <p className="pl-2">
-                                    {addressHardcord.split(",").map((line, index) => (
+                                    {buyerDetails?.shippingAddress.split(",").map((line, index) => (
                                         <span key={index}>
                                             {index > 0 && <br />}
                                             {line.trim()}
-                                            {addressHardcord.split(",").length - 1 == index ? <span>.</span> : <span>,</span>}
+                                            {buyerDetails?.shippingAddress.split(",").length - 1 == index ? <span>.</span> : <span>,</span>}
                                         </span>
                                     ))}
                                 </p>
@@ -126,10 +117,18 @@ const BuyerAccountInformation = () => {
                         }
                     </div>
 
+                    {/* Change Password */}
+                    <div className="">
+
+                        <p className="text-lg font-semibold">Security</p>
+                        <span className="py-1 text-sm text-blue-700 hover:bg-blue-300 hover:text-black content-center px-2 rounded-xl cursor-pointer">
+                            Change Password
+                        </span>
+
+                    </div>
+
                 </div>
 
-                {/* change password */}
-                <div></div>
             </div >
         </>
     )

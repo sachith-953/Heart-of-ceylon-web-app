@@ -10,7 +10,7 @@ export async function POST(request: Request) {
 
     try {
 
-      const response = await fetch(`http://localhost:8081/api/v1/pBuyer/getSubCategories?parentCategoryId=${parentId}`, { cache: 'no-store' });
+      const response = await fetch(`http://localhost:8080/api/v1/pBuyer/getSubCategories?parentCategoryId=${parentId}`, { cache: 'no-store' });
   
       console.log("getSubCategories request Sent");
   
