@@ -153,96 +153,98 @@ export default function SearchPage() {
             {/* Main image of the page */}
 
             <div>
-                <div className="relative inline-block w-full">
-                    <Image
-                        src='https://www.srilankabusiness.com/images/products/banners/logistic.jpg'
-                        layout="responsive"
-                        width={1920}
-                        height={100}
-                        alt='main image'
-                    />
-                    <Image
-                        src='/my_prof_img.svg'
-                        width={200}
-                        height={200}
-                        alt='profile image'
-                        className="absolute bottom-0 left-1/2 transform -translate-x-1/2 mb-4 w-20 h-20 sm:w-32 sm:h-32 md:w-40 md:h-40 lg:w-52 lg:h-52 rounded-full border-2 border-white"
-                    />
-                </div>
-                <div className="flex flex-col items-center mt-5 mb-1">
-                    <h1 className="text-2xl font-semibold">Harindra Dilshan</h1>
-                    <p className="text-gray-600">Address: 123, Main Street, Colombo 03</p>
+                <div>
+                    <div>
+                        <Image
+                            src="https://www.srilankabusiness.com/images/products/banners/logistic.jpg"
+                            height={1980}
+                            width={1920}
+                            alt="main image">
+                        </Image>
+                    </div>
+                    <div>
+                        <Image
+                             src='my_prof_img.svg'
+                             width={200}
+                             height={200}
+                             alt='profile image'>
+                        </Image>
+                    </div>
                 </div>
             </div>
 
             <div>
-                <h2>{errorMessage === "" ? <p></p> : errorMessage}</h2>
-                {/* Render search results */}
-            </div>
+
+                <div>
+                    <h2>{errorMessage === "" ? <p></p> : errorMessage}</h2>
+                    {/* Render search results */}
+                </div>
 
 
 
-            {/* *********************other parts*********************** */}
+                {/* *********************other parts*********************** */}
 
-            {/* parent component */}
-            <div className="bg-white flex justify-center">
-                <div className="flex flex-row  max-w-screen-lg w-full">
+                {/* parent component */}
+                <div className="bg-white flex justify-center">
+                    <div className="flex flex-row  max-w-screen-lg w-full">
 
-                    {/* left side- coded by madhushan    */}
-                    <div className="hidden sm:flex sm:w-1/3 bg-gray-100">
-                        <CategoryLevel1/>
-                    </div>
+                        {/* left side- coded by madhushan    */}
+                        <div className="hidden sm:flex sm:w-1/3 bg-gray-100">
+                            <CategoryLevel1 />
+                        </div>
 
 
-                    {/* right side */}
-                    <div className="w-full mx-2 sm:mx-0 sm:w-2/3 min-h-svh">
+                        {/* right side */}
+                        <div className="w-full mx-2 sm:mx-0 sm:w-2/3 min-h-svh">
 
-                        {/* sort option */}
-                        <div className="flex flex-col sm:flex-row justify-between bg-gray-300 py-1 content-center px-2">
+                            {/* sort option */}
+                            <div className="flex flex-col sm:flex-row justify-between bg-gray-300 py-1 content-center px-2">
 
-                            {/* totoal search results */}
-                            <div className="mr-3 content-center text-sm sm:text-base">
-                                <p>{searchKey} : 230 Results Found</p>
-                            </div>
-
-                            {/* Sort option */}
-                            <div className="flex flex-row content-center">
-                                <div className="content-center">
-                                    <ArrowDownNarrowWide className="mr-2" />
+                                {/* totoal search results */}
+                                <div className="mr-3 content-center text-sm sm:text-base">
+                                    <p>{searchKey} : 230 Results Found</p>
                                 </div>
 
-                                <p className="mr-3 content-center">Sort By:</p>
-                                {/* add shadcn drop drown here */}
-                                {/* https://ui.shadcn.com/docs/components/dropdown-menu */}
-                                <SearchProductSortDropDown onChildDataChange={handleChildDataChange} />
+                                {/* Sort option */}
+                                <div className="flex flex-row content-center">
+                                    <div className="content-center">
+                                        <ArrowDownNarrowWide className="mr-2" />
+                                    </div>
+
+                                    <p className="mr-3 content-center">Sort By:</p>
+                                    {/* add shadcn drop drown here */}
+                                    {/* https://ui.shadcn.com/docs/components/dropdown-menu */}
+                                    <SearchProductSortDropDown onChildDataChange={handleChildDataChange} />
+
+                                </div>
 
                             </div>
 
-                        </div>
+                            {/* horizontal black line */}
+                            <div className="border-t border-gray-700 my-2">
 
-                        {/* horizontal black line */}
-                        <div className="border-t border-gray-700 my-2">
-
-                        </div>
-
-                        {/* Product Card */}
-                        {isLoading
-                            ?
-                            <div>
-                                <ProductSkeliton />
-                                <ProductSkeliton />
-                                <ProductSkeliton />
-                                <ProductSkeliton />
-                                <ProductSkeliton />
                             </div>
-                            :
-                            <Product productData={data} />
-                        }
+
+                            {/* Product Card */}
+                            {isLoading
+                                ?
+                                <div>
+                                    <ProductSkeliton />
+                                    <ProductSkeliton />
+                                    <ProductSkeliton />
+                                    <ProductSkeliton />
+                                    <ProductSkeliton />
+                                </div>
+                                :
+                                <Product productData={data} />
+                            }
 
 
+                        </div>
                     </div>
                 </div>
             </div>
+
 
             <Footer />
         </>
