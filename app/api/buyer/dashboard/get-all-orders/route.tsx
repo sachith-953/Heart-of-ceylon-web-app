@@ -142,7 +142,7 @@ export async function GET() {
         const response = await fetch(`http://localhost:8080/api/v1/auth/getAllOrder?email=${emailValueString}`, {
             cache: 'no-store',
             headers: {
-                'Authorization': `Bearer ${accessToken}`,
+                'Authorization': `Bearer ${accessToken}`, // dont change
                 'accept-encoding': 'gzip, deflate, br'
             },
         });
