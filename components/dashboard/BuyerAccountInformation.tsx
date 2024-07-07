@@ -1,7 +1,14 @@
 "use client"
 
 import { useEffect, useState } from "react";
-
+import {
+    Dialog,
+    DialogContent,
+    DialogDescription,
+    DialogHeader,
+    DialogTitle,
+    DialogTrigger,
+} from "@/components/ui/dialog"
 
 const BuyerAccountInformation = () => {
 
@@ -60,6 +67,23 @@ const BuyerAccountInformation = () => {
                 <div className="flex flex-row justify-between items-cente mb-3 bg-gray-200 sm:bg-white rounded-md pl-2">
                     <p className="text-2xl font-bold">Account Information</p>
                     <span className="text-sm text-blue-700 hover:bg-blue-300 hover:text-black content-center px-2 rounded-xl cursor-pointer">Edit</span>
+                    <Dialog>
+                        <DialogTrigger>
+                            <span className="text-sm text-blue-700 hover:bg-blue-300 hover:text-black content-center px-2 rounded-xl cursor-pointer">Edit</span>
+                            </DialogTrigger>
+                        <DialogContent>
+
+                            
+
+                            {/* <DialogHeader>
+                                <DialogTitle>Are you absolutely sure?</DialogTitle>
+                                <DialogDescription>
+                                    This action cannot be undone. This will permanently delete your account
+                                    and remove your data from our servers.
+                                </DialogDescription>
+                            </DialogHeader> */}
+                        </DialogContent>
+                    </Dialog>
                 </div>
 
                 {/* Buyer info */}
