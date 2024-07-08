@@ -13,7 +13,7 @@ export default function Page() {
 
             {/* parent component */}
             <MaxWidthLg>
-                <div className="bg-white mt-5">
+                <div className="bg-white mt-5 m-2">
 
                     <span className="text-4xl font-bold">
                         My Dashboard

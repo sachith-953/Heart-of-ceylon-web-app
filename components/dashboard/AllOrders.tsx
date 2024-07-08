@@ -123,7 +123,7 @@ const AllOrders = () => {
 
                                             {/* order details */}
                                             <div className="w-4/5 pl-2 md:p-3">
-                                                <p className="text-lg md:text-xl font-semibold leading-none sm:leading-normal">
+                                                <p className="text-base md:text-xl font-medium sm:font-semibold leading-none sm:leading-normal">
                                                     {order.productName.length > 50
                                                         ? `${order.productName.substring(0, 60)}...`
                                                         : order.productName}
