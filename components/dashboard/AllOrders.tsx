@@ -28,6 +28,9 @@ const AllOrders = () => {
 
     const [isViewAll, setIsViewAll] = useState(false)
 
+    const [isMobile, setIsMobile] = useState(false);
+
+
     const dataFetching = async () => {
 
         try {
@@ -44,7 +47,7 @@ const AllOrders = () => {
                 console.log(responseData);
 
                 // Sort the array based on orderDateTime
-                const sortedData = responseData.sort((a:dataDataType, b:dataDataType) => {
+                const sortedData = responseData.sort((a: dataDataType, b: dataDataType) => {
                     return new Date(b.orderDateTime).getTime() - new Date(a.orderDateTime).getTime();
                 });
 
@@ -74,6 +77,16 @@ const AllOrders = () => {
 
     }, []);
 
+    useEffect(() => {
+        const checkScreenSize = () => {
+            setIsMobile(window.innerWidth < 640); // Adjust this breakpoint as needed
+        };
+
+        checkScreenSize();
+        window.addEventListener('resize', checkScreenSize);
+
+        return () => window.removeEventListener('resize', checkScreenSize);
+    }, []);
 
     return (
         <>
@@ -123,10 +136,26 @@ const AllOrders = () => {
 
                                             {/* order details */}
                                             <div className="w-4/5 pl-2 md:p-3">
-                                                <p className="text-base md:text-xl font-medium sm:font-semibold leading-none sm:leading-normal">
-                                                    {order.productName.length > 50
-                                                        ? `${order.productName.substring(0, 60)}...`
-                                                        : order.productName}
+                                                <p className="text-lg md:text-xl font-semibold sm:font-semibold leading-none sm:leading-normal">
+                                                    
+                                                    { isMobile 
+                                                    ?
+                                                    (
+                                                        // for mobile versions
+                                                        order.productName.length > 50
+                                                        ? `${order.productName.substring(0, 41)}...`
+                                                        : order.productName
+                                                    )
+                                                    :
+                                                    (
+                                                        // for non-mobile verisons
+                                                        order.productName.length > 50
+                                                        ? `${order.productName.substring(0, 85)}.`
+                                                        : order.productName
+                                                    )
+                                                    }
+                                                    
+                                                    
                                                 </p>
                                                 <p className="text-base md:text-lg font-medium text-blue-700">
                                                     Seller Name

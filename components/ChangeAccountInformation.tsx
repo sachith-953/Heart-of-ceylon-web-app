@@ -20,7 +20,7 @@ const ChangeAccountInformation = () => {
   const nameRegex = /^[a-zA-Z\s]+$/;
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   const numericRegex = /^\d+$/;
-  const validationMessageStyle = 'text-sm text-red-600 mt-1 ml-[33.33%]';
+  const validationMessageStyle = 'text-sm text-red-600 mt-1 ml-3';
 
   // Function to check phone number validity
   const checkPhoneValidity = (phone: string) => {
