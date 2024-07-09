@@ -56,8 +56,8 @@ const ChangeAccountInformation = () => {
             {/* Last Name */}
             <div className='flex flex-col'>
               <div className='flex flex-col'>
-                <label htmlFor="lastname" className='text-lg font-semibold mb-2 sm:mb-0 sm:w-1/3'>Last Name</label>
-                <input type="text" id="lastname" name="lastname" className='w-full border-[#ccc] p-3 border rounded' placeholder='Your last name'
+                <label htmlFor="lastName" className='text-lg font-semibold mb-2 sm:mb-0 sm:w-1/3'>Last Name</label>
+                <input type="text" id="lastName" name="lastName" className='w-full border-[#ccc] p-3 border rounded' placeholder='Your last name'
                   onChange={(data) => { setLastName(data.target.value) }} required />
               </div>
               {!nameRegex.test(lastName.trim()) && lastName.trim() !== '' &&
@@ -66,7 +66,7 @@ const ChangeAccountInformation = () => {
             </div>
 
             {/* Email */}
-            <div className='flex flex-col'>
+            {/* <div className='flex flex-col'>
               <div className='flex flex-col'>
                 <label htmlFor="email" className='text-lg font-semibold mb-2 sm:mb-0 sm:w-1/3'>Email</label>
                 <input type="email" id="email" name="email" className='w-full border-[#ccc] p-3 border rounded' placeholder='email'
@@ -75,13 +75,13 @@ const ChangeAccountInformation = () => {
               {!emailRegex.test(email.trim()) && email.trim() !== '' &&
                 <p className={validationMessageStyle}>Please enter a valid email</p>
               }
-            </div>
+            </div> */}
 
             {/* Phone number */}
             <div className='flex flex-col'>
               <div className='flex flex-col'>
-                <label htmlFor="phno" className='text-lg font-semibold mb-2 sm:mb-0 sm:w-1/3'>Contact Number</label>
-                <input type="text" id='phno' name="phonenumber" className='w-full border-[#ccc] p-3 border rounded' placeholder='contact number'
+                <label htmlFor="phoneNo" className='text-lg font-semibold mb-2 sm:mb-0 sm:w-1/3'>Contact Number</label>
+                <input type="text" id='phoneNo' name="phoneNo" className='w-full border-[#ccc] p-3 border rounded' placeholder='contact number'
                   onChange={(e) => {
                     setPhoneNo(e.target.value);
                     setPhoneNoTouched(true);
@@ -95,8 +95,8 @@ const ChangeAccountInformation = () => {
 
             {/* Shipping Address */}
             <div className='flex flex-col'>
-              <label htmlFor="address" className='text-lg font-semibold mb-2 sm:mb-0 sm:w-1/3'>Shipping Address</label>
-              <input type="text" id="address" name="shippingaddress" className='w-full border-[#ccc] p-3 border rounded' placeholder='shipping address' required />
+              <label htmlFor="shippingAddress" className='text-lg font-semibold mb-2 sm:mb-0 sm:w-1/3'>Shipping Address</label>
+              <input type="text" id="shippingAddress" name="shippingAddress" className='w-full border-[#ccc] p-3 border rounded' placeholder='shipping address' required />
             </div>
 
             {/* buttons */}

@@ -23,6 +23,9 @@ const BuyerAccountInformation = () => {
 
     const [buyerDetails, setBuyerDetails] = useState<buyerDataType>()
 
+    // store the screen size 
+    const [isMobile, setIsMobile] = useState(false);
+
     const dataFetching = async () => {
 
         try {
@@ -58,6 +61,20 @@ const BuyerAccountInformation = () => {
         dataFetching()
 
     }, []);
+
+
+    // use for detect screen size
+    useEffect(() => {
+        const checkScreenSize = () => {
+          setIsMobile(window.innerWidth < 640); // Adjust this breakpoint as needed
+        };
+    
+        checkScreenSize();
+        window.addEventListener('resize', checkScreenSize);
+    
+        return () => window.removeEventListener('resize', checkScreenSize);
+      }, []);
+    
 
     return (
         <>
