@@ -1,11 +1,20 @@
+
+
 import MaxWidthLg from "@/components/MaxWidthLg";
 import Navbar from "@/components/Navbar";
 import AllOrders from "@/components/dashboard/AllOrders";
 import BuyerAccountInformation from "@/components/dashboard/BuyerAccountInformation";
 import RecentViewdProducts from "@/components/dashboard/RecentViewdProducts";
-
+import { cookies } from "next/headers";
+import { redirect, useRouter } from "next/navigation";
 
 export default function Page() {
+
+    const cookieStore = cookies()
+
+    if (!cookieStore.has("refreshToken")) {
+        redirect("/log-in")
+    }
 
     return (
         <>

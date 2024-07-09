@@ -5,8 +5,18 @@ import MaxWidthLg from "../MaxWidthLg";
 import ErrorForCatch from "../ErrorForCatch";
 import { cn } from "@/lib/utils";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
+
+/**
+ * if fetching login has error with refresh token,
+ * we push user to the login page.
+ * in there, user cookies will deleted.
+ * user can login again
+ */
 
 const AllOrders = () => {
+
+    const router = useRouter()
 
     interface dataDataType {
         expectedDeliveryDate: string
@@ -29,6 +39,13 @@ const AllOrders = () => {
     const [isViewAll, setIsViewAll] = useState(false)
 
     const [isMobile, setIsMobile] = useState(false);
+
+    const [isError, setIsError] = useState(false)
+
+    const pushToLogin = () => {
+        console.log("pushed to login////////////////")
+        router.push("/log-in");
+    };
 
 
     const dataFetching = async () => {
@@ -53,6 +70,14 @@ const AllOrders = () => {
 
                 setData(responseData)
                 setIsLoading(false)
+            }
+            else if (res.status === 403) {
+                // this trigger when referesh token has issure. 
+                // if token is expired this will trigger
+                console.log("****403****************")
+                console.log("Redirectiong to login. RT error")
+                setIsError(true)
+                pushToLogin()
             }
             else {
                 const responseData = await res.json();

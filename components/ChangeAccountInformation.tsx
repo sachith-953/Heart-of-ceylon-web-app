@@ -1,13 +1,15 @@
 'use client'
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import MaxWidthLg from './MaxWidthLg';
 import { DialogClose } from '@radix-ui/react-dialog';
+
 
 /**
  * This is use as a dialog box
  */
 
 const ChangeAccountInformation = () => {
+
 
   // for form data validation and guid user to input valid data
   const [firstName, setFirstName] = useState("sample data")
@@ -38,7 +40,7 @@ const ChangeAccountInformation = () => {
     <MaxWidthLg>
       <div className='bg-white'>
         <h1 className='text-2xl sm:text-3xl font-bold mb-6 text-center'>Change Account Information</h1>
-        <div className='max-w-3xl mx-auto'>
+        <div className='max-w-3xl mx-2 sm:mx-0'>
           <form action="#" className='space-y-6'>
 
             {/* First Name */}

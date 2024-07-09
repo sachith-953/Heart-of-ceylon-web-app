@@ -9,9 +9,29 @@ import {
     DialogTitle,
     DialogTrigger,
 } from "@/components/ui/dialog"
+import {
+    Drawer,
+    DrawerClose,
+    DrawerContent,
+    DrawerDescription,
+    DrawerFooter,
+    DrawerHeader,
+    DrawerTitle,
+    DrawerTrigger,
+} from "@/components/ui/drawer"
 import ChangeAccountInformation from "../ChangeAccountInformation";
+import { useRouter } from "next/navigation";
+
+/**
+ * if fetching login has error with refresh token,
+ * we push user to the login page.
+ * in there, user cookies will deleted.
+ * user can login again
+ */
 
 const BuyerAccountInformation = () => {
+
+    const router = useRouter()
 
     interface buyerDataType {
         email: string
@@ -25,6 +45,14 @@ const BuyerAccountInformation = () => {
 
     // store the screen size 
     const [isMobile, setIsMobile] = useState(false);
+
+    const [isError, setIsError] = useState(false)
+
+    const pushToLogin = () => {
+        console.log("pushed to login////////////////")
+        router.push("/log-in");
+    };
+
 
     const dataFetching = async () => {
 
@@ -40,7 +68,16 @@ const BuyerAccountInformation = () => {
                 const responseData = await res.json();
                 setBuyerDetails(responseData)
                 console.log(responseData);
-            } else {
+            } 
+            else if (res.status === 403) {
+                // this trigger when referesh token has issure. 
+                // if token is expired this will trigger
+                console.log("****403****************")
+                console.log("Redirectiong to login. RT error")
+                setIsError(true)
+                pushToLogin()
+            }
+            else {
                 const responseData = await res.json();
                 console.log(responseData)
                 console.log("********failed********")
@@ -66,15 +103,15 @@ const BuyerAccountInformation = () => {
     // use for detect screen size
     useEffect(() => {
         const checkScreenSize = () => {
-          setIsMobile(window.innerWidth < 640); // Adjust this breakpoint as needed
+            setIsMobile(window.innerWidth < 640); // Adjust this breakpoint as needed
         };
-    
+
         checkScreenSize();
         window.addEventListener('resize', checkScreenSize);
-    
+
         return () => window.removeEventListener('resize', checkScreenSize);
-      }, []);
-    
+    }, []);
+
 
     return (
         <>
@@ -83,14 +120,46 @@ const BuyerAccountInformation = () => {
 
                 <div className="flex flex-row justify-between items-cente mb-3 bg-gray-200 sm:bg-white rounded-md pl-2">
                     <p className="text-2xl font-bold">Account Information</p>
-                    <Dialog>
-                        <DialogTrigger>
-                            <span className="text-sm text-blue-700 hover:bg-blue-300 hover:text-black content-center px-2 rounded-xl cursor-pointer">Edit</span>
-                        </DialogTrigger>
-                        <DialogContent>
-                            <ChangeAccountInformation />
-                        </DialogContent>
-                    </Dialog>
+
+                    {isMobile
+                        ?
+                        (
+                            <div>
+                                <Drawer>
+                                    <DrawerTrigger>
+                                        <span className="text-sm text-blue-700 hover:bg-blue-300 hover:text-black content-center px-2 rounded-xl cursor-pointer">Edit</span>
+                                    </DrawerTrigger>
+                                    <DrawerContent>
+
+                                        <ChangeAccountInformation />
+
+                                        <DrawerFooter>
+                                            {/* <Button>Submit</Button> */}
+                                            <DrawerClose>
+                                                {/* <Button variant="outline">Cancel</Button> */}
+                                            </DrawerClose>
+                                        </DrawerFooter>
+
+                                    </DrawerContent>
+                                </Drawer>
+                            </div>
+                        )
+                        :
+                        (
+                            <div>
+                                <Dialog>
+                                    <DialogTrigger>
+                                        <span className="text-sm text-blue-700 hover:bg-blue-300 hover:text-black content-center px-2 rounded-xl cursor-pointer">Edit</span>
+                                    </DialogTrigger>
+                                    <DialogContent>
+                                        <ChangeAccountInformation />
+                                    </DialogContent>
+                                </Dialog>
+                            </div>
+                        )
+                    }
+
+
                 </div>
 
                 {/* Buyer info */}

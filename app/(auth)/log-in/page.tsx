@@ -2,7 +2,7 @@
 
 import Navbar from "@/components/Navbar"
 import { useRouter } from "next/navigation"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 
 
 // NOTE : check api/login/route.tsx file for server side codes
@@ -56,6 +56,22 @@ export default function TestLogin2() {
 
 
     }
+
+    const deleteCookies = async () => {
+
+        console.log("!!!!!! Cookies Deleted !!!!!!")
+
+        const res = await fetch('http://localhost:3000/api/cookies/delete-cookies', {
+            cache: 'no-store'
+        });
+    };
+
+
+    useEffect(() => {
+
+        deleteCookies()
+
+    }, [])
 
     return (
         <>

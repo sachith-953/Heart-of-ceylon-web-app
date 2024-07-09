@@ -118,8 +118,20 @@ export async function GET() {
             console.log(response.status);
             const responseBodyText = "something not right";
             // return the response
-            const resData = { success: false, message: responseBodyText };
-            return new Response(JSON.stringify(resData));
+            // use if else if conditions and check 
+            // import and add "const router = useRouter()"
+            /**
+             * <<Check the AllOrders.tsx for full example code>>
+             * else if (res.status === 403) {
+             *  //detele cookies
+                router.push("/log-in");
+            }
+             */
+            return new Response(JSON.stringify({
+                error: {
+                    message: "Un Expected Error. get-access-token"
+                }
+            }), { status: 403 });
         }
     } catch (error) {
         return new Response(JSON.stringify({
