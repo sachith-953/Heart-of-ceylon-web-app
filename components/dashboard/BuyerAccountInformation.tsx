@@ -48,9 +48,17 @@ const BuyerAccountInformation = () => {
 
     const [isError, setIsError] = useState(false)
 
+    const [isDataUpdated, setIsDataUpdated] = useState(false)
+
     const pushToLogin = () => {
         console.log("pushed to login////////////////")
         router.push("/log-in");
+    };
+
+    //this handle by child <ChangeAccountInformation />
+    const handleChildDataChange = (isDataUpdated: boolean) => {
+        setIsDataUpdated(isDataUpdated)
+        console.log("child is calling")
     };
 
 
@@ -68,7 +76,7 @@ const BuyerAccountInformation = () => {
                 const responseData = await res.json();
                 setBuyerDetails(responseData)
                 console.log(responseData);
-            } 
+            }
             else if (res.status === 403) {
                 // this trigger when referesh token has issure. 
                 // if token is expired this will trigger
@@ -95,9 +103,12 @@ const BuyerAccountInformation = () => {
 
     useEffect(() => {
 
+        if (isDataUpdated) {
+            setIsDataUpdated(false)
+        }
         dataFetching()
 
-    }, []);
+    }, [isDataUpdated]);
 
 
     // use for detect screen size
@@ -131,7 +142,7 @@ const BuyerAccountInformation = () => {
                                     </DrawerTrigger>
                                     <DrawerContent>
 
-                                        <ChangeAccountInformation />
+                                        <ChangeAccountInformation onChildDataChange={handleChildDataChange} />
 
                                         <DrawerFooter>
                                             {/* <Button>Submit</Button> */}
@@ -152,7 +163,7 @@ const BuyerAccountInformation = () => {
                                         <span className="text-sm text-blue-700 hover:bg-blue-300 hover:text-black content-center px-2 rounded-xl cursor-pointer">Edit</span>
                                     </DialogTrigger>
                                     <DialogContent>
-                                        <ChangeAccountInformation />
+                                        <ChangeAccountInformation onChildDataChange={handleChildDataChange} />
                                     </DialogContent>
                                 </Dialog>
                             </div>

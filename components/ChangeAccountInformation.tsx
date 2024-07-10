@@ -1,15 +1,23 @@
 'use client'
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import MaxWidthLg from './MaxWidthLg';
 import { DialogClose } from '@radix-ui/react-dialog';
-
+import { useRouter } from "next/navigation";
 
 /**
  * This is use as a dialog box
  */
 
-const ChangeAccountInformation = () => {
+interface ChildProps {
+  onChildDataChange: (isDataUpdated: boolean) => void;
+}
 
+const ChangeAccountInformation: React.FC<ChildProps> = ({onChildDataChange,}) => {
+
+  const router = useRouter()
+
+  // use to handle close button
+  const closeButtonRef = useRef<HTMLButtonElement>(null);
 
   // for form data validation and guid user to input valid data
   const [firstName, setFirstName] = useState("sample data")
@@ -35,19 +43,57 @@ const ChangeAccountInformation = () => {
     return "";
   }
 
+  const handleFormSubmit = async (formData: FormData) => {
+
+    try {
+      const res = await fetch('http://localhost:3000/api/buyer/dashboard/change-account-info', {
+        method: 'POST',
+        body: formData
+      })
+
+      if (res.ok) {
+        const ResponseData = await res.json()
+        console.log(ResponseData)
+        console.log("successfully changed acc info")
+
+        // update parent componet isDataUpdated useState
+        onChildDataChange(true)
+
+        //close the dialog box
+        if (closeButtonRef.current) {
+          closeButtonRef.current.click();
+        }
+      }
+      else if (res.status === 403) {
+        // this trigger when referesh token has issure. 
+        // if token is expired this will trigger
+        console.log("****403****************")
+        console.log("Redirectiong to login. RT error")
+        router.push("/log-in");
+      }
+      else {
+
+      }
+    }
+    catch (error) {
+      console.error('Error submitting form:', error);
+    } finally {
+
+    }
+  }
 
   return (
     <MaxWidthLg>
       <div className='bg-white'>
         <h1 className='text-2xl sm:text-3xl font-bold mb-6 text-center'>Change Account Information</h1>
         <div className='max-w-3xl mx-2 sm:mx-0'>
-          <form action="#" className='space-y-6'>
+          <form action={handleFormSubmit} className='space-y-6'>
 
             {/* First Name */}
             <div className='flex flex-col'>
               <div className='flex flex-col'>
-                <label htmlFor="firstname" className='text-lg font-semibold mb-2 sm:mb-0 sm:w-1/3'>First Name</label>
-                <input type="text" id="firstname" name="firstname" className='w-full border-[#ccc] p-3 border rounded' placeholder='Your first name'
+                <label htmlFor="firstName" className='text-lg font-semibold mb-2 sm:mb-0 sm:w-1/3'>First Name</label>
+                <input type="text" id="firstName" name="firstName" className='w-full border-[#ccc] p-3 border rounded' placeholder='Your first name'
                   onChange={(data) => { setFirstName(data.target.value) }} required />
               </div>
               {!nameRegex.test(firstName.trim()) && firstName.trim() !== '' &&
@@ -67,17 +113,6 @@ const ChangeAccountInformation = () => {
               }
             </div>
 
-            {/* Email */}
-            {/* <div className='flex flex-col'>
-              <div className='flex flex-col'>
-                <label htmlFor="email" className='text-lg font-semibold mb-2 sm:mb-0 sm:w-1/3'>Email</label>
-                <input type="email" id="email" name="email" className='w-full border-[#ccc] p-3 border rounded' placeholder='email'
-                  onChange={(data) => { setEmail(data.target.value) }} required />
-              </div>
-              {!emailRegex.test(email.trim()) && email.trim() !== '' &&
-                <p className={validationMessageStyle}>Please enter a valid email</p>
-              }
-            </div> */}
 
             {/* Phone number */}
             <div className='flex flex-col'>
@@ -104,7 +139,13 @@ const ChangeAccountInformation = () => {
             {/* buttons */}
             <div className='flex justify-end space-x-4'>
               <DialogClose asChild>
-                <button type="button" className='bg-red-600 px-4 py-2 rounded text-white'>Cancel</button>
+                <button
+                  type="button"
+                  className='bg-red-600 px-4 py-2 rounded text-white'
+                  ref={closeButtonRef}
+                >
+                  Cancel
+                </button>
               </DialogClose>
 
               <button type="submit" className='bg-blue-600 px-4 py-2 rounded text-white'>Save</button>
