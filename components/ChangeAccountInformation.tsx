@@ -3,6 +3,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import MaxWidthLg from './MaxWidthLg';
 import { DialogClose } from '@radix-ui/react-dialog';
 import { useRouter } from "next/navigation";
+import { useToast } from './ui/use-toast';
 
 /**
  * This is use as a dialog box
@@ -15,6 +16,9 @@ interface ChildProps {
 const ChangeAccountInformation: React.FC<ChildProps> = ({onChildDataChange,}) => {
 
   const router = useRouter()
+
+  // display messages
+  const { toast } = useToast()
 
   // use to handle close button
   const closeButtonRef = useRef<HTMLButtonElement>(null);
@@ -59,6 +63,12 @@ const ChangeAccountInformation: React.FC<ChildProps> = ({onChildDataChange,}) =>
         // update parent componet isDataUpdated useState
         onChildDataChange(true)
 
+        // show succinct message that is displayed temporarily.
+        toast({
+          title: "Success",
+          description: ResponseData.message,
+        })
+
         //close the dialog box
         if (closeButtonRef.current) {
           closeButtonRef.current.click();
@@ -67,19 +77,36 @@ const ChangeAccountInformation: React.FC<ChildProps> = ({onChildDataChange,}) =>
       else if (res.status === 403) {
         // this trigger when referesh token has issure. 
         // if token is expired this will trigger
+        toast({
+          title: "Sorry!",
+          description: "Please Login again. Your Session has Expired!",
+        })
         console.log("****403****************")
         console.log("Redirectiong to login. RT error")
         router.push("/log-in");
       }
       else {
+        toast({
+          variant: "destructive",
+          title: "ERROR! Plase Try Again.",
+          description: "There was a problem with your request."
+        })
+
+        //close the dialog box
+        if (closeButtonRef.current) {
+          closeButtonRef.current.click();
+        }
 
       }
     }
     catch (error) {
       console.error('Error submitting form:', error);
-    } finally {
-
-    }
+      toast({
+        variant: "destructive",
+        title: "UnExpected Error",
+        description: "Please Try again."
+      })
+    } 
   }
 
   return (

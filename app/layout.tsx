@@ -3,6 +3,7 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import { cn } from "@/lib/utils";
 import Navbar from "@/components/Navbar";
+import { Toaster } from "@/components/ui/toaster";
 
 
 const inter = Inter({ subsets: ["latin"] });
@@ -26,6 +27,10 @@ export default function RootLayout({
           <div className="flex-grow flex-1">{children}</div>
           
         </main>
+
+        {/* https://ui.shadcn.com/docs/components/toast */}
+        <Toaster /> 
+        
       </body>
     </html>
   );

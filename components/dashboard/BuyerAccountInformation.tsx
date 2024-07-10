@@ -21,6 +21,7 @@ import {
 } from "@/components/ui/drawer"
 import ChangeAccountInformation from "../ChangeAccountInformation";
 import { useRouter } from "next/navigation";
+import { useToast } from "@/components/ui/use-toast"
 
 /**
  * if fetching login has error with refresh token,
@@ -32,6 +33,7 @@ import { useRouter } from "next/navigation";
 const BuyerAccountInformation = () => {
 
     const router = useRouter()
+    const { toast } = useToast()
 
     interface buyerDataType {
         email: string
@@ -80,6 +82,10 @@ const BuyerAccountInformation = () => {
             else if (res.status === 403) {
                 // this trigger when referesh token has issure. 
                 // if token is expired this will trigger
+                toast({
+                    title: "Sorry!",
+                    description: "Please Login again. Your Session has Expired!",
+                  })
                 console.log("****403****************")
                 console.log("Redirectiong to login. RT error")
                 setIsError(true)

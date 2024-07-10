@@ -6,6 +6,7 @@ import ErrorForCatch from "../ErrorForCatch";
 import { cn } from "@/lib/utils";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
+import { useToast } from "@/components/ui/use-toast"
 
 /**
  * if fetching login has error with refresh token,
@@ -17,6 +18,8 @@ import { useRouter } from "next/navigation";
 const AllOrders = () => {
 
     const router = useRouter()
+
+    const { toast } = useToast()
 
     interface dataDataType {
         expectedDeliveryDate: string
@@ -74,6 +77,10 @@ const AllOrders = () => {
             else if (res.status === 403) {
                 // this trigger when referesh token has issure. 
                 // if token is expired this will trigger
+                toast({
+                    title: "Sorry!",
+                    description: "Please Login again. Your Session has Expired!",
+                  })
                 console.log("****403****************")
                 console.log("Redirectiong to login. RT error")
                 setIsError(true)
