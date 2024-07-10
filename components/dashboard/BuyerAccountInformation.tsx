@@ -22,6 +22,8 @@ import {
 import ChangeAccountInformation from "../ChangeAccountInformation";
 import { useRouter } from "next/navigation";
 import { useToast } from "@/components/ui/use-toast"
+import ChangePassword from "./ChangePassword";
+import ChangePassword1 from "@/app/accountChange/changePassword1/page";
 
 /**
  * if fetching login has error with refresh token,
@@ -85,7 +87,7 @@ const BuyerAccountInformation = () => {
                 toast({
                     title: "Sorry!",
                     description: "Please Login again. Your Session has Expired!",
-                  })
+                })
                 console.log("****403****************")
                 console.log("Redirectiong to login. RT error")
                 setIsError(true)
@@ -238,9 +240,52 @@ const BuyerAccountInformation = () => {
                     <div className="">
 
                         <p className="text-lg font-semibold">Security</p>
-                        <span className="py-1 text-sm text-blue-700 hover:bg-blue-300 hover:text-black content-center px-2 rounded-xl cursor-pointer">
-                            Change Password
-                        </span>
+
+
+                        {isMobile
+                            ?
+                            (
+                                <div>
+                                    <Drawer>
+                                        <DrawerTrigger>
+                                            <span className="py-1 text-sm text-blue-700 hover:bg-blue-300 hover:text-black content-center px-2 rounded-xl cursor-pointer">
+                                                Change Password
+                                            </span>
+                                        </DrawerTrigger>
+                                        <DrawerContent>
+
+                                            <ChangePassword />
+
+                                            <DrawerFooter>
+                                                {/* <Button>Submit</Button> */}
+                                                <DrawerClose>
+                                                    {/* <Button variant="outline">Cancel</Button> */}
+                                                </DrawerClose>
+                                            </DrawerFooter>
+
+                                        </DrawerContent>
+                                    </Drawer>
+                                </div>
+                            )
+                            :
+                            (
+                                <div>
+                                    <Dialog>
+                                        <DialogTrigger>
+                                            <span className="py-1 text-sm text-blue-700 hover:bg-blue-300 hover:text-black content-center px-2 rounded-xl cursor-pointer">
+                                                Change Password
+                                            </span>
+                                        </DialogTrigger>
+                                        <DialogContent>
+
+                                            <ChangePassword />
+
+                                        </DialogContent>
+                                    </Dialog>
+                                </div>
+                            )
+                        }
+
 
                     </div>
 

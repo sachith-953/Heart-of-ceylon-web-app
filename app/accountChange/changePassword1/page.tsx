@@ -1,4 +1,4 @@
-import ChangePassword1Compo from '@/components/ChangePassword1Compo'
+import ChangePassword1Compo from '@/components/ValidatePassword'
 
 
 const ChangePassword1 = () => {
