@@ -1,11 +1,15 @@
 'use client'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useRouter } from "next/navigation"
 import { useToast } from './ui/use-toast'
-import { constants } from 'vm'
-import { isErrored } from 'stream'
+import { DialogClose } from '@radix-ui/react-dialog';
 
-const ValidatePassword = () => {
+
+interface ChildProps {
+    onChildDataChange: (newChildData: string) => void;
+}
+
+const ValidatePassword: React.FC<ChildProps> = ({ onChildDataChange, }) => {
 
     const router = useRouter()
 
@@ -42,6 +46,7 @@ const ValidatePassword = () => {
                 setIsPasswordVerified(true)
                 setError("")
                 setIsSubmitted(false)
+                onChildDataChange(password)
             }
             else if (res.status === 403) {
                 // this trigger when referesh token has issure. 
@@ -72,6 +77,12 @@ const ValidatePassword = () => {
 
         }
     }
+
+    useEffect(() => {
+        if (isPasswordVerified) {
+            onChildDataChange(password)
+        }
+    }, [isPasswordVerified, password, onChildDataChange]);
 
 
     return (
@@ -115,9 +126,12 @@ const ValidatePassword = () => {
 
                         <div className='flex justify-between items-center pt-2 px-4 gap-5'>
 
-                            <button type="button" className='bg-red-600 px-4 py-2 rounded text-white hover:bg-red-700 transition duration-300 ease-in-out'>
-                                Cancel
-                            </button>
+                            <DialogClose asChild>
+                                <button type="button" className='bg-red-600 px-4 py-2 rounded text-white hover:bg-red-700 transition duration-300 ease-in-out'>
+                                    Cancel
+                                </button>
+                            </DialogClose>
+
 
                             <button
                                 type="submit"

@@ -1,5 +1,6 @@
 
 
+import Footer from "@/components/Footer";
 import MaxWidthLg from "@/components/MaxWidthLg";
 import Navbar from "@/components/Navbar";
 import AllOrders from "@/components/dashboard/AllOrders";
@@ -22,7 +23,7 @@ export default function Page() {
 
             {/* parent component */}
             <MaxWidthLg>
-                <div className="bg-white mt-5 m-2">
+                <div className="bg-white mt-5 m-2 mb-14">
 
                     <span className="text-4xl font-bold">
                         My Dashboard
@@ -51,6 +52,8 @@ export default function Page() {
 
                 </div>
             </MaxWidthLg>
+
+            <Footer />
 
         </>
     )
