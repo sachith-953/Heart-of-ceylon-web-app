@@ -262,7 +262,7 @@ const SetNewPasswordCom: React.FC<ChildProps> = ({ verifiesPasswordFromParent, }
                         </button>
 
 
-                    </div>
+                     </div>
                 </form>
             </div>
         </div>
