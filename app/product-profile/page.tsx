@@ -5,7 +5,9 @@ import Reviews from "@/components/ProductProfileTabs/Reviews";
 import ShippingReturnPayment from "@/components/ProductProfileTabs/ShippingReturnPayment";
 import SearchBar from "@/components/SearchBar";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import ProductProfile from "@/components/ui/productprofile";
+import ProductProfile from "@/components/Productprofile";
+import Footer from "@/components/Footer";
+
 
 export default function Page() {
   return (
@@ -41,6 +43,8 @@ export default function Page() {
           </TabsContent>
         </Tabs>
       </MaxWidthLg>
+      
+      <Footer />
     </>
   );
 }
