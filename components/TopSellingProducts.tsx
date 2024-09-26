@@ -65,7 +65,7 @@ const TopSellingProducts = () => {
     const handleLogOut = async () => {
       // console.log("request sending to nextjs API");
 
-      const res = await fetch('http://localhost:3000/api/product/topSelling', {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_URL}/api/product/topSelling`, {
         cache: 'no-store'
       });
 

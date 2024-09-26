@@ -41,14 +41,11 @@ export default function SignupSachith() {
     console.log("submitting :" + isSub)
   }
 
-
   const handleFormSubmit = async (formData: FormData) => {
 
-
     try {
-
-
-      const res = await fetch('http://localhost:3000/api/signup', {
+      const BASE_URL = process.env.NEXT_PUBLIC_URL;
+      const res = await fetch(`${BASE_URL}/api/signup`, {
         method: 'POST',
         body: formData
       })
