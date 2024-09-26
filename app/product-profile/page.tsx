@@ -5,9 +5,8 @@ import Reviews from "@/components/ProductProfileTabs/Reviews";
 import ShippingReturnPayment from "@/components/ProductProfileTabs/ShippingReturnPayment";
 import SearchBar from "@/components/SearchBar";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import ProductProfile from "@/components/Productprofile";
 import Footer from "@/components/Footer";
-
+import ProductDetails from "@/components/productProfileDetails/ProductDetails";
 
 export default function Page() {
   return (
@@ -19,7 +18,7 @@ export default function Page() {
       <MaxWidthLg>
 
         {/* Sachith's content */}
-        <ProductProfile />
+        <ProductDetails />
 
         <Tabs defaultValue="account" className="flex flex-col justify-center">
           <TabsList className="grid w-full grid-cols-3">
