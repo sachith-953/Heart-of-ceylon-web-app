@@ -37,9 +37,9 @@ const ProductProfile: React.FC<ProductProfileProps> = ({ product }) => {
             <div className="w-full md:w-1/3 p-6 flex flex-col justify-between">
                 <div>
                     <h2 className="text-2xl font-bold text-gray-800 mb-2">Ceylon tea {product?.title}</h2>
-                    <p className="text-gray-600 text-sm mb-4">100% sri lankan product {product?.description}</p>
+                    <p className="text-gray-600 text-sm mb-4">The finest cup of tea,the name Ceylon had become synonymous with the world's finest tea. {product?.description}</p>
                     <p className="text-xl font-semibold text-green-600 mb-4">
-                        LKR {product?.price} / ${((product?.price || 0) / 3.2).toFixed(2)}
+                        LKR {product?.price} / ${((product?.price || 3499.00)).toFixed(2)}
                     </p>
                     <div className="flex items-center mb-4">
                         <span className="mr-2 text-gray-700">Quantity:</span>
