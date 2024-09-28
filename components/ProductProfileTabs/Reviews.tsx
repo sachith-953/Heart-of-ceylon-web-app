@@ -13,11 +13,24 @@ export default function Reviews() {
     buyerName: string;
   }
 
+  interface reviewSummaryDataType {
+    averageStarRating: number;
+    totalNumberOfReviews: number;
+    ratingDistribution:{
+      oneStarPercentage: number;
+      twoStarPercentage: number;
+      threeStarPercentage: number;
+      fourStarPercentage: number;
+      fiveStarPercentage: number;
+    }
+  }
+
   const [reviewComment, setReviewComment] = useState<reviewCommentDataType[]>(
     []
   );
+  const [reviewSummary, setReviewSummary] = useState<reviewSummaryDataType | null>(null);
 
-  const fetchReviewComment = async (productId: string) => {
+  const fetchReview = async (productId: string) => {
     // Requesting data from NextJs backend
     console.log("request sending to fetch review comment API");
 
@@ -33,19 +46,35 @@ export default function Reviews() {
       }
     );
 
+    //sending request to get review summary
+    const resSummary = await fetch(
+      "http://localhost:3000/api/product/productProfile/productReviewSummary",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ productId }),
+      }
+    );
+
     //printing response
-    if (res.ok) {
-      console.log("res" + res);
+    if (res.ok && resSummary.ok) {
       const responseData = await res.json();
+      const responseSummaryData = await resSummary.json();
+
+      console.log("response data " + res);
+      console.log("response summary data " + resSummary);
+
       setReviewComment(responseData);
-      console.log(responseData);
+      setReviewSummary(responseSummaryData);
     } else {
       console.log("Fetching Error!");
     }
   };
 
   useEffect(() => {
-    fetchReviewComment("1");
+    fetchReview("52");
   }, []);
 
   return (
@@ -54,7 +83,8 @@ export default function Reviews() {
       <div className="flex flex-row justify-center border-2 border-red-500">
         {/* Review chart side*/}
         <div className="border-2 border-blue-400 w-1/3">
-          <ReviewChart />
+          {/* <ReviewChart totalCount = {reviewCount}/> */}
+          <ReviewChart reviewSummaryData={reviewSummary}/>
         </div>
 
         {/* Review comments side*/}

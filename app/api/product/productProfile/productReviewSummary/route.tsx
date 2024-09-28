@@ -15,7 +15,7 @@ export async function POST(request: Request) {
     try {
 
         const response = await fetch(
-            `http://localhost:8080/api/v1/pBuyer/getReviewsForProduct?productId=${productId}`,
+            `http://localhost:8080/api/v1/pBuyer/getProductReviewSummary?productId=${productId}`,
             { cache: 'no-store' }
         );
 
