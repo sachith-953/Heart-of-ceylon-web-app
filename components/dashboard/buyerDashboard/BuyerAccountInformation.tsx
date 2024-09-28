@@ -19,7 +19,7 @@ import {
     DrawerTitle,
     DrawerTrigger,
 } from "@/components/ui/drawer"
-import ChangeAccountInformation from "../ChangeAccountInformation";
+import ChangeAccountInformation from "../../ChangeAccountInformation";
 import { useRouter } from "next/navigation";
 import { useToast } from "@/components/ui/use-toast"
 import ChangePassword from "./ChangePassword";

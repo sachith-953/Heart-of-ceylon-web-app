@@ -3,9 +3,9 @@
 import Footer from "@/components/Footer";
 import MaxWidthLg from "@/components/MaxWidthLg";
 import Navbar from "@/components/Navbar";
-import AllOrders from "@/components/dashboard/AllOrders";
-import BuyerAccountInformation from "@/components/dashboard/BuyerAccountInformation";
-import RecentViewdProducts from "@/components/dashboard/RecentViewdProducts";
+import AllOrders from "@/components/dashboard/buyerDashboard/AllOrders";
+import BuyerAccountInformation from "@/components/dashboard/buyerDashboard/BuyerAccountInformation";
+import RecentViewdProducts from "@/components/dashboard/buyerDashboard/RecentViewdProducts";
 import { cookies } from "next/headers";
 import { redirect, useRouter } from "next/navigation";
 

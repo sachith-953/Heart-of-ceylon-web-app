@@ -1,8 +1,8 @@
 "use client"
 
 import { useEffect, useState } from "react";
-import MaxWidthLg from "../MaxWidthLg";
-import ErrorForCatch from "../ErrorForCatch";
+import MaxWidthLg from "../../MaxWidthLg";
+import ErrorForCatch from "../../ErrorForCatch";
 import { cn } from "@/lib/utils";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
