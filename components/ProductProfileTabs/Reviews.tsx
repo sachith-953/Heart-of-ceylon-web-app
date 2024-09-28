@@ -74,7 +74,7 @@ export default function Reviews() {
   };
 
   useEffect(() => {
-    fetchReview("2");
+    fetchReview("60");
   }, []);
 
   return (

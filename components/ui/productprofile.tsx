@@ -41,7 +41,7 @@ export default function ProductProfile() {
                             <h1 className="text-3xl font-bold justify-end">Sri Lankan Coffee Beans</h1>
                             <div>
                             <span className="text-black-600 font-semibold">foodCollect#193(seller)</span>
-                            <p>*100%natural *Seller’s other item *Contact seller</p>
+                            <p>*100%natural *Sellers other item *Contact seller</p>
                             </div>
                         </div>
                         <h6 className="text-2xl font-semibold">LKR  45000.00</h6>
