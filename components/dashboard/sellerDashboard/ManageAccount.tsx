@@ -1,3 +1,4 @@
+import UploadProfilePicture from "@/components/sellerDashboard/UploadProfilePicture"
 
 
 
@@ -5,10 +6,8 @@ const ManageAccount = () => {
     return (
         <>
             <div className="bg-white">
-
-                <h1 className="bg-yellow-400">this is Manage account tab content</h1>
-                <p>all contents for manage account section should goes to this component</p>
-
+                {/* Upload seller profile picture */}
+                <UploadProfilePicture />
             </div>
         </>
     )
