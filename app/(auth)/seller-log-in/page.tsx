@@ -10,7 +10,7 @@ import { useEffect, useState } from "react"
 
 // TODO : handle server not found error in side try catch block. we may be able to return a new html inside catch block
 
-export default function TestLogin2() {
+export default function SellerLoginPage() {
 
     const router = useRouter()
 
@@ -49,7 +49,7 @@ export default function TestLogin2() {
             }
             else {
                 setSuccess(ResponseData.success)
-                setServerError("Email or Password is not Correct")
+                setServerError("Seller Email or Password is not Correct")
             }
         }
         catch (error) {
@@ -88,7 +88,7 @@ export default function TestLogin2() {
             <div className=" flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
                 <div className="sm:mx-auto sm:w-full sm:max-w-sm">
                     <h2 className="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">
-                        Log-in to your account
+                        Log-in to your Seller account
                     </h2>
                     <p className='text-center mt-3 text-red-600'>
                         {!success && serverError}
@@ -100,7 +100,7 @@ export default function TestLogin2() {
                     <form className="space-y-3" action={handleFormSubmit} onSubmit={buttonIsClicked}>
                         <div>
                             <label htmlFor="firstName" className="block text-sm font-medium leading-6 text-gray-900">
-                                Email
+                                Seller Email
                             </label>
                             <div className="">
                                 <input
@@ -139,7 +139,7 @@ export default function TestLogin2() {
                             <button
                                 type="submit"
                                 disabled={isSub}
-                                className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 disabled:opacity-50 disabled:cursor-not-allowed"
+                                className="flex w-full justify-center rounded-md bg-red-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-red-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 disabled:opacity-50 disabled:cursor-not-allowed"
                             >
                                 {isSub ? (
                                     <div className="flex items-center justify-center">

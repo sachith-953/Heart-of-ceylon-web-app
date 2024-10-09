@@ -23,7 +23,6 @@ import ChangeAccountInformation from "../../ChangeAccountInformation";
 import { useRouter } from "next/navigation";
 import { useToast } from "@/components/ui/use-toast"
 import ChangePassword from "./ChangePassword";
-import ChangePassword1 from "@/app/accountChange/changePassword1/page";
 
 /**
  * if fetching login has error with refresh token,

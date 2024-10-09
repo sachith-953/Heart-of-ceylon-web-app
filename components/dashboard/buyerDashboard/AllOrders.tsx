@@ -78,10 +78,24 @@ const AllOrders = () => {
                 // this trigger when referesh token has issure. 
                 // if token is expired this will trigger
                 toast({
+                    variant: "destructive",
                     title: "Sorry!",
                     description: "Please Login again. Your Session has Expired!",
                   })
                 console.log("****403****************")
+                console.log("Redirectiong to login. RT error")
+                setIsError(true)
+                pushToLogin()
+            }
+            else if (res.status === 401) {
+                // this trigger when referesh token has issure. 
+                // if token is expired this will trigger
+                toast({
+                    variant: "destructive",
+                    title: "Sorry!",
+                    description: "Please Login again. Un-Authorized Request!",
+                  })
+                console.log("****401****************")
                 console.log("Redirectiong to login. RT error")
                 setIsError(true)
                 pushToLogin()
