@@ -1,28 +1,12 @@
+
 'use client';
 
 import { useRouter } from "next/navigation";
 import { useState } from 'react';
-import { useToast } from "../ui/use-toast";
+import { useToast } from "../../../ui/use-toast";
 
-export interface ProductDTO {
-    productName: string;
-    productAvailableStokes: number;
-    productDescription: string;
-    productPrice: number;
-    productImage: File;
-    productWeight: number;
-    productDimensions: string;
-    productKeyWords: string;
-    productManufacture: string;
-}
 
-export interface ApiResponse {
-    success: boolean;
-    message: string;
-    data?: any;
-}
-
-const UploadProfilePicture = () => {
+const UploadCoverImage = () => {
 
     const router = useRouter()
 
@@ -39,7 +23,7 @@ const UploadProfilePicture = () => {
             const formElement = event.currentTarget;
             const formData = new FormData(formElement);
 
-            const response = await fetch('http://localhost:3000/api/seller-dashboard/upload-profile-picture', {
+            const response = await fetch('http://localhost:3000/api/seller-dashboard/upload-cover-image', {
                 method: 'POST',
                 body: formData,
             });
@@ -48,27 +32,42 @@ const UploadProfilePicture = () => {
                 formElement.reset();
                 toast({
                     title: "Successfully Updated!",
-                    description: "Your Store Profile Picture Upload Complete",
+                    description: "Your Store Cover Image Upload Complete",
                 })
             }
             else if (response.status === 403) {
                 // this trigger when referesh token has issure. 
                 // if token is expired this will trigger
                 toast({
+                    variant: "destructive",
                     title: "Sorry!",
                     description: "Please Login again. Your Session has Expired!",
                 })
-                console.log("****403****************")
+                console.log("**** UploadCoverImage >> 403 ****************")
+                console.log("Redirectiong to login. RT error")
+                router.push("/seller-log-in");
+            }
+            else if (response.status === 404) {
+                // this trigger when referesh token has issure. 
+                // if token is expired this will trigger
+                toast({
+                    variant: "destructive",
+                    title: "Sorry!",
+                    description: "Please Login again. Your Cookies has Expired!",
+                })
+                console.log("**** UploadCoverImage >> 404 ****************")
                 console.log("Redirectiong to login. RT error")
                 router.push("/log-in");
             }
             else {
+                const data = await response.json();
                 // show error notification in red color
                 toast({
                     variant: "destructive",
                     title: "Something went wrong.",
-                    description: "Plase Try Again. There was a problem with your request."
+                    description: "Plase Try Again. There was a problem with your request." + data.message,
                 })
+                console.error('Error submitting form uploadCoverImage:', response.status);
             }
         } catch (error) {
             console.error('Error submitting form:', error);
@@ -86,7 +85,7 @@ const UploadProfilePicture = () => {
         <>
             <div className="bg-white">
                 <div className="max-w-2xl mx-auto mt-8 p-4">
-                    <p className="text-2xl font-bold mb-4">Update Store Avatar</p>
+                    <p className="text-2xl font-bold mb-4">Store Cover Image</p>
                     <hr className="py-3" />
                     <form onSubmit={handleSubmit} className="space-y-4 flex flex-row">
 
@@ -112,8 +111,7 @@ const UploadProfilePicture = () => {
                         </button>
                     </form>
                     <p className="mt-8 text-gray-500 text-sm text-justify">
-                        You can add a little more personality to your profile picture and help people
-                        recognize you across website by uploading an avatar (an image, photo or graphic logo)
+                        Image must be xxxx px wide by xxx px high and in JPEG or PNG format. (maximum image size : 5Mb)
                     </p>
 
                 </div>
@@ -121,4 +119,4 @@ const UploadProfilePicture = () => {
         </>
     )
 }
-export default UploadProfilePicture
+export default UploadCoverImage
