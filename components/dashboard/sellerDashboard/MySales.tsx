@@ -1,5 +1,5 @@
 import SalesSummery from "@/components/dashboard/sellerDashboard/MySales/salesSummery"
-import SellerSales from "@/components/dashboard/sellerDashboard/MySales/sellerSales"
+import SellerSales from "@/components/dashboard/sellerDashboard/MySales/sallerSales"
 
 
  
