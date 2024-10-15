@@ -3,6 +3,7 @@
 import { useToast } from "@/components/ui/use-toast";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from 'react';
+import StatusUpdateDropdown from "@/components/dashboard/sellerDashboard/MySales/updateStatusDropDownMenu"
 import {
   Table,
   TableBody,
@@ -21,58 +22,102 @@ interface SaleData {
     orderStatus: string;
 }
 
+
+
 const MySales = () => {
     const [data, setData] = useState<SaleData[]>([]);
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
+    // update status use states
+    const [orderStatus, setOrderStatus] = useState(""); // set default empty string  
+
     const router = useRouter();
     const { toast } = useToast()
 
-    useEffect(() => {
-        const fetchSellerSales = async () => {
-            try {
-                setIsLoading(true);
-                const res = await fetch('http://localhost:3000/api/seller-dashboard/get-seller-sales', {
-                    method: 'GET',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                });
+    const fetchSellerSales = async () => {
+        try {
+            setIsLoading(true);
+            const res = await fetch('http://localhost:3000/api/seller-dashboard/get-seller-sales', {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            });
 
-                if (!res.ok) {
-                    throw new Error("Failed to fetch seller sales data");
-                }
-
-                if (res.status === 403) {
-                    toast({
-                        variant: "destructive",
-                        title: "Sorry!",
-                        description: "Please Login again. Your Session has Expired!",
-                    })
-                    console.log("****403****************")
-                    console.log("SellerSales >>> Redirecting to login. RT error")
-                    router.push("/log-in");
-                    return;
-                }
-
-                const responseData: SaleData[] = await res.json();
-                setData(responseData);
-            } catch (error) {
-                console.error("Error fetching seller sales:", error);
-                setError("Failed to load data. Please try again.");
-            } finally {
-                setIsLoading(false);
+            if (!res.ok) {
+                throw new Error("Failed to fetch seller sales data");
             }
-        };
 
-        fetchSellerSales();
-    }, [router, toast]);
+            if (res.status === 403) {
+                toast({
+                    variant: "destructive",
+                    title: "Sorry!",
+                    description: "Please Login again. Your Session has Expired!",
+                })
+                console.log("****403****************")
+                console.log("SellerSales >>> Redirecting to login. RT error")
+                router.push("/log-in");
+                return;
+            }
 
-    const handleStatusUpdate = (orderId: string) => {
-        // Implement status update logic here
-        console.log(`Update status for order ${orderId}`);
+            const responseData: SaleData[] = await res.json();
+            setData(responseData);
+        } catch (error) {
+            console.error("Error fetching seller sales:", error);
+            setError("Failed to load data. Please try again.");
+        } finally {
+            setIsLoading(false);
+        }
     };
 
+//
+const handleStatusUpdate = async (orderId: string, newStatus: string) => {
+    try {
+        setIsLoading(true);
+        const response = await fetch('http://localhost:3000/api/seller-dashboard/update-order-status', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ orderId, newStatus }),
+        });
+
+        if (!response.ok) {
+            throw new Error('Failed to update order status');
+        }
+
+        const updatedOrder = await response.json();
+
+        // Update the local state with the new status
+        setData(prevData => prevData.map(sale => 
+            sale.orderId === orderId ? { ...sale, orderStatus: newStatus } : sale
+        ));
+
+        toast({
+            title: "Status Updated",
+            description: `Order ${orderId} status updated to ${newStatus}`,
+        });
+    } catch (error) {
+        console.error('Error updating order status:', error);
+        toast({
+            variant: "destructive",
+            title: "Update Failed",
+            description: "Failed to update order status. Please try again.",
+        });
+    } finally {
+        setIsLoading(false);
+    }
+};
+
+    useEffect(() => {
+        fetchSellerSales();
+    }, []);
+
+    // 
+    useEffect(() => {
+        
+    }, []); // run the useEffect again and again when orderStatus change
+    
     return (
         <div className="p-6">
             <h1 className="text-2xl font-bold mb-6">My Sales</h1>
@@ -119,12 +164,9 @@ const MySales = () => {
                                         </span>
                                     </TableCell>
                                     <TableCell>
-                                        <button
-                                            onClick={() => handleStatusUpdate(sale.orderId)}
-                                            className="text-sm bg-blue-500 text-white px-3 py-1 rounded-md hover:bg-blue-600 transition-colors"
-                                        >
-                                            Update Status
-                                        </button>
+                                        <StatusUpdateDropdown 
+                                            onStatusChange={(newStatus) => handleStatusUpdate(sale.orderId, newStatus)} 
+                                        />
                                     </TableCell>
                                 </TableRow>
                             ))}

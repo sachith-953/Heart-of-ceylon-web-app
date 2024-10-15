@@ -58,7 +58,7 @@ const SearchProductSortDropDown : React.FC<DropDownPropsType> = ({onChildDataCha
         <DropdownMenu>
             {/* button */}
             <DropdownMenuTrigger asChild>
-                <Button variant="outline" className="w-40 hover:font-bold">{selectedMethod}</Button>
+                <Button variant="outline" className="w-40 hover:font-bold ">{selectedMethod}</Button>
             </DropdownMenuTrigger>
 
             {/* drop down menu items */}
