@@ -19,7 +19,7 @@ const CategoryLevel1 = () => {
     const fetchCategories = async () => {
       console.log("request sending to nextjs API");
 
-      const res = await fetch('http://localhost:3000/api/product/category-level-1', { cache: 'no-store' });
+      const res = await fetch(`${process.env.NEXT_PUBLIC_URL}/api/product/category-level-1`, { cache: 'no-store' });
 
       console.log("res" + res);
 

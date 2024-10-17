@@ -28,7 +28,7 @@ export default function TestLogin2() {
     const handleFormSubmit = async (formData: FormData) => {
 
         try {
-            const res = await fetch('http://localhost:3000/api/login', {
+            const res = await fetch(`${process.env.NEXT_PUBLIC_URL}/api/login`, {
                 method: 'POST',
                 body: formData
             })
@@ -40,7 +40,7 @@ export default function TestLogin2() {
 
             if (ResponseData.success === true) {
                 setServerError("Logged in. Please Wait...")
-                router.push('http://localhost:3000/')
+                router.push(`${process.env.NEXT_PUBLIC_URL}/`)
             }
             else {
                 setSuccess(ResponseData.success)
@@ -61,7 +61,7 @@ export default function TestLogin2() {
 
         console.log("!!!!!! Cookies Deleted !!!!!!")
 
-        const res = await fetch('http://localhost:3000/api/cookies/delete-cookies', {
+        const res = await fetch(`${process.env.NEXT_PUBLIC_URL}/api/cookies/delete-cookies`, {
             cache: 'no-store'
         });
     };

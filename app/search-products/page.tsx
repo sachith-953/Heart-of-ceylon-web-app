@@ -111,7 +111,7 @@ export default function SearchPage() {
         console.log("sending keyword to Next.js Search Product API");
 
         const res = await fetch(
-            "http://localhost:3000/api/product/search",
+            `${process.env.NEXT_PUBLIC_URL}/api/product/search`,
             {
                 method: "POST",
                 headers: {

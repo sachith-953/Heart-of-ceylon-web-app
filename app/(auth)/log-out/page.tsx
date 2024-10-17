@@ -21,7 +21,7 @@ export default function HandleLogout() {
 
         const handleLogOut = async () => {
 
-            const res = await fetch('http://localhost:3000/api/log-out', {
+            const res = await fetch(`${process.env.NEXT_PUBLIC_URL}/api/log-out`, {
                 method: 'GET',
             })
 
@@ -29,7 +29,7 @@ export default function HandleLogout() {
 
             console.log(ResponseData)
 
-            router.push('http://localhost:3000/')
+            router.push(`${process.env.NEXT_PUBLIC_URL}/`)
 
             if (ResponseData.success === true) {
                 const shouldClickButton = true;
@@ -52,7 +52,7 @@ export default function HandleLogout() {
     return (
         <>
             <div className="hidden">
-                <Link ref={buttonRef} href="http://localhost:3000/">
+                <Link ref={buttonRef} href={`${process.env.NEXT_PUBLIC_URL}/`}>
                 </Link>
             </div>
 
