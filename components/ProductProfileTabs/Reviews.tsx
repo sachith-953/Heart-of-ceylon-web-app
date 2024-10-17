@@ -66,6 +66,12 @@ export default function Reviews() {
       console.log("response data " + res);
       console.log("response summary data " + resSummary);
 
+      // if (Array.isArray(responseData)) {
+      //   setReviewComment(responseData);
+      // } else {
+      //   console.error('Received invalid data format for reviewComment');
+      //   setReviewComment([]); // Set to empty array as fallback
+      // }
       setReviewComment(responseData);
       setReviewSummary(responseSummaryData);
     } else {
@@ -74,7 +80,7 @@ export default function Reviews() {
   };
 
   useEffect(() => {
-    fetchReview("52");
+    fetchReview("402");
   }, []);
 
   return (
