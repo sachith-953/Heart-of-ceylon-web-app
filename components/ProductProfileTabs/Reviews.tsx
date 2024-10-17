@@ -80,7 +80,7 @@ export default function Reviews() {
   };
 
   useEffect(() => {
-    fetchReview("52");
+    fetchReview("402");
   }, []);
 
   return (
