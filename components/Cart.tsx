@@ -69,7 +69,7 @@ const Cart = () => {
                             <SheetFooter>
                                 {/* without this asChild we cannot override styles */}
                                 <SheetTrigger asChild>
-                                    <Link href="/cart" className={buttonVariants({
+                                    <Link href="/Buyer-cart" className={buttonVariants({
                                         className: "w-full",
                                     })}>
                                         Continue To Checkout

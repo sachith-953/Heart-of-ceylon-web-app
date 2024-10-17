@@ -1,15 +1,18 @@
+import SalesSummery from "@/components/dashboard/sellerDashboard/MySales/salesSummery"
+import SellerSales from "@/components/dashboard/sellerDashboard/MySales/sallerSales"
 
 
-
-
+ 
 const MySales = () => {
     return (
         <>
             <div className="bg-white">
-
-            <h1 className="bg-green-500">this is My sales tab content</h1>
-            <p>all contents for my sales section should goes to this component</p>
-                
+                <div>
+                    <SellerSales />
+                </div>
+                <div>
+                    <SalesSummery />
+                </div>
             </div>
         </>
     )
