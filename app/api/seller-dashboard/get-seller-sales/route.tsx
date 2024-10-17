@@ -39,7 +39,7 @@ export async function GET() {
             error: {
                 message: "get-access-token > email found"
             }
-        }), { status: 404 });
+        }), { status: 403 }); // if the email not in cookies again login
     }
 
     //get email from the JSON object which taken from cookies
@@ -66,7 +66,7 @@ export async function GET() {
             error: {
                 message: "get-access-token > Token not found"
             }
-        }), { status: 404 });
+        }), { status: 403 }); // if the email not in cookies again login
     }
 
     const refreshTokenValue = refreshToken?.value ?? ''; // get the refresh token and store
@@ -127,7 +127,7 @@ export async function GET() {
                 error: {
                     message: "Un Expected Error. get-access-token"
                 }
-            }), { status: 403 });
+            }), { status: 403 }); // refresh token has expires
         }
     } catch (error) {
         return new Response(JSON.stringify({

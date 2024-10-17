@@ -59,7 +59,7 @@ const MySales = () => {
     };
 
     return (
-        <div className='mt-2 bg-gray-300 rounded ml-2'>
+        <div className='mt-2 bg-gray-100 rounded ml-2'>
             <div className="ml-5">
                 <div className="flex justify-between items-center">
                     <h1 className='text-2xl font-sans font-bold'>Sales Summary</h1>

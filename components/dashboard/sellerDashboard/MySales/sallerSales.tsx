@@ -45,24 +45,35 @@ const MySales = () => {
                 },
             });
 
-            if (!res.ok) {
-                throw new Error("Failed to fetch seller sales data");
+            if(res.ok){
+                const responseData: SaleData[] = await res.json();
+                setData(responseData);
             }
-
-            if (res.status === 403) {
+            
+            else if (res.status === 403) { // 403 error come from route--> expire refresh token
+                // this trigger when referesh token has issure. 
+                // if token is expired this will trigger
                 toast({
                     variant: "destructive",
                     title: "Sorry!",
                     description: "Please Login again. Your Session has Expired!",
                 })
-                console.log("****403****************")
-                console.log("SellerSales >>> Redirecting to login. RT error")
-                router.push("/log-in");
-                return;
+                console.log("**** FetchSellerSales >> 403 ****************")
+                console.log("Redirectiong to login. RT error")
+                router.push("/seller-log-in");
+            }
+            else{
+                const data = await res.json(); // this from route catch block or else block
+                // show error notification in red color
+                toast({
+                    variant: "destructive",
+                    title: "Something went wrong.",
+                    description: "Plase Try Again. There was a problem with your request." + data.message,
+                })
+                console.error('Error fetching seller sales!:', res.status);
             }
 
-            const responseData: SaleData[] = await res.json();
-            setData(responseData);
+            
         } catch (error) {
             console.error("Error fetching seller sales:", error);
             setError("Failed to load data. Please try again.");
@@ -83,21 +94,39 @@ const handleStatusUpdate = async (orderId: string, newStatus: string) => {
             body: JSON.stringify({ orderId, newStatus }),
         });
 
-        if (!response.ok) {
-            throw new Error('Failed to update order status');
-        }
-
+        if (response.ok) {
         const updatedOrder = await response.json();
-
         // Update the local state with the new status
         setData(prevData => prevData.map(sale => 
             sale.orderId === orderId ? { ...sale, orderStatus: newStatus } : sale
         ));
-
         toast({
             title: "Status Updated",
             description: `Order ${orderId} status updated to ${newStatus}`,
         });
+        }
+        else if(response.status === 403){ // 403 error come from route--> expire refresh token
+            // this trigger when referesh token has issure. 
+                // if token is expired this will trigger
+                toast({
+                    variant: "destructive",
+                    title: "Sorry!",
+                    description: "Please Login again. Your Session has Expired!",
+                })
+                console.log("**** UpdateOrderStatus >> 403 ****************")
+                console.log("Redirectiong to login. RT error")
+                router.push("/seller-log-in");
+        }
+        else{
+            const data = await response.json();
+                // show error notification in red color
+                toast({
+                    variant: "destructive",
+                    title: "Something went wrong.",
+                    description: "Plase Try Again. There was a problem with your request." + data.message,
+                })
+                console.error('Error fetching seller sales!:', response.status);
+        }
     } catch (error) {
         console.error('Error updating order status:', error);
         toast({
@@ -167,7 +196,12 @@ const getStatusStyle = (status: string | undefined) => {
                             <TableRow key={sale.orderId} className="hover:bg-transparent"> {/* Explicitly set hover:bg-transparent */}
                                 <TableCell>{sale.orderId}</TableCell>
                                 <TableCell>{sale.productId}</TableCell>
-                                <TableCell>{sale.productName}</TableCell>
+                                <TableCell title={sale.productName}>
+                                    {/* if the product name more than 25 length it handles here */}
+                                    {sale.productName.length > 25 
+                                        ? `${sale.productName.substring(0, 25)}...`
+                                        : sale.productName}
+                                </TableCell>
                                 <TableCell>{sale.quantity}</TableCell>
                                 <TableCell>${sale.totalPrice.toFixed(2)}</TableCell>
                                 <TableCell>
