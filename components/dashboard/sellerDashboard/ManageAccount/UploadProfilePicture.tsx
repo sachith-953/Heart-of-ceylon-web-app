@@ -38,24 +38,13 @@ const UploadProfilePicture = () => {
                 // this trigger when referesh token has issure. 
                 // if token is expired this will trigger
                 toast({
+                    variant: "destructive",
                     title: "Sorry!",
                     description: "Please Login again. Your Session has Expired!",
                 })
                 console.log("****403****************")
-                console.log("Redirectiong to login. RT error")
+                console.log("UploadSellerPicture >> Redirectiong to login. RT error")
                 router.push("/log-in");
-            }
-            else if (response.status === 404) {
-                // this trigger when referesh token has issure. 
-                // if token is expired this will trigger
-                toast({
-                    variant: "destructive",
-                    title: "Sorry!",
-                    description: "Please Login again. Your Cookies has Expired!",
-                })
-                console.log("**** UploadProfilePicture >> 404 ****************")
-                console.log("Redirectiong to login. RT error")
-                router.push("/seller-log-in");
             }
             else {
                 const data = await response.json();
@@ -65,10 +54,10 @@ const UploadProfilePicture = () => {
                     title: "Something went wrong.",
                     description: "Plase Try Again. There was a problem with your request." + data.message,
                 })
-                console.error('Error submitting form uploadProfilePicture:', response.status);
+                console.error('UploadSellerPicture >> Error submitting form uploadProfilePicture:', response.status);
             }
         } catch (error) {
-            console.error('Error submitting form:', error);
+            console.error('UploadSellerPicture >> Error submitting form:', error);
             toast({
                 variant: "destructive",
                 title: "UnExpected Error",
@@ -105,7 +94,7 @@ const UploadProfilePicture = () => {
                             disabled={loading}
                             className={` bg-blue-500 text-white py-2 px-5 rounded-3xl ${loading ? 'opacity-50 cursor-not-allowed' : 'hover:bg-blue-600'}`}
                         >
-                            {loading ? 'Adding Product...' : 'Add Product'}
+                            {loading ? 'Updating Image...' : 'Update Store Image'}
                         </button>
                     </form>
                     <p className="mt-8 text-gray-500 text-sm text-justify">
