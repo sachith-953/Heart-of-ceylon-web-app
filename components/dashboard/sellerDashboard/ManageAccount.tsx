@@ -23,6 +23,7 @@ import {
 import ChangePassword from "../buyerDashboard/ChangePassword"
 import { useEffect, useState } from "react"
 import ChangeSellerPasswordButton from "./ManageAccount/ChangeSellerPasswordButton"
+import ChangeSellerAccountDetails from "./ManageAccount/ChangeSellerAccountDetails"
 
 
 const ManageAccount = () => {
@@ -50,7 +51,7 @@ const ManageAccount = () => {
                 <UploadCoverImage />
 
                 {/* Change Accound Details */}
-
+                <ChangeSellerAccountDetails />
 
                 {/* Change Password */}
                 <ChangeSellerPasswordButton />
