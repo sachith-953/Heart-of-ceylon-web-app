@@ -15,23 +15,6 @@ const Navbar = () => {
     const [user, setUser] = useState(false)
 
 
-    // uncomment if testing not working
-
-    // let user = null
-
-    // const cookieStore = cookies()
-
-    // if (cookieStore.has('userName')) {
-    //     user = cookieStore.get('userName')
-    // }else{
-    //     user = null
-    // }
-
-    //testing
-    //https://stackoverflow.com/questions/75225240/accessing-cookie-client-side-with-next-js
-
-    // const user = 
-
     useEffect(() => {
 
         const cookieVal = getClientSideCookie("userName")
@@ -85,11 +68,11 @@ const Navbar = () => {
                                     }
 
                                     {/* for decoration purpose => "|" */}
-                                    {user 
-                                    ? 
-                                    (<span className="h-6 w-px bg-gray-200" aria-hidden="true" />) 
-                                    : 
-                                    null
+                                    {user
+                                        ?
+                                        (<span className="h-6 w-px bg-gray-200" aria-hidden="true" />)
+                                        :
+                                        null
                                     }
                                     {/* ************** DashBoard button End ************** */}
 
@@ -124,6 +107,17 @@ const Navbar = () => {
 
                                 </div>
                             </div>
+
+                            {/* sell */}
+                            <div className="mx-4">
+                                <Link
+                                    href="/seller-log-in"
+                                    className={buttonVariants({ variant: "ghost" })}
+                                >
+                                    Sell
+                                </Link>
+                            </div>
+                            <span className=" h-6 w-px bg-gray-200" aria-hidden="true" />
 
                             {/* cart */}
                             <div className="ml-4 flow-root md:ml-6 ">
