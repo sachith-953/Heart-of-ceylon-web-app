@@ -5,7 +5,7 @@ import MaxWidthLg from "@/components/MaxWidthLg";
 import Navbar from "@/components/Navbar";
 import { TabsTriggerForSellerDashboard } from "@/components/ui/seller-tabs-trigger";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { BadgeDollarSign, Box, Printer, UserCog, UserPlus, Users } from "lucide-react"
+import { BadgeDollarSign, Box, Printer, ShoppingBasket, Text, UserCog, UserPlus, UserRound, Users } from "lucide-react"
 
 
 
@@ -28,22 +28,22 @@ export default function SellerDashbard() {
                         </div> */}
 
                         <TabsTriggerForSellerDashboard className="w-full my-1 flex flex-row" value="Seller Management">
-                            <Box />
+                            <UserRound />
                             <span className="ml-1">Seller Management</span>
                         </TabsTriggerForSellerDashboard>
 
                         <TabsTriggerForSellerDashboard className="w-full my-1 flex flex-row" value="All Orders">
-                            <BadgeDollarSign />
+                            <Box />
                             <span className="ml-1">All Orders</span>
                         </TabsTriggerForSellerDashboard>
 
                         <TabsTriggerForSellerDashboard className="w-full my-1 flex flex-row" value="Product Management">
-                            <UserCog />
+                            <ShoppingBasket />
                             <span className="ml-1">Product Management</span>
                         </TabsTriggerForSellerDashboard>
 
                         <TabsTriggerForSellerDashboard className="w-full my-1 flex flex-row" value="Logs">
-                            <UserCog />
+                            <Text />
                             <span className="ml-1">Logs</span>
                         </TabsTriggerForSellerDashboard>
 
