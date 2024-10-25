@@ -6,11 +6,12 @@ import SellerVerificationCmp from './sellerVerification/SellerVerificationCmp'
 const SellerManagementsTabs = () => {
     return (
         <div>
-            <Tabs defaultValue="account" className="w-[400px]">
+            <Tabs defaultValue="account" className="w-full">
                 <TabsList>
                     <TabsTrigger value="account">Find a Seller</TabsTrigger>
                     <TabsTrigger value="password">Seller Verification</TabsTrigger>
                 </TabsList>
+                
                 <TabsContent value="account">
                     <FindASellerCmp />
                 </TabsContent>

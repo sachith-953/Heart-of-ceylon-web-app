@@ -63,7 +63,7 @@ const FindASellerCmp = () => {
           pushToLogin();
           return;
         }
-        
+
         const errorData = await res.json();
         throw new Error(errorData.message || 'Failed to fetch data');
       }
@@ -75,7 +75,7 @@ const FindASellerCmp = () => {
 
       // Handle different response formats
       let processedData: SellerData[] = [];
-      
+
       if (Array.isArray(responseData)) {
         processedData = responseData;
       } else if (typeof responseData === 'object' && responseData !== null) {
@@ -90,7 +90,7 @@ const FindASellerCmp = () => {
       }
 
       console.log('Processed Data:', processedData);
-      
+
       // Validate the processed data
       if (!Array.isArray(processedData)) {
         throw new Error('Failed to process seller data into valid format');
@@ -99,7 +99,7 @@ const FindASellerCmp = () => {
       setData(processedData);
       setTotalResultFound(processedData.length);
       setErrorMessage("");
-      
+
     } catch (error) {
       console.error('Error in handleProductSearch:', error);
       setErrorMessage(error instanceof Error ? error.message : 'An error occurred');
@@ -138,7 +138,7 @@ const FindASellerCmp = () => {
 
       // Handle different response formats
       let processedData: SellerData[] = [];
-      
+
       if (Array.isArray(responseData)) {
         processedData = responseData;
       } else if (typeof responseData === 'object' && responseData !== null) {
@@ -153,14 +153,14 @@ const FindASellerCmp = () => {
       }
 
       console.log('Processed Seller Data:', processedData);
-      
+
       // Validate the processed data
       if (!Array.isArray(processedData)) {
         throw new Error('Failed to process seller data into valid format');
       }
 
       setData(processedData);
-      
+
     } catch (error) {
       console.error('Error in fetchAllSellers:', error);
       setErrorMessage(error instanceof Error ? error.message : 'An error occurred');
@@ -210,17 +210,25 @@ const FindASellerCmp = () => {
 
   return (
     <>
-      <SearchBarForSearchSellerCom />
-      {sellers.length === 0 ? (
-        <div className="p-4">No sellers found</div>
-      ) : (
-        sellers.map((seller) => (
-          <SellerDetailsCard
-            key={seller.sellerID}
-            seller={seller}
-          />
-        ))
-      )}
+      <div className="w-full">
+        <SearchBarForSearchSellerCom />
+        {sellers.length === 0 ? (
+          <div className="p-4">No sellers found</div>
+        ) : (
+          sellers.map((seller) => (
+            // ************************* added this dev, so i can style SellerDetailsCard ******************
+            <div 
+            className="my-2"
+             key={seller.sellerID}> 
+              <SellerDetailsCard
+              seller={seller}
+            />
+            </div>
+            
+          ))
+        )}
+      </div>
+
     </>
   );
 };
