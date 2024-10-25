@@ -3,7 +3,7 @@ export const dynamic = "force-dynamic"; // no cache
 import { cookies } from "next/headers";
 
 /**
- * this API use to get sales summery for my sales in seller dashboard
+ * this API use to update seller private details in seller dashboard
  * email is taken from the cookies.
  * ==============================================================
  * === Following step 1,2,3 are common for all Auth requests  ===
@@ -15,7 +15,8 @@ import { cookies } from "next/headers";
  * 4.send the request to backend to fetch sales summery
  */
 
-export async function GET() {
+export async function POST(request: Request) {
+    
     // decalare global variables 
     const cookieStore = cookies();
     let email = null;
@@ -24,7 +25,7 @@ export async function GET() {
     let emailValueString = null;
     let refreshTokenString = null;
       
-    console.log("\nSellerDashboardMySalesController > Get sales summery for sellar dashboard : Nextjs API has Called");
+    console.log("\n update-seller-private-details > Get sales summery for sellar dashboard : Nextjs API has Called");
 
      // ***************************************************************
     // ******************* 1. Get email From Cookies *****************
@@ -41,7 +42,7 @@ export async function GET() {
             error: {
                 message: "get-access-token > email found"
             }
-        }), { status: 404 });
+        }), { status: 403 });
     }
 
     //get email from the JSON object which taken from cookies
@@ -52,7 +53,7 @@ export async function GET() {
     //so those duble quotes should be removed before send to the backend. 
     //otherwise undetectable malfunctions can occures 
     emailValueString = emailValueString.replace(/"/g, "")
-    console.log("getSalesSummery  > email >>>: " + emailValueString);
+    console.log("update-seller-private-details  > email >>>: " + emailValueString);
 
      // *************************************************************
     // ************* 2. Get Refresh-Token From Cookies *************
@@ -60,15 +61,15 @@ export async function GET() {
 
     if (cookieStore.has('refreshToken')) {
         refreshToken = cookieStore.get('refreshToken');
-        console.log("get-access-token > refresh token :" + JSON.stringify(refreshToken));
+        console.log("update-seller-private-details > refresh token :" + JSON.stringify(refreshToken));
     }
     else {
-        console.log("get-access-token > refresh token not found");
+        console.log("update-seller-private-details > refresh token not found");
         return new Response(JSON.stringify({
             error: {
                 message: "get-access-token > Token not found"
             }
-        }), { status: 404 });
+        }), { status: 403 });
     }
 
     const refreshTokenValue = refreshToken?.value ?? ''; // get the refresh token and store
@@ -96,7 +97,7 @@ export async function GET() {
             },
         });
 
-        console.log("get-access-token request Sent");
+        console.log("update-seller-private-details >>> get-access-token request Sent");
 
         // Handle the response as needed
         if (response.ok) {
@@ -144,18 +145,34 @@ export async function GET() {
     // **************** 4. Get sales summery  *******************
     // *************************************************************
 
-    // console.log("getSalesSummery Nextjs API has Called");
+    console.log("update-seller-private-details Nextjs API has Called");
     try{
 
-        const response = await fetch(`http://localhost:8080/api/v1/auth/get-sales-summary?sellerEmail=${emailValueString}`, {
-           // default it is GET
+        // get the form data
+        let formData = await request.formData()
+
+        const userData = {
+            categories: formData.get('categories'),
+            storeDescription: formData.get('storeDescription'),
+            phoneNo: formData.get('phoneNo'),
+            sellerAddress: formData.get('sellerAddress'),
+            district: formData.get('district'),
+        };
+
+        console.log(JSON.stringify(userData))
+
+        const response = await fetch(`${process.env.NEXT_PUBLIC_SPRING_BOOT_SERVER_URL}/api/v1/auth/dashboard-update-seller-information?email=${emailValueString}`, {
+            method: 'PUT',
             headers: {
                 'Authorization': `Bearer ${accessToken}`,
+                'Content-Type': 'application/json',
             },
+            body: JSON.stringify(userData),
         });
+
     // console.log("getSalesSummery request Sent");
     if (response.ok) {
-        const data = await response.json(); // .json() since backend service class return DTO 
+        const data = await response.text(); // .json() since backend service class return DTO 
         // if the backend return a string this should response.text()
         console.log("sales summery  fetched successfully:", data);
         return new Response(
@@ -170,7 +187,7 @@ export async function GET() {
       else{
         const responseBodyText = await response.text(); // .text() because backend return string messages
         const resData = {message: responseBodyText};
-        console.warn(response.status + " >> Error from sales summery fetching >> " + responseBodyText)
+        console.warn(response.status + " >> Error from update-seller-private details >> " + responseBodyText)
         return new Response(
             JSON.stringify(resData),
             { status: response.status }

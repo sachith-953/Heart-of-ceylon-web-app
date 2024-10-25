@@ -3,7 +3,7 @@ export const dynamic = "force-dynamic"; // no cache
 import { cookies } from "next/headers";
 
 /**
- * this API use to get sales summery for my sales in seller dashboard
+ * this API use to get sellers private details in seller dashboard
  * email is taken from the cookies.
  * ==============================================================
  * === Following step 1,2,3 are common for all Auth requests  ===
@@ -24,7 +24,7 @@ export async function GET() {
     let emailValueString = null;
     let refreshTokenString = null;
       
-    console.log("\nSellerDashboardMySalesController > Get sales summery for sellar dashboard : Nextjs API has Called");
+    console.log("\n seller:get-seller-private-details > Get sales summery for sellar dashboard : Nextjs API has Called");
 
      // ***************************************************************
     // ******************* 1. Get email From Cookies *****************
@@ -41,7 +41,7 @@ export async function GET() {
             error: {
                 message: "get-access-token > email found"
             }
-        }), { status: 404 });
+        }), { status: 403 });
     }
 
     //get email from the JSON object which taken from cookies
@@ -68,7 +68,7 @@ export async function GET() {
             error: {
                 message: "get-access-token > Token not found"
             }
-        }), { status: 404 });
+        }), { status: 403 });
     }
 
     const refreshTokenValue = refreshToken?.value ?? ''; // get the refresh token and store
@@ -144,20 +144,17 @@ export async function GET() {
     // **************** 4. Get sales summery  *******************
     // *************************************************************
 
-    // console.log("getSalesSummery Nextjs API has Called");
     try{
 
-        const response = await fetch(`http://localhost:8080/api/v1/auth/get-sales-summary?sellerEmail=${emailValueString}`, {
-           // default it is GET
+        const response = await fetch(`${process.env.NEXT_PUBLIC_SPRING_BOOT_SERVER_URL}/api/v1/auth/dashboard-fetch-seller-information?email=${emailValueString}`, {
             headers: {
                 'Authorization': `Bearer ${accessToken}`,
             },
         });
     // console.log("getSalesSummery request Sent");
     if (response.ok) {
-        const data = await response.json(); // .json() since backend service class return DTO 
-        // if the backend return a string this should response.text()
-        console.log("sales summery  fetched successfully:", data);
+        const data = await response.json(); 
+        console.log("seller:get-seller-private-details > fetched successfully:", data);
         return new Response(
             JSON.stringify(data), 
             {
@@ -170,7 +167,7 @@ export async function GET() {
       else{
         const responseBodyText = await response.text(); // .text() because backend return string messages
         const resData = {message: responseBodyText};
-        console.warn(response.status + " >> Error from sales summery fetching >> " + responseBodyText)
+        console.warn(response.status + " >> Error from seller:get-seller-private-details >> " + responseBodyText)
         return new Response(
             JSON.stringify(resData),
             { status: response.status }
@@ -182,7 +179,7 @@ export async function GET() {
         console.log(error)
         return new Response(JSON.stringify({
             error: {
-                message: "Un-Expected Error"
+                message: "Un-Expected Error : seller:get-seller-private-details"
             }
         }), { status: 500 });
     }

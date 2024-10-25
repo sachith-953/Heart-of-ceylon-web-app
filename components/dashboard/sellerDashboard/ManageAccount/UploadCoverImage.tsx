@@ -1,4 +1,3 @@
-
 'use client';
 
 import { useRouter } from "next/navigation";
@@ -47,20 +46,8 @@ const UploadCoverImage = () => {
                 console.log("Redirectiong to login. RT error")
                 router.push("/seller-log-in");
             }
-            else if (response.status === 404) {
-                // this trigger when referesh token has issure. 
-                // if token is expired this will trigger
-                toast({
-                    variant: "destructive",
-                    title: "Sorry!",
-                    description: "Please Login again. Your Cookies has Expired!",
-                })
-                console.log("**** UploadCoverImage >> 404 ****************")
-                console.log("Redirectiong to login. RT error")
-                router.push("/log-in");
-            }
             else {
-                const data = await response.json();
+                const data = await response.json(); // route returns a response object
                 // show error notification in red color
                 toast({
                     variant: "destructive",
@@ -107,7 +94,7 @@ const UploadCoverImage = () => {
                             disabled={loading}
                             className={` bg-blue-500 text-white py-2 px-5 rounded-3xl ${loading ? 'opacity-50 cursor-not-allowed' : 'hover:bg-blue-600'}`}
                         >
-                            {loading ? 'Adding Product...' : 'Add Product'}
+                            {loading ? 'Updating Image...' : 'Update Store Cover Image'}
                         </button>
                     </form>
                     <p className="mt-8 text-gray-500 text-sm text-justify">
