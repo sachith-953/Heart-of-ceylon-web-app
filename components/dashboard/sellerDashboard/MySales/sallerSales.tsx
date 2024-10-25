@@ -227,7 +227,7 @@ const getStatusStyle = (status: string | undefined) => {
                 </Table>
             </div>
         )}
-    </div>
+    </div> 
 
     );
 };
