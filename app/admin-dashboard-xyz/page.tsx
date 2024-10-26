@@ -1,4 +1,5 @@
 import ManageAccount from "@/components/dashboard/sellerDashboard/ManageAccount";
+import ManageAdminAccounts from "@/components/dashboard/adminDashboard/ManageAdminAccounts/ManageAdminAccounts";
 import MyProducts from "@/components/dashboard/sellerDashboard/MyProducts";
 import MySales from "@/components/dashboard/sellerDashboard/MySales";
 import MaxWidthLg from "@/components/MaxWidthLg";
@@ -73,6 +74,8 @@ export default function SellerDashbard() {
                         </TabsContent>
 
                         <TabsContent value="Manage Admin Accounts">
+                            {/* DEV -madushan */}
+                            <ManageAdminAccounts/>
                             {/*Manage Admin Accounts component here */}
                         </TabsContent>
 
