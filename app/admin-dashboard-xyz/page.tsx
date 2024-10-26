@@ -1,3 +1,4 @@
+import SellerManagementsTabs from "@/components/adminDashboard/sellerManagement/SellerManagementsTabs";
 import ManageAccount from "@/components/dashboard/sellerDashboard/ManageAccount";
 import ManageAdminAccounts from "@/components/dashboard/adminDashboard/ManageAdminAccounts/ManageAdminAccounts";
 import MyProducts from "@/components/dashboard/sellerDashboard/MyProducts";
@@ -17,9 +18,9 @@ export default function SellerDashbard() {
 
             {/* add new navbar designed for the seller*/}
             <Navbar />
-            
+
             <div className="bg-white w-full h-svh pt-1">
-                
+
                 {/* tabs */}
                 <Tabs defaultValue="Seller Management" className="flex flex-row mx-3 h-full ">
                     <TabsList className="w-1/4 h-full flex flex-col bg-[#314659] justify-start">
@@ -58,7 +59,7 @@ export default function SellerDashbard() {
                     <div className="w-3/4 max-h-lvh overflow-auto overscroll-auto">
 
                         <TabsContent value="Seller Management">
-                            
+                            <SellerManagementsTabs />
                         </TabsContent>
 
                         <TabsContent value="All Orders">
@@ -88,5 +89,3 @@ export default function SellerDashbard() {
         </>
     );
 }
-
-
