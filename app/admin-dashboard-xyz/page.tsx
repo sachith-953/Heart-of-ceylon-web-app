@@ -5,6 +5,7 @@ import { TabsTriggerForSellerDashboard } from "@/components/ui/seller-tabs-trigg
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { BadgeDollarSign, Box, Printer, ShoppingBasket, Text, UserCog, UserPlus, UserRound, Users } from "lucide-react"
 import AllOrders from "@/components/adminDashboard/AllOrders/AllOrders";
+import ProductManagement from "@/components/adminDashboard/ProductManagement/ProductManagement"
 
 
 
@@ -66,6 +67,8 @@ export default function SellerDashbard() {
 
                         <TabsContent value="Product Management">
                             {/*Product Management component here */}
+                             {/* DEV : madushan */}
+                            <ProductManagement/>
                         </TabsContent>
 
                         <TabsContent value="Logs">
@@ -73,9 +76,9 @@ export default function SellerDashbard() {
                         </TabsContent>
 
                         <TabsContent value="Manage Admin Accounts">
+                            {/*Manage Admin Accounts component here */}
                             {/* DEV -madushan */}
                             <ManageAdminAccounts/>
-                            {/*Manage Admin Accounts component here */}
                         </TabsContent>
 
                     </div>
