@@ -1,14 +1,10 @@
 import SellerManagementsTabs from "@/components/adminDashboard/sellerManagement/SellerManagementsTabs";
-import ManageAccount from "@/components/dashboard/sellerDashboard/ManageAccount";
-import ManageAdminAccounts from "@/components/dashboard/adminDashboard/ManageAdminAccounts/ManageAdminAccounts";
-import MyProducts from "@/components/dashboard/sellerDashboard/MyProducts";
-import MySales from "@/components/dashboard/sellerDashboard/MySales";
-import MaxWidthLg from "@/components/MaxWidthLg";
+import ManageAdminAccounts from "@/components/adminDashboard/ManageAdminAccounts/ManageAccounts"
 import Navbar from "@/components/Navbar";
 import { TabsTriggerForSellerDashboard } from "@/components/ui/seller-tabs-trigger";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { BadgeDollarSign, Box, Printer, ShoppingBasket, Text, UserCog, UserPlus, UserRound, Users } from "lucide-react"
-
+import AllOrders from "@/components/adminDashboard/AllOrders/AllOrders";
 
 
 
@@ -64,6 +60,8 @@ export default function SellerDashbard() {
 
                         <TabsContent value="All Orders">
                             {/* All Orders component here */}
+                            {/* DEV : madushan */}
+                            <AllOrders/>
                         </TabsContent>
 
                         <TabsContent value="Product Management">
