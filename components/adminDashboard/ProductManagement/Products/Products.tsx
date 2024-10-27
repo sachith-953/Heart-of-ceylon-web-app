@@ -31,7 +31,7 @@ interface RatingStarsProps {
 // };
 
 
-export enum ProductStatusEnum {
+export enum ProductStatusEnum { 
     PRODUCT_IS_ACTIVE = 'PRODUCT_IS_ACTIVE',
     SUSPEND = 'SUSPEND',
     DISCONTINUED = 'DISCONTINUED',
