@@ -4,10 +4,32 @@ import { ArrowDownNarrowWide } from "lucide-react"
 import ProductSkeliton from "../ProductSkeliton"
 import SearchProductSortDropDown from "../SearchProductSortDropDown"
 import Product from "../Product"
-import { useState } from "react"
+import { useEffect, useState } from "react"
+import { useRouter } from "next/navigation";
+import { useToast } from "../ui/use-toast"
 
-const SellerProductDetails = () => {
+interface ChildProps {
+    sellerId: number;
+}
 
+interface dataDataType {
+    productAvailableStokes: number
+    productID: number
+    productMainImage: string
+    productName: string
+    productNoOfRatings: number
+    productPrice: number
+    productRatings: number
+    productTotalItemSold: number
+    //todo : add seller details
+    // change this in product.tsx too
+}
+
+const SellerProductDetails: React.FC<ChildProps> = ({ sellerId }) => {
+
+    const router = useRouter()
+    const { toast } = useToast()
+    const BASE_URL = process.env.NEXT_PUBLIC_URL;
 
     const [errorMessage, setErrorMessage] = useState("");
     const [dataFetchError, setDataFetchError] = useState(false);
@@ -15,18 +37,7 @@ const SellerProductDetails = () => {
     const [isLoading, setIsLoading] = useState(true)
     const [data, setData] = useState<dataDataType[]>([]);
 
-    interface dataDataType {
-        productAvailableStokes: number
-        productID: number
-        productMainImage: string
-        productName: string
-        productNoOfRatings: number
-        productPrice: number
-        productRatings: number
-        productTotalItemSold: number
-        //todo : add seller details
-        // change this in product.tsx too
-    }
+
 
     //this handle by child component
     const handleChildDataChange = (newChildData: string) => {
@@ -49,43 +60,48 @@ const SellerProductDetails = () => {
 
     };
 
-    const handleProductFetch = async () => {
-
-        const res = await fetch(
-            `${process.env.NEXT_PUBLIC_URL}/api/product/search**************`,
-            {
-                method: "POST",
+    const fetchSellerDetails = async () => {
+        setIsLoading(true)
+        try {
+            const res = await fetch(`${BASE_URL}/api/seller-store/get-seller-products`, {
+                method: 'POST',
                 headers: {
-                    "Content-Type": "application/json",
+                    'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({ searchKeyParam, requestedPage }),
+                body: JSON.stringify({
+                    sellerId: sellerId,
+                })
+            });
+
+            if (res.ok) {
+                const ResponseData = await res.json()
+                console.log(ResponseData)
+                console.log("successfully fetched seller info")
+                setData(ResponseData)
+            } else {
+                toast({
+                    variant: "destructive",
+                    title: "Something went wrong.",
+                    description: "Plase Try Again. There was a problem with your request."
+                })
             }
-        );
-
-        if (res.ok) {
-            const responseData = await res.json();
-
-            console.log("Data recived sucess");
-            console.log(responseData);
-
-            setErrorMessage("") // remove error message 
-            setDataFetchError(false)
-            setData(responseData.productList) // add data to data useState
-
-            console.log("responseData.productList");
-
-
-            setIsLoading(false) // this stop display skeliton animation
-
-        } else {
-            const responseData = await res.json();
-            setErrorMessage(responseData.message);
-            setDataFetchError(true)
-            console.log("********failed********")
+        } catch (error) {
+            console.error('Error submitting form:', error);
+            toast({
+                variant: "destructive",
+                title: "Oh! Something Unexpected Happend.",
+                description: "There was a problem with your request. Please Check the internet Connection",
+            })
+        } finally {
+            setIsLoading(false)
         }
-    };
+    }
 
-    
+    useEffect(() => {
+        fetchSellerDetails();
+    }, []);
+
+
 
     return (
         <>
@@ -97,7 +113,7 @@ const SellerProductDetails = () => {
 
                         {/* totoal search results */}
                         <div className="mr-3 content-center text-sm sm:text-base">
-                            <p>{} : 230 Results Found</p>
+                            <p>{ } : 230 Results Found</p>
                         </div>
 
                         {/* Sort option */}
