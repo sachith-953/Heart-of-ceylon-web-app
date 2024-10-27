@@ -1,7 +1,7 @@
 import React from 'react'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import Product from "@/components/adminDashboard/ProductManagement/Products/Products"
-// import VerifyProduct from "@/components/adminDashboard/ProductManagement/VarifyProduct/VerifyProduct"
+import Product from "@/components/adminDashboard/ProductManagement/AdminProducts/TopSellingProductDetails"
+import VerifyProduct from "@/components/adminDashboard/ProductManagement/VarifyProduct/ToBeVerifyProducts"
 
 const ProductManagement = () => {
     return (
@@ -18,7 +18,7 @@ const ProductManagement = () => {
                 </TabsContent>
                 <TabsContent value="password">
                     {/* verify products component */}
-                    {/* <VerifyProduct/> */}
+                    <VerifyProduct/>
                 </TabsContent>
             </Tabs>
 

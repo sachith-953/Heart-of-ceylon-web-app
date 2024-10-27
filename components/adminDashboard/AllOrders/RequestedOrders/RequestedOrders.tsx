@@ -190,7 +190,12 @@ const RequestedOrders = () => {
                     <TableCell className="font-medium text-black">{order.requestOrderId}</TableCell>
                     <TableCell className="font-medium text-black">{order.requestedDate}</TableCell>
                     <TableCell className="font-medium text-black">{order.requestedTime}</TableCell>
-                    <TableCell className="font-medium text-black">{order.productName}</TableCell>
+                    <TableCell className="font-medium text-black">
+                      {/* limit product name length */}
+                          {order.productName.length > 62
+                          ? `${order.productName.slice(0, 62)}...`
+                          : order.productName}
+                    </TableCell>
                     <TableCell className="font-medium text-black">{order.requestedQuantity}</TableCell>
                     <TableCell className="font-medium text-black">{order.expectedPrice}</TableCell>
                     <TableCell className="font-medium text-black">{order.totalPrice}</TableCell>

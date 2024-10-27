@@ -195,7 +195,12 @@ const AdminDetails = () => {
                   <TableCell className="font-medium text-black">{order.orderId}</TableCell>
                   <TableCell className="font-medium text-black">{formatDate(order.orderDateTime)}</TableCell>
                   <TableCell className="font-medium text-black">{formatTime(order.orderDateTime)}</TableCell>
-                  <TableCell className="font-medium text-black">{order.productName}</TableCell>
+                  <TableCell className="font-medium text-black">
+                    {/* limit the product name to 62 characters */}
+                                      {order.productName.length > 62
+                                    ? `${order.productName.slice(0, 62)}...`
+                                    : order.productName}
+                  </TableCell>
                   <TableCell className="font-medium text-black">{order.quantity}</TableCell>
                   <TableCell className="font-medium text-black">{formatPrice(order.productPrice)}</TableCell>
                   <TableCell className="font-medium text-black">{formatPrice(order.totalPrice)}</TableCell>
