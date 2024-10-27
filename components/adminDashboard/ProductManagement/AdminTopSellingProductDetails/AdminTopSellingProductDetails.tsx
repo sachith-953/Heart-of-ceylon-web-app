@@ -307,6 +307,7 @@ import { Card } from "@/components/ui/card";
 import { Loader2, Star } from "lucide-react";
 import MaxWidthWrapper from "@/components/MaxWidthWrapper";
 import SellerDetailsModal from "@/components/adminDashboard/POPUPwindows/ViewSellerDetailsPOPUPWindow/ViewSellerDetailsPOPUPWindow"
+import ProductDetailsModal from "@/components/adminDashboard/POPUPwindows/ViewProductAllDetailsPOPUPWindow/ViewProductAllDetailsPOPUPWindow"
 
 interface RatingStarsProps {
     rating: number;
@@ -359,6 +360,7 @@ const TopSellingProductDetails: FC = () => {
     const router = useRouter();
     const { toast } = useToast();
     const [selectedSeller, setSelectedSeller] = useState<number | null>(null);// pop up for seller view
+    const [selectedProduct, setSelectedProduct] = useState<number | null>(null);// pop up for all details of a product
 
     const fetchProducts = async (pageNumber: number) => {
         try {
@@ -421,6 +423,10 @@ const TopSellingProductDetails: FC = () => {
     // handle view seller button click
     const handleViewSellerDetails = (sellerID: number) => {
         setSelectedSeller(sellerID);
+      };
+    // handle view product all details click
+      const handleViewProductDetails = (productID: number) => {
+        setSelectedProduct(productID);
       };
 
     if (isLoading) {
@@ -546,10 +552,10 @@ const TopSellingProductDetails: FC = () => {
                                     <p className="text-sm font-medium bg-orange-300">Status : {product.productStatus}</p>
                                 </div>
                                 <div className="space-y-2 mt-4">
-                                    <Button variant="outline" size="sm" className="bg-blue-500 w-full hover:bg-blue-700 text-white">
+                                    <Button variant="outline" size="sm" className="bg-blue-600 w-full hover:bg-blue-800 text-white hover:text-black">
                                         Comments
                                     </Button>
-                                    <Button variant="outline" size="sm" className="bg-blue-500 w-full hover:bg-blue-700 text-white">
+                                    <Button variant="outline" size="sm" className="bg-blue-600 w-full hover:bg-blue-800 text-white hover:text-black">
                                         Ratings
                                     </Button>
                                 </div>
@@ -557,14 +563,15 @@ const TopSellingProductDetails: FC = () => {
 
                             {/* Section 4: Action Buttons */}
                             <div className="w-1/5 rounded-md p-1 space-y-6">
-                                <Button variant="default" size="sm" className="w-full hover:bg-gray-500 text-white"
+                                <Button variant="default" size="sm" className="bg-blue-600 w-full hover:bg-blue-800 text-white hover:text-black"
                                 onClick={() => handleViewSellerDetails(product.sellerID)}>
                                     View Seller Details
                                 </Button>
-                                <Button variant="destructive" size="sm" className="w-full hover:bg-red-400 text-white">
+                                <Button variant="destructive" size="sm" className="w-full bg-red-600 hover:bg-red-800 text-white hover:text-black">
                                     Suspend
                                 </Button>
-                                <Button variant="outline" size="sm" className="bg-blue-500 w-full hover:bg-blue-700 text-white">
+                                <Button variant="default" size="sm" className="bg-blue-600 w-full hover:bg-blue-800 text-white hover:text-black"
+                                    onClick={() => handleViewProductDetails(product.productID)}>
                                     All Details
                                 </Button>
                             </div>
@@ -597,6 +604,14 @@ const TopSellingProductDetails: FC = () => {
                     isOpen={selectedSeller !== null}
                     onClose={() => setSelectedSeller(null)}
                     sellerID={selectedSeller}
+                />
+            )}
+             {/* view product more details */}
+             {selectedProduct !== null && (
+                <ProductDetailsModal
+                    isOpen={selectedProduct !== null}
+                    onClose={() => setSelectedProduct(null)}
+                    productID={selectedProduct}
                 />
             )}
         </div>   

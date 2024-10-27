@@ -6,6 +6,8 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { Badge } from "@/components/ui/badge";
+import { useToast } from "@/components/ui/use-toast";
+import { useRouter } from "next/navigation";
 import { 
   Loader2, 
   Mail, 
@@ -47,12 +49,14 @@ const SellerDetailsModal: React.FC<SellerDetailsModalProps> = ({
   const [seller, setSeller] = React.useState<SellerDetails | null>(null);
   const [isLoading, setIsLoading] = React.useState(false);
   const [error, setError] = React.useState<string | null>(null);
+  const { toast } = useToast();
+  const router = useRouter();
 
   const fetchSellerDetails = async () => {
     try {
       setIsLoading(true);
       setError(null);
-      const response = await fetch('http://localhost:3000/api/admin-dashboard/POP-view-seller-details-by-id', {
+      const res = await fetch('http://localhost:3000/api/admin-dashboard/POP-view-seller-details-by-id', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -60,19 +64,42 @@ const SellerDetailsModal: React.FC<SellerDetailsModalProps> = ({
         body: JSON.stringify({ sellerID }),
       });
 
-      if (!response.ok) {
-        throw new Error('Failed to fetch seller details');
+        if (res.ok) {
+          const responseData = await res.json();
+          setSeller(responseData);
+        }
+        else if (res.status === 403) {
+          toast({
+              variant: "destructive",
+              title: "Sorry!",
+              description: "Please Login again. Your Session has Expired!",
+          });
+          router.push("/seller-log-in");
+      } 
+      else {
+        const errorData = await res.json();
+        toast({
+            variant: "destructive",
+            title: "Something went wrong.",
+            description: "Please Try Again. There was a problem with your request. " + errorData.message,
+        });
       }
-
-      const data = await response.json();
-      setSeller(data);
-    } catch (err) {
-      setError('Failed to load seller details');
-      console.error('Error fetching seller details:', err);
+        }
+    catch (error) {
+      console.error("Error fetching products:", error);
+      setError("Failed to load product data. Please try again.");
     } finally {
       setIsLoading(false);
     }
   };
+
+  const formatDate = (dateString: string) => {
+    return new Date(dateString).toLocaleDateString('en-US', {
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric'
+    });
+};
 
   React.useEffect(() => {
     if (isOpen && sellerID) {
@@ -82,21 +109,21 @@ const SellerDetailsModal: React.FC<SellerDetailsModalProps> = ({
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="w-[85vw] max-w-[85vw] h-[90vh] max-h-[90vh] p-0">
-        <DialogHeader className="bg-gray-200 p-0">
-          <DialogTitle className="text-xl font-bold text-black text-center mt-5">Seller All Details</DialogTitle>
-        </DialogHeader>
-        
-        {isLoading ? (
-          <div className="flex justify-center items-center p-8">
-            <Loader2 className="h-8 w-8 animate-spin" />
-          </div>
-        ) : error ? (
-          <div className="text-center text-red-500 p-4">{error}</div>
-        ) : seller ? (
-          <div className="flex h-full">
-            {/* Left Sidebar - 1/4 width */}
-            <div className="w-1/4  border-r border-gray-300 flex flex-col">
+        <DialogContent className="w-[85vw] max-w-[85vw] h-[90vh] max-h-[90vh] p-1 bg-gray-200">
+          <DialogHeader className="bg-gray-200">
+            <DialogTitle className="text-xl font-bold text-black text-center rounded-md mt-5">Seller All Details</DialogTitle>
+          </DialogHeader>
+          
+          {isLoading ? (
+            <div className="flex justify-center items-center">
+              <Loader2 className="h-8 w-8 animate-spin" />
+            </div>
+          ) : error ? (
+            <div className="text-center text-red-500 p-4">{error}</div>
+          ) : seller ? (
+            <div className="flex h-full">
+        {/* Left Sidebar - 1/4 width */}
+        <div className="w-1/4 border-r border-gray-300 flex flex-col bg-gray-300 rounded-md ml-1 mr-1 mb-1 mt-0 p-2">
               {/* Profile Picture */}
               <div className="flex justify-center">
                 {seller.profilePicture ? (
@@ -137,66 +164,81 @@ const SellerDetailsModal: React.FC<SellerDetailsModalProps> = ({
               </div>
 
               {/* Action Buttons */}
-              <div className="flex flex-col gap-3 mt-6 bg-slate-700 items-center justify-center p-1">
-                <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 rounded w-40">
+              <div className="flex flex-col gap-3 mt-6 items-center justify-center p-1">
+                <button className="bg-blue-600 hover:bg-blue-800 text-white font-bold py-2 rounded w-1/2 px-4 hover:text-black">
                   View Shop
                 </button>
-                <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 rounded w-40">
+                <button className="bg-blue-600 hover:bg-blue-800 text-white font-bold py-2 rounded w-1/2 px-4 hover:text-black">
                   Assign badges
                 </button>
               </div>
 
 
               {/* Bottom Buttons */}
-              <div className="mt-auto flex flex-col gap-3">
-                <button className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">
-                  Suspend
-                </button>
-                <button className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">
-                  Remove account
-                </button>
+              <div className="mt-auto flex flex-col gap-3 p-2 mb-4 items-center justify-center">
+              <button className="bg-red-600 hover:bg-red-800 text-white font-bold py-2 px-4 rounded w-2/3 hover:text-black">
+                Suspend
+              </button>
+              <button className="bg-red-600 hover:bg-red-800 text-white font-bold py-2 px-4 rounded w-2/3 hover:text-black">
+                Remove account
+              </button>
+
               </div>
             </div>
 
             {/* Right Content - 3/4 width */}
-            <div className="w-3/4 p-6">
+            <div className="w-3/4 p-2 bg-gray-300 mr-1 mb-1 rounded-md">
               {/* Store Name and ID */}
-              <h2 className="text-2xl font-bold">{seller.storeName}</h2>
-              <p className="text-sm text-gray-600 mt-1">Seller ID: {seller.sellerID}</p>
-
+              <div className=' text-4xl font-bold text-black'>
+                    {seller.storeName}
+              </div>
+              <div className=' mt-2 text-lg font-bold text-black'>
+                    Seller ID: {seller.sellerID}
+              </div>
               {/* Categories and Sales */}
-              <div className="flex justify-between mt-4">
-                <p className="text-gray-700">Product Categories: {seller.categories}</p>
-                <p className="text-gray-700">Sales: {seller.totalSales}</p>
+              <div className=" mt-2 text-lg font-semi-bold text-black">
+                Product Categories: {seller.categories}
+              </div>
+              <div className=' mt-2 text-lg font-semi-bold text-black'>
+                  Sales: {seller.totalSales}
               </div>
 
               {/* Store Description */}
-              <div className="mt-4">
-                <p className="text-gray-700">{seller.storeDescription}</p>
+              <div className=" mt-2 text-lg font-semi-bold text-black">
+                Store description : {seller.storeDescription}
               </div>
 
-              {/* Account Details */}
-              <div className="mt-6 space-y-3">
-                <p>Account Created Date & Time : {seller.accountCreatedDate} {seller.accountCreatedTime}</p>
-                
-                <div className="flex items-center">
-                  <Phone className="h-4 w-4 text-gray-500 mr-2" />
-                  <span>{seller.phoneNo}</span>
-                </div>
+              {/* Account created date */}
+              <div className=' mt-2 text-lg font-semi-bold text-black'>
+              Account Created Date & Time : {new Date(seller.accountCreatedDate).toLocaleDateString('en-US', {
+                        day: '2-digit',
+                        month: '2-digit',
+                        year: 'numeric'
+                    }).replace(/\//g, '.')} {new Date(seller.accountCreatedDate).toLocaleTimeString('en-US', {
+                        hour: '2-digit',
+                        minute: '2-digit',
+                        hour12: true
+                    })}
+              </div>
+              {/* phone */}
+              <div className="flex items-center mt-2 text-lg font-semi-bold text-black">
+                  <Phone className="mr-1" />
+                  <span> Phone numbers :{seller.phoneNo}</span>
+              </div>
 
-                <div className="flex items-center">
-                  <Mail className="h-4 w-4 text-gray-500 mr-2" />
-                  <span>{seller.sellerEmail}</span>
-                </div>
-
-                <div className="flex items-center">
-                  <MapPin className="h-4 w-4 text-gray-500 mr-2" />
-                  <span>{seller.sellerAddress}</span>
-                </div>
-
-                <div className="mt-6">
-                  <h3 className="font-bold">Documents :</h3>
-                </div>
+              {/* email */}
+              <div className="flex items-center mt-2 text-lg font-semi-bold text-black">
+                  <Mail className="mr-1" />
+                  <span> email :{seller.sellerEmail}</span>
+              </div>
+              {/* address */}
+              <div className="flex items-center mt-2 text-lg font-semi-bold text-black">
+                  <MapPin className="mr-1" />
+                  <span>Address :{seller.sellerAddress}</span>
+              </div>
+              {/* seller documents */}
+              <div className="mt-2 text-lg font-semi-bold text-black">
+                  <h3 className="">Documents :</h3>
               </div>
             </div>
           </div>
