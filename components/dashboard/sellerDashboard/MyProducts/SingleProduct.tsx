@@ -49,14 +49,14 @@ const SingleProduct: React.FC<{
         <p className="text-lg font-bold">{parentData.productName}</p>
         <div className="flex flex-col ms:flex-row mt-0 md:mt-1">
           {/* Product details */}
-          <div>
+          <div className="text-slate-700">
             <p>Unit Price: LKR {parentData.productPrice}</p>
             <p>Profit margin: {parentData.productProfitMarginPercentage}%</p>
             <p>Available stocks: {parentData.productAvailableStokes} units</p>
           </div>
           {/* ratings */}
           <div className="flex flex-row w-5/12 bg-white pr-1 justify-center sm:justify-normal">
-            <p className="mr-1 hidden sm:flex min-w-16 sm:text-sm">Ratings :</p>
+            <p className="mr-1 hidden sm:flex min-w-16 sm:text-sm text-slate-700">Ratings :</p>
             <div className="flex flex-row">
               {Array.from({ length: parentData.productRatings }, (_, index) => (
                 <Star key={index} fill="#FFD254" strokeWidth={0} />
