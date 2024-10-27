@@ -12,26 +12,23 @@ interface RatingStarsProps {
     rating: number;
 }
 
-const RatingStars: FC<RatingStarsProps> = ({ rating }) => {
-    const totalStars = 10;
-    const filledStars = Math.min(rating, totalStars);
+// ************ commented this part by rashmika due to addition of new start code *************
+// const RatingStars: FC<RatingStarsProps> = ({ rating }) => {
+//     const totalStars = 10;
+//     const filledStars = Math.min(rating, totalStars);
     
-    return (
-        <div className="flex gap-0.5">
-            {[...Array(totalStars)].map((_, index) => (
-                <Star
-                    key={index}
-                    size={16}
-                    className={
-                        index < filledStars
-                            ? "fill-yellow-400 text-yellow-400" // Yellow for filled stars
-                            : "fill-black text-black"           // Black for unfilled stars
-                    }
-                />
-            ))}
-        </div>
-    );
-};
+//     return (
+//         <div className="flex gap-0.5">
+//             {[...Array(totalStars)].map((_, index) => (
+//                 <Star
+//                     key={index}
+//                     size={16}
+//                     className={index < filledStars ? "fill-yellow-400 text-yellow-400" : "text-gray-300"}
+//                 />
+//             ))}
+//         </div>
+//     );
+// };
 
 
 export enum ProductStatusEnum {
@@ -222,14 +219,41 @@ const TopSellingProductDetails: FC = () => {
                                 <p className="text-sm">Profit Margin: {product.productProfitMarginPercentage}%</p>
                                 <p className="text-sm">Available Stock: {product.productAvailableStokes}</p>
                                 <div className="space-y-1">
-                                    <p className="text-sm">Ratings ({product.productNoOfRatings})</p>
-                                    <RatingStars rating={product.productNoOfRatings} />
+
+                                    {/* commented by rashmika since ratings add from new star code */}
+                                    {/* <p className="text-sm">Ratings ({product.productNoOfRatings})</p> */}
+                                    
+                                    {/* commented this part by rashmika due to addition of new code */}
+                                    {/* <RatingStars rating={product.productNoOfRatings} /> */}
+                                    
+                                    {/* ratings : rashmika*/}
+                                    <div className="flex flex-col md:flex-row mt-0 md:mt-1 ">
+
+                                        <div className="flex flex-row bg-white pr-1 justify-center sm:justify-normal">
+
+                                            <p className="mr-1 hidden sm:flex min-w-16 sm:text-sm">Ratings :</p>
+                                            <div className="flex flex-row">
+                                                {Array.from({ length: product.productRatings }, (_, index) => (
+                                                    <Star key={index} fill="#FFD254" strokeWidth={0} />
+                                                ))}
+                                                {Array.from({ length: 5 - product.productRatings }, (_, index) => (
+                                                    <Star key={5 * product.productRatings + index} fill="#111" strokeWidth={0} />
+                                                ))}
+                                            </div>
+                                        </div>
+
+                                        {/* number of product ratings */}
+                                        <div className="sm:pl-0 md:pl-2">
+                                            <p className="underline text-xs">{product.productNoOfRatings} product ratings</p>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
 
                             {/* Section 3: Seller Info & Status */}
-                            <div className="w-1/5 rounded-md p-1">
-                                <p className="text-sm font-medium">Seller ID : {product.sellerID}</p>
+                            <div className="w-48 space-y-2">
+                                {/* Product Manufacture */}
+                                <p className="text-sm font-medium">Manuf. : {product.productManufacture}</p>
                                 <div className="space-y-1">
                                     <p className="text-sm font-medium bg-green-300">Product visibility : {product.productVisibility}</p>
                                     <p className="text-sm font-medium bg-orange-300">Status : {product.productStatus}</p>
