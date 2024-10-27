@@ -98,6 +98,9 @@ const UploadProfilePicture = () => {
                         </button>
                     </form>
                     <p className="mt-8 text-gray-500 text-sm text-justify">
+                       Image size <b>128x128px</b> is recommended and in JPEG or PNG. (maximum image size : 1Mb)
+                    </p>
+                    <p className="mt-8 text-gray-500 text-sm text-justify">
                         You can add a little more personality to your profile picture and help people
                         recognize you across website by uploading an avatar (an image, photo or graphic logo)
                     </p>
