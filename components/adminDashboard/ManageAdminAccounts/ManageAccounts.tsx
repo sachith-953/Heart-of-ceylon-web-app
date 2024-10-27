@@ -1,6 +1,6 @@
 import React from 'react'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import AccountSettings from "@/components/adminDashboard/ManageAdminAccounts/ManageAdminAccounts/AdminDetails"
+import AccountSettings from "@/components/adminDashboard/ManageAdminAccounts/AdminDetails/AdminDetails"
 
 const ManageAccounts = () => {
     return (

@@ -7,6 +7,7 @@
 // import { Card } from "@/components/ui/card";
 // import { Loader2, Star } from "lucide-react";
 // import MaxWidthWrapper from "@/components/MaxWidthWrapper";
+// import SellerDetailsModal from "@/components/adminDashboard/POPUPwindows/ViewSellerDetailsPOPUPWindow/ViewSellerDetailsPOPUPWindow"
 
 // interface RatingStarsProps {
 //     rating: number;
@@ -116,6 +117,10 @@
 //             setCurrentPage(prev => prev - 1);
 //         }
 //     };
+// handle view seller button click
+        // const handleViewSellerDetails = (sellerID: number) => {
+        //     setSelectedSeller(sellerID);
+        // };
 
 //     if (isLoading) {
 //         return (
@@ -301,7 +306,7 @@ import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Loader2, Star } from "lucide-react";
 import MaxWidthWrapper from "@/components/MaxWidthWrapper";
-import SellerDetailsModal from "@/components/adminDashboard/POPUPwindows/ViewSellerDetails/ViewSellerDetails"
+import SellerDetailsModal from "@/components/adminDashboard/POPUPwindows/ViewSellerDetailsPOPUPWindow/ViewSellerDetailsPOPUPWindow"
 
 interface RatingStarsProps {
     rating: number;

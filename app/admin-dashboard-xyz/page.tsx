@@ -19,7 +19,7 @@ export default function SellerDashbard() {
             <div className="bg-white w-full h-svh pt-1">
 
                 {/* tabs */}
-                <Tabs defaultValue="Seller Management" className="flex flex-row mx-3 h-full ">
+                <Tabs defaultValue="Product Management" className="flex flex-row mx-3 h-full ">
                     <TabsList className="w-1/4 h-full flex flex-col bg-[#314659] justify-start">
 
                         {/* <div className="bg-zinc-400 h-20 w-full mb-2">
@@ -57,7 +57,6 @@ export default function SellerDashbard() {
 
                         <TabsContent value="Seller Management">
                             {/* <SellerManagementsTabs /> */}
-                            <ProductManagement/>
                         </TabsContent>
 
                         <TabsContent value="All Orders">
@@ -69,7 +68,7 @@ export default function SellerDashbard() {
                         <TabsContent value="Product Management">
                             {/*Product Management component here */}
                              {/* DEV : madushan */}
-                            {/* <ProductManagement/> */}
+                            <ProductManagement/>
                         </TabsContent>
 
                         <TabsContent value="Logs">

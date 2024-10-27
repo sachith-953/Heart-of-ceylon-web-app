@@ -83,10 +83,10 @@ const SellerDetailsModal: React.FC<SellerDetailsModalProps> = ({
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent className="w-[85vw] max-w-[85vw] h-[85vh] max-h-[85vh] p-0">
-      <DialogHeader className="bg-gray-300 p-4">
-        <DialogTitle className="text-xl font-bold text-black text-center">Seller All Details</DialogTitle>
-      </DialogHeader>
-                
+        <DialogHeader className="bg-green-600 p-4">
+          <DialogTitle className="text-xl font-bold text-white">Seller All Details</DialogTitle>
+        </DialogHeader>
+        
         {isLoading ? (
           <div className="flex justify-center items-center p-8">
             <Loader2 className="h-8 w-8 animate-spin" />
@@ -94,7 +94,7 @@ const SellerDetailsModal: React.FC<SellerDetailsModalProps> = ({
         ) : error ? (
           <div className="text-center text-red-500 p-4">{error}</div>
         ) : seller ? (
-          <div className="flex h-full bg-gray-200">
+          <div className="flex h-full">
             {/* Left Sidebar - 1/4 width */}
             <div className="w-1/4 p-6 border-r border-gray-200 flex flex-col">
               {/* Profile Picture */}
@@ -133,7 +133,6 @@ const SellerDetailsModal: React.FC<SellerDetailsModalProps> = ({
               {/* Status Badge */}
               <div className="mt-4 flex justify-center">
                 <Badge className="bg-green-100 text-green-800 px-4 py-1">
-                    <p>status:</p><br/>
                   {seller.sellerStatus}
                 </Badge>
               </div>
@@ -163,38 +162,34 @@ const SellerDetailsModal: React.FC<SellerDetailsModalProps> = ({
             <div className="w-3/4 p-6">
               {/* Store Name and ID */}
               <h2 className="text-2xl font-bold">{seller.storeName}</h2>
-              <p className="text-sm text-gray-600 mt-1 mr-5">Seller ID: {seller.sellerID}</p>
+              <p className="text-sm text-gray-600 mt-1">Seller ID: {seller.sellerID}</p>
 
               {/* Categories and Sales */}
               <div className="flex justify-between mt-4">
-                <p className="text-gray-700">Product Categories: {seller.categories} Sales: {seller.totalSales}</p>
-                {/* <p className="text-gray-700">Sales: {seller.totalSales}</p> */}
+                <p className="text-gray-700">Product Categories: {seller.categories}</p>
+                <p className="text-gray-700">Sales: {seller.totalSales}</p>
               </div>
 
               {/* Store Description */}
               <div className="mt-4">
-                <p>Store description :</p>
                 <p className="text-gray-700">{seller.storeDescription}</p>
               </div>
 
               {/* Account Details */}
               <div className="mt-6 space-y-3">
-                <p>Account Created Date & Time : {seller.accountCreatedDate}</p>
+                <p>Account Created Date & Time : {seller.accountCreatedDate} {seller.accountCreatedTime}</p>
                 
                 <div className="flex items-center">
-                    <p>Moble numbers:</p>
                   <Phone className="h-4 w-4 text-gray-500 mr-2" />
                   <span>{seller.phoneNo}</span>
                 </div>
 
                 <div className="flex items-center">
-                    <p>email:</p>
                   <Mail className="h-4 w-4 text-gray-500 mr-2" />
                   <span>{seller.sellerEmail}</span>
                 </div>
 
                 <div className="flex items-center">
-                    <p>Address:</p>
                   <MapPin className="h-4 w-4 text-gray-500 mr-2" />
                   <span>{seller.sellerAddress}</span>
                 </div>
