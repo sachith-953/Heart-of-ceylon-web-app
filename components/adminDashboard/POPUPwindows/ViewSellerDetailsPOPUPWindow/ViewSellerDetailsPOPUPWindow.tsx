@@ -82,9 +82,9 @@ const SellerDetailsModal: React.FC<SellerDetailsModalProps> = ({
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="w-[85vw] max-w-[85vw] h-[85vh] max-h-[85vh] p-0">
-        <DialogHeader className="bg-green-600 p-4">
-          <DialogTitle className="text-xl font-bold text-white">Seller All Details</DialogTitle>
+      <DialogContent className="w-[85vw] max-w-[85vw] h-[90vh] max-h-[90vh] p-0">
+        <DialogHeader className="bg-gray-200 p-0">
+          <DialogTitle className="text-xl font-bold text-black text-center mt-5">Seller All Details</DialogTitle>
         </DialogHeader>
         
         {isLoading ? (
@@ -96,27 +96,28 @@ const SellerDetailsModal: React.FC<SellerDetailsModalProps> = ({
         ) : seller ? (
           <div className="flex h-full">
             {/* Left Sidebar - 1/4 width */}
-            <div className="w-1/4 p-6 border-r border-gray-200 flex flex-col">
+            <div className="w-1/4  border-r border-gray-300 flex flex-col">
               {/* Profile Picture */}
               <div className="flex justify-center">
                 {seller.profilePicture ? (
                   <img 
                     src={seller.profilePicture} 
                     alt="Store Profile" 
-                    className="w-32 h-32 rounded-full object-cover"
+                    className="w-40 h-40 rounded-full object-cover"
                   />
                 ) : (
-                  <div className="w-32 h-32 rounded-full bg-gray-200 flex items-center justify-center">
-                    <Store className="h-16 w-16 text-gray-400" />
+                  // if the profile not there display ray round like a profile
+                  <div className="w-40 h-40 rounded-full bg-gray-200 flex items-center justify-center">
+                    <Store className="h-20 w-20 text-gray-400" />
                   </div>
                 )}
               </div>
 
               {/* Ratings */}
               <div className="flex flex-col mt-4">
-                <div className="flex flex-row bg-white pr-1 justify-center">
-                  <p className="mr-1 text-sm">Ratings :</p>
-                  <div className="flex flex-row">
+                <div className="flex flex-row pr-1 justify-center">
+                  <p className="mr-1 text-black text-lg font-bold">Ratings :</p>
+                  <div className="flex flex-row mt-2">
                     {Array.from({ length: seller.ratings }, (_, index) => (
                       <Star key={index} fill="#FFD254" strokeWidth={0} className="w-4 h-4" />
                     ))}
@@ -125,27 +126,26 @@ const SellerDetailsModal: React.FC<SellerDetailsModalProps> = ({
                     ))}
                   </div>
                 </div>
-                <div className="text-center mt-1">
-                  <p className="underline text-xs">{seller.noOfRatings} product ratings</p>
-                </div>
               </div>
 
               {/* Status Badge */}
-              <div className="mt-4 flex justify-center">
-                <Badge className="bg-green-100 text-green-800 px-4 py-1">
-                  {seller.sellerStatus}
+              <div className="mt-2 flex justify-center">
+                <p className='mr-2 text-lg font-bold mt-1'>Status :</p>
+                <Badge className="bg-green-300 text-black px-4 py-1 mt-2">
+                  <p className='text-xl '>{seller.sellerStatus}</p>
                 </Badge>
               </div>
 
               {/* Action Buttons */}
-              <div className="flex flex-col gap-3 mt-6">
-                <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+              <div className="flex flex-col gap-3 mt-6 bg-slate-700 items-center justify-center p-1">
+                <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 rounded w-40">
                   View Shop
                 </button>
-                <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 rounded w-40">
                   Assign badges
                 </button>
               </div>
+
 
               {/* Bottom Buttons */}
               <div className="mt-auto flex flex-col gap-3">
