@@ -56,7 +56,8 @@ export default function SellerDashbard() {
                     <div className="w-3/4 max-h-lvh overflow-auto overscroll-auto">
 
                         <TabsContent value="Seller Management">
-                            <SellerManagementsTabs />
+                            {/* <SellerManagementsTabs /> */}
+                            <ProductManagement/>
                         </TabsContent>
 
                         <TabsContent value="All Orders">
@@ -68,7 +69,7 @@ export default function SellerDashbard() {
                         <TabsContent value="Product Management">
                             {/*Product Management component here */}
                              {/* DEV : madushan */}
-                            <ProductManagement/>
+                            {/* <ProductManagement/> */}
                         </TabsContent>
 
                         <TabsContent value="Logs">

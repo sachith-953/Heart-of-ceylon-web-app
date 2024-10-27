@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Loader2, Star } from "lucide-react";
+import MaxWidthWrapper from "@/components/MaxWidthWrapper";
 
 interface RatingStarsProps {
     rating: number;
@@ -21,12 +22,17 @@ const RatingStars: FC<RatingStarsProps> = ({ rating }) => {
                 <Star
                     key={index}
                     size={16}
-                    className={index < filledStars ? "fill-yellow-400 text-yellow-400" : "text-gray-300"}
+                    className={
+                        index < filledStars
+                            ? "fill-yellow-400 text-yellow-400" // Yellow for filled stars
+                            : "fill-black text-black"           // Black for unfilled stars
+                    }
                 />
             ))}
         </div>
     );
 };
+
 
 export enum ProductStatusEnum {
     PRODUCT_IS_ACTIVE = 'PRODUCT_IS_ACTIVE',
@@ -61,7 +67,9 @@ export interface TopSellingProductData {
     productProfitMarginPercentage: number;
     productManufacture: string;
     deleted: boolean;
+    sellerID: number
     productDiscountPrice: number;
+
 }
 
 const TopSellingProductDetails: FC = () => {
@@ -155,26 +163,60 @@ const TopSellingProductDetails: FC = () => {
         // <div>
         //     search products component here
         // </div>
-        <div className="container mx-auto p-4 ml-1 rounded-md">
-            <h1 className="text-2xl font-bold mb-6">Top Selling Products</h1>
-            
-            <div className="space-y-4 ml-0">
+        <div className="pl-0 rounded-md ml-1 mr-1">
+            <MaxWidthWrapper>
+                <div className="flex flex-col gap-10 items-center p-6 ">
+                <div className="items-start flex flex-row w-full sm:w-2/3 max-w-96 sm:max-w-screen-md">
+                    <div className="relative flex flex-col w-full">
+                    <div className="flex flex-row w-full">
+                        <input 
+                        type="text" 
+                        className="z-40 px-5 py-1 w-full sm:px-5 sm:py-3 flex-1 text-zinc-600 bg-slate-300 focus:big-black rounded-l-3xl focus:outline-none focus:bg-gray-300"
+                        placeholder="Search orders..."
+                        // value={searchQuery}
+                        // onChange={(e) => setSearchQuery(e.target.value)}
+                        // onKeyDown={(e) => e.key === 'Enter' && handleSearch()}
+                        />
+                        <button 
+                        className="z-40 bg-gray-300 px-6 rounded-r-3xl ml-px hover:bg-gray-600 hover:text-white"
+                        // onClick={handleSearch}
+                        >
+                        Search
+                        </button>
+                    </div>
+                    </div>
+                </div>
+                </div>
+            </MaxWidthWrapper>
+
+        <div className="pl-0 rounded-md ml-1 mr-1">
+            <div className='h-9 pb-1'>
+                <h1 className="text-lg font-bold ml-2">Top Selling Products</h1>
+            </div>
                 {data.map((product) => (
-                    <Card key={product.productID} className="p-1">
-                        <div className="flex gap-4 hover:bg-gray-100 rounded-md">
+                    <Card key={product.productID} className="mb-2">
+                        {/* div tag for each product */}
+                        <div className="flex hover:bg-gray-200 rounded-md">
                             {/* Section 1: Product Image */}
-                            <div className="w-48 h-48 flex-shrink-0">
+                            <div className="w-1/5 h-44 rounded-md ml-0">
                                 <img
-                                    src={product.productMainImage}
+                                    src={product.productMainImage || "https://www.chilipeppermadness.com/wp-content/uploads/2024/02/Bell-Peppers1.jpg"} // Use a fallback image path
                                     alt={product.productName}
                                     className="w-full h-full object-cover rounded"
+                                    onError={(e) => {
+                                        e.currentTarget.src = "https://www.chilipeppermadness.com/wp-content/uploads/2024/02/Bell-Peppers1.jpg"; // Path to fallback image
+                                    }}
                                 />
                             </div>
 
-                            {/* Section 2: Product Details */}
-                            <div className="flex-grow space-y-2">
-                                <h2 className="font-semibold text-lg">{product.productName}</h2>
-                                {/* make backend API to get product category */}
+                                                        {/* Section 2: Product Details */}
+                            <div className="w-2/5 rounded-md p-1">
+                            <h2 className="font-semibold text-lg">
+                                    {product.productName.length > 70
+                                    ? `${product.productName.slice(0, 70)}...`
+                                    : product.productName}
+                            </h2>
+                                                            {/* make backend API to get product category */}
                                 {/* <p className="text-sm text-gray-600">Category: {product.productCategory}</p> */}
                                 <p className="text-md">Unit Price: ${product.productPrice.toFixed(2)}</p>
                                 <p className="text-sm">Profit Margin: {product.productProfitMarginPercentage}%</p>
@@ -186,48 +228,44 @@ const TopSellingProductDetails: FC = () => {
                             </div>
 
                             {/* Section 3: Seller Info & Status */}
-                            <div className="w-48 space-y-2">
-                                <p className="text-sm font-medium">Seller ID: {product.productManufacture}</p>
+                            <div className="w-1/5 rounded-md p-1">
+                                <p className="text-sm font-medium">Seller ID : {product.sellerID}</p>
                                 <div className="space-y-1">
-                                    <span className="inline-block px-2 py-1 text-xs rounded bg-blue-100 text-blue-800">
-                                        {product.productVisibility}
-                                    </span>
-                                    <span className="inline-block px-2 py-1 text-xs rounded bg-green-100 text-green-800">
-                                        {product.productStatus}
-                                    </span>
+                                    <p className="text-sm font-medium bg-green-300">Product visibility : {product.productVisibility}</p>
+                                    <p className="text-sm font-medium bg-orange-300">Status : {product.productStatus}</p>
                                 </div>
                                 <div className="space-y-2 mt-4">
-                                    <Button variant="outline" size="sm" className="w-full">
+                                    <Button variant="outline" size="sm" className="bg-blue-500 w-full hover:bg-blue-700 text-white">
                                         Comments
                                     </Button>
-                                    <Button variant="outline" size="sm" className="w-full">
+                                    <Button variant="outline" size="sm" className="bg-blue-500 w-full hover:bg-blue-700 text-white">
                                         Ratings
                                     </Button>
                                 </div>
                             </div>
 
                             {/* Section 4: Action Buttons */}
-                            <div className="w-40 space-y-2">
-                                <Button variant="default" size="sm" className="w-full">
+                            <div className="w-1/5 rounded-md p-1 space-y-6">
+                                <Button variant="default" size="sm" className="w-full hover:bg-gray-500 text-white">
                                     View Seller Details
                                 </Button>
-                                <Button variant="destructive" size="sm" className="w-full">
+                                <Button variant="destructive" size="sm" className="w-full hover:bg-red-400 text-white">
                                     Suspend
                                 </Button>
-                                <Button variant="outline" size="sm" className="w-full">
+                                <Button variant="outline" size="sm" className="bg-blue-500 w-full hover:bg-blue-700 text-white">
                                     All Details
                                 </Button>
                             </div>
                         </div>
                     </Card>
                 ))}
-            </div>
 
-            <div className="flex justify-between mt-6">
+            <div className="flex justify-center mt-6">
                 <Button 
                     onClick={handlePreviousPage}
                     disabled={currentPage === 1}
                     variant="outline"
+                    className='hover:bg-gray-600 text-black pl-2 bg-gray-400'
                 >
                     Previous Page
                 </Button>
@@ -236,11 +274,13 @@ const TopSellingProductDetails: FC = () => {
                     onClick={handleNextPage}
                     disabled={!hasMorePages}
                     variant="outline"
+                    className='hover:bg-gray-600 text-black pr-2 bg-gray-400'
                 >
                     Next Page
                 </Button>
             </div>
-        </div>
+        </div>   
+    </div>     
     );
 };
 
