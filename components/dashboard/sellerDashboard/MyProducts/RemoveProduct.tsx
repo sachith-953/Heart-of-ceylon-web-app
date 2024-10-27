@@ -1,19 +1,26 @@
-"use client";
-
-import { useState } from "react";
+import React, { useState } from 'react';
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+import { Button } from "@/components/ui/button";
+import { Trash2 } from "lucide-react";
 import { useToast } from "@/components/ui/use-toast";
-import { useRouter } from "next/navigation";
-import { Trash2 } from "lucide-react"; // Import trash icon
 
 const RemoveProduct: React.FC<{
   productId: number;
   onProductRemoved: () => void;
 }> = ({ productId, onProductRemoved }) => {
-
   const [isLoading, setIsLoading] = useState(false);
+  const { toast } = useToast();
   const BASE_URL = process.env.NEXT_PUBLIC_URL;
 
   const handleRemoveProduct = async () => {
+    if (isLoading) return;
+    
     setIsLoading(true);
     try {
       const res = await fetch(
@@ -23,38 +30,72 @@ const RemoveProduct: React.FC<{
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify({ productId }), // Send productId in request body
+          body: JSON.stringify({
+            productId: productId,
+          }),
         }
       );
 
+      const data = await res.json();
+
       if (res.ok) {
-        const responseData = await res.json();
-        console.log(responseData);
-        console.log("successfully removed");
-        onProductRemoved(); // Call the refresh function
+        toast({
+          title: "Success",
+          description: data.message || "Product removed successfully",
+        });
+        onProductRemoved(); // Refresh the product list
       } else {
-        const responseData = await res.json();
-        console.error("Error removing product:", responseData);
+        toast({
+          variant: "destructive",
+          title: "Error",
+          description: data.error?.message || "Failed to remove product",
+        });
       }
     } catch (error) {
       console.error("Error removing product:", error);
+      toast({
+        variant: "destructive",
+        title: "Error",
+        description: "An unexpected error occurred while removing the product",
+      });
     } finally {
       setIsLoading(false);
     }
   };
 
   return (
-    <div className="flex items-center justify-center h-full">
-      <button
-        onClick={handleRemoveProduct}
-        className="p-2 bg-red-500 hover:bg-red-600 text-white rounded-lg transition-colors duration-200 flex items-center gap-2"
-        title="Remove Product"
-        disabled={isLoading}
-      >
-        <Trash2 size={20} />
-        {isLoading ? "Removing..." : "Remove Product"}
-      </button>
-    </div>
+    <Dialog>
+      <DialogTrigger asChild>
+        <Button 
+          variant="outline" 
+          size="sm" 
+          className="w-full border-red-500 hover:border-red-600 hover:bg-red-50"
+        >
+          <Trash2 className="w-4 h-4 mr-2 text-red-500" />
+          <span className="text-red-500">Remove Product</span>
+        </Button>
+      </DialogTrigger>
+      <DialogContent>
+        <DialogHeader>
+          <DialogTitle className="text-red-500">Remove Product</DialogTitle>
+        </DialogHeader>
+        <div className="space-y-4">
+          <p>Are you sure you want to remove this product? This action cannot be undone.</p>
+          <div className="flex justify-end space-x-2">
+            <DialogTrigger asChild>
+              <Button variant="outline">Cancel</Button>
+            </DialogTrigger>
+            <Button 
+              variant="destructive" 
+              onClick={handleRemoveProduct}
+              disabled={isLoading}
+            >
+              {isLoading ? "Removing..." : "Remove Product"}
+            </Button>
+          </div>
+        </div>
+      </DialogContent>
+    </Dialog>
   );
 };
 

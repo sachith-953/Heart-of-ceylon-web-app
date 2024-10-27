@@ -98,6 +98,7 @@ const MyProducts = () => {
               parentData={product}
               onProductRemoved={handleRefresh}
               onVisibilityStatusUpdate={handleRefresh}
+              onProductStockUpdate={handleRefresh}
             />
           ))}
         </div>

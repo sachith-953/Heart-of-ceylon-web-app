@@ -71,7 +71,7 @@ const UpdateProductVisibility: React.FC<{
   return (
     <div className="flex items-center justify-center h-full gap-2">
       <span
-        className={`px-2 py-1 rounded-full text-sm ${getStatusStyle(productVisibility)}`}
+        className={`px-2 py-1 rounded-md text-sm ${getStatusStyle(productVisibility)}`}
       >
         {productVisibility || "Unknown"}
       </span>
