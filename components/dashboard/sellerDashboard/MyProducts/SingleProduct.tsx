@@ -3,6 +3,7 @@
 import { Star } from "lucide-react";
 import Image from "next/image";
 import RemoveProduct from "./RemoveProduct";
+import UpdateProductVisibility from "./UpdateProductVisibility";
 
 interface ProductData {
   productID: number;
@@ -22,12 +23,13 @@ interface ChildProps {
 const SingleProduct: React.FC<{
   parentData: ProductData;
   onProductRemoved: () => void;
-}> = ({ parentData, onProductRemoved }) => {
+  onVisibilityStatusUpdate: () => void;
+}> = ({ parentData, onProductRemoved, onVisibilityStatusUpdate}) => {
   return (
-    <div className="bg-gray-200 flex flex-row my-1 border-2 border-red-600">
+    <div className="bg-gray-100 flex flex-row my-1 rounded border-2 border-red-600">
       {/* Image */}
-      <div className="w-1/5 p-2 border-2 border-green-600 flex justify-center items-center">
-        <div className="relative w-32 h-32 overflow-hidden">
+      <div className="w-1/6 p-2 flex justify-center items-center border-2 border-green-600">
+        <div className="relative w-32 h-32 overflow-hidden rounded">
           <Image
             src={parentData.productImage}
             alt="Product image"
@@ -39,11 +41,17 @@ const SingleProduct: React.FC<{
       </div>
 
       {/* Content */}
-      <div className="w-3/5 border-2 border-blue-600">
-        <p>{parentData.productName}</p>
-        {/* ratings */}
-        <div className="flex flex-col md:flex-row mt-0 md:mt-1">
-          <div className="flex flex-row bg-white pr-1 justify-center sm:justify-normal">
+      <div className="w-3/6 border-2 border-blue-600">
+        <p className="text-lg font-bold">{parentData.productName}</p>
+        <div className="flex flex-col ms:flex-row mt-0 md:mt-1 border-2 border-black">
+          {/* Product details */}
+          <div className="border-2 border-orange-600">
+            <p>Unit Price: LKR {parentData.productPrice}</p>
+            <p>Profit margin: {parentData.productProfitMarginPercentage}%</p>
+            <p>Available stocks: {parentData.productAvailableStokes} units</p>
+          </div>
+          {/* ratings */}
+          <div className="flex flex-row w-2/5 bg-white pr-1 justify-center sm:justify-normal">
             <p className="mr-1 hidden sm:flex min-w-16 sm:text-sm">Ratings :</p>
             <div className="flex flex-row">
               {Array.from({ length: parentData.productRatings }, (_, index) => (
@@ -65,11 +73,24 @@ const SingleProduct: React.FC<{
       </div>
 
       {/* remove and visibility */}
-      <div className="w-1/5 border-2 border-yellow-600">
-        <div>
+      <div className="flex flex-col w-2/6 border-2 border-yellow-600">
+        {/* remove */}
+        <div className="basis-1/3">
           <RemoveProduct
             productId={parentData.productID}
             onProductRemoved={onProductRemoved}
+          />
+        </div>
+        {/* upadate stocks */}
+        <div className="basis-1/3 border-2 border-green-800">
+          <p>Update stock amount</p>
+        </div>
+        {/* visibility */}
+        <div className="basis-1/3 border-2 border-blue-600">
+          <UpdateProductVisibility
+            productId={parentData.productID}
+            productVisibility={parentData.product_visibility}
+            onVisibilityStatusUpdate={onVisibilityStatusUpdate}
           />
         </div>
       </div>
