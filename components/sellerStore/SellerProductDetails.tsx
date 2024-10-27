@@ -13,6 +13,7 @@ const SellerProductDetails = () => {
     const [dataFetchError, setDataFetchError] = useState(false);
     const [sortMethod, setSortMethod] = useState("")
     const [isLoading, setIsLoading] = useState(true)
+    const [data, setData] = useState<dataDataType[]>([]);
 
     interface dataDataType {
         productAvailableStokes: number
@@ -48,7 +49,43 @@ const SellerProductDetails = () => {
 
     };
 
-    const [data, setData] = useState<dataDataType[]>([]);
+    const handleProductFetch = async () => {
+
+        const res = await fetch(
+            `${process.env.NEXT_PUBLIC_URL}/api/product/search**************`,
+            {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({ searchKeyParam, requestedPage }),
+            }
+        );
+
+        if (res.ok) {
+            const responseData = await res.json();
+
+            console.log("Data recived sucess");
+            console.log(responseData);
+
+            setErrorMessage("") // remove error message 
+            setDataFetchError(false)
+            setData(responseData.productList) // add data to data useState
+
+            console.log("responseData.productList");
+
+
+            setIsLoading(false) // this stop display skeliton animation
+
+        } else {
+            const responseData = await res.json();
+            setErrorMessage(responseData.message);
+            setDataFetchError(true)
+            console.log("********failed********")
+        }
+    };
+
+    
 
     return (
         <>
