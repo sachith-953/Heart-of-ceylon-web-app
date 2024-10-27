@@ -1,12 +1,11 @@
-import ManageAccount from "@/components/dashboard/sellerDashboard/ManageAccount";
-import MyProducts from "@/components/dashboard/sellerDashboard/MyProducts";
-import MySales from "@/components/dashboard/sellerDashboard/MySales";
-import MaxWidthLg from "@/components/MaxWidthLg";
+import SellerManagementsTabs from "@/components/adminDashboard/sellerManagement/SellerManagementsTabs";
+import ManageAdminAccounts from "@/components/adminDashboard/ManageAdminAccounts/ManageAccounts"
 import Navbar from "@/components/Navbar";
 import { TabsTriggerForSellerDashboard } from "@/components/ui/seller-tabs-trigger";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { BadgeDollarSign, Box, Printer, ShoppingBasket, Text, UserCog, UserPlus, UserRound, Users } from "lucide-react"
-
+import AllOrders from "@/components/adminDashboard/AllOrders/AllOrders";
+import ProductManagement from "@/components/adminDashboard/ProductManagement/ProductManagement"
 
 
 
@@ -16,9 +15,9 @@ export default function SellerDashbard() {
 
             {/* add new navbar designed for the seller*/}
             <Navbar />
-            
+
             <div className="bg-white w-full h-svh pt-1">
-                
+
                 {/* tabs */}
                 <Tabs defaultValue="Seller Management" className="flex flex-row mx-3 h-full ">
                     <TabsList className="w-1/4 h-full flex flex-col bg-[#314659] justify-start">
@@ -57,15 +56,20 @@ export default function SellerDashbard() {
                     <div className="w-3/4 max-h-lvh overflow-auto overscroll-auto">
 
                         <TabsContent value="Seller Management">
-                            
+                            {/* <SellerManagementsTabs /> */}
+                            <ProductManagement/>
                         </TabsContent>
 
                         <TabsContent value="All Orders">
                             {/* All Orders component here */}
+                            {/* DEV : madushan */}
+                            <AllOrders/>
                         </TabsContent>
 
                         <TabsContent value="Product Management">
                             {/*Product Management component here */}
+                             {/* DEV : madushan */}
+                            {/* <ProductManagement/> */}
                         </TabsContent>
 
                         <TabsContent value="Logs">
@@ -74,6 +78,8 @@ export default function SellerDashbard() {
 
                         <TabsContent value="Manage Admin Accounts">
                             {/*Manage Admin Accounts component here */}
+                            {/* DEV -madushan */}
+                            <ManageAdminAccounts/>
                         </TabsContent>
 
                     </div>
@@ -85,5 +91,3 @@ export default function SellerDashbard() {
         </>
     );
 }
-
-
