@@ -156,7 +156,7 @@ export async function POST(request: Request) {
 
   try {
 
-    const response = await fetch(`http://localhost:8080/api/v1/auth/seller-profile-pic-upload?sellerEmail=${emailValueString}`, {
+    const response = await fetch(`http://localhost:8080/api/v1/auth/seller-cover-pic-upload?sellerEmail=${emailValueString}`, {
       method: 'POST',
       headers: {
         'Authorization': `Bearer ${accessToken}`,
