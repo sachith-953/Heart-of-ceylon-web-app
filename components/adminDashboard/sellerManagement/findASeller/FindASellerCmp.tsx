@@ -7,6 +7,7 @@ import React from 'react'
 import ErrorForCatch from "@/components/ErrorForCatch";
 import SellerDetailsCard from "../sellerDetailsCard/SellerDetailsCard";
 import SearchBarForSearchSellerCom from "../SearchBarForSearchSeller/SearchBarForSearchSellerCom";
+import SearchBarForSearchSellerCom2 from "../SearchBarForSearchSellerCom/searchBarForSearchSellerCom2";
 
 interface SellerData {
   profilePicture: string;
@@ -32,82 +33,16 @@ const FindASellerCmp = () => {
   const [currentPage, setCurrentPage] = useState("1");
   const [isMobile, setIsMobile] = useState(false);
 
+  const [parentData, setParentData] = useState('Initial Parent Data');
+  const [childData, setChildData] = useState('');
+  
+
+
   const searchQuery = searchParams.get("query");
 
   const pushToLogin = () => {
     console.log("pushed to login");
     router.push("/log-in");
-  };
-
-  const handleProductSearch = async (searchKeyParam: string, requestedPage: string) => {
-    try {
-      setIsLoading(true);
-      const res = await fetch(
-        `${process.env.NEXT_PUBLIC_URL}/api/admin-dashboard/search-seller`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ searchKeyParam, requestedPage }),
-        }
-      );
-
-      if (!res.ok) {
-        if (res.status === 403 || res.status === 401) {
-          toast({
-            variant: "destructive",
-            title: "Session Expired",
-            description: "Please login again. Your session has expired.",
-          });
-          pushToLogin();
-          return;
-        }
-
-        const errorData = await res.json();
-        throw new Error(errorData.message || 'Failed to fetch data');
-      }
-
-      const responseData = await res.json();
-      console.log('API Response Data:', responseData);
-      console.log('Response Data Type:', typeof responseData);
-      console.log('Is Array?', Array.isArray(responseData));
-
-      // Handle different response formats
-      let processedData: SellerData[] = [];
-
-      if (Array.isArray(responseData)) {
-        processedData = responseData;
-      } else if (typeof responseData === 'object' && responseData !== null) {
-        // Check for common wrapper properties
-        if (Array.isArray(responseData.data)) {
-          processedData = responseData.data;
-        } else if (Array.isArray(responseData.sellers)) {
-          processedData = responseData.sellers;
-        } else if (Array.isArray(responseData.results)) {
-          processedData = responseData.results;
-        }
-      }
-
-      console.log('Processed Data:', processedData);
-
-      // Validate the processed data
-      if (!Array.isArray(processedData)) {
-        throw new Error('Failed to process seller data into valid format');
-      }
-
-      setData(processedData);
-      setTotalResultFound(processedData.length);
-      setErrorMessage("");
-
-    } catch (error) {
-      console.error('Error in handleProductSearch:', error);
-      setErrorMessage(error instanceof Error ? error.message : 'An error occurred');
-      setIsError(true);
-      setData([]); // Reset to empty array on error
-    } finally {
-      setIsLoading(false);
-    }
   };
 
   const fetchAllSellers = async () => {
@@ -171,16 +106,16 @@ const FindASellerCmp = () => {
     }
   };
 
-  useEffect(() => {
-    const page = searchParams.get("page") || "1";
-    setCurrentPage(page);
+  // useEffect(() => {
+  //   const page = searchParams.get("page") || "1";
+  //   setCurrentPage(page);
 
-    if (searchQuery) {
-      handleProductSearch(searchQuery, page);
-    } else {
-      fetchAllSellers();
-    }
-  }, [searchParams, searchQuery]);
+  //   if (searchQuery) {
+  //     handleProductSearch(searchQuery, page);
+  //   } else {
+  //     fetchAllSellers();
+  //   }
+  // }, [searchParams, searchQuery]);
 
   useEffect(() => {
     const checkScreenSize = () => {
@@ -208,10 +143,22 @@ const FindASellerCmp = () => {
   // Ensure data is an array before rendering
   const sellers = Array.isArray(data) ? data : [];
 
+  // This use for get search word from search child component
+
+
+  const handleChildDataChange = (newChildData: string) => {
+    setChildData(newChildData);
+    console.log("child is calling" + newChildData)
+  };
+
+
   return (
     <>
       <div className="w-full">
-        <SearchBarForSearchSellerCom />
+        <SearchBarForSearchSellerCom2 
+          parentData={parentData} 
+          onChildDataChange={handleChildDataChange}
+        />
         {sellers.length === 0 ? (
           <div className="p-4">No sellers found</div>
         ) : (
