@@ -1,7 +1,7 @@
 import React from 'react'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import Product from "@/components/adminDashboard/ProductManagement/AdminProducts/TopSellingProductDetails"
-import VerifyProduct from "@/components/adminDashboard/ProductManagement/VarifyProduct/ToBeVerifyProducts"
+import Product from "@/components/adminDashboard/ProductManagement/AdminTopSellingProductDetails/AdminTopSellingProductDetails"
+import VerifyProduct from "@/components/adminDashboard/ProductManagement/ToBeVerifyProducts/ToBeVerifyProducts"
 
 const ProductManagement = () => {
     return (

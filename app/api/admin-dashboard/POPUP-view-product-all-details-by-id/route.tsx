@@ -13,7 +13,7 @@ export async function POST(request: Request) {
     let refreshTokenString = null;
 
     // TODO : change all console.log fiels.  
-    console.log("\nView seller details by id: Nextjs API has Called");
+    console.log("\nView Product details by id: Nextjs API has Called");
 
     // ***************************************************************
     // ******************* 1. Get email From Cookies *****************
@@ -21,7 +21,7 @@ export async function POST(request: Request) {
 
     if (cookieStore.has('email')) {
         email = cookieStore.get('email');
-        console.log("AdminDashboard > View seller details--> popup> email :" + JSON.stringify(email));
+        console.log("AdminDashboard > View product details--> popup> email :" + JSON.stringify(email));
         //output : 
         //get-access-token > email :{"name":"email","value":"s19093@sci.pdn.ac.lk","path":"/"}
     } else {
@@ -41,7 +41,7 @@ export async function POST(request: Request) {
     //so those duble quotes should be removed before send to the backend. 
     //otherwise undetectable malfunctions can occures 
     emailValueString = emailValueString.replace(/"/g, "")
-    console.log("AdminDashboard > View seller details by id-->popup > email >>>: " + emailValueString);
+    console.log("AdminDashboard > View product all details by id-->popup > email >>>: " + emailValueString);
 
      // *************************************************************
     // ************* 2. Get Refresh-Token From Cookies *************
@@ -129,26 +129,27 @@ export async function POST(request: Request) {
     }
 
     // *************************************************************
-    // ********* 4. View seller details by id. ******
+    // ********* 4. View Product details by id. ******
     // *************************************************************
     const reqParams = await request.json()
     // store the seller id in a varible
-    const sellerID = reqParams.sellerID
-    console.log("get-all details-of a seller--> Nextjs API has Called");
+    const productID = reqParams.productID
+    console.log("productID is :" +productID)
+    console.log("get-all details of a product--> Nextjs API has Called");
 
     try{
-        const response = await fetch(`http://localhost:8080/api/v1/auth/get-sellers-all-data?adminEmail=${emailValueString}&sellerID=${sellerID}`, {
+        const response = await fetch(`http://localhost:8080/api/v1/auth/get-all-details-of-a-product?adminEmail=${emailValueString}&productID=${productID}`, {
            // default it is GET
             headers: {
                 'Authorization': `Bearer ${accessToken}`,
                 // no body to send
             },
         });
-        console.log("View seller details by id--> request Sent");
+        console.log("View all details of a product  by id--> request Sent");
         if (response.ok) {
             const data = await response.json(); // .json() since backend service class return DTO list
             // if the backend return a string this should response.text()
-            console.log("get seller details--> fetched successfully:", data);
+            console.log("get product all details--> fetched successfully:", data);
             return new Response(
                 JSON.stringify(data), 
                 {
@@ -161,7 +162,7 @@ export async function POST(request: Request) {
         else{
             const responseBodyText = await response.text(); // .text() because backend return string messages
             const resData = {message: responseBodyText};
-            console.warn(response.status + " >> Error from---> getting seller details by id >> " + responseBodyText)
+            console.warn(response.status + " >> Error from---> getting product details by id >> " + responseBodyText)
             return new Response(
                 JSON.stringify(resData),
                 { status: response.status }
