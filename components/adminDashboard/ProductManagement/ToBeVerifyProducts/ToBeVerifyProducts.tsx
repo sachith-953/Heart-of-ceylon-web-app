@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Loader2, Star } from "lucide-react";
 import MaxWidthWrapper from "@/components/MaxWidthWrapper";
+import SellerDetailsModal from "@/components/adminDashboard/POPUPwindows/ViewSellerDetailsPOPUPWindow/ViewSellerDetailsPOPUPWindow"
 
 interface RatingStarsProps {
     rating: number;
@@ -57,6 +58,7 @@ const ToBeVerifyProducts: FC = () => {
     const [hasMorePages, setHasMorePages] = useState(true);
     const router = useRouter();
     const { toast } = useToast();
+    const [selectedSeller, setSelectedSeller] = useState<number | null>(null);// pop up for seller view
 
     const fetchProducts = async (pageNumber: number) => {
         try {
@@ -115,6 +117,10 @@ const ToBeVerifyProducts: FC = () => {
             setCurrentPage(prev => prev - 1);
         }
     };
+    // handle view seller button click
+    const handleViewSellerDetails = (sellerID: number) => {
+        setSelectedSeller(sellerID);
+      };
 
     if (isLoading) {
         return (
@@ -224,7 +230,9 @@ const ToBeVerifyProducts: FC = () => {
 
                                 {/* Section 4: Action Buttons */}
                                 <div className="w-1/5 rounded-md p-1 space-y-6">
-                                    <Button variant="default" size="sm" className="bg-blue-500 w-full hover:bg-blue-700 text-white">
+                                    <Button variant="default" size="sm" className="bg-blue-500 w-full hover:bg-blue-700 text-white"
+                                            onClick={() => handleViewSellerDetails(product.sellerID)}>
+                                        {/* onclick handle popup window */}
                                         View Seller Details
                                     </Button>
                                     <Button variant="outline" size="sm" className="bg-green-500 w-full hover:bg-green-700 text-white">
@@ -254,6 +262,14 @@ const ToBeVerifyProducts: FC = () => {
                         Next Page
                     </Button>
                 </div>
+                {/* view seller model */}
+            {selectedSeller !== null && (
+                <SellerDetailsModal
+                    isOpen={selectedSeller !== null}
+                    onClose={() => setSelectedSeller(null)}
+                    sellerID={selectedSeller}
+                />
+            )}
             </div> 
         </div>    
     );
