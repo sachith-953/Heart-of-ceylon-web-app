@@ -1,54 +1,3 @@
-// ********************** how to create a  pop up window ***********************************
-//********************************************************************* */
-// step 1: create a relawant naxtJs API route
-//******************************************************************** */
-//step 2-handle button ***************************************************
- 
-//  <Button variant="default" size="sm" className="bg-blue-600 w-full hover:bg-blue-800 text-white hover:text-black"
-//         onClick={() => handleViewProductDetails(product.productID)}>
-//         All Details
-// </Button> 
-
-
-//*******************************************************************************
-//*******************************************************************************
-//step 3- create the function to handle button in the component where button is*/
- 
-
-// const handleViewProductDetails = (productID: number) => {
-//     setSelectedProduct(productID);
-//   };
-  
-
-//**************************************************************************************
-// step 4- create use state
-// ************************************************************************************
-
-// const [selectedProduct, setSelectedProduct] = useState<number | null>(null);
-
-// **************************************************************************************
-// step 5-import relavant popup wndow component
-
-// import ProductDetailsModal from "@/components/adminDashboard/POPUPwindows/ViewProductAllDetailsPOPUPWindow/ViewProductAllDetailsPOPUPWindow"
-
-// *************************************************************************************
-// *************************************************************************************
-// step 6 -put relavant model at the bottom of the component 
-
-{/* view product more details */}
-// {selectedProduct !== null && (
-//     <ProductDetailsModal // popup model export name -->export default ProductDetailsModal;
-//         isOpen={selectedProduct !== null}
-//         onClose={() => setSelectedProduct(null)}
-//         productID={selectedProduct}
-//     />
-// )}
-
-//****************************************************************************************** *
-//****************************************************************************************** 
-// step 7 - create the pop up componet like this page
-// ********************************************************************************************
-// **********************************************************************************************
 import {
     Dialog,
     DialogContent,
@@ -71,7 +20,6 @@ interface ProductDetailsModalProps {
     onClose: () => void;
     productID: number;
 }
-
 interface ProductDetails {
     productID: number;
     productName: string;
@@ -95,7 +43,8 @@ interface ProductDetails {
     productDiscountPrice: number;
 }
 
-const ProductDetailsModal: React.FC<ProductDetailsModalProps> = ({
+
+const ProductDetailsForApproveTheProductModel: React.FC<ProductDetailsModalProps> = ({
     isOpen,
     onClose,
     productID,
@@ -106,13 +55,12 @@ const ProductDetailsModal: React.FC<ProductDetailsModalProps> = ({
     const { toast } = useToast();
     const router = useRouter();
 
-  
     const fetchProductDetails = async () => {
         try {
             setIsLoading(true);
             setError(null);
             
-            const res = await fetch('http://localhost:3000/api/admin-dashboard/POPUP-view-product-all-details-by-id', {
+            const res = await fetch('http://localhost:3000/api/admin-dashboard/POPUP-product-approval-Window', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -170,11 +118,11 @@ const ProductDetailsModal: React.FC<ProductDetailsModalProps> = ({
 
     return (
         <Dialog open={isOpen} onOpenChange={onClose}>
-            <DialogContent className="w-[100vw] max-w-[100vw] h-dvh p-1 bg-gray-200 flex flex-col rounded-md"> 
+            <DialogContent className="w-[100vw] max-w-[100vw] h-dvh p-1 bg-gray-200 overflow-y-auto"> 
             {/*overflow-y-auto is the scroll bar */}
                 <DialogHeader className="bg-gray-200">
-                    <DialogTitle className="text-xl font-bold text-black text-center rounded-md p-2">
-                        Product All Details
+                    <DialogTitle className="text-4xl font-bold text-black text-center rounded-md mt-5">
+                        Product Approval
                     </DialogTitle>
                 </DialogHeader>
           
@@ -185,16 +133,16 @@ const ProductDetailsModal: React.FC<ProductDetailsModalProps> = ({
                 ) : error ? (
                     <div className="text-center text-red-500 p-4">{error}</div>
                 ) : product ? (
-                    <div className="flex h-full mt-0 overflow-y-auto">
+                    <div className="flex h-full">
                         {/* Left Sidebar - 1/4 width */}
                         <div className="w-1/4 border-r border-gray-300 flex flex-col bg-gray-300 rounded-md ml-1 mr-1 mb-1 mt-0 p-2">
                             {/* Profile Picture */}
-                            <div className="flex justify-center w-full mb-4 p-1">
+                            <div className="flex justify-center w-full p-1">
                                 {product.productMainImage ? (
                                     <img 
                                         src={product.productMainImage} 
                                         alt="Product Image" 
-                                        className="w-42 h-full object-cover rounded-3xl"
+                                        className="w-42 h-60 object-cover rounded-3xl"
                                     />
                                 ) : (
                                     <div className="w-40 h-40 rounded-md bg-gray-200 flex items-center justify-center">
@@ -208,22 +156,6 @@ const ProductDetailsModal: React.FC<ProductDetailsModalProps> = ({
                                  <button
                                     className="bg-blue-600 hover:bg-blue-800 text-white font-bold py-2 rounded w-2/3 px-4 hover:text-black">
                                     View Seller Details
-                                </button>
-                                <button className="bg-blue-600 hover:bg-blue-800 text-white font-bold py-2 rounded w-2/3 px-4 hover:text-black">
-                                    Comments
-                                </button>
-                                <button className="bg-blue-600 hover:bg-blue-800 text-white font-bold py-2 rounded w-2/3 px-4 hover:text-black">
-                                    Ratings
-                                </button>
-                            </div>
-
-                            {/* Bottom Buttons */}
-                            <div className="mt-auto flex flex-col gap-3 p-2 mb-4 items-center justify-center">
-                                <button className="bg-red-600 hover:bg-red-800 text-white font-bold py-2 px-4 rounded w-2/3 hover:text-black">
-                                    Suspend
-                                </button>
-                                <button className="bg-red-600 hover:bg-red-800 text-white font-bold py-2 px-4 rounded w-2/3 hover:text-black">
-                                    Remove Product
                                 </button>
                             </div>
                         </div>
@@ -241,39 +173,15 @@ const ProductDetailsModal: React.FC<ProductDetailsModalProps> = ({
                                     <div className="text-lg font-bold text-black p-1">
                                         Product ID: {product.productID}
                                     </div>
-                                    <div className="text-lg font-bold text-black mt-1 p-1">
+                                    {/* product caregories not there in coming data from backend */}
+                                    <div className="text-lg font-bold text-black mt-5 p-1">
                                         Unit Price: ${product.productPrice}
                                     </div>
                                     <div className="text-lg font-bold text-black mt-1 p-1">
                                         Available Stock: {product.productAvailableStokes}
                                     </div>
                                 </div>
-                                <div className="rounded-md p-1">
-                                    {/* Ratings */}
-                                    <div className="flex items-center p-1">
-                                        <span className="mr-2 text-lg font-bold">Ratings:</span>
-                                        <div className="flex mt-1">
-                                            {Array.from({ length: product.productRatings }, (_, index) => (
-                                                <Star key={index} fill="#FFD254" strokeWidth={0} className="w-4 h-4" />
-                                            ))}
-                                            {Array.from({ length: 5 - product.productRatings }, (_, index) => (
-                                                <Star key={5 * product.productRatings + index} fill="#111" strokeWidth={0} className="w-4 h-4" />
-                                            ))}
-                                        </div>
-                                    </div>
-                                    <div className="flex mt-1 p-1">
-                                        <p className='mr-2 text-lg font-bold'>Visibility :</p>
-                                        <Badge className="bg-orange-300 text-black px-4 py-1 mt-1">
-                                        <p className='text-xl '>{product.productVisibility}</p>
-                                        </Badge>
-                                    </div>
-                                    <div className="flex mt-1 p-1">
-                                        <p className='mr-6 text-lg font-bold'>Status :</p>
-                                        <Badge className="bg-green-300 text-black px-4 py-1 mt-1">
-                                        <p className='text-xl '>{product.productStatus}</p>
-                                        </Badge>
-                                    </div>
-                                </div>
+                               
                             </div>
 
                             {/* Product Details */}
@@ -323,16 +231,18 @@ const ProductDetailsModal: React.FC<ProductDetailsModalProps> = ({
                                 </div>
 
                                 <div className="space-y-2">
-                                    <div className="text-lg font-bold text-black">Notes</div>
+                                    <div className="text-lg font-bold text-black">Additonal Details Email Should Have</div>
                                     <div className="text-lg text-black bg-gray-400 rounded-md p-1 pl-3">
-                                    {
-                                        product.productNotes
-                                        ? JSON.parse(product.productNotes).newNote
-                                        : ''
-                                    }
+                                        <p className="text-red-600">THIS IS NOT CONSIDERED YET WITH THE TEAM</p>
                                     </div>
-                                    <button className="bg-blue-600 hover:bg-blue-800 text-white font-bold py-2 rounded w-1/5 px-4 hover:text-black">
-                                        Update Notes
+                                    
+                                </div>
+                                <div className=" flex">
+                                    <button className="bg-green-600 hover:bg-green-800 text-white font-bold py-2 rounded w-1/5 px-4 hover:text-black mr-10">
+                                        Approve
+                                    </button>
+                                    <button className="bg-red-600 hover:bg-red-800 text-white font-bold py-2 rounded w-1/5 px-4 hover:text-black">
+                                        Reject
                                     </button>
                                 </div>
                             </div>
@@ -345,4 +255,4 @@ const ProductDetailsModal: React.FC<ProductDetailsModalProps> = ({
     );
 };
 
-export default ProductDetailsModal;
+export default ProductDetailsForApproveTheProductModel;

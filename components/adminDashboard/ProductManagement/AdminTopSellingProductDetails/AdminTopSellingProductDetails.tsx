@@ -308,6 +308,7 @@ import { Loader2, Star } from "lucide-react";
 import MaxWidthWrapper from "@/components/MaxWidthWrapper";
 import SellerDetailsModal from "@/components/adminDashboard/POPUPwindows/ViewSellerDetailsPOPUPWindow/ViewSellerDetailsPOPUPWindow"
 import ProductDetailsModal from "@/components/adminDashboard/POPUPwindows/ViewProductAllDetailsPOPUPWindow/ViewProductAllDetailsPOPUPWindow"
+import ReviewsAndRatingsModal from "@/components/adminDashboard/POPUPwindows/ReviewsAndRatingsPOPUPWindow/ReviewsAndRatingsPOPUPWindow"
 
 interface RatingStarsProps {
     rating: number;
@@ -361,7 +362,7 @@ const TopSellingProductDetails: FC = () => {
     const { toast } = useToast();
     const [selectedSeller, setSelectedSeller] = useState<number | null>(null);// pop up for seller view
     const [selectedProduct, setSelectedProduct] = useState<number | null>(null);// pop up for all details of a product
-
+    const [reviews, setReviews] = useState<number | null>(null);// pop up for all reviews
     const fetchProducts = async (pageNumber: number) => {
         try {
             setIsLoading(true);
@@ -427,6 +428,10 @@ const TopSellingProductDetails: FC = () => {
     // handle view product all details click
       const handleViewProductDetails = (productID: number) => {
         setSelectedProduct(productID);
+      };
+      // handle reviews and ratings
+      const handleReviewsRatings = (productID: number) => {
+        setReviews(productID);
       };
 
     if (isLoading) {
@@ -555,7 +560,8 @@ const TopSellingProductDetails: FC = () => {
                                     <Button variant="outline" size="sm" className="bg-blue-600 w-full hover:bg-blue-800 text-white hover:text-black">
                                         Comments
                                     </Button>
-                                    <Button variant="outline" size="sm" className="bg-blue-600 w-full hover:bg-blue-800 text-white hover:text-black">
+                                    <Button variant="outline" size="sm" className="bg-blue-600 w-full hover:bg-blue-800 text-white hover:text-black"
+                                        onClick={() => handleReviewsRatings(product.productID)}>
                                         Ratings
                                     </Button>
                                 </div>
@@ -612,6 +618,14 @@ const TopSellingProductDetails: FC = () => {
                     isOpen={selectedProduct !== null}
                     onClose={() => setSelectedProduct(null)}
                     productID={selectedProduct}
+                />
+            )}
+            {/* reviews and ratings */}
+            {reviews !== null && (
+                <ReviewsAndRatingsModal
+                    isOpen={reviews !== null}
+                    onClose={() => setReviews(null)}
+                    productID={reviews}
                 />
             )}
         </div>   
