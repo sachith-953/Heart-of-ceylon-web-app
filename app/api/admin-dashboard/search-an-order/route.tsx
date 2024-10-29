@@ -2,6 +2,19 @@ import { cookies } from "next/headers";
 
 export const dynamic = "force-dynamic";
 
+/**
+ * this API use to search orders in admin dashboard
+ * email is taken from the cookies.
+ * ==============================================================
+ * === Following step 1,2,3 are common for all Auth requests  ===
+ * === so we only need to change step 4. keep others UNCHANGE ===
+ * ==============================================================
+ * 1.get email from cookies.
+ * 2.get refresh token from cookies
+ * 3.get access token from the /api/get-access-token
+ * 4.send the request to backend to fetch order details for admin dashboard --->All Orders---> orders
+ */
+
 export async function POST(request: Request) {
 
     // decalare global variables 
@@ -133,37 +146,34 @@ export async function POST(request: Request) {
     // *************************************************************
 
     const reqParams = await request.json()
-    // console.log("reqParams.searchKeyParam :" + reqParams.searchKeyParam)
-    // console.log("reqParams.requestedPage :" + reqParams.requestedPage)
 
-    const searchKey = reqParams.searchKeyParam
-    const requestedPageNo = reqParams.requestedPage
+    const searchKey = reqParams.searchQuery
+    const requestedPageNo = reqParams.requestedPageNo
 
     //if searchKey is not entered or empty spaces has entered, we return an error
     if (searchKey === null || searchKey === undefined || searchKey.trim() === '') {
         // return a response for a error
-        const resData = { success: false, message: "Enter a Search-Key word" }
-        return new Response(JSON.stringify(resData));
+        const resData = { success: false, message: " Search Bar is Empty !!" }
+        // return new Response(JSON.stringify(resData));
+        return new Response(JSON.stringify(resData),{ status: 404 });
     }
 
-    // console.log("request URL :" + `http://localhost:8080/api/v1/pBuyer/getSearchResults?searchWord=${searchKey}&pageNumber=${requestedPageNo}`)
-
-    // http://localhost:8080/api/v1/auth/get-sellers-by-search?adminEmail=abeyrathna095@gmail.com&searchWord=wood&pageNumber=1
     console.log("get-orders-by-search--> Nextjs API has Called");
-    try{
 
-        const response = await fetch(`http://localhost:8080/api/v1/auth/get-orders-by-search?adminEmail=${emailValueString}&searchWord=${searchKey}&pageNumber=${requestedPageNo}`, {
+    try{
+        const response = await fetch(`${process.env.NEXT_PUBLIC_SPRING_BOOT_SERVER_URL}/api/v1/auth/get-orders-by-search?adminEmail=${emailValueString}&searchWord=${searchKey}&pageNumber=${requestedPageNo}`, {
            // default it is GET
             headers: {
                 'Authorization': `Bearer ${accessToken}`,
-                // no body to send
             },
         });
+        
         console.log("get-orders-by-search--> request Sent");
+        
         if (response.ok) {
             const data = await response.json(); // .json() since backend service class return DTO list
             // if the backend return a string this should response.text()
-            console.log("all order details fetched by search successfully:", data);
+            console.log("all order details by search fetched by search successfully:", data);
             return new Response(
                 JSON.stringify(data), 
                 {
