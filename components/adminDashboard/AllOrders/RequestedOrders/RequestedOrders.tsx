@@ -3,6 +3,7 @@ import { useToast } from "@/components/ui/use-toast";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from 'react';
 import MaxWidthWrapper from "@/components/MaxWidthWrapper";
+import BuyerDetailsModal from "@/components/adminDashboard/POPUPwindows/ViewBuyerAndOrderDetailsForARequestedOrder/ViewBuyerAndOrderDetailsForARequestedOrder"
 import {
   Table,
   TableBody,
@@ -66,6 +67,7 @@ const RequestedOrders = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const router = useRouter();
   const { toast } = useToast();
+  const [selectedRequest, setRequestedProduct] = useState<number | null>(null);
 
   const fetchRequestedOrders = async () => {
     try {
@@ -116,6 +118,11 @@ const RequestedOrders = () => {
     } finally {
       setIsLoading(false);
     }
+  };
+
+  // handle view more details button
+  const handleViewMoreDetails = (requestOrderId: number) => {
+    setRequestedProduct(requestOrderId);
   };
 
   useEffect(() => {
@@ -215,8 +222,8 @@ const RequestedOrders = () => {
                     <Button
                       variant="default"
                       size="sm"
-                      className="bg-blue-500 hover:bg-blue-700 text-white"
-                    >
+                      className="bg-blue-600 hover:bg-blue-800 text-white hover:text-black"
+                      onClick={() => handleViewMoreDetails(order.requestOrderId)}>
                       More
                     </Button>
                   </TableCell>
@@ -226,6 +233,14 @@ const RequestedOrders = () => {
             </TableBody>
           </Table>
         </div>
+         {/* more details of requested order*/}
+            {selectedRequest !== null && (
+                <BuyerDetailsModal
+                    isOpen={selectedRequest !== null}
+                    onClose={() => setRequestedProduct(null)}
+                    requestedOrderID={selectedRequest} // this requestedOrderID comes from popup window component
+                />
+            )}
         </div>
       
     </div>

@@ -220,7 +220,7 @@ const AdminDetails = () => {
                     <Button
                       variant="default"
                       size="sm"
-                      className="bg-blue-500 hover:bg-blue-700 text-white"
+                      className="bg-blue-600 hover:bg-blue-800 text-white hover:text-black"
                     >
                       More
                     </Button>

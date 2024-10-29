@@ -1,6 +1,6 @@
 import React from 'react'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import AdminDetails from "@/components/adminDashboard/AllOrders/Orders/orders"
+import AdminDetails from "@/components/adminDashboard/AllOrders/Orders/Orders"
 import RequestedOrders from "@/components/adminDashboard/AllOrders/RequestedOrders/RequestedOrders"
 
 const AllOrders = () => {
