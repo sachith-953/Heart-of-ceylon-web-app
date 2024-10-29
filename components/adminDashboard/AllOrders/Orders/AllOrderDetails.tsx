@@ -3,6 +3,7 @@ import { useToast } from "@/components/ui/use-toast";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from 'react';
 import MaxWidthWrapper from "@/components/MaxWidthWrapper";
+import AllDetailsModal from "@/components/adminDashboard/POPUPwindows/ViewMoreDetailsForAnOrder/ViewMoreDetailsForAnOrder"
 import {
   Table,
   TableBody,
@@ -47,6 +48,7 @@ const AllOrderDetails = () => {
   const [reloadPage, setReloadPage] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [selectedOrder, setSelectedOrder] = useState<number | null>(null);
 
   const router = useRouter();
   const { toast } = useToast();
@@ -99,6 +101,10 @@ const AllOrderDetails = () => {
     }
   };
 
+  // handle view more details button
+  const handleViewMoreDetails = (orderId: number) => {
+    setSelectedOrder(orderId);
+  };
 
   useEffect(() => {
     fetchAdminDetails();
@@ -170,7 +176,7 @@ const AllOrderDetails = () => {
                       variant="default"
                       size="sm"
                       className="bg-blue-600 hover:bg-blue-800 text-white hover:text-black"
-                    >
+                      onClick={() => handleViewMoreDetails(order.orderId)}>
                       More
                     </Button>
                   </TableCell>
@@ -179,6 +185,14 @@ const AllOrderDetails = () => {
             </TableBody>
           </Table>
         </div>
+        {/* more details of requested order*/}
+        {selectedOrder !== null && (
+                <AllDetailsModal
+                    isOpen={selectedOrder !== null}
+                    onClose={() => setSelectedOrder(null)}
+                    orderID={selectedOrder} // this orderID comes from popup window component --> model prop
+                />
+          )}
       </div>
     </div>
   );

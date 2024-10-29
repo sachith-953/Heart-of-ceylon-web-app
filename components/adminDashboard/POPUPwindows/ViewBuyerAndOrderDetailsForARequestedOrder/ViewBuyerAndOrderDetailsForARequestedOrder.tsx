@@ -73,7 +73,7 @@ const BuyerDetailsModal: React.FC<BuyerDetailsModalProps> = ({
         try {
             setIsLoading(true);
             setError(null);
-            const res = await fetch('/api/admin-dashboard/POPUP-get-buyer-for-a-requested-order', {
+            const res = await fetch('http://localhost:3000/api/admin-dashboard/POPUP-get-buyer-for-a-requested-order', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -114,7 +114,7 @@ const BuyerDetailsModal: React.FC<BuyerDetailsModalProps> = ({
         try {
             setIsLoading(true);
             setError(null);
-            const res = await fetch('/api/admin-dashboard/POPUP-get-requested-order-details-by-id', {
+            const res = await fetch('http://localhost:3000/api/admin-dashboard/POPUP-get-requested-order-details-by-id', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
