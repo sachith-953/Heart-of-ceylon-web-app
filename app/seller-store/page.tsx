@@ -8,6 +8,7 @@ import CategoryLevel1 from "@/components/CategoryLevel1";
 import NameConverAndProfilePic from "@/components/sellerStore/NameConverAndProfilePic";
 import SearchBar from "@/components/SearchBar";
 import SellerProductDetails from "@/components/sellerStore/SellerProductDetails";
+import MaxWidthLg from "@/components/MaxWidthLg";
 
 
 export default function SearchPage() {
@@ -15,7 +16,7 @@ export default function SearchPage() {
     const searchParams = useSearchParams();
 
     // useEffect(()=>{
-        
+
     // }, []);
 
     return (
@@ -25,34 +26,37 @@ export default function SearchPage() {
 
             <Navbar />
 
-            <SearchBar />
+            <MaxWidthLg>
 
-            {/* Cover Image, Store Image, Store Name */}
-            <div>
-                <NameConverAndProfilePic sellerId={Number(searchParams.get('sellerId'))} />
-            </div>
+                <SearchBar />
 
-            <div>
+                {/* Cover Image, Store Image, Store Name */}
+                <div>
+                    <NameConverAndProfilePic sellerId={Number(searchParams.get('sellerId'))} />
+                </div>
 
-                {/* parent component */}
-                <div className="bg-white flex justify-center">
-                    <div className="flex flex-row  max-w-screen-lg w-full">
+                <div>
 
-                        {/* left side : All Categories */}
-                        <div className="hidden sm:flex sm:w-1/3 bg-gray-100">
-                            <CategoryLevel1 />
+                    {/* parent component */}
+                    <div className="bg-white flex justify-center">
+                        <div className="flex flex-row  max-w-screen-lg w-full">
+
+                            {/* left side : All Categories */}
+                            <div className="hidden sm:flex sm:w-1/3 bg-gray-100">
+                                <CategoryLevel1 />
+                            </div>
+
+
+                            {/* right side */}
+                            <div className="w-full sm:w-2/3">
+                                <SellerProductDetails sellerId={Number(searchParams.get('sellerId'))} />
+                            </div>
+
                         </div>
-
-
-                        {/* right side */}
-                        <div className="w-full">
-                            <SellerProductDetails />
-                        </div>
-
                     </div>
                 </div>
-            </div>
 
+            </MaxWidthLg>
 
             <Footer />
         </>
