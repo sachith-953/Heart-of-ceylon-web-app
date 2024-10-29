@@ -1,7 +1,8 @@
 import React from 'react'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import AdminDetails from "@/components/adminDashboard/AllOrders/Orders/orders"
+import AdminDetails from "@/components/adminDashboard/AllOrders/Orders/AllOrderDetails"
 import RequestedOrders from "@/components/adminDashboard/AllOrders/RequestedOrders/RequestedOrders"
+import AllOrderDetails from '@/components/adminDashboard/AllOrders/Orders/AllOrderDetails'
 
 const AllOrders = () => {
     return (
@@ -14,7 +15,7 @@ const AllOrders = () => {
                 
                 <TabsContent value="account">
                   {/* all orders componet here */}
-                    <AdminDetails/>
+                    <AllOrderDetails />
                 </TabsContent>
                 <TabsContent value="password">
                     {/* requested orders component */}

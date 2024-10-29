@@ -40,7 +40,7 @@ const formatPrice = (price: number) => {
   });
 };
 
-const AdminDetails = () => {
+const AllOrderDetails = () => {
   const [data, setData] = useState<OrderData[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -235,4 +235,4 @@ const AdminDetails = () => {
   );
 };
 
-export default AdminDetails;
+export default AllOrderDetails;
