@@ -14,6 +14,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Loader2 } from "lucide-react";
+import SearchBarForRequestedOrders from "./SearchBarForRequestedOrders";
 
 interface RequestedOrderData {
   requestOrderId: number;
@@ -60,18 +61,32 @@ const formatPrice = (price: number) => {
 };
 
 const RequestedOrders = () => {
+
   const [data, setData] = useState<FormattedOrderData[]>([]);
+  const [reloadPage, setReloadPage] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [searchQuery, setSearchQuery] = useState("");
   const router = useRouter();
   const { toast } = useToast();
 
+  //this handle by child component >> SearchBarForAllOrderDetails
+  const handleChildDataChange = (newChildData: FormattedOrderData[]) => {
+    setData(newChildData)
+    console.log("child data updated to parent data")
+  };
+
+  //this handle by child component >> SearchBarForAllOrderDetails
+  const reloadParentFromChild = () => {
+    // if reloadPage is ture, them make it false. do this to chenge the useState, se useEffect will re-run
+    setReloadPage(!reloadPage);
+  }
+
   const fetchRequestedOrders = async () => {
     try {
       setIsLoading(true);
       setError(null);
-      
+
       setIsLoading(true);
       const res = await fetch('http://localhost:3000/api/admin-dashboard/get-requested-order-list', {
         method: 'GET',
@@ -87,7 +102,7 @@ const RequestedOrders = () => {
             title: "Session Expired",
             description: "Please log in again.",
           });
-          router.replace("/seller-log-in");
+          router.replace("/log-in");
           return;
         }
 
@@ -120,9 +135,9 @@ const RequestedOrders = () => {
 
   useEffect(() => {
     fetchRequestedOrders();
-  }, []);
+  }, [reloadPage]);
 
-  const filteredData = data.filter(order => 
+  const filteredData = data.filter(order =>
     order.productName.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
@@ -136,32 +151,14 @@ const RequestedOrders = () => {
 
   return (
     <div className="space-y-4">
-      
-      <MaxWidthWrapper>
-        <div className="flex flex-col gap-10 items-center p-6 ">
-          <div className="items-start flex flex-row w-full sm:w-2/3 max-w-96 sm:max-w-screen-md">
-            <div className="relative flex flex-col w-full">
-              <div className="flex flex-row w-full">
-                <input 
-                  type="text" 
-                  className="z-40 px-5 py-1 w-full sm:px-5 sm:py-3 flex-1 text-zinc-600 bg-slate-300 focus:big-black rounded-l-3xl focus:outline-none focus:bg-gray-300"
-                  placeholder="Search orders..."
-                  value={searchQuery}
-                />
-                <button 
-                  className="z-40 bg-gray-300 px-6 rounded-r-3xl ml-px hover:bg-gray-600 hover:text-white"
-                  
-                >
-                  Search
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
-      </MaxWidthWrapper>
 
-    
-        <div className="rounded-md border ml-1">
+      {/* search bar for requested orders */}
+      <SearchBarForRequestedOrders
+        onChildDataChange={handleChildDataChange}
+        clearSearchResults={reloadParentFromChild}
+      />
+
+      <div className="rounded-md border ml-1">
         <div className="rounded-md border hover:bg-transparent">
           <Table className="border-3 border-black-200">
             <TableHeader className="bg-gray-300 rounded">
@@ -192,42 +189,41 @@ const RequestedOrders = () => {
                     <TableCell className="font-medium text-black">{order.requestedTime}</TableCell>
                     <TableCell className="font-medium text-black">
                       {/* limit product name length */}
-                          {order.productName.length > 62
-                          ? `${order.productName.slice(0, 62)}...`
-                          : order.productName}
+                      {order.productName.length > 62
+                        ? `${order.productName.slice(0, 62)}...`
+                        : order.productName}
                     </TableCell>
                     <TableCell className="font-medium text-black">{order.requestedQuantity}</TableCell>
                     <TableCell className="font-medium text-black">{order.expectedPrice}</TableCell>
                     <TableCell className="font-medium text-black">{order.totalPrice}</TableCell>
                     <TableCell className="font-medium text-black">
-                    <span className={`px-2 py-1 rounded-full text-xs font-semibold ${
-                      order.orderStatus === 'PENDING' ? 'bg-blue-100 text-blue-800' :
-                      order.orderStatus === 'PROCESSING' ? 'bg-yellow-100 text-yellow-800' :
-                      order.orderStatus === 'SHIPPED' ? 'bg-purple-100 text-purple-800' :
-                      order.orderStatus === 'DELIVERED' ? 'bg-green-100 text-green-800' :
-                      order.orderStatus === 'CANCELLED' ? 'bg-red-100 text-red-800' :
-                      'bg-gray-100 text-gray-800'
-                    }`}>
+                      <span className={`px-2 py-1 rounded-full text-xs font-semibold ${order.orderStatus === 'PENDING' ? 'bg-blue-100 text-blue-800' :
+                        order.orderStatus === 'PROCESSING' ? 'bg-yellow-100 text-yellow-800' :
+                          order.orderStatus === 'SHIPPED' ? 'bg-purple-100 text-purple-800' :
+                            order.orderStatus === 'DELIVERED' ? 'bg-green-100 text-green-800' :
+                              order.orderStatus === 'CANCELLED' ? 'bg-red-100 text-red-800' :
+                                'bg-gray-100 text-gray-800'
+                        }`}>
                         {order.orderStatus}
                       </span>
                     </TableCell>
                     <TableCell className="font-medium text-black">
-                    <Button
-                      variant="default"
-                      size="sm"
-                      className="bg-blue-500 hover:bg-blue-700 text-white"
-                    >
-                      More
-                    </Button>
-                  </TableCell>
+                      <Button
+                        variant="default"
+                        size="sm"
+                        className="bg-blue-500 hover:bg-blue-700 text-white"
+                      >
+                        More
+                      </Button>
+                    </TableCell>
                   </TableRow>
                 ))
               )}
             </TableBody>
           </Table>
         </div>
-        </div>
-      
+      </div>
+
     </div>
   );
 };

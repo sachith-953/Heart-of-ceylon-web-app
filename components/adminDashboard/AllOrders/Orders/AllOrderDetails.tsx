@@ -82,7 +82,7 @@ const AllOrderDetails = () => {
           title: "Sorry!",
           description: "Please Login again. Your Session has Expired!",
         });
-        router.push("/seller-log-in");
+        router.push("/log-in");
       } else {
         const errorData = await res.json();
         toast({

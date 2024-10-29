@@ -6,22 +6,28 @@ import { Cross, X } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 
-interface OrderData {
-  orderId: number;
-  orderDateTime: string;
+interface RequestedOrderData {
+  requestOrderId: number;
+  requestedDate: string;
+  requestedTime: string;
   productName: string;
-  quantity: number;
-  productPrice: number;
+  requestedQuantity: number;
+  expectedPrice: number;
   totalPrice: number;
   orderStatus: string;
 }
 
+interface FormattedOrderData extends Omit<RequestedOrderData, 'expectedPrice' | 'totalPrice'> {
+  expectedPrice: string;
+  totalPrice: string;
+}
+
 interface ChildProps {
-  onChildDataChange: (newChildData: OrderData[]) => void;
+  onChildDataChange: (newChildData: FormattedOrderData[]) => void;
   clearSearchResults: () => void
 }
 
-const SearchBarForAllOrderDetails: React.FC<ChildProps> = ({ onChildDataChange, clearSearchResults}) => {
+const SearchBarForRequestedOrders: React.FC<ChildProps> = ({ onChildDataChange, clearSearchResults}) => {
 
   const router = useRouter()
   // display messages
@@ -29,9 +35,9 @@ const SearchBarForAllOrderDetails: React.FC<ChildProps> = ({ onChildDataChange, 
   const BASE_URL = process.env.NEXT_PUBLIC_URL;
 
   const [searchQuery, setSearchQuery] = useState("");
-  const [requestedPageNo, setRequestedPageNo] = useState(1);// use this to add pages (pagination)
+  const [requestedPageNo, setRequestedPageNo] = useState(1); // use this to add pages (pagination)
 
-  const [searchData, setSearchData] = useState<OrderData[]>([]);
+  const [searchData, setSearchData] = useState<FormattedOrderData[]>([]);
   const [totalSearchResults, setTotalSearchResults] = useState(0);
 
 
@@ -39,7 +45,7 @@ const SearchBarForAllOrderDetails: React.FC<ChildProps> = ({ onChildDataChange, 
 
     try {
 
-      const res = await fetch(`${BASE_URL}/api/admin-dashboard/search-an-order`, {
+      const res = await fetch(`${BASE_URL}/api/admin-dashboard/search-requested-orders`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -98,7 +104,7 @@ const SearchBarForAllOrderDetails: React.FC<ChildProps> = ({ onChildDataChange, 
                 <input
                   type="text"
                   className="z-40 px-5 py-1 w-full sm:px-5 sm:py-3 flex-1 text-zinc-600 bg-slate-300 focus:big-black rounded-l-3xl focus:outline-none focus:bg-gray-300"
-                  placeholder="Search orders by Order Id, Product Name, or Order Status"
+                  placeholder="Search RequstedOrders by RID, Date, Productname, Status"
                   onChange={(e) => setSearchQuery(e.target.value)}
                 />
                 <button
@@ -129,6 +135,6 @@ const SearchBarForAllOrderDetails: React.FC<ChildProps> = ({ onChildDataChange, 
     </>
   )
 }
-export default SearchBarForAllOrderDetails
+export default SearchBarForRequestedOrders
 
 
