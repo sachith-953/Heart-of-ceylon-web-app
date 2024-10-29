@@ -3,7 +3,7 @@ import { cookies } from "next/headers";
 export const dynamic = "force-dynamic";
 
 /**
- * this API use to search orders in admin dashboard
+ * this API use to search requested-orders in admin dashboard
  * email is taken from the cookies.
  * ==============================================================
  * === Following step 1,2,3 are common for all Auth requests  ===
@@ -26,7 +26,7 @@ export async function POST(request: Request) {
     let refreshTokenString = null;
 
     // TODO : change all console.log fiels.  
-    console.log("\AdminDashboard > Allorders--> search an order: Nextjs API has Called");
+    console.log("\AdminDashboard > requested-orders--> search an order: Nextjs API has Called");
 
     // ***************************************************************
     // ******************* 1. Get email From Cookies *****************
@@ -54,9 +54,9 @@ export async function POST(request: Request) {
     //so those duble quotes should be removed before send to the backend. 
     //otherwise undetectable malfunctions can occures 
     emailValueString = emailValueString.replace(/"/g, "")
-    console.log("AdminDashboard > Allorders--> search an order  > email >>>: " + emailValueString);
+    console.log("AdminDashboard > requested-orders--> search an order  > email >>>: " + emailValueString);
 
-     // *************************************************************
+    // *************************************************************
     // ************* 2. Get Refresh-Token From Cookies *************
     // *************************************************************
 
@@ -79,7 +79,7 @@ export async function POST(request: Request) {
     //refreshTokenString has double quotes in it like "sjsdkjaklf"
     //so those duble quotes should be removed before send to the backend. 
     //otherwise undetectable malfunctions can occures 
-    refreshTokenString = refreshTokenString.replace(/"/g, "") 
+    refreshTokenString = refreshTokenString.replace(/"/g, "")
     console.log("logout > refresh token line24:" + refreshTokenString);
     const credential = `Bearer ${refreshTokenString}`;
 
@@ -155,37 +155,38 @@ export async function POST(request: Request) {
         // return a response for a error
         const resData = { success: false, message: " Search Bar is Empty !!" }
         // return new Response(JSON.stringify(resData));
-        return new Response(JSON.stringify(resData),{ status: 404 });
+        return new Response(JSON.stringify(resData), { status: 404 });
     }
 
-    console.log("get-orders-by-search--> Nextjs API has Called");
+    console.log("get-requested-orders-by-search--> Nextjs API has Called");
 
-    try{
-        const response = await fetch(`${process.env.NEXT_PUBLIC_SPRING_BOOT_SERVER_URL}/api/v1/auth/get-orders-by-search?adminEmail=${emailValueString}&searchWord=${searchKey}&pageNumber=${requestedPageNo}`, {
-           // default it is GET
+    try {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_SPRING_BOOT_SERVER_URL}/api/v1/auth/get-requested-orders-by-search?adminEmail=${emailValueString}&searchWord=${searchKey}&pageNumber=${requestedPageNo}`, {
+            // default it is GET
+            cache: 'no-store',
             headers: {
                 'Authorization': `Bearer ${accessToken}`,
             },
         });
-        
+
         console.log("get-orders-by-search--> request Sent");
-        
+
         if (response.ok) {
             const data = await response.json(); // .json() since backend service class return DTO list
             // if the backend return a string this should response.text()
             console.log("all order details by search fetched by search successfully:", data);
             return new Response(
-                JSON.stringify(data), 
+                JSON.stringify(data),
                 {
-                status: 200,
-                headers: {
-                'Content-Type': 'application/json',
-                },
-            });
+                    status: 200,
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                });
         }
-        else{
+        else {
             const responseBodyText = await response.text(); // .text() because backend return string messages
-            const resData = {message: responseBodyText};
+            const resData = { message: responseBodyText };
             console.warn(response.status + " >> Error from get-orders-by-search >> " + responseBodyText)
             return new Response(
                 JSON.stringify(resData),

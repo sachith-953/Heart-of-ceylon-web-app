@@ -1,9 +1,7 @@
 import { cookies } from "next/headers";
 
-export const dynamic = "force-dynamic";
-
 /**
- * this API use to search orders in admin dashboard
+ * this API use to get seller products for my products in seller dashboard
  * email is taken from the cookies.
  * ==============================================================
  * === Following step 1,2,3 are common for all Auth requests  ===
@@ -12,11 +10,10 @@ export const dynamic = "force-dynamic";
  * 1.get email from cookies.
  * 2.get refresh token from cookies
  * 3.get access token from the /api/get-access-token
- * 4.send the request to backend to fetch order details for admin dashboard --->All Orders---> orders
+ * 4.send the request to backend to fetch seller products for seller dashboard >> My products
  */
 
-export async function POST(request: Request) {
-
+export async function GET() {
     // decalare global variables 
     const cookieStore = cookies();
     let email = null;
@@ -24,17 +21,16 @@ export async function POST(request: Request) {
     let accessToken = null;
     let emailValueString = null;
     let refreshTokenString = null;
+      
+    console.log("\nSellerDashboardMySalesController > Get sales summery for sellar dashboard : Nextjs API has Called");
 
-    // TODO : change all console.log fiels.  
-    console.log("\AdminDashboard > Allorders--> search an order: Nextjs API has Called");
-
-    // ***************************************************************
+     // ***************************************************************
     // ******************* 1. Get email From Cookies *****************
     // ***************************************************************
 
     if (cookieStore.has('email')) {
         email = cookieStore.get('email');
-        console.log("AdminDashboard > Allorders--> search an order > email :" + JSON.stringify(email));
+        console.log("sellerSales   > email :" + JSON.stringify(email));
         //output : 
         //get-access-token > email :{"name":"email","value":"s19093@sci.pdn.ac.lk","path":"/"}
     } else {
@@ -54,7 +50,7 @@ export async function POST(request: Request) {
     //so those duble quotes should be removed before send to the backend. 
     //otherwise undetectable malfunctions can occures 
     emailValueString = emailValueString.replace(/"/g, "")
-    console.log("AdminDashboard > Allorders--> search an order  > email >>>: " + emailValueString);
+    console.log("getSalesSummery  > email >>>: " + emailValueString);
 
      // *************************************************************
     // ************* 2. Get Refresh-Token From Cookies *************
@@ -106,7 +102,8 @@ export async function POST(request: Request) {
 
             // console.log(response)
 
-            const data = await response.json();
+            const data = await response.json(); // .json() since backend service class return DTO
+            // if the backend return a string this should response.text()
             console.log(data.access_token)
             console.log("access-token response : " + data)
             accessToken = data.access_token // store access token in a variable
@@ -136,68 +133,55 @@ export async function POST(request: Request) {
     } catch (error) {
         return new Response(JSON.stringify({
             error: {
-                message: "Un Expected Error. get-access-token"
+                message: "Unexpected Error. get-access-token"
             }
         }), { status: 500 });
     }
 
     // *************************************************************
-    // ********* 4. Fetch orders using search keaywords. ******
+    // **************** 4. Get seller products  *******************
     // *************************************************************
 
-    const reqParams = await request.json()
-
-    const searchKey = reqParams.searchQuery
-    const requestedPageNo = reqParams.requestedPageNo
-
-    //if searchKey is not entered or empty spaces has entered, we return an error
-    if (searchKey === null || searchKey === undefined || searchKey.trim() === '') {
-        // return a response for a error
-        const resData = { success: false, message: " Search Bar is Empty !!" }
-        // return new Response(JSON.stringify(resData));
-        return new Response(JSON.stringify(resData),{ status: 404 });
-    }
-
-    console.log("get-orders-by-search--> Nextjs API has Called");
-
+    console.log("getSellerProducts Nextjs API has Called");
     try{
-        const response = await fetch(`${process.env.NEXT_PUBLIC_SPRING_BOOT_SERVER_URL}/api/v1/auth/get-orders-by-search?adminEmail=${emailValueString}&searchWord=${searchKey}&pageNumber=${requestedPageNo}`, {
+
+        const response = await fetch(`${process.env.NEXT_PUBLIC_SPRING_BOOT_SERVER_URL}/api/v1/auth/get-seller-product-details?sellerEmail=${emailValueString}`, {
            // default it is GET
             headers: {
                 'Authorization': `Bearer ${accessToken}`,
+                // no body to send
             },
         });
-        
-        console.log("get-orders-by-search--> request Sent");
-        
-        if (response.ok) {
-            const data = await response.json(); // .json() since backend service class return DTO list
-            // if the backend return a string this should response.text()
-            console.log("all order details by search fetched by search successfully:", data);
-            return new Response(
-                JSON.stringify(data), 
-                {
-                status: 200,
-                headers: {
-                'Content-Type': 'application/json',
-                },
-            });
-        }
-        else{
-            const responseBodyText = await response.text(); // .text() because backend return string messages
-            const resData = {message: responseBodyText};
-            console.warn(response.status + " >> Error from get-orders-by-search >> " + responseBodyText)
-            return new Response(
-                JSON.stringify(resData),
-                { status: response.status }
-            );
-        }
+    console.log("getSellerProducts request Sent");
+    if (response.ok) {
+        const data = await response.json(); // .json() since backend service class return DTO 
+        // if the backend return a string this should response.text()
+        console.log("seller products fetched successfully:", data);
+        return new Response(
+            JSON.stringify(data), 
+            {
+            status: 200,
+            headers: {
+              'Content-Type': 'application/json',
+            },
+          });
+      }
+      else{
+        const responseBodyText = await response.text(); // .text() because backend return string messages
+        const resData = {message: responseBodyText};
+        console.warn(response.status + " >> Error from seller products fetching >> " + responseBodyText)
+        return new Response(
+            JSON.stringify(resData),
+            { status: response.status }
+        );
+    }
+
     }
     catch (error) {
         console.log(error)
         return new Response(JSON.stringify({
             error: {
-                message: "Un-Expected Error"
+                message: "Unexpected Error"
             }
         }), { status: 500 });
     }

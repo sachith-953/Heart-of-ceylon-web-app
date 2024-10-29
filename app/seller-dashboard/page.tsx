@@ -8,8 +8,6 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { BadgeDollarSign, Box, Printer, UserCog, UserPlus, Users } from "lucide-react"
 
 
-
-
 export default function SellerDashbard() {
     return (
         <>

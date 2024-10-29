@@ -12,6 +12,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { Button } from "@/components/ui/button";
+import SearchBarForAllOrderDetails from "./SearchBarForAllOrderDetails";
 
 interface OrderData {
   orderId: number;
@@ -40,13 +41,27 @@ const formatPrice = (price: number) => {
   });
 };
 
-const AdminDetails = () => {
+const AllOrderDetails = () => {
+
   const [data, setData] = useState<OrderData[]>([]);
+  const [reloadPage, setReloadPage] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [searchQuery, setSearchQuery] = useState("");
+
   const router = useRouter();
   const { toast } = useToast();
+
+  //this handle by child component >> SearchBarForAllOrderDetails
+  const handleChildDataChange = (newChildData: OrderData[]) => {
+    setData(newChildData)
+    console.log("child data updated to parent data")
+  };
+
+  //this handle by child component >> SearchBarForAllOrderDetails
+  const reloadParentFromChild = () => {
+    // if reloadPage is ture, them make it false. do this to chenge the useState, se useEffect will re-run
+    setReloadPage(!reloadPage);
+  }
 
   const fetchAdminDetails = async () => {
     try {
@@ -67,7 +82,7 @@ const AdminDetails = () => {
           title: "Sorry!",
           description: "Please Login again. Your Session has Expired!",
         });
-        router.push("/seller-log-in");
+        router.push("/log-in");
       } else {
         const errorData = await res.json();
         toast({
@@ -84,56 +99,10 @@ const AdminDetails = () => {
     }
   };
 
-  const handleSearch = async () => {
-    if (!searchQuery.trim()) {
-      // If search is empty, fetch all orders
-      fetchAdminDetails();
-      return;
-    }
-
-    try {
-      setIsLoading(true);
-      const res = await fetch('http://localhost:3000/api/admin-dashboard/search-an-order', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ query: searchQuery }),
-      });
-
-      if (res.ok) {
-        const responseData = await res.json();
-        setData(responseData);
-      } else if (res.status === 403) {
-        toast({
-          variant: "destructive",
-          title: "Sorry!",
-          description: "Please Login again. Your Session has Expired!",
-        });
-        router.push("/seller-log-in");
-      } else {
-        const errorData = await res.json();
-        toast({
-          variant: "destructive",
-          title: "Something went wrong.",
-          description: "Please Try Again. There was a problem with your request." + errorData.message,
-        });
-      }
-    } catch (error) {
-      console.error("Error searching orders:", error);
-      toast({
-        variant: "destructive",
-        title: "Search failed",
-        description: "Failed to search orders. Please try again.",
-      });
-    } finally {
-      setIsLoading(false);
-    }
-  };
 
   useEffect(() => {
     fetchAdminDetails();
-  }, []);
+  }, [reloadPage]);
 
   if (isLoading) {
     return <div className="flex justify-center items-center min-h-screen">Loading...</div>;
@@ -148,30 +117,11 @@ const AdminDetails = () => {
     // ********* todo : search orders , route is completed --> search-an-order **********************************************
     // ******************************************************************************
     <div className="space-y-4">
-      <MaxWidthWrapper>
-        <div className="flex flex-col gap-10 items-center p-6 ">
-          <div className="items-start flex flex-row w-full sm:w-2/3 max-w-96 sm:max-w-screen-md">
-            <div className="relative flex flex-col w-full">
-              <div className="flex flex-row w-full">
-                <input 
-                  type="text" 
-                  className="z-40 px-5 py-1 w-full sm:px-5 sm:py-3 flex-1 text-zinc-600 bg-slate-300 focus:big-black rounded-l-3xl focus:outline-none focus:bg-gray-300"
-                  placeholder="Search orders..."
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                  onKeyDown={(e) => e.key === 'Enter' && handleSearch()}
-                />
-                <button 
-                  className="z-40 bg-gray-300 px-6 rounded-r-3xl ml-px hover:bg-gray-600 hover:text-white"
-                  onClick={handleSearch}
-                >
-                  Search
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
-      </MaxWidthWrapper>
+
+      <SearchBarForAllOrderDetails
+        onChildDataChange={handleChildDataChange}
+        clearSearchResults={reloadParentFromChild}
+      />
 
       <div className="rounded-md border ml-1">
         <div className="rounded-md border hover:bg-transparent">
@@ -197,22 +147,21 @@ const AdminDetails = () => {
                   <TableCell className="font-medium text-black">{formatTime(order.orderDateTime)}</TableCell>
                   <TableCell className="font-medium text-black">
                     {/* limit the product name to 62 characters */}
-                                      {order.productName.length > 62
-                                    ? `${order.productName.slice(0, 62)}...`
-                                    : order.productName}
+                    {order.productName.length > 62
+                      ? `${order.productName.slice(0, 62)}...`
+                      : order.productName}
                   </TableCell>
                   <TableCell className="font-medium text-black">{order.quantity}</TableCell>
                   <TableCell className="font-medium text-black">{formatPrice(order.productPrice)}</TableCell>
                   <TableCell className="font-medium text-black">{formatPrice(order.totalPrice)}</TableCell>
                   <TableCell className="font-medium text-black">
-                    <span className={`px-2 py-1 rounded-full text-xs font-semibold ${
-                      order.orderStatus === 'PENDING' ? 'bg-blue-100 text-blue-800' :
-                      order.orderStatus === 'PROCESSING' ? 'bg-yellow-100 text-yellow-800' :
-                      order.orderStatus === 'SHIPPED' ? 'bg-purple-100 text-purple-800' :
-                      order.orderStatus === 'DELIVERED' ? 'bg-green-100 text-green-800' :
-                      order.orderStatus === 'CANCELLED' ? 'bg-red-100 text-red-800' :
-                      'bg-gray-100 text-gray-800'
-                    }`}>
+                    <span className={`px-2 py-1 rounded-full text-xs font-semibold ${order.orderStatus === 'PENDING' ? 'bg-blue-100 text-blue-800' :
+                        order.orderStatus === 'PROCESSING' ? 'bg-yellow-100 text-yellow-800' :
+                          order.orderStatus === 'SHIPPED' ? 'bg-purple-100 text-purple-800' :
+                            order.orderStatus === 'DELIVERED' ? 'bg-green-100 text-green-800' :
+                              order.orderStatus === 'CANCELLED' ? 'bg-red-100 text-red-800' :
+                                'bg-gray-100 text-gray-800'
+                      }`}>
                       {order.orderStatus}
                     </span>
                   </TableCell>
@@ -235,4 +184,4 @@ const AdminDetails = () => {
   );
 };
 
-export default AdminDetails;
+export default AllOrderDetails;

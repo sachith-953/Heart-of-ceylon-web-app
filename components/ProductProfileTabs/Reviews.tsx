@@ -5,6 +5,9 @@ import ReviewChart from "./ReviewChart";
 import ReviewComment from "./ReviewComment";
 
 export default function Reviews() {
+
+  const BASE_URL = process.env.NEXT_PUBLIC_URL;
+
   interface reviewCommentDataType {
     reviewId: number;
     rating: number;
@@ -36,7 +39,7 @@ export default function Reviews() {
 
     //sending request
     const res = await fetch(
-      "http://localhost:3000/api/product/productProfile/reviewComment",
+      `${BASE_URL}/api/product/productProfile/reviewComment`,
       {
         method: "POST",
         headers: {
@@ -48,7 +51,7 @@ export default function Reviews() {
 
     //sending request to get review summary
     const resSummary = await fetch(
-      "http://localhost:3000/api/product/productProfile/productReviewSummary",
+      `${BASE_URL}/api/product/productProfile/productReviewSummary`,
       {
         method: "POST",
         headers: {
@@ -86,19 +89,19 @@ export default function Reviews() {
   return (
     <>
       {/* Parent */}
-      <div className="flex flex-row justify-center border-2 border-red-500">
+      <div className="flex flex-col sm:flex-row justify-center">
         {/* Review chart side*/}
-        <div className="border-2 border-blue-400 w-1/3">
+        <div className="w-full sm:w-1/3">
           {/* <ReviewChart totalCount = {reviewCount}/> */}
           <ReviewChart reviewSummaryData={reviewSummary}/>
         </div>
 
         {/* Review comments side*/}
-        <div className="border-2 border-green-400 w-2/3 pl-5">
-          <h3 className="text-xl font-semibold mb-2">Top reviews</h3>
+        <div className="w-2/3 pl-5">
+          <h3 className="text-xl font-semibold mb-4">Top reviews</h3>
 
           {/* comments */}
-          <div className="border-2 border-pink-300">
+          <div className="">
             {/* one comment */}
             {reviewComment.map((singleComment: reviewCommentDataType) => (
               <ReviewComment
