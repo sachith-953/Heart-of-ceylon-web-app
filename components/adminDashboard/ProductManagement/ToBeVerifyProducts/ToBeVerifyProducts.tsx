@@ -10,12 +10,15 @@ import { Loader2, Star } from "lucide-react";
 import MaxWidthWrapper from "@/components/MaxWidthWrapper";
 import SellerDetailsModal from "@/components/adminDashboard/POPUPwindows/ViewSellerDetailsPOPUPWindow/ViewSellerDetailsPOPUPWindow"
 import ProductDetailsForApproveTheProductModel from "@/components/adminDashboard/POPUPwindows/ProductApprovalPOPUPWindow/ProductApprovalPOPUPWindow"
+import Image from 'next/image';
+import SearchBarForToBeVerified from './SearchBarForToBeVerifiedProducts';
+import SearchBarForToBeVerifiedProducts from './SearchBarForToBeVerifiedProducts';
 
 interface RatingStarsProps {
     rating: number;
 }
 
-export enum ProductStatusEnum { 
+export enum ProductStatusEnum {
     PRODUCT_IS_ACTIVE = 'PRODUCT_IS_ACTIVE',
     SUSPEND = 'SUSPEND',
     DISCONTINUED = 'DISCONTINUED',
@@ -50,8 +53,8 @@ export interface ToBeVerifyProductsData {
     deleted: boolean;
     sellerID: number
     productDiscountPrice: number;
-
 }
+
 const ToBeVerifyProducts: FC = () => {
     const [data, setData] = useState<ToBeVerifyProductsData[]>([]);
     const [isLoading, setIsLoading] = useState(true);
@@ -62,6 +65,19 @@ const ToBeVerifyProducts: FC = () => {
     const { toast } = useToast();
     const [selectedSeller, setSelectedSeller] = useState<number | null>(null);// pop up for seller view
     const [selectedProduct, setSelectedProduct] = useState<number | null>(null); // popup product details window
+    const [reloadPage, setReloadPage] = useState(false);
+
+    //this handle by child component >> SearchBarForAllOrderDetails
+    const handleChildDataChange = (newChildData: ToBeVerifyProductsData[]) => {
+        setData(newChildData)
+        console.log("child data updated to parent data")
+    };
+
+    //this handle by child component >> SearchBarForAllOrderDetails
+    const reloadParentFromChild = () => {
+        // if reloadPage is ture, them make it false. do this to chenge the useState, se useEffect will re-run
+        setReloadPage(!reloadPage);
+    }
 
     const fetchProducts = async (pageNumber: number) => {
         try {
@@ -123,11 +139,11 @@ const ToBeVerifyProducts: FC = () => {
     // handle view seller button click
     const handleViewSellerDetails = (sellerID: number) => {
         setSelectedSeller(sellerID);
-      };
+    };
     // handle proceed to approve button
-      const handleViewProductDetails = (productID: number) => {
-           setSelectedProduct(productID);
-        };
+    const handleViewProductDetails = (productID: number) => {
+        setSelectedProduct(productID);
+    };
 
     if (isLoading) {
         return (
@@ -148,118 +164,106 @@ const ToBeVerifyProducts: FC = () => {
             day: 'numeric'
         });
     };
-    return(
+    return (
         // <div>
         //     search products component here
         // </div>
         <div className="pl-0 rounded-md ml-1 mr-1">
-            <MaxWidthWrapper>
-                <div className="flex flex-col gap-10 items-center p-6 ">
-                <div className="items-start flex flex-row w-full sm:w-2/3 max-w-96 sm:max-w-screen-md">
-                    <div className="relative flex flex-col w-full">
-                    <div className="flex flex-row w-full">
-                        <input 
-                        type="text" 
-                        className="z-40 px-5 py-1 w-full sm:px-5 sm:py-3 flex-1 text-zinc-600 bg-slate-300 focus:big-black rounded-l-3xl focus:outline-none focus:bg-gray-300"
-                        placeholder="Search orders..."
-                        // value={searchQuery}
-                        // onChange={(e) => setSearchQuery(e.target.value)}
-                        // onKeyDown={(e) => e.key === 'Enter' && handleSearch()}
-                        />
-                        <button 
-                        className="z-40 bg-gray-300 px-6 rounded-r-3xl ml-px hover:bg-gray-600 hover:text-white"
-                        // onClick={handleSearch}
-                        >
-                        Search
-                        </button>
-                    </div>
-                    </div>
-                </div>
-                </div>
-            </MaxWidthWrapper>
+
+            <SearchBarForToBeVerifiedProducts
+                onChildDataChange={handleChildDataChange}
+                clearSearchResults={reloadParentFromChild}
+            />
+
             {/* display products component here */}
 
             <div className="pl-0 rounded-md ml-1 mr-1">
                 <div className='h-9 pb-1'>
                     <h1 className="text-lg font-bold ml-2">Products To Verify</h1>
                 </div>
-                    {data.map((product) => (
-                        <Card key={product.productID} className="mb-2">
-                            {/* div tag for each product */}
-                            <div className="flex hover:bg-gray-200 rounded-md">
-                                {/* Section 1: Product Image */}
-                                <div className="w-1/5 h-44 rounded-md ml-0">
-                                    <img
+                {data.map((product) => (
+                    <Card key={product.productID} className="mb-2">
+                        {/* div tag for each product */}
+                        <div className="flex hover:bg-gray-200 rounded-md">
+                            {/* Section 1: Product Image */}
+                            <div className="w-1/5 h-44 rounded-md ml-0 relative">
+                                {/* <img
                                         src={product.productMainImage || "https://www.chilipeppermadness.com/wp-content/uploads/2024/02/Bell-Peppers1.jpg"} // Use a fallback image path
                                         alt={product.productName}
                                         className="w-full h-full object-cover rounded"
                                         onError={(e) => {
                                             e.currentTarget.src = "https://www.chilipeppermadness.com/wp-content/uploads/2024/02/Bell-Peppers1.jpg"; // Path to fallback image
                                         }}
-                                    />
-                                </div>
+                                    /> */}
+                                <Image
+                                    src={product.productMainImage}
+                                    fill  // add 'relative' style to parent element: otherwise images fill whole screen 
+                                    className="object-cover"
+                                    alt={product.productName}
+                                />
+                            </div>
 
-                                {/* Section 2: Product Details */}
-                                <div className="w-2/5 rounded-md p-1 flex flex-col justify-between space-y-4">
-                                        <h2 className="font-semibold text-lg mt-1">
-                                            {product.productName.length > 70
-                                                ? `${product.productName.slice(0, 70)}...`
-                                                : product.productName}
-                                        </h2>
-                                        
-                                        <p className="text-md">
-                                            Unit Price: ${product.productPrice.toFixed(2)}
-                                        </p>
-                                        
-                                        <p className="text-sm">
-                                            Available Stock: {product.productAvailableStokes}
-                                        </p>
-                                        
-                                        <h2 className="font-semibold text-lg bg-yellow-200 mb-1">
-                                            Submitted on : {new Date(product.productCreatedDate).toLocaleDateString('en-US', {
-                                                day: '2-digit',
-                                                month: '2-digit',
-                                                year: 'numeric'
-                                            }).replace(/\//g, '.')} {new Date(product.productCreatedDate).toLocaleTimeString('en-US', {
-                                                hour: '2-digit',
-                                                minute: '2-digit',
-                                                hour12: true
-                                            })}
-                                        </h2>
-                                </div>
+                            {/* Section 2: Product Details */}
+                            <div className="w-2/5 rounded-md p-1 flex flex-col justify-between space-y-4">
+                                <h2 className="font-semibold text-lg mt-1">
+                                    {product.productName.length > 70
+                                        ? `${product.productName.slice(0, 70)}...`
+                                        : product.productName}
+                                </h2>
 
-                                {/* Section 3: Seller Info & Status */}
-                                <div className="w-48 space-y-2">
-                                    <p className="text-sm font-medium">Seller ID : {product.sellerID}</p>
-                                    {/* Product Manufacture */}
-                                    <p className="text-sm font-medium">Manuf. : {product.productManufacture}</p>
-                                    <div className="flex mt-1">
-                                        <p className='mr-2 text-sm mt-1 font-medium'>Status :</p>
-                                        <Badge className="bg-green-300 text-black px-3 py-1 mt-1">
+                                <p className="text-md">
+                                    Unit Price: ${product.productPrice.toFixed(2)}
+                                </p>
+
+                                <p className="text-sm">
+                                    Available Stock: {product.productAvailableStokes}
+                                </p>
+
+                                <h2 className="font-semibold text-lg bg-yellow-200 mb-1">
+                                    Submitted on : {new Date(product.productCreatedDate).toLocaleDateString('en-US', {
+                                        day: '2-digit',
+                                        month: '2-digit',
+                                        year: 'numeric'
+                                    }).replace(/\//g, '.')} {new Date(product.productCreatedDate).toLocaleTimeString('en-US', {
+                                        hour: '2-digit',
+                                        minute: '2-digit',
+                                        hour12: true
+                                    })}
+                                </h2>
+                            </div>
+
+                            {/* Section 3: Seller Info & Status */}
+                            <div className="w-48 space-y-2">
+                                <p className="text-sm font-medium">Seller ID : {product.sellerID}</p>
+                                {/* Product Manufacture */}
+                                <p className="text-sm font-medium">Manuf. : {product.productManufacture}</p>
+                                <div className="flex mt-1">
+                                    <p className='mr-2 text-sm mt-1 font-medium'>Status :</p>
+                                    <Badge className="bg-green-300 text-black px-3 py-1 mt-1">
                                         <p className='text-sm '>{product.productStatus}</p>
-                                        </Badge>
-                                    </div>
-                                </div>
-                                
-
-                                {/* Section 4: Action Buttons */}
-                                <div className="w-1/5 rounded-md p-1 space-y-6">
-                                    <Button variant="default" size="sm" className="bg-blue-500 w-full hover:bg-blue-700 text-white"
-                                            onClick={() => handleViewSellerDetails(product.sellerID)}>
-                                        {/* onclick handle popup window */}
-                                        View Seller Details
-                                    </Button>
-                                    <Button variant="outline" size="sm" className="bg-green-500 w-full hover:bg-green-700 text-white"
-                                         onClick={() => handleViewProductDetails(product.productID)}>
-                                        Proceed To Approval
-                                    </Button>
+                                    </Badge>
                                 </div>
                             </div>
-                        </Card>
-                    ))}
+
+
+                            {/* Section 4: Action Buttons */}
+                            <div className="w-1/5 rounded-md p-1 space-y-6">
+                                <Button variant="default" size="sm" className="bg-blue-500 w-full hover:bg-blue-700 text-white"
+                                    onClick={() => handleViewSellerDetails(product.sellerID)}>
+                                    {/* onclick handle popup window */}
+                                    View Seller Details
+                                </Button>
+                                <Button variant="outline" size="sm" className="bg-green-500 w-full hover:bg-green-700 text-white"
+                                    onClick={() => handleViewProductDetails(product.productID)}>
+                                    Proceed To Approval
+                                </Button>
+                            </div>
+                        </div>
+                    </Card>
+                ))}
 
                 <div className="flex justify-center mt-6">
-                    <Button 
+                    <Button
                         onClick={handlePreviousPage}
                         disabled={currentPage === 1}
                         variant="outline"
@@ -268,7 +272,7 @@ const ToBeVerifyProducts: FC = () => {
                         Previous Page
                     </Button>
                     <span className="py-2">Page {currentPage}</span>
-                    <Button 
+                    <Button
                         onClick={handleNextPage}
                         disabled={!hasMorePages}
                         variant="outline"
@@ -278,23 +282,23 @@ const ToBeVerifyProducts: FC = () => {
                     </Button>
                 </div>
                 {/* view seller model */}
-            {selectedSeller !== null && (
-                <SellerDetailsModal
-                    isOpen={selectedSeller !== null}
-                    onClose={() => setSelectedSeller(null)}
-                    sellerID={selectedSeller}
-                />
-            )}
-            {/* view product details which need to approve */}
-            {selectedProduct !== null && (
-                <ProductDetailsForApproveTheProductModel // popup model export name -->export default ProductDetailsModal;
-                    isOpen={selectedProduct !== null}
-                    onClose={() => setSelectedProduct(null)}
-                    productID={selectedProduct}
-                />
-            )}
-            </div> 
-        </div>    
+                {selectedSeller !== null && (
+                    <SellerDetailsModal
+                        isOpen={selectedSeller !== null}
+                        onClose={() => setSelectedSeller(null)}
+                        sellerID={selectedSeller}
+                    />
+                )}
+                {/* view product details which need to approve */}
+                {selectedProduct !== null && (
+                    <ProductDetailsForApproveTheProductModel // popup model export name -->export default ProductDetailsModal;
+                        isOpen={selectedProduct !== null}
+                        onClose={() => setSelectedProduct(null)}
+                        productID={selectedProduct}
+                    />
+                )}
+            </div>
+        </div>
     );
 };
 
