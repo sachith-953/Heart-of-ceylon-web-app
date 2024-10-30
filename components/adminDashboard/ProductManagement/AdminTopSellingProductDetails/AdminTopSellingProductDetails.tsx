@@ -66,6 +66,7 @@ const TopSellingProductDetails: FC = () => {
     const [selectedSeller, setSelectedSeller] = useState<number | null>(null);// pop up for seller view
     const [selectedProduct, setSelectedProduct] = useState<number | null>(null);// pop up for all details of a product
     const [reloadPage, setReloadPage] = useState(false);
+    const [reviews, setReviews] = useState<number | null>(null);// pop up for all reviews
 
     //this handle by child component >> SearchBarForAllOrderDetails
     const handleChildDataChange = (newChildData: TopSellingProductData[]) => {
