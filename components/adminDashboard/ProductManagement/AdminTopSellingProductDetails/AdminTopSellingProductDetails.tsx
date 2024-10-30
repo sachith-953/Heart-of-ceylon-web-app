@@ -10,6 +10,7 @@ import MaxWidthWrapper from "@/components/MaxWidthWrapper";
 import SellerDetailsModal from "@/components/adminDashboard/POPUPwindows/ViewSellerDetailsPOPUPWindow/ViewSellerDetailsPOPUPWindow"
 import ProductDetailsModal from "@/components/adminDashboard/POPUPwindows/ViewProductAllDetailsPOPUPWindow/ViewProductAllDetailsPOPUPWindow"
 import Image from 'next/image';
+import SearchBarForSearchProductsFromAdminDashboard from './SearchBarForSearchProductsFromAdminDashboard';
 
 interface RatingStarsProps {
     rating: number;
@@ -63,6 +64,20 @@ const TopSellingProductDetails: FC = () => {
     const { toast } = useToast();
     const [selectedSeller, setSelectedSeller] = useState<number | null>(null);// pop up for seller view
     const [selectedProduct, setSelectedProduct] = useState<number | null>(null);// pop up for all details of a product
+    const [reloadPage, setReloadPage] = useState(false);
+
+    //this handle by child component >> SearchBarForAllOrderDetails
+    const handleChildDataChange = (newChildData: TopSellingProductData[]) => {
+        setData(newChildData)
+        console.log("child data updated to parent data")
+    };
+
+    //this handle by child component >> SearchBarForAllOrderDetails
+    const reloadParentFromChild = () => {
+        // if reloadPage is ture, them make it false. do this to chenge the useState, se useEffect will re-run
+        setReloadPage(!reloadPage);
+    }
+
 
     const fetchProducts = async (pageNumber: number) => {
         try {
@@ -108,7 +123,7 @@ const TopSellingProductDetails: FC = () => {
 
     useEffect(() => {
         fetchProducts(currentPage);
-    }, [currentPage]);
+    }, [currentPage, reloadPage]);
 
     const handleNextPage = () => {
         if (hasMorePages) {
@@ -152,34 +167,13 @@ const TopSellingProductDetails: FC = () => {
     };
 
     return (
-        // <div>
-        //     search products component here
-        // </div>
+
         <div className="pl-0 rounded-md ml-1 mr-1">
-            <MaxWidthWrapper>
-                <div className="flex flex-col gap-10 items-center p-6 ">
-                    <div className="items-start flex flex-row w-full sm:w-2/3 max-w-96 sm:max-w-screen-md">
-                        <div className="relative flex flex-col w-full">
-                            <div className="flex flex-row w-full">
-                                <input
-                                    type="text"
-                                    className="z-40 px-5 py-1 w-full sm:px-5 sm:py-3 flex-1 text-zinc-600 bg-slate-300 focus:big-black rounded-l-3xl focus:outline-none focus:bg-gray-300"
-                                    placeholder="Search orders..."
-                                // value={searchQuery}
-                                // onChange={(e) => setSearchQuery(e.target.value)}
-                                // onKeyDown={(e) => e.key === 'Enter' && handleSearch()}
-                                />
-                                <button
-                                    className="z-40 bg-gray-300 px-6 rounded-r-3xl ml-px hover:bg-gray-600 hover:text-white"
-                                // onClick={handleSearch}
-                                >
-                                    Search
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </MaxWidthWrapper>
+
+            <SearchBarForSearchProductsFromAdminDashboard
+                onChildDataChange={handleChildDataChange}
+                clearSearchResults={reloadParentFromChild}
+            />
 
             <div className="pl-0 rounded-md ml-1 mr-1">
                 <div className='h-9 pb-1'>
