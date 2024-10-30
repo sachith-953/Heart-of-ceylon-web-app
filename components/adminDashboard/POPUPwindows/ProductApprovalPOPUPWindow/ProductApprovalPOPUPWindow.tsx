@@ -118,9 +118,9 @@ const ProductDetailsForApproveTheProductModel: React.FC<ProductDetailsModalProps
 
     return (
         <Dialog open={isOpen} onOpenChange={onClose}>
-            <DialogContent className="w-[100vw] max-w-[100vw] h-dvh p-1 bg-gray-200 overflow-y-auto"> 
+            <DialogContent className="w-[100vw] max-w-[100vw] h-dvh p-1 overflow-y-auto"> 
             {/*overflow-y-auto is the scroll bar */}
-                <DialogHeader className="bg-gray-200">
+                <DialogHeader className="">
                     <DialogTitle className="text-4xl font-bold text-black text-center rounded-md mt-5">
                         Product Approval
                     </DialogTitle>
