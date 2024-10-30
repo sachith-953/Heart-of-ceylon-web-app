@@ -9,6 +9,7 @@ import { Loader2, Star } from "lucide-react";
 import MaxWidthWrapper from "@/components/MaxWidthWrapper";
 import SellerDetailsModal from "@/components/adminDashboard/POPUPwindows/ViewSellerDetailsPOPUPWindow/ViewSellerDetailsPOPUPWindow"
 import ProductDetailsModal from "@/components/adminDashboard/POPUPwindows/ViewProductAllDetailsPOPUPWindow/ViewProductAllDetailsPOPUPWindow"
+import ReviewsAndRatingsModal from "@/components/adminDashboard/POPUPwindows/ReviewsAndRatingsPOPUPWindow/ReviewsAndRatingsPOPUPWindow"
 import Image from 'next/image';
 import SearchBarForSearchProductsFromAdminDashboard from './SearchBarForSearchProductsFromAdminDashboard';
 
@@ -144,7 +145,11 @@ const TopSellingProductDetails: FC = () => {
     // handle view product all details click
     const handleViewProductDetails = (productID: number) => {
         setSelectedProduct(productID);
-    };
+      };
+      // handle reviews and ratings
+      const handleReviewsRatings = (productID: number) => {
+        setReviews(productID);
+      };
 
     if (isLoading) {
         return (
@@ -252,7 +257,8 @@ const TopSellingProductDetails: FC = () => {
                                     <Button variant="outline" size="sm" className="bg-blue-600 w-full hover:bg-blue-800 text-white hover:text-black">
                                         Comments
                                     </Button>
-                                    <Button variant="outline" size="sm" className="bg-blue-600 w-full hover:bg-blue-800 text-white hover:text-black">
+                                    <Button variant="outline" size="sm" className="bg-blue-600 w-full hover:bg-blue-800 text-white hover:text-black"
+                                        onClick={() => handleReviewsRatings(product.productID)}>
                                         Ratings
                                     </Button>
                                 </div>
@@ -275,44 +281,52 @@ const TopSellingProductDetails: FC = () => {
                         </div>
                     </Card>
                 ))}
-                {/* pagination buttons */}
-                <div className="flex justify-center mt-6">
-                    <Button
-                        onClick={handlePreviousPage}
-                        disabled={currentPage === 1}
-                        variant="outline"
-                        className='hover:bg-gray-600 text-black pl-2 bg-gray-400'
-                    >
-                        Previous Page
-                    </Button>
-                    <span className="py-2">Page {currentPage}</span>
-                    <Button
-                        onClick={handleNextPage}
-                        disabled={!hasMorePages}
-                        variant="outline"
-                        className='hover:bg-gray-600 text-black pr-2 bg-gray-400'
-                    >
-                        Next Page
-                    </Button>
-                </div>
-                {/* view seller model */}
-                {selectedSeller !== null && (
-                    <SellerDetailsModal
-                        isOpen={selectedSeller !== null}
-                        onClose={() => setSelectedSeller(null)}
-                        sellerID={selectedSeller}
-                    />
-                )}
-                {/* view product more details */}
-                {selectedProduct !== null && (
-                    <ProductDetailsModal
-                        isOpen={selectedProduct !== null}
-                        onClose={() => setSelectedProduct(null)}
-                        productID={selectedProduct}
-                    />
-                )}
+            {/* pagination buttons */}
+            <div className="flex justify-center mt-6">
+                <Button 
+                    onClick={handlePreviousPage}
+                    disabled={currentPage === 1}
+                    variant="outline"
+                    className='hover:bg-gray-600 text-black pl-2 bg-gray-400'
+                >
+                    Previous Page
+                </Button>
+                <span className="py-2">Page {currentPage}</span>
+                <Button 
+                    onClick={handleNextPage}
+                    disabled={!hasMorePages}
+                    variant="outline"
+                    className='hover:bg-gray-600 text-black pr-2 bg-gray-400'
+                >
+                    Next Page
+                </Button>
             </div>
-        </div>
+            {/* view seller model */}
+            {selectedSeller !== null && (
+                <SellerDetailsModal
+                    isOpen={selectedSeller !== null}
+                    onClose={() => setSelectedSeller(null)}
+                    sellerID={selectedSeller}
+                />
+            )}
+             {/* view product more details */}
+             {selectedProduct !== null && (
+                <ProductDetailsModal
+                    isOpen={selectedProduct !== null}
+                    onClose={() => setSelectedProduct(null)}
+                    productID={selectedProduct}
+                />
+            )}
+            {/* reviews and ratings */}
+            {reviews !== null && (
+                <ReviewsAndRatingsModal
+                    isOpen={reviews !== null}
+                    onClose={() => setReviews(null)}
+                    productID={reviews}
+                />
+            )}
+        </div>   
+    </div>     
     );
 };
 

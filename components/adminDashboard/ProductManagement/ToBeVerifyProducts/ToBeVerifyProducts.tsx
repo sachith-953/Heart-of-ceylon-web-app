@@ -1,12 +1,15 @@
 "use client"
 
 import React, { FC, useEffect, useState } from 'react';
+import { Badge } from "@/components/ui/badge";
 import { useToast } from "@/components/ui/use-toast";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Loader2, Star } from "lucide-react";
 import MaxWidthWrapper from "@/components/MaxWidthWrapper";
+import SellerDetailsModal from "@/components/adminDashboard/POPUPwindows/ViewSellerDetailsPOPUPWindow/ViewSellerDetailsPOPUPWindow"
+import ProductDetailsForApproveTheProductModel from "@/components/adminDashboard/POPUPwindows/ProductApprovalPOPUPWindow/ProductApprovalPOPUPWindow"
 
 interface RatingStarsProps {
     rating: number;
@@ -57,6 +60,8 @@ const ToBeVerifyProducts: FC = () => {
     const [hasMorePages, setHasMorePages] = useState(true);
     const router = useRouter();
     const { toast } = useToast();
+    const [selectedSeller, setSelectedSeller] = useState<number | null>(null);// pop up for seller view
+    const [selectedProduct, setSelectedProduct] = useState<number | null>(null); // popup product details window
 
     const fetchProducts = async (pageNumber: number) => {
         try {
@@ -115,6 +120,14 @@ const ToBeVerifyProducts: FC = () => {
             setCurrentPage(prev => prev - 1);
         }
     };
+    // handle view seller button click
+    const handleViewSellerDetails = (sellerID: number) => {
+        setSelectedSeller(sellerID);
+      };
+    // handle proceed to approve button
+      const handleViewProductDetails = (productID: number) => {
+           setSelectedProduct(productID);
+        };
 
     if (isLoading) {
         return (
@@ -220,14 +233,24 @@ const ToBeVerifyProducts: FC = () => {
                                     <p className="text-sm font-medium">Seller ID : {product.sellerID}</p>
                                     {/* Product Manufacture */}
                                     <p className="text-sm font-medium">Manuf. : {product.productManufacture}</p>
+                                    <div className="flex mt-1">
+                                        <p className='mr-2 text-sm mt-1 font-medium'>Status :</p>
+                                        <Badge className="bg-green-300 text-black px-3 py-1 mt-1">
+                                        <p className='text-sm '>{product.productStatus}</p>
+                                        </Badge>
+                                    </div>
                                 </div>
+                                
 
                                 {/* Section 4: Action Buttons */}
                                 <div className="w-1/5 rounded-md p-1 space-y-6">
-                                    <Button variant="default" size="sm" className="bg-blue-500 w-full hover:bg-blue-700 text-white">
+                                    <Button variant="default" size="sm" className="bg-blue-500 w-full hover:bg-blue-700 text-white"
+                                            onClick={() => handleViewSellerDetails(product.sellerID)}>
+                                        {/* onclick handle popup window */}
                                         View Seller Details
                                     </Button>
-                                    <Button variant="outline" size="sm" className="bg-green-500 w-full hover:bg-green-700 text-white">
+                                    <Button variant="outline" size="sm" className="bg-green-500 w-full hover:bg-green-700 text-white"
+                                         onClick={() => handleViewProductDetails(product.productID)}>
                                         Proceed To Approval
                                     </Button>
                                 </div>
@@ -254,6 +277,22 @@ const ToBeVerifyProducts: FC = () => {
                         Next Page
                     </Button>
                 </div>
+                {/* view seller model */}
+            {selectedSeller !== null && (
+                <SellerDetailsModal
+                    isOpen={selectedSeller !== null}
+                    onClose={() => setSelectedSeller(null)}
+                    sellerID={selectedSeller}
+                />
+            )}
+            {/* view product details which need to approve */}
+            {selectedProduct !== null && (
+                <ProductDetailsForApproveTheProductModel // popup model export name -->export default ProductDetailsModal;
+                    isOpen={selectedProduct !== null}
+                    onClose={() => setSelectedProduct(null)}
+                    productID={selectedProduct}
+                />
+            )}
             </div> 
         </div>    
     );
