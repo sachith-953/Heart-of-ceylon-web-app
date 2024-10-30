@@ -95,42 +95,42 @@ const SearchBarForRequestedOrders: React.FC<ChildProps> = ({ onChildDataChange, 
     <>
       <MaxWidthWrapper>
 
-        {/* if we need to add pages, then that should be in this component */}
+      {/* if we need to add pages, then that should be in this component */}
 
-        <div className="flex flex-col gap-10 items-center p-6 ">
-          <div className="items-start flex flex-row w-full sm:w-2/3 max-w-96 sm:max-w-screen-md">
-            <div className="relative flex flex-col w-full">
-              <div className="flex flex-row w-full">
-                <input
-                  type="text"
-                  className="z-40 px-5 py-1 w-full sm:px-5 sm:py-3 flex-1 text-zinc-600 bg-slate-300 focus:big-black rounded-l-3xl focus:outline-none focus:bg-gray-300"
-                  placeholder="Search RequstedOrders by RID, Date, Productname, Status"
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                />
-                <button
-                  className="bg-gray-300 px-6 rounded-r-3xl ml-px hover:bg-gray-600 hover:text-white"
-                  onClick={() => handleSearch()}
-                >
-                  Search
-                </button>
+      <div className="flex flex-col gap-10 items-center my-2">
+        <div className="items-start flex flex-row w-full">
+          <div className="relative flex flex-col w-full">
+            <div className="flex flex-row w-full">
+              <input
+                type="text"
+                className="px-5 py-1 w-full sm:px-5 sm:py-3 flex-1 text-zinc-600 bg-slate-300 focus:big-black rounded-l-3xl focus:outline-none focus:bg-gray-300"
+                placeholder="Search products by product Id, Product Name, or Status"
+                onChange={(e) => setSearchQuery(e.target.value)}
+              />
+              <button
+                className="bg-gray-300 px-6 rounded-r-3xl ml-px hover:bg-gray-600 hover:text-white"
+                onClick={() => handleSearch()}
+              >
+                Search
+              </button>
 
-                {/* reset button */}
-                <div className="">
-                <button
-                  className="flex flex-row items-center bg-gray-300 h-full ml-3 px-6 rounded-3xl hover:bg-red-600 hover:text-white"
-                  onClick={() => clearSearchResults()}
-                >
-                  Clear
-                  <X />
-                </button>
-                
-              </div>
-              </div>
+              {/* reset button */}
+              <div className="">
+              <button
+                className="flex flex-row items-center bg-gray-300 h-full ml-3 px-6 rounded-3xl hover:bg-red-600 hover:text-white"
+                onClick={() => clearSearchResults()}
+              >
+                Clear
+                <X />
+              </button>
               
             </div>
+            </div>
+            
           </div>
         </div>
-      </MaxWidthWrapper>
+      </div>
+    </MaxWidthWrapper>
 
     </>
   )
