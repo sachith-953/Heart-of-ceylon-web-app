@@ -145,8 +145,8 @@ const ReviewsAndRatingsModal: React.FC<ReviewsAndRatingsModalProps> = ({
 
     return (
         <Dialog open={isOpen} onOpenChange={onClose}>
-            <DialogContent className="w-[90vw] max-w-[100vw] h-dvh p-1 bg-gray-200 flex flex-col space-y-2">
-                <DialogHeader className='bg-gray-200 rounded-md h-12 p-2'>
+            <DialogContent className="w-[90vw] max-w-[100vw] h-dvh p-1 flex flex-col space-y-2">
+                <DialogHeader className=' rounded-md h-12 p-2'>
                     <DialogTitle className="text-xl font-semibold text-center">
                         Product Reviews and Ratings
                     </DialogTitle>

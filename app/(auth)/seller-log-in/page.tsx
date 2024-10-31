@@ -48,6 +48,14 @@ export default function SellerLoginPage() {
                 })
                 router.push(`${process.env.NEXT_PUBLIC_URL}/`)
             }
+            else if(ResponseData.success === true && ResponseData.role == "ROLE_ADMIN"){
+                setSuccess("Logged in. Please Wait...")
+                toast({
+                    title: "Welcome Aboard,",
+                    description: "Please proceed to your classified Admin Dashboard URL" 
+                })
+                router.push(`${process.env.NEXT_PUBLIC_URL}/`)
+            }
             else {
                 setSuccess(ResponseData.success)
                 setServerError("Seller Email or Password is not Correct")

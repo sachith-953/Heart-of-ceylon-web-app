@@ -168,8 +168,8 @@ const BuyerDetailsModal: React.FC<BuyerDetailsModalProps> = ({
 
     return (
         <Dialog open={isOpen} onOpenChange={onClose}>
-            <DialogContent className="w-3/4 max-w-[100vw] h-dvh p-1 bg-gray-200 flex flex-col rounded-md">
-                <DialogHeader className="bg-gray-200">
+            <DialogContent className="w-3/4 max-w-[100vw] h-dvh p-1 flex flex-col rounded-md">
+                <DialogHeader className="">
                     <DialogTitle className="text-xl font-bold text-black text-center rounded-md p-2">
                         All Details About Requested Order
                     </DialogTitle>
