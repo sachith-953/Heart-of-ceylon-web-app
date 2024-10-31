@@ -14,9 +14,9 @@ export default function SellerDashbard() {
         <>
 
             {/* add new navbar designed for the seller*/}
-            <Navbar />
+            {/* <Navbar /> */}
 
-            <div className="bg-white w-full h-svh pt-1">
+            <div className="bg-white w-full h-svh pt-4">
 
                 {/* tabs */}
                 <Tabs defaultValue="All Orders" className="flex flex-row mx-3 h-full ">
