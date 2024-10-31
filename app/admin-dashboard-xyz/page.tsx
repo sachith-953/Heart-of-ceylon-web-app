@@ -6,6 +6,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { BadgeDollarSign, Box, Printer, ShoppingBasket, Text, UserCog, UserPlus, UserRound, Users } from "lucide-react"
 import AllOrders from "@/components/adminDashboard/AllOrders/AllOrders";
 import ProductManagement from "@/components/adminDashboard/ProductManagement/ProductManagement"
+import GetLogs from "@/components/adminDashboard/Logs/GetLogs/GetLogs"
 
 
 
@@ -19,7 +20,7 @@ export default function SellerDashbard() {
             <div className="bg-white w-full h-svh pt-1">
 
                 {/* tabs */}
-                <Tabs defaultValue="All Orders" className="flex flex-row mx-3 h-full ">
+                <Tabs defaultValue="Logs" className="flex flex-row mx-3 h-full ">
                     <TabsList className="w-1/4 h-full flex flex-col bg-[#314659] justify-start">
 
                         {/* <div className="bg-zinc-400 h-20 w-full mb-2">
@@ -62,7 +63,7 @@ export default function SellerDashbard() {
                         <TabsContent value="All Orders">
                             {/* All Orders component here */}
                             {/* DEV : madushan */}
-                            <AllOrders/>
+                            {/* <AllOrders/> */}
                         </TabsContent>
 
                         <TabsContent value="Product Management">
@@ -73,6 +74,7 @@ export default function SellerDashbard() {
 
                         <TabsContent value="Logs">
                             {/*Logs component here */}
+                            <GetLogs/>
                         </TabsContent>
 
                         <TabsContent value="Manage Admin Accounts">
