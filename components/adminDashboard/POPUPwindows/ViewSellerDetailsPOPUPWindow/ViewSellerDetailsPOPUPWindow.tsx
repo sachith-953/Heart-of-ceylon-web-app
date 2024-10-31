@@ -109,8 +109,8 @@ const SellerDetailsModal: React.FC<SellerDetailsModalProps> = ({
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-        <DialogContent className="w-[85vw] max-w-[85vw] h-[90vh] max-h-[90vh] p-1 bg-gray-200">
-          <DialogHeader className="bg-gray-200">
+        <DialogContent className="w-[85vw] max-w-[85vw] h-[90vh] max-h-[90vh] p-1 ">
+          <DialogHeader className="">
             <DialogTitle className="text-xl font-bold text-black text-center rounded-md mt-5">Seller All Details</DialogTitle>
           </DialogHeader>
           

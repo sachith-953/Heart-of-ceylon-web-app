@@ -49,6 +49,7 @@ const AllOrderDetails = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [selectedOrder, setSelectedOrder] = useState<number | null>(null);
+  const [orderQuantity, setQuantity] = useState<number | null>(null);
 
   const router = useRouter();
   const { toast } = useToast();
@@ -102,8 +103,9 @@ const AllOrderDetails = () => {
   };
 
   // handle view more details button
-  const handleViewMoreDetails = (orderId: number) => {
+  const handleViewMoreDetails = (orderId: number,quantity:number ) => {
     setSelectedOrder(orderId);
+    setQuantity(quantity);
   };
 
   useEffect(() => {
@@ -176,7 +178,7 @@ const AllOrderDetails = () => {
                       variant="default"
                       size="sm"
                       className="bg-blue-600 hover:bg-blue-800 text-white hover:text-black"
-                      onClick={() => handleViewMoreDetails(order.orderId)}>
+                      onClick={() => handleViewMoreDetails(order.orderId,order.quantity)}>
                       More
                     </Button>
                   </TableCell>
@@ -186,13 +188,17 @@ const AllOrderDetails = () => {
           </Table>
         </div>
         {/* more details of requested order*/}
-        {selectedOrder !== null && (
-                <AllDetailsModal
-                    isOpen={selectedOrder !== null}
-                    onClose={() => setSelectedOrder(null)}
-                    orderID={selectedOrder} // this orderID comes from popup window component --> model prop
-                />
-          )}
+        {selectedOrder !== null && orderQuantity !== null && (
+              <AllDetailsModal
+                isOpen={true}
+                onClose={() => {
+                  setSelectedOrder(null);
+                  setQuantity(null);
+                }}
+                orderID={selectedOrder}
+                OrderQuantity={orderQuantity}
+              />
+            )}
       </div>
     </div>
   );
