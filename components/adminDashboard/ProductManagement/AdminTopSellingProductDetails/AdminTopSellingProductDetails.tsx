@@ -12,6 +12,7 @@ import ProductDetailsModal from "@/components/adminDashboard/POPUPwindows/ViewPr
 import ReviewsAndRatingsModal from "@/components/adminDashboard/POPUPwindows/ReviewsAndRatingsPOPUPWindow/ReviewsAndRatingsPOPUPWindow"
 import Image from 'next/image';
 import SearchBarForSearchProductsFromAdminDashboard from './SearchBarForSearchProductsFromAdminDashboard';
+import AllSellerDetailsPopupButton from '../../POPUPwindows/AllSellerDetailsPopUps/AllSellerDetailsPopupButton';
 
 interface RatingStarsProps {
     rating: number;
@@ -146,11 +147,11 @@ const TopSellingProductDetails: FC = () => {
     // handle view product all details click
     const handleViewProductDetails = (productID: number) => {
         setSelectedProduct(productID);
-      };
-      // handle reviews and ratings
-      const handleReviewsRatings = (productID: number) => {
+    };
+    // handle reviews and ratings
+    const handleReviewsRatings = (productID: number) => {
         setReviews(productID);
-      };
+    };
 
     if (isLoading) {
         return (
@@ -267,10 +268,14 @@ const TopSellingProductDetails: FC = () => {
 
                             {/* Section 4: Action Buttons */}
                             <div className="w-1/5 rounded-md p-1 space-y-6">
-                                <Button variant="default" size="sm" className="bg-blue-600 w-full hover:bg-blue-800 text-white hover:text-black"
+                                {/* <Button variant="default" size="sm" className="bg-blue-600 w-full hover:bg-blue-800 text-white hover:text-black"
                                     onClick={() => handleViewSellerDetails(product.sellerID)}>
                                     View Seller Details
-                                </Button>
+                                </Button> */}
+                                <div className='w-full'>
+                                    <AllSellerDetailsPopupButton sellerID={product.sellerID} />
+                                </div>
+
                                 <Button variant="destructive" size="sm" className="w-full bg-red-600 hover:bg-red-800 text-white hover:text-black">
                                     Suspend
                                 </Button>
@@ -282,52 +287,52 @@ const TopSellingProductDetails: FC = () => {
                         </div>
                     </Card>
                 ))}
-            {/* pagination buttons */}
-            <div className="flex justify-center mt-6">
-                <Button 
-                    onClick={handlePreviousPage}
-                    disabled={currentPage === 1}
-                    variant="outline"
-                    className='hover:bg-gray-600 text-black pl-2 bg-gray-400'
-                >
-                    Previous Page
-                </Button>
-                <span className="py-2">Page {currentPage}</span>
-                <Button 
-                    onClick={handleNextPage}
-                    disabled={!hasMorePages}
-                    variant="outline"
-                    className='hover:bg-gray-600 text-black pr-2 bg-gray-400'
-                >
-                    Next Page
-                </Button>
+                {/* pagination buttons */}
+                <div className="flex justify-center mt-6">
+                    <Button
+                        onClick={handlePreviousPage}
+                        disabled={currentPage === 1}
+                        variant="outline"
+                        className='hover:bg-gray-600 text-black pl-2 bg-gray-400'
+                    >
+                        Previous Page
+                    </Button>
+                    <span className="py-2">Page {currentPage}</span>
+                    <Button
+                        onClick={handleNextPage}
+                        disabled={!hasMorePages}
+                        variant="outline"
+                        className='hover:bg-gray-600 text-black pr-2 bg-gray-400'
+                    >
+                        Next Page
+                    </Button>
+                </div>
+                {/* view seller model */}
+                {selectedSeller !== null && (
+                    <SellerDetailsModal
+                        isOpen={selectedSeller !== null}
+                        onClose={() => setSelectedSeller(null)}
+                        sellerID={selectedSeller}
+                    />
+                )}
+                {/* view product more details */}
+                {selectedProduct !== null && (
+                    <ProductDetailsModal
+                        isOpen={selectedProduct !== null}
+                        onClose={() => setSelectedProduct(null)}
+                        productID={selectedProduct}
+                    />
+                )}
+                {/* reviews and ratings */}
+                {reviews !== null && (
+                    <ReviewsAndRatingsModal
+                        isOpen={reviews !== null}
+                        onClose={() => setReviews(null)}
+                        productID={reviews}
+                    />
+                )}
             </div>
-            {/* view seller model */}
-            {selectedSeller !== null && (
-                <SellerDetailsModal
-                    isOpen={selectedSeller !== null}
-                    onClose={() => setSelectedSeller(null)}
-                    sellerID={selectedSeller}
-                />
-            )}
-             {/* view product more details */}
-             {selectedProduct !== null && (
-                <ProductDetailsModal
-                    isOpen={selectedProduct !== null}
-                    onClose={() => setSelectedProduct(null)}
-                    productID={selectedProduct}
-                />
-            )}
-            {/* reviews and ratings */}
-            {reviews !== null && (
-                <ReviewsAndRatingsModal
-                    isOpen={reviews !== null}
-                    onClose={() => setReviews(null)}
-                    productID={reviews}
-                />
-            )}
-        </div>   
-    </div>     
+        </div>
     );
 };
 

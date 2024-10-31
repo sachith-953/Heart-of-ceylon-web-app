@@ -1,7 +1,8 @@
 import React from 'react'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import Product from "@/components/adminDashboard/ProductManagement/AdminTopSellingProductDetails/AdminTopSellingProductDetails"
 import VerifyProduct from "@/components/adminDashboard/ProductManagement/ToBeVerifyProducts/ToBeVerifyProducts"
+import TopSellingProductDetails from '@/components/adminDashboard/ProductManagement/AdminTopSellingProductDetails/AdminTopSellingProductDetails'
+import ToBeVerifyProducts from '@/components/adminDashboard/ProductManagement/ToBeVerifyProducts/ToBeVerifyProducts'
 
 const ProductManagement = () => {
     return (
@@ -14,11 +15,11 @@ const ProductManagement = () => {
                 
                 <TabsContent value="account">
                   {/* products componet here */}
-                    <Product/>
+                    <TopSellingProductDetails />
                 </TabsContent>
                 <TabsContent value="password">
                     {/* verify products component */}
-                    <VerifyProduct/>
+                    <ToBeVerifyProducts />
                 </TabsContent>
             </Tabs>
 

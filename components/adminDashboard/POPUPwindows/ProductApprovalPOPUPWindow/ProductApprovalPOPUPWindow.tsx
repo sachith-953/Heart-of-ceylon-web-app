@@ -13,6 +13,7 @@ import {
     Store,
     Star,
   } from "lucide-react";
+import AllSellerDetailsPopupButton from "../AllSellerDetailsPopUps/AllSellerDetailsPopupButton";
   
   
 interface ProductDetailsModalProps {
@@ -52,6 +53,7 @@ const ProductDetailsForApproveTheProductModel: React.FC<ProductDetailsModalProps
     const [product, setProduct] = React.useState<ProductDetails | null>(null);
     const [isLoading, setIsLoading] = React.useState(false);
     const [error, setError] = React.useState<string | null>(null);
+    const [sellerId, setSellerId] = React.useState(0);
     const { toast } = useToast();
     const router = useRouter();
 
@@ -72,6 +74,8 @@ const ProductDetailsForApproveTheProductModel: React.FC<ProductDetailsModalProps
             if (res.ok) {
                 const responseData = await res.json();
                 setProduct(responseData);
+                setSellerId(responseData.sellerID)
+                console.log("responseData.sellerID" + responseData.sellerID)
             } else if (res.status === 403) {
                 setProduct(null);
                 toast({
@@ -153,10 +157,11 @@ const ProductDetailsForApproveTheProductModel: React.FC<ProductDetailsModalProps
 
                             {/* Action Buttons */}
                             <div className="flex flex-col gap-3 mt-6 items-center justify-center p-1">
-                                 <button
+                                 {/* <button
                                     className="bg-blue-600 hover:bg-blue-800 text-white font-bold py-2 rounded w-2/3 px-4 hover:text-black">
                                     View Seller Details
-                                </button>
+                                </button> */}
+                                <AllSellerDetailsPopupButton sellerID={sellerId} />
                             </div>
                         </div>
 

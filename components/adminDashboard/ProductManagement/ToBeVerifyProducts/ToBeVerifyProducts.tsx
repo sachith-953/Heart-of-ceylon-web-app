@@ -13,6 +13,7 @@ import ProductDetailsForApproveTheProductModel from "@/components/adminDashboard
 import Image from 'next/image';
 import SearchBarForToBeVerified from './SearchBarForToBeVerifiedProducts';
 import SearchBarForToBeVerifiedProducts from './SearchBarForToBeVerifiedProducts';
+import AllSellerDetailsPopupButton from '../../POPUPwindows/AllSellerDetailsPopUps/AllSellerDetailsPopupButton';
 
 interface RatingStarsProps {
     rating: number;
@@ -248,11 +249,14 @@ const ToBeVerifyProducts: FC = () => {
 
                             {/* Section 4: Action Buttons */}
                             <div className="w-1/5 rounded-md p-1 space-y-6">
-                                <Button variant="default" size="sm" className="bg-blue-500 w-full hover:bg-blue-700 text-white"
+                                {/* <Button variant="default" size="sm" className="bg-blue-500 w-full hover:bg-blue-700 text-white"
                                     onClick={() => handleViewSellerDetails(product.sellerID)}>
-                                    {/* onclick handle popup window */}
                                     View Seller Details
-                                </Button>
+                                </Button> */}
+
+                                <AllSellerDetailsPopupButton sellerID={product.sellerID} />
+
+
                                 <Button variant="outline" size="sm" className="bg-green-500 w-full hover:bg-green-700 text-white"
                                     onClick={() => handleViewProductDetails(product.productID)}>
                                     Proceed To Approval

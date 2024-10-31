@@ -9,61 +9,62 @@ import { useToast } from "@/components/ui/use-toast";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import React from 'react';
-import { 
-    Loader2, 
-    Mail, 
-    Phone, 
-    MapPin, 
+import {
+    Loader2,
+    Mail,
+    Phone,
+    MapPin,
     Store,
     Star,
 } from "lucide-react";
+import AllSellerDetailsPopupButton from "../AllSellerDetailsPopUps/AllSellerDetailsPopupButton";
 
 
-export enum sellerStatusEnum { 
+export enum sellerStatusEnum {
     ACTIVE = 'ACTIVE',
     NOT_APPROVED = 'NOT_APPROVED',
     SUSPEND = 'SUSPEND',
     DELETED = 'DELETED',
-   
+
 }
 
-export enum ProductVisibilityEnum{
+export enum ProductVisibilityEnum {
     PRIVATE = "PRIVATE",
     PUBLIC = "PUBLIC"
 }
 
-export enum ProductVisibilityEnum{
+export enum ProductVisibilityEnum {
     PRODUCT_IS_ACTIVE = "PRODUCT_IS_ACTIVE",
     SUSPEND = "SUSPEND",
     DISCONTINUED = "DISCONTINUED",
     VERIFIED = "VERIFIED",
     TO_BE_VERIFIED = "TO_BE_VERIFIED",
-    DELETED ="DELETED"
+    DELETED = "DELETED"
 }
 
-export enum OrderStatusEnum{
-    PENDING ="PENDING",
-    PROCESSING ="PROCESSING",
-    SHIPPED ="SHIPPED",
-    DELIVERED ="DELIVERED",
-    CANCELLED ="CANCELLED"
+export enum OrderStatusEnum {
+    PENDING = "PENDING",
+    PROCESSING = "PROCESSING",
+    SHIPPED = "SHIPPED",
+    DELIVERED = "DELIVERED",
+    CANCELLED = "CANCELLED"
 }
 
-interface SellerDetails{
-sellerID: number,
-storeName: string,
-sellerStatus: sellerStatusEnum,
-ratings: number,
-badges: string,
-accountCreatedDate: string,
-categories:string,
-storeDescription: string,
-totalSales: number,
-phoneNo:string,
-sellerAddress: string,
-sellerEmail: string,
-district: string,
-profilePicture: string
+interface SellerDetails {
+    sellerID: number,
+    storeName: string,
+    sellerStatus: sellerStatusEnum,
+    ratings: number,
+    badges: string,
+    accountCreatedDate: string,
+    categories: string,
+    storeDescription: string,
+    totalSales: number,
+    phoneNo: string,
+    sellerAddress: string,
+    sellerEmail: string,
+    district: string,
+    profilePicture: string
 
 }
 
@@ -80,7 +81,7 @@ interface BuyertDetails {
 }
 
 interface ProductDetails {
-    productID:number,
+    productID: number,
     productName: string,
     productAvailableStokes: number,
     productDescription: string,
@@ -88,9 +89,9 @@ interface ProductDetails {
     productMainImage: string,
     productWeight: number,
     productDimensions: string,
-    productCreatedDate:string,
+    productCreatedDate: string,
     productStatus: ProductVisibilityEnum,
-    productKeyWords:string,
+    productKeyWords: string,
     productNoOfRatings: number,
     productVisibility: ProductVisibilityEnum,
     productRatings: number,
@@ -102,13 +103,13 @@ interface ProductDetails {
 
 }
 
-interface OrderSummery{
+interface OrderSummery {
     orderDateTime: string,
     orderStatus: OrderStatusEnum,
     paymentMethod: string,
     expectedDeliveryDate: string,
     notes: string,
-    shippingCost:number
+    shippingCost: number
 }
 interface AllDetailsModalProps {
     isOpen: boolean;
@@ -323,7 +324,7 @@ const AllDetailsModal: React.FC<AllDetailsModalProps> = ({
                         All Details About Order
                     </DialogTitle>
                 </DialogHeader>
-    
+
                 {isLoading ? (
                     <div className="flex justify-center items-center h-[60vh]">
                         <Loader2 className="h-8 w-8 animate-spin" />
@@ -336,23 +337,23 @@ const AllDetailsModal: React.FC<AllDetailsModalProps> = ({
                         {/* seller */}
                         <div className="  p-4 rounded-md border-2">
                             <div className="  flex items-center justify-center text-lg font-bold rounded-md">
-                            <Store className="h-5 w-5 mr-4" />
-                            Seller Details
+                                <Store className="h-5 w-5 mr-4" />
+                                Seller Details
                             </div>
                             {seller && (
                                 <div className="">
 
                                     <div className="flex space-x-4">
                                         <div className=" w-32 h-32 mt-1 rounded-md">
-                                            <img 
-                                                src={seller.profilePicture || "/api/placeholder/100/100"} 
-                                                alt="Store" 
-                                                className= "w-full h-full rounded-lg object-cover"
+                                            <img
+                                                src={seller.profilePicture || "/api/placeholder/100/100"}
+                                                alt="Store"
+                                                className="w-full h-full rounded-lg object-cover"
                                             />
                                         </div>
                                         <div className=" h-32 mt-1 rounded-md">
                                             <p className="text-2xl font-bold">{seller.storeName}</p>
-                                             
+
                                             <p className="text-lg font-semibold">Seller ID :{seller.sellerID}</p>
                                             <p className="text-lg font-semibold">Total Sales :{seller.totalSales}</p>
                                             <p className="text-lg font-semibold">Category :{seller.categories}</p>
@@ -366,22 +367,22 @@ const AllDetailsModal: React.FC<AllDetailsModalProps> = ({
                                                 <p className="mr-1 text-black text-lg font-bold">Ratings :</p>
                                                 <div className="flex flex-row mt-2">
                                                     {Array.from({ length: seller.ratings }, (_, index) => (
-                                                    <Star key={index} fill="#FFD254" strokeWidth={0} className="w-4 h-4" />
+                                                        <Star key={index} fill="#FFD254" strokeWidth={0} className="w-4 h-4" />
                                                     ))}
                                                     {Array.from({ length: 5 - seller.ratings }, (_, index) => (
-                                                    <Star key={5 * seller.ratings + index} fill="#111" strokeWidth={0} className="w-4 h-4" />
+                                                        <Star key={5 * seller.ratings + index} fill="#111" strokeWidth={0} className="w-4 h-4" />
                                                     ))}
                                                 </div>
                                             </div>
                                         </div>
                                         {/* Status Badge */}
                                         <div className=" flex ">
-                                                    <p className='mr-2 text-lg font-bold mt-1'>Status :</p>
-                                                    <Badge className="bg-green-300 text-black px-4 py-1 mt-2">
-                                                    <p className='text-xl '>{seller.sellerStatus}</p>
-                                                    </Badge>
-                                                </div>
-                                                {/* location */}
+                                            <p className='mr-2 text-lg font-bold mt-1'>Status :</p>
+                                            <Badge className="bg-green-300 text-black px-4 py-1 mt-2">
+                                                <p className='text-xl '>{seller.sellerStatus}</p>
+                                            </Badge>
+                                        </div>
+                                        {/* location */}
                                         <div className="rounded-md mt-2">
                                             <p className="flex items-center gap-2">
                                                 <MapPin className="h-4 w-4" />Location :
@@ -391,32 +392,40 @@ const AllDetailsModal: React.FC<AllDetailsModalProps> = ({
 
                                         {/* phone no */}
                                         <div className="rounded-md">
-                                        <p className="flex items-center gap-2">
-                                            <Phone className="h-4 w-4" />Mobile No :
-                                            {seller.phoneNo}
-                                        </p>
+                                            <p className="flex items-center gap-2">
+                                                <Phone className="h-4 w-4" />Mobile No :
+                                                {seller.phoneNo}
+                                            </p>
                                         </div>
                                         <p className="flex items-center gap-2">
                                             <Mail className="h-4 w-4" />email :
                                             {seller.sellerEmail}
                                         </p>
-                                            {/* buttons */}
-                                        <div className="flex  mt-5">
+                                        {/* buttons */}
+                                        <div className="flex items-center justify-center mt-5">
                                             <Button
                                                 variant="default"
                                                 size="sm"
-                                                className="bg-blue-600 hover:bg-blue-800 text-white hover:text-black ml-20">
+                                                className="bg-blue-600 hover:bg-blue-800 text-white hover:text-black"
+                                                onClick={() => router.push(`/seller-store?sellerId=${seller.sellerID}`)}
+                                            >
                                                 View Shop
                                             </Button>
-                                            <Button
+                                            {/* <Button
                                                 variant="default"
                                                 size="sm"
                                                 className="bg-blue-600 hover:bg-blue-800 text-white hover:text-black ml-20">
                                                 View Seller Details
-                                            </Button>
+                                            </Button> */}
+                                            {/* new reusable button for View Seller Details */}
+                                            <div className="w-40 mx-5">
+                                                <AllSellerDetailsPopupButton sellerID={seller.sellerID} />
+                                            </div>
+
+
                                         </div>
-                                        
-                                            {/* <div className="flex flex-wrap gap-2">
+
+                                        {/* <div className="flex flex-wrap gap-2">
                                             <Badge variant="outline">{seller.sellerStatus}</Badge>
                                             {seller.badges.split(',').map((badge, index) => (
                                                 <Badge key={index} variant="secondary">{badge.trim()}</Badge>
@@ -426,13 +435,13 @@ const AllDetailsModal: React.FC<AllDetailsModalProps> = ({
                                 </div>
                             )}
                         </div>
-    
+
                         {/* buyer */}
                         <div className=" p-4 rounded-lg shadow-md border-2">
                             <div className="  flex items-center justify-center text-lg font-bold rounded-md">
                                 Buyer Details
                             </div>
-                            
+
                             {buyer && (
                                 <div className="space-y-3">
                                     {/* name */}
@@ -455,7 +464,7 @@ const AllDetailsModal: React.FC<AllDetailsModalProps> = ({
                                             <Mail className="h-4 w-4" /> email :
                                             {buyer.email}
                                         </p>
-                                        
+
                                         <p className="flex items-center gap-2 font-semibold">
                                             <MapPin className="h-4 w-4" /> Shipping Address :
                                             {buyer.shippingAddress}
@@ -467,7 +476,7 @@ const AllDetailsModal: React.FC<AllDetailsModalProps> = ({
                                 </div>
                             )}
                         </div>
-    
+
                         {/* product */}
                         <div className=" p-4 rounded-lg border-2">
                             <div className="  flex items-center justify-center text-lg font-bold rounded-md">
@@ -478,13 +487,13 @@ const AllDetailsModal: React.FC<AllDetailsModalProps> = ({
                                     <div className="flex items-center space-x-4  p-1 rounded-md">
                                         {/* prodcut image */}
                                         <div className="w-32 h-32 mt-1 rounded-md">
-                                            <img 
-                                                src={product.productMainImage} 
-                                                alt={product.productName} 
+                                            <img
+                                                src={product.productMainImage}
+                                                alt={product.productName}
                                                 className="w-full h-full rounded-lg object-cover"
                                             />
-                                        </div>  
-                                       {/* right side of the image */}
+                                        </div>
+                                        {/* right side of the image */}
                                         <div>
                                             <p className="text-2xl font-bold">{product.productName}</p>
                                             <p className="text-red-700">categories not fetched consider about it</p>
@@ -493,26 +502,26 @@ const AllDetailsModal: React.FC<AllDetailsModalProps> = ({
                                                 <p className="">Quantity :{OrderQuantity}</p>
                                                 <p className="">Profit Margin :{product.productProfitMarginPercentage} %</p>
                                             </div>
-                                            
+
                                         </div>
                                     </div>
                                     {/* below image */}
                                     <div className="rounded-md flex ">
                                         {/* left */}
-                                       <div className=" rounded-md w-1/2">
+                                        <div className=" rounded-md w-1/2">
                                             <p>Weight : {product.productWeight}</p>
                                             <p>Available Stokes : {product.productAvailableStokes}</p>
                                             <p>Total Items Sold :{product.productTotalItemSold}</p>
                                             <div className="flex mt-1">
                                                 <p className='mr-6'>Status :</p>
                                                 <Badge className="bg-green-300 text-black px-4 py-1 mt-1">
-                                                <p className=''>{product.productStatus}</p>
+                                                    <p className=''>{product.productStatus}</p>
                                                 </Badge>
                                             </div>
                                             <div className="flex mt-1">
                                                 <p className='mr-2'>Visibility :</p>
                                                 <Badge className="bg-orange-300 text-black px-4 py-1 mt-1">
-                                                <p className=''>{product.productVisibility}</p>
+                                                    <p className=''>{product.productVisibility}</p>
                                                 </Badge>
                                             </div>
                                             {/* ratings */}
@@ -527,31 +536,31 @@ const AllDetailsModal: React.FC<AllDetailsModalProps> = ({
                                                     ))}
                                                 </div>
                                             </div>
-                                       </div>
-                                       {/* right */}
-                                       <div className="rounded-md ml-10">
+                                        </div>
+                                        {/* right */}
+                                        <div className="rounded-md ml-10">
                                             <p className="font-semibold">Product Price: {product.productPrice}</p>
                                             <p className="font-semibold">Shipping Fee: {order?.shippingCost || 0}</p>
                                             <p className="font-semibold">Total Price: {
                                                 order && product ? (
-                                                    (product.productPrice * OrderQuantity) + 
-                                                    ((product.productPrice * OrderQuantity) * (product.productProfitMarginPercentage / 100)) + 
+                                                    (product.productPrice * OrderQuantity) +
+                                                    ((product.productPrice * OrderQuantity) * (product.productProfitMarginPercentage / 100)) +
                                                     (order.shippingCost || 0)
                                                 ).toFixed(2) : 0
-                                                }
+                                            }
                                             </p>
                                         </div>
                                     </div>
                                 </div>
                             )}
                         </div>
-    
+
                         {/* order summary */}
                         <div className="p-4 rounded-md">
                             <div className="  flex items-center justify-center text-lg font-bold rounded-md">
-                            Order Summary
+                                Order Summary
                             </div>
-                            
+
                             {order && (
                                 <div className="space-y-3 mt-4">
                                     <div className="grid grid-cols-2 gap-4">
@@ -565,15 +574,15 @@ const AllDetailsModal: React.FC<AllDetailsModalProps> = ({
                                         </div>
                                         <div className="flex">
                                             <p className="font-semibold ">Status :</p>
-                                        <span className={`px-4 py-1 ml-1 rounded-full pb-3 mb-3 h-6 ${order.orderStatus === 'PENDING' ? 'bg-blue-100 text-blue-800' :
-                                            order.orderStatus === 'PROCESSING' ? 'bg-yellow-100 text-yellow-800' :
-                                            order.orderStatus === 'SHIPPED' ? 'bg-purple-100 text-purple-800' :
-                                            order.orderStatus === 'DELIVERED' ? 'bg-green-100 text-green-800' :
-                                            order.orderStatus === 'CANCELLED' ? 'bg-red-100 text-red-800' :
-                                            'bg-gray-100 text-gray-800'
-                                            }`}>
-                                            {order.orderStatus}
-                                        </span>
+                                            <span className={`px-4 py-1 ml-1 rounded-full pb-3 mb-3 h-6 ${order.orderStatus === 'PENDING' ? 'bg-blue-100 text-blue-800' :
+                                                order.orderStatus === 'PROCESSING' ? 'bg-yellow-100 text-yellow-800' :
+                                                    order.orderStatus === 'SHIPPED' ? 'bg-purple-100 text-purple-800' :
+                                                        order.orderStatus === 'DELIVERED' ? 'bg-green-100 text-green-800' :
+                                                            order.orderStatus === 'CANCELLED' ? 'bg-red-100 text-red-800' :
+                                                                'bg-gray-100 text-gray-800'
+                                                }`}>
+                                                {order.orderStatus}
+                                            </span>
                                         </div>
                                         <div>
                                             <p className="font-semibold">Payment Method:</p>
@@ -596,7 +605,7 @@ const AllDetailsModal: React.FC<AllDetailsModalProps> = ({
                                         </Button>
                                     </div>
                                 </div>
-                                
+
                             )}
                         </div>
                     </div>

@@ -63,7 +63,7 @@ export default function SellerDashbard() {
                         <TabsContent value="All Orders">
                             {/* All Orders component here */}
                             {/* DEV : madushan */}
-                            {/* <AllOrders/> */}
+                            <AllOrders/>
                         </TabsContent>
 
                         <TabsContent value="Product Management">
