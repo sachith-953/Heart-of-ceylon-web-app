@@ -39,7 +39,7 @@ const SearchBarForAllOrderDetails: React.FC<ChildProps> = ({ onChildDataChange, 
 
     try {
 
-      const res = await fetch(`${BASE_URL}/api/admin-dashboard/search-an-order`, {
+      const res = await fetch(`${BASE_URL}/api/admin-dashboard/AllOrders/Orders/search-an-order`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

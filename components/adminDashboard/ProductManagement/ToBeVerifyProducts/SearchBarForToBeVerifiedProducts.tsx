@@ -66,7 +66,7 @@ const SearchBarForToBeVerifiedProducts: React.FC<ChildProps> = ({ onChildDataCha
 
     try {
       ///
-      const res = await fetch(`${BASE_URL}/api/admin-dashboard/product-management/search-tobe-verified-products`, {
+      const res = await fetch(`${BASE_URL}/api/admin-dashboard/product-management/ProductManagement/ToBeVerifyProducts/search-tobe-verified-products`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

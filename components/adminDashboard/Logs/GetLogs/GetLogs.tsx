@@ -51,7 +51,7 @@ const GetLogs: FC = () => {
     const fetchLogs = async (pageNumber: number) => {
         try {
             setIsLoading(true);
-            const res = await fetch('http://localhost:3000/api/admin-dashboard/get-logs-on-admin-dashboard', {
+            const res = await fetch('http://localhost:3000/api/admin-dashboard/Logs/GetLogs/get-logs-on-admin-dashboard', {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",

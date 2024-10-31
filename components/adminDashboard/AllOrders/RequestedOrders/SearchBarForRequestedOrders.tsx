@@ -45,7 +45,7 @@ const SearchBarForRequestedOrders: React.FC<ChildProps> = ({ onChildDataChange, 
 
     try {
 
-      const res = await fetch(`${BASE_URL}/api/admin-dashboard/search-requested-orders`, {
+      const res = await fetch(`${BASE_URL}/api/admin-dashboard/AllOrders/RequestwdOrders/search-requested-orders`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

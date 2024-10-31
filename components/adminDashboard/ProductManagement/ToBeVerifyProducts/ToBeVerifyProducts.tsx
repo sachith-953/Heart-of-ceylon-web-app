@@ -7,13 +7,10 @@ import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Loader2, Star } from "lucide-react";
-import MaxWidthWrapper from "@/components/MaxWidthWrapper";
-import SellerDetailsModal from "@/components/adminDashboard/POPUPwindows/ViewSellerDetailsPOPUPWindow/ViewSellerDetailsPOPUPWindow"
-import ProductDetailsForApproveTheProductModel from "@/components/adminDashboard/POPUPwindows/ProductApprovalPOPUPWindow/ProductApprovalPOPUPWindow"
 import Image from 'next/image';
-import SearchBarForToBeVerified from './SearchBarForToBeVerifiedProducts';
 import SearchBarForToBeVerifiedProducts from './SearchBarForToBeVerifiedProducts';
-import AllSellerDetailsPopupButton from '../../POPUPwindows/AllSellerDetailsPopUps/AllSellerDetailsPopupButton';
+import AllSellerDetailsPopupButton from '../../POPUPwindows/AllSellerDetailsPopupButton/AllSellerDetailsPopupButton';
+import ProceedTOApproveProductPOPUPButton from '@/components/adminDashboard/POPUPwindows/ProceedTOApproveProductPOPUPButton/ProceedTOApproveProductPOPUPButton';
 
 interface RatingStarsProps {
     rating: number;
@@ -83,7 +80,7 @@ const ToBeVerifyProducts: FC = () => {
     const fetchProducts = async (pageNumber: number) => {
         try {
             setIsLoading(true);
-            const res = await fetch('http://localhost:3000/api/admin-dashboard/verify-product', {
+            const res = await fetch('http://localhost:3000/api/admin-dashboard/ProductManagement/ToBeVerifyProducts/verify-product', {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -249,18 +246,11 @@ const ToBeVerifyProducts: FC = () => {
 
                             {/* Section 4: Action Buttons */}
                             <div className="w-1/5 rounded-md p-1 space-y-6">
-                                {/* <Button variant="default" size="sm" className="bg-blue-500 w-full hover:bg-blue-700 text-white"
-                                    onClick={() => handleViewSellerDetails(product.sellerID)}>
-                                    View Seller Details
-                                </Button> */}
-
+                            
                                 <AllSellerDetailsPopupButton sellerID={product.sellerID} />
 
 
-                                <Button variant="outline" size="sm" className="bg-green-500 w-full hover:bg-green-700 text-white"
-                                    onClick={() => handleViewProductDetails(product.productID)}>
-                                    Proceed To Approval
-                                </Button>
+                                <ProceedTOApproveProductPOPUPButton productID ={product.productID} />
                             </div>
                         </div>
                     </Card>
@@ -285,22 +275,6 @@ const ToBeVerifyProducts: FC = () => {
                         Next Page
                     </Button>
                 </div>
-                {/* view seller model */}
-                {selectedSeller !== null && (
-                    <SellerDetailsModal
-                        isOpen={selectedSeller !== null}
-                        onClose={() => setSelectedSeller(null)}
-                        sellerID={selectedSeller}
-                    />
-                )}
-                {/* view product details which need to approve */}
-                {selectedProduct !== null && (
-                    <ProductDetailsForApproveTheProductModel // popup model export name -->export default ProductDetailsModal;
-                        isOpen={selectedProduct !== null}
-                        onClose={() => setSelectedProduct(null)}
-                        productID={selectedProduct}
-                    />
-                )}
             </div>
         </div>
     );

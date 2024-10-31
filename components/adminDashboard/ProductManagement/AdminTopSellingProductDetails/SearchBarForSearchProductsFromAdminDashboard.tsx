@@ -68,7 +68,7 @@ const SearchBarForSearchProductsFromAdminDashboard: React.FC<ChildProps> = ({ on
 
     try {
       ///
-      const res = await fetch(`${BASE_URL}/api/admin-dashboard/product-management/search-products`, {
+      const res = await fetch(`${BASE_URL}/api/admin-dashboard/ProductManagement/AdminTopSellingProductDetails/search-products`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

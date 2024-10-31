@@ -1,72 +1,25 @@
-// ********************** how to create a  pop up window ***********************************
-//********************************************************************* */
-// step 1: create a relawant naxtJs API route
-//******************************************************************** */
-//step 2-handle button ***************************************************
- 
-//  <Button variant="default" size="sm" className="bg-blue-600 w-full hover:bg-blue-800 text-white hover:text-black"
-//         onClick={() => handleViewProductDetails(product.productID)}>
-//         All Details
-// </Button> 
-
-
-//*******************************************************************************
-//*******************************************************************************
-//step 3- create the function to handle button in the component where button is*/
- 
-
-// const handleViewProductDetails = (productID: number) => {
-//     setSelectedProduct(productID);
-//   };
-  
-
-//**************************************************************************************
-// step 4- create use state
-// ************************************************************************************
-
-// const [selectedProduct, setSelectedProduct] = useState<number | null>(null);
-
-// **************************************************************************************
-// step 5-import relavant popup wndow component
-
-// import ProductDetailsModal from "@/components/adminDashboard/POPUPwindows/ViewProductAllDetailsPOPUPWindow/ViewProductAllDetailsPOPUPWindow"
-
-// *************************************************************************************
-// *************************************************************************************
-// step 6 -put relavant model at the bottom of the component 
-
-{/* view product more details */}
-// {selectedProduct !== null && (
-//     <ProductDetailsModal // popup model export name -->export default ProductDetailsModal;
-//         isOpen={selectedProduct !== null}
-//         onClose={() => setSelectedProduct(null)}
-//         productID={selectedProduct}
-//     />
-// )}
-
-//****************************************************************************************** *
-//****************************************************************************************** 
-// step 7 - create the pop up componet like this page
-// ********************************************************************************************
-// **********************************************************************************************
 import {
     Dialog,
     DialogContent,
     DialogHeader,
     DialogTitle,
-  } from "@/components/ui/dialog";
+    DialogTrigger,
+} from "@/components/ui/dialog";
   import { Badge } from "@/components/ui/badge";
   import { useToast } from "@/components/ui/use-toast";
   import { useRouter } from "next/navigation";
-  import React, { FC, useEffect, useState } from 'react';
+  import React, { useEffect } from 'react';
+  import { Button } from "@/components/ui/button";
   import { 
     Loader2, 
     Store,
     Star,
   } from "lucide-react";
+import AllSellerDetailsPopupButton from "../AllSellerDetailsPopupButton/AllSellerDetailsPopupButton";
+import AllReviewsAndRatingsPopupButton from "../ProductReviewsAndRatingsPopupButton/ProductReviewsAndRatingsPopupButton";
   
   
-interface ProductDetailsModalProps {
+interface ProductAllDetailsModalProps {
     isOpen: boolean;
     onClose: () => void;
     productID: number;
@@ -95,11 +48,12 @@ interface ProductDetails {
     productDiscountPrice: number;
 }
 
-const ProductDetailsModal: React.FC<ProductDetailsModalProps> = ({
-    isOpen,
-    onClose,
-    productID,
-}) => {
+interface ChildProps {
+    productID: number;
+}
+
+const ViewAllDetailsOfAProductPOPUPButton:  React.FC<ChildProps> = ({ productID, }) => {
+
     const [product, setProduct] = React.useState<ProductDetails | null>(null);
     const [isLoading, setIsLoading] = React.useState(false);
     const [error, setError] = React.useState<string | null>(null);
@@ -112,7 +66,7 @@ const ProductDetailsModal: React.FC<ProductDetailsModalProps> = ({
             setIsLoading(true);
             setError(null);
             
-            const res = await fetch('http://localhost:3000/api/admin-dashboard/POPUP-view-product-all-details-by-id', {
+            const res = await fetch('http://localhost:3000/api/admin-dashboard/POPUPwindows/POPUP-view-product-all-details-by-id', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -149,28 +103,25 @@ const ProductDetailsModal: React.FC<ProductDetailsModalProps> = ({
         }
     };
 
-    React.useEffect(() => {
-        let mounted = true;
-
-        if (isOpen && productID) {
-            fetchProductDetails();
+    useEffect(() => {
+        if(productID !== null && productID !== 0){
+            fetchProductDetails()
         }
-
-        return () => {
-            mounted = false;
-        };
-    }, [isOpen, productID]);
-
-    React.useEffect(() => {
-        if (!isOpen) {
-            setProduct(null);
-            setError(null);
-        }
-    }, [isOpen]);
+    }, [])
 
     return (
-        <Dialog open={isOpen} onOpenChange={onClose}>
-            <DialogContent className="w-[100vw] max-w-[100vw] h-dvh p-1 flex flex-col rounded-md"> 
+        <Dialog>
+
+            <DialogTrigger asChild>
+                {/* this button is the on which visible to outside */}
+                <Button
+                    variant="outline"
+                    className='bg-blue-600 w-full hover:bg-blue-800 text-white hover:text-black'
+                >
+                    All Details
+                </Button>
+            </DialogTrigger>
+            <DialogContent className="w-11/12 max-w-full h-full p-6"> 
             {/*overflow-y-auto is the scroll bar */}
                 <DialogHeader className="">
                     <DialogTitle className="text-xl font-bold text-black text-center rounded-md p-2">
@@ -205,16 +156,22 @@ const ProductDetailsModal: React.FC<ProductDetailsModalProps> = ({
 
                             {/* Action Buttons */}
                             <div className="flex flex-col gap-3 mt-6 items-center justify-center p-1">
-                                 <button
+                                 {/* <button
                                     className="bg-blue-600 hover:bg-blue-800 text-white font-bold py-2 rounded w-2/3 px-4 hover:text-black">
                                     View Seller Details
-                                </button>
+                                </button> */}
+                                <div className="w-2/3 mx-5">
+                                    <AllSellerDetailsPopupButton sellerID={product.sellerID} />
+                                </div>
                                 <button className="bg-blue-600 hover:bg-blue-800 text-white font-bold py-2 rounded w-2/3 px-4 hover:text-black">
                                     Comments
                                 </button>
-                                <button className="bg-blue-600 hover:bg-blue-800 text-white font-bold py-2 rounded w-2/3 px-4 hover:text-black">
-                                    Ratings
-                                </button>
+                                {/*ratings button  */}
+                                <div className="w-2/3 ">
+                                    <AllReviewsAndRatingsPopupButton productID={product.productID} />
+                                </div>
+                                
+
                             </div>
 
                             {/* Bottom Buttons */}
@@ -325,11 +282,16 @@ const ProductDetailsModal: React.FC<ProductDetailsModalProps> = ({
                                 <div className="space-y-2">
                                     <div className="text-lg font-bold text-black">Notes</div>
                                     <div className="text-lg text-black bg-gray-400 rounded-md p-1 pl-3">
-                                    {
-                                        product.productNotes
-                                        ? JSON.parse(product.productNotes).newNote
-                                        : ''
-                                    }
+                                        {
+                                            (() => {
+                                                try {
+                                                    return JSON.parse(product.productNotes).newNote || '';
+                                                } catch (e) {
+                                                    console.error("Invalid JSON format in productNotes:", product.productNotes);
+                                                    return 'Invalid Notes Format';
+                                                }
+                                            })()
+                                        }
                                     </div>
                                     <button className="bg-blue-600 hover:bg-blue-800 text-white font-bold py-2 rounded w-1/5 px-4 hover:text-black">
                                         Update Notes
@@ -345,4 +307,4 @@ const ProductDetailsModal: React.FC<ProductDetailsModalProps> = ({
     );
 };
 
-export default ProductDetailsModal;
+export default ViewAllDetailsOfAProductPOPUPButton;

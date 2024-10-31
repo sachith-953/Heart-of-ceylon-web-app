@@ -63,7 +63,7 @@ const AllSellerDetailsPopupButton: React.FC<ChildProps> = ({ sellerID, }) => {
         try {
             setIsLoading(true);
             setError(null);
-            const res = await fetch('http://localhost:3000/api/admin-dashboard/POP-view-seller-details-by-id', {
+            const res = await fetch('http://localhost:3000/api/admin-dashboard/POPUPwindows/POP-view-seller-details-by-id', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -128,7 +128,7 @@ const AllSellerDetailsPopupButton: React.FC<ChildProps> = ({ sellerID, }) => {
                 </Button>
             </DialogTrigger>
 
-            <DialogContent className="w-[85vw] max-w-[85vw] h-full p-1 ">
+            <DialogContent className="w-11/12 max-w-full h-full p-6">
                 <DialogHeader className="">
                     <DialogTitle className="text-xl font-bold text-black text-center rounded-md">Seller All Details</DialogTitle>
                 </DialogHeader>
@@ -184,9 +184,17 @@ const AllSellerDetailsPopupButton: React.FC<ChildProps> = ({ sellerID, }) => {
 
                             {/* Action Buttons */}
                             <div className="flex flex-col gap-3 mt-6 items-center justify-center p-1">
-                                <button className="bg-blue-600 hover:bg-blue-800 text-white font-bold py-2 rounded w-1/2 px-4 hover:text-black">
+                                {/* <button className="bg-blue-600 hover:bg-blue-800 text-white font-bold py-2 rounded w-1/2 px-4 hover:text-black">
                                     View Shop
-                                </button>
+                                </button> */}
+                                  <Button
+                                                variant="default"
+                                                size="sm"
+                                                className="bg-blue-600 hover:bg-blue-800 text-white hover:text-black"
+                                                onClick={() => router.push(`/seller-store?sellerId=${seller.sellerID}`)}
+                                            >
+                                                View Shop
+                                            </Button>
                                 <button className="bg-blue-600 hover:bg-blue-800 text-white font-bold py-2 rounded w-1/2 px-4 hover:text-black">
                                     Assign badges
                                 </button>

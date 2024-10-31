@@ -1,24 +1,30 @@
+import { Badge } from "@/components/ui/badge";
+import { useToast } from "@/components/ui/use-toast";
+import { useRouter } from "next/navigation";
+import { Button } from "@/components/ui/button";
+import React, { useEffect } from 'react';
 import {
     Dialog,
     DialogContent,
     DialogHeader,
     DialogTitle,
+    DialogTrigger,
 } from "@/components/ui/dialog";
-import { Badge } from "@/components/ui/badge";
-import { useToast } from "@/components/ui/use-toast";
-import { useRouter } from "next/navigation";
-import { Button } from "@/components/ui/button";
-import React from 'react';
-import {
-    Loader2,
-    Mail,
-    Phone,
-    MapPin,
+import { 
+    Loader2, 
+    Mail, 
+    Phone, 
+    MapPin, 
     Store,
     Star,
 } from "lucide-react";
-import AllSellerDetailsPopupButton from "../AllSellerDetailsPopUps/AllSellerDetailsPopupButton";
+import AllSellerDetailsPopupButton from "../AllSellerDetailsPopupButton/AllSellerDetailsPopupButton";
 
+interface MoreDetailsOfAnOrderModalProps {
+    isOpen: boolean;
+    onClose: () => void;
+    orderID: number; 
+}
 
 export enum sellerStatusEnum {
     ACTIVE = 'ACTIVE',
@@ -118,12 +124,14 @@ interface AllDetailsModalProps {
     OrderQuantity: number;
 }
 
-const AllDetailsModal: React.FC<AllDetailsModalProps> = ({
-    isOpen,
-    onClose,
-    orderID,
-    OrderQuantity
-}) => {
+interface ChildProps {
+    orderID: number;
+    OrderQuantity:number;
+}
+
+
+const MoreAboutAnOrderPOPUPButton: React.FC<ChildProps> = ({ orderID, OrderQuantity }) => {
+
     const [seller, setSeller] = React.useState<SellerDetails | null>(null);
     const [buyer, setBuyer] = React.useState<BuyertDetails | null>(null);
     const [product, setProduct] = React.useState<ProductDetails | null>(null);
@@ -137,7 +145,7 @@ const AllDetailsModal: React.FC<AllDetailsModalProps> = ({
         try {
             setIsLoading(true);
             setError(null);
-            const res = await fetch('http://localhost:3000/api/admin-dashboard/POPUP-all-details-of-an-order-Seller-details', {
+            const res = await fetch('http://localhost:3000/api/admin-dashboard/POPUPwindows/MoreDetailsOfAnOrder/POPUP-all-details-of-an-order-Seller-details', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -178,7 +186,7 @@ const AllDetailsModal: React.FC<AllDetailsModalProps> = ({
         try {
             setIsLoading(true);
             setError(null);
-            const res = await fetch('http://localhost:3000/api/admin-dashboard/POPUP-all-details-of-an-order-Buyer-details', {
+            const res = await fetch('http://localhost:3000/api/admin-dashboard/POPUPwindows/MoreDetailsOfAnOrder/POPUP-all-details-of-an-order-Buyer-details', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -219,7 +227,7 @@ const AllDetailsModal: React.FC<AllDetailsModalProps> = ({
         try {
             setIsLoading(true);
             setError(null);
-            const res = await fetch('http://localhost:3000/api/admin-dashboard/POPUP-all-details-of-an-order-Product-details', {
+            const res = await fetch('http://localhost:3000/api/admin-dashboard/POPUPwindows/MoreDetailsOfAnOrder/POPUP-all-details-of-an-order-Product-details', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -260,7 +268,7 @@ const AllDetailsModal: React.FC<AllDetailsModalProps> = ({
         try {
             setIsLoading(true);
             setError(null);
-            const res = await fetch('http://localhost:3000/api/admin-dashboard/POPUP-all-details-of-an-order-Order-summery', {
+            const res = await fetch('http://localhost:3000/api/admin-dashboard/POPUPwindows/MoreDetailsOfAnOrder/POPUP-all-details-of-an-order-Order-summery', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -297,28 +305,27 @@ const AllDetailsModal: React.FC<AllDetailsModalProps> = ({
         }
     };
 
-    React.useEffect(() => {
-        if (isOpen && orderID) {
+    useEffect(() => {
+        if(orderID !== null && orderID !== 0){
             fetchSellerDetails();
             fetchBuyerDetails();
             fetchProductDetails();
             fetchOrderDetails();
         }
-    }, [isOpen, orderID]);
-
-    React.useEffect(() => {
-        if (!isOpen) {
-            setSeller(null);
-            setBuyer(null);
-            setProduct(null);
-            setOrder(null);
-            setError(null);
-        }
-    }, [isOpen]);
+    }, [])
 
     return (
-        <Dialog open={isOpen} onOpenChange={onClose}>
-            <DialogContent className="w-full max-w-full h-full p-6">
+        <Dialog>
+            <DialogTrigger asChild>
+                {/* this button is the on which visible to outside */}
+                <Button
+                    variant="outline"
+                    className='bg-blue-600 w-full hover:bg-blue-800 text-white hover:text-black'
+                >
+                    More
+                </Button>
+            </DialogTrigger>
+            <DialogContent className="w-11/12 max-w-full h-full p-6">
                 <DialogHeader>
                     <DialogTitle className="text-2xl font-bold text-center">
                         All Details About Order
@@ -411,13 +418,7 @@ const AllDetailsModal: React.FC<AllDetailsModalProps> = ({
                                             >
                                                 View Shop
                                             </Button>
-                                            {/* <Button
-                                                variant="default"
-                                                size="sm"
-                                                className="bg-blue-600 hover:bg-blue-800 text-white hover:text-black ml-20">
-                                                View Seller Details
-                                            </Button> */}
-                                            {/* new reusable button for View Seller Details */}
+                                            {/* this is the button view seller details */}
                                             <div className="w-40 mx-5">
                                                 <AllSellerDetailsPopupButton sellerID={seller.sellerID} />
                                             </div>
@@ -615,4 +616,4 @@ const AllDetailsModal: React.FC<AllDetailsModalProps> = ({
     );
 };
 
-export default AllDetailsModal;
+export default MoreAboutAnOrderPOPUPButton;

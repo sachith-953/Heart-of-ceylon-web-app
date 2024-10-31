@@ -1,18 +1,17 @@
-import React from 'react';
+
 import {
     Dialog,
     DialogContent,
     DialogHeader,
     DialogTitle,
+    DialogTrigger,
 } from "@/components/ui/dialog";
+
 import { Badge } from "@/components/ui/badge";
 import { useToast } from "@/components/ui/use-toast";
 import { useRouter } from "next/navigation";
 import { 
     Loader2, 
-    Store,
-    Star,
-    Trash2,
 } from "lucide-react";
 import {
     Table,
@@ -23,6 +22,13 @@ import {
     TableRow,
 } from "@/components/ui/table";
 import { Button } from "@/components/ui/button";
+import React, { useEffect } from 'react';
+
+interface ReviewsAndRatingsModalProps {
+    isOpen: boolean;
+    onClose: () => void;
+    productID: number;
+}
 
 interface ReviewsAndRatings {  
     reviewId: number;
@@ -32,17 +38,12 @@ interface ReviewsAndRatings {
     reported: boolean;
 }
 
-interface ReviewsAndRatingsModalProps {
-    isOpen: boolean;
-    onClose: () => void;
+interface ChildProps {
     productID: number;
 }
 
-const ReviewsAndRatingsModal: React.FC<ReviewsAndRatingsModalProps> = ({
-    isOpen,
-    onClose,
-    productID
-}) => {
+const AllReviewsAndRatingsPopupButton: React.FC<ChildProps> = ({ productID, }) => {
+
     const [reviews, setReviews] = React.useState<ReviewsAndRatings[]>([]);
     const [isLoading, setIsLoading] = React.useState(false);
     const [error, setError] = React.useState<string | null>(null);
@@ -54,7 +55,7 @@ const ReviewsAndRatingsModal: React.FC<ReviewsAndRatingsModalProps> = ({
             setIsLoading(true);
             setError(null);
             
-            const res = await fetch('http://localhost:3000/api/admin-dashboard/POPUP-reviews-and-ratings', {
+            const res = await fetch('http://localhost:3000/api/admin-dashboard/POPUPwindows/POPUP-reviews-and-ratings', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -91,42 +92,6 @@ const ReviewsAndRatingsModal: React.FC<ReviewsAndRatingsModalProps> = ({
         }
     };
 
-    // const handleDeleteReview = async (reviewId: number) => {
-    //     try {
-    //         const res = await fetch(`http://localhost:3000/api/admin-dashboard/delete-review`, {
-    //             method: 'DELETE',
-    //             headers: {
-    //                 'Content-Type': 'application/json',
-    //             },
-    //             body: JSON.stringify({ reviewId }),
-    //             credentials: 'include',
-    //         });
-
-    //         if (res.ok) {
-    //             toast({
-    //                 title: "Success",
-    //                 description: "Review deleted successfully",
-    //             });
-    //             // Refresh reviews after deletion
-    //             fetchReviewsAndRatings();
-    //         } else {
-    //             const errorData = await res.json();
-    //             toast({
-    //                 variant: "destructive",
-    //                 title: "Failed to delete review",
-    //                 description: errorData.message,
-    //             });
-    //         }
-    //     } catch (error) {
-    //         console.error("Error deleting review:", error);
-    //         toast({
-    //             variant: "destructive",
-    //             title: "Error",
-    //             description: "Failed to delete review. Please try again.",
-    //         });
-    //     }
-    // };
-
     // Format date and time from datetime string
     const formatDateTime = (dateTimeStr: string) => {
         const date = new Date(dateTimeStr);
@@ -136,16 +101,26 @@ const ReviewsAndRatingsModal: React.FC<ReviewsAndRatingsModalProps> = ({
         };
     };
 
-    // Fetch reviews when modal opens
-    React.useEffect(() => {
-        if (isOpen && productID) {
-            fetchReviewsAndRatings();
+    useEffect(() => {
+        if(productID !== null && productID !== 0){
+            fetchReviewsAndRatings()
         }
-    }, [isOpen, productID]);
+    }, [])
 
     return (
-        <Dialog open={isOpen} onOpenChange={onClose}>
-            <DialogContent className="w-[90vw] max-w-[100vw] h-dvh p-1 flex flex-col space-y-2">
+        <Dialog>
+
+            <DialogTrigger asChild>
+                {/* this button is the on which visible to outside */}
+                <Button
+                    variant="outline"
+                    className='bg-blue-600 w-full hover:bg-blue-800 text-white hover:text-black'
+                >
+                    Ratings
+                </Button>
+            </DialogTrigger>
+
+            <DialogContent className="w-11/12 max-w-full h-full p-6">
                 <DialogHeader className=' rounded-md h-12 p-2'>
                     <DialogTitle className="text-xl font-semibold text-center">
                         Product Reviews and Ratings
@@ -215,4 +190,4 @@ const ReviewsAndRatingsModal: React.FC<ReviewsAndRatingsModalProps> = ({
     );
 };
 
-export default ReviewsAndRatingsModal;
+export default AllReviewsAndRatingsPopupButton;

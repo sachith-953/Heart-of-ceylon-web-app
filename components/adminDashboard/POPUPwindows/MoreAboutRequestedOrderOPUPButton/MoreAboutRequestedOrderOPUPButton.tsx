@@ -1,14 +1,15 @@
+import { Badge } from "@/components/ui/badge";
+import { useToast } from "@/components/ui/use-toast";
+import { useRouter } from "next/navigation";
+import { Button } from "@/components/ui/button";
+import React, { useEffect } from 'react';
 import {
     Dialog,
     DialogContent,
     DialogHeader,
     DialogTitle,
+    DialogTrigger,
 } from "@/components/ui/dialog";
-import { Badge } from "@/components/ui/badge";
-import { useToast } from "@/components/ui/use-toast";
-import { useRouter } from "next/navigation";
-import { Button } from "@/components/ui/button";
-import React from 'react';
 import { 
     Loader2, 
     Mail, 
@@ -17,6 +18,12 @@ import {
     Store,
     Star,
 } from "lucide-react";
+
+interface MoreDetailsOfARequestedOrderModalProps {
+    isOpen: boolean;
+    onClose: () => void;
+    requestedOrderID: number;
+}
 
 interface BuyertDetails {
     id: number;
@@ -51,17 +58,12 @@ interface RequestedOrderDetails{
     supplierResponse: string;
 }
 
-interface BuyerDetailsModalProps {
-    isOpen: boolean;
-    onClose: () => void;
+interface ChildProps {
     requestedOrderID: number;
 }
 
-const BuyerDetailsModal: React.FC<BuyerDetailsModalProps> = ({
-    isOpen,
-    onClose,
-    requestedOrderID,
-}) => {
+const MoreAboutRequestedOrderOPUPButton: React.FC<ChildProps> = ({ requestedOrderID, }) => {
+
     const [buyer, setBuyer] = React.useState<BuyertDetails | null>(null);
     const [order, setOrder] = React.useState<RequestedOrderDetails | null>(null);
     const [isLoading, setIsLoading] = React.useState(false);
@@ -73,7 +75,7 @@ const BuyerDetailsModal: React.FC<BuyerDetailsModalProps> = ({
         try {
             setIsLoading(true);
             setError(null);
-            const res = await fetch('http://localhost:3000/api/admin-dashboard/POPUP-get-buyer-for-a-requested-order', {
+            const res = await fetch('http://localhost:3000/api/admin-dashboard/POPUPwindows/POPUP-get-buyer-for-a-requested-order', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -114,7 +116,7 @@ const BuyerDetailsModal: React.FC<BuyerDetailsModalProps> = ({
         try {
             setIsLoading(true);
             setError(null);
-            const res = await fetch('http://localhost:3000/api/admin-dashboard/POPUP-get-requested-order-details-by-id', {
+            const res = await fetch('http://localhost:3000/api/admin-dashboard/POPUPwindows/POPUP-get-requested-order-details-by-id', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -151,24 +153,26 @@ const BuyerDetailsModal: React.FC<BuyerDetailsModalProps> = ({
         }
     };
 
-    React.useEffect(() => {
-        if (isOpen && requestedOrderID) {
-            fetchBuyerDetails();
-            fetchReqOrderDetails();
+    useEffect(() => {
+        if(requestedOrderID !== null && requestedOrderID !== 0){
+            fetchBuyerDetails()
+            fetchReqOrderDetails()
         }
-    }, [isOpen, requestedOrderID]);
-
-    React.useEffect(() => {
-        if (!isOpen) {
-            setBuyer(null);
-            setOrder(null);
-            setError(null);
-        }
-    }, [isOpen]);
+    }, [])
 
     return (
-        <Dialog open={isOpen} onOpenChange={onClose}>
-            <DialogContent className="w-3/4 max-w-[100vw] h-dvh p-1 flex flex-col rounded-md">
+        <Dialog>
+
+            <DialogTrigger asChild>
+                {/* this button is the on which visible to outside */}
+                <Button
+                    variant="outline"
+                    className='bg-blue-600 w-full hover:bg-blue-800 text-white hover:text-black'
+                >
+                    More
+                </Button>
+            </DialogTrigger>
+            <DialogContent className="w-11/12 max-w-full h-full p-6">
                 <DialogHeader className="">
                     <DialogTitle className="text-xl font-bold text-black text-center rounded-md p-2">
                         All Details About Requested Order
@@ -320,4 +324,4 @@ const BuyerDetailsModal: React.FC<BuyerDetailsModalProps> = ({
     );
 };
 
-export default BuyerDetailsModal;
+export default MoreAboutRequestedOrderOPUPButton;

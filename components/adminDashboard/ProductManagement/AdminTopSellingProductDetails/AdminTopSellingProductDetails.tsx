@@ -6,13 +6,11 @@ import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Loader2, Star } from "lucide-react";
-import MaxWidthWrapper from "@/components/MaxWidthWrapper";
-import SellerDetailsModal from "@/components/adminDashboard/POPUPwindows/ViewSellerDetailsPOPUPWindow/ViewSellerDetailsPOPUPWindow"
-import ProductDetailsModal from "@/components/adminDashboard/POPUPwindows/ViewProductAllDetailsPOPUPWindow/ViewProductAllDetailsPOPUPWindow"
-import ReviewsAndRatingsModal from "@/components/adminDashboard/POPUPwindows/ReviewsAndRatingsPOPUPWindow/ReviewsAndRatingsPOPUPWindow"
 import Image from 'next/image';
 import SearchBarForSearchProductsFromAdminDashboard from './SearchBarForSearchProductsFromAdminDashboard';
-import AllSellerDetailsPopupButton from '../../POPUPwindows/AllSellerDetailsPopUps/AllSellerDetailsPopupButton';
+import AllSellerDetailsPopupButton from '../../POPUPwindows/AllSellerDetailsPopupButton/AllSellerDetailsPopupButton';
+import AllReviewsAndRatingsPopupButton from '../../POPUPwindows/ProductReviewsAndRatingsPopupButton/ProductReviewsAndRatingsPopupButton';
+import ViewAllDetailsOfAProductPOPUPButton from '../../POPUPwindows/ViewAllDetailsOfAProductPOPUPButton/ViewAllDetailsOfAProductPOPUPButton';
 
 interface RatingStarsProps {
     rating: number;
@@ -85,7 +83,7 @@ const TopSellingProductDetails: FC = () => {
     const fetchProducts = async (pageNumber: number) => {
         try {
             setIsLoading(true);
-            const res = await fetch('http://localhost:3000/api/admin-dashboard/get-top-selling-products', {
+            const res = await fetch('http://localhost:3000/api/admin-dashboard/ProductManagement/AdminTopSellingProductDetails/get-top-selling-products', {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -138,19 +136,6 @@ const TopSellingProductDetails: FC = () => {
         if (currentPage > 1) {
             setCurrentPage(prev => prev - 1);
         }
-    };
-
-    // handle view seller button click
-    const handleViewSellerDetails = (sellerID: number) => {
-        setSelectedSeller(sellerID);
-    };
-    // handle view product all details click
-    const handleViewProductDetails = (productID: number) => {
-        setSelectedProduct(productID);
-    };
-    // handle reviews and ratings
-    const handleReviewsRatings = (productID: number) => {
-        setReviews(productID);
     };
 
     if (isLoading) {
@@ -259,10 +244,10 @@ const TopSellingProductDetails: FC = () => {
                                     <Button variant="outline" size="sm" className="bg-blue-600 w-full hover:bg-blue-800 text-white hover:text-black">
                                         Comments
                                     </Button>
-                                    <Button variant="outline" size="sm" className="bg-blue-600 w-full hover:bg-blue-800 text-white hover:text-black"
-                                        onClick={() => handleReviewsRatings(product.productID)}>
-                                        Ratings
-                                    </Button>
+                                    {/* ratings buton */}
+                                    <div>
+                                    <AllReviewsAndRatingsPopupButton productID ={product.productID} /> 
+                                    </div>
                                 </div>
                             </div>
 
@@ -279,10 +264,8 @@ const TopSellingProductDetails: FC = () => {
                                 <Button variant="destructive" size="sm" className="w-full bg-red-600 hover:bg-red-800 text-white hover:text-black">
                                     Suspend
                                 </Button>
-                                <Button variant="default" size="sm" className="bg-blue-600 w-full hover:bg-blue-800 text-white hover:text-black"
-                                    onClick={() => handleViewProductDetails(product.productID)}>
-                                    All Details
-                                </Button>
+                                {/* more details button */}
+                                <ViewAllDetailsOfAProductPOPUPButton productID={product.productID}/>
                             </div>
                         </div>
                     </Card>
@@ -307,30 +290,6 @@ const TopSellingProductDetails: FC = () => {
                         Next Page
                     </Button>
                 </div>
-                {/* view seller model */}
-                {selectedSeller !== null && (
-                    <SellerDetailsModal
-                        isOpen={selectedSeller !== null}
-                        onClose={() => setSelectedSeller(null)}
-                        sellerID={selectedSeller}
-                    />
-                )}
-                {/* view product more details */}
-                {selectedProduct !== null && (
-                    <ProductDetailsModal
-                        isOpen={selectedProduct !== null}
-                        onClose={() => setSelectedProduct(null)}
-                        productID={selectedProduct}
-                    />
-                )}
-                {/* reviews and ratings */}
-                {reviews !== null && (
-                    <ReviewsAndRatingsModal
-                        isOpen={reviews !== null}
-                        onClose={() => setReviews(null)}
-                        productID={reviews}
-                    />
-                )}
             </div>
         </div>
     );

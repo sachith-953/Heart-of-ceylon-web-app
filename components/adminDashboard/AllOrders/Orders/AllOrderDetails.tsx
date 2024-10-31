@@ -3,7 +3,7 @@ import { useToast } from "@/components/ui/use-toast";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from 'react';
 import MaxWidthWrapper from "@/components/MaxWidthWrapper";
-import AllDetailsModal from "@/components/adminDashboard/POPUPwindows/ViewMoreDetailsForAnOrder/ViewMoreDetailsForAnOrder"
+import AllDetailsModal from "@/components/adminDashboard/POPUPwindows/MoreAboutAnOrderPOPUPButton/MoreAboutAnOrderPOPUPButton"
 import {
   Table,
   TableBody,
@@ -14,6 +14,7 @@ import {
 } from "@/components/ui/table";
 import { Button } from "@/components/ui/button";
 import SearchBarForAllOrderDetails from "./SearchBarForAllOrderDetails";
+import MoreAboutAnOrderPOPUPButton from "@/components/adminDashboard/POPUPwindows/MoreAboutAnOrderPOPUPButton/MoreAboutAnOrderPOPUPButton";
 
 interface OrderData {
   orderId: number;
@@ -69,7 +70,7 @@ const AllOrderDetails = () => {
   const fetchAdminDetails = async () => {
     try {
       setIsLoading(true);
-      const res = await fetch('http://localhost:3000/api/admin-dashboard/get-50-order-details', {
+      const res = await fetch('http://localhost:3000/api/admin-dashboard/AllOrders/Orders/get-50-order-details', {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
@@ -121,9 +122,6 @@ const AllOrderDetails = () => {
   }
 
   return (
-    // ****************************************************************************
-    // ********* todo : search orders , route is completed --> search-an-order **********************************************
-    // ******************************************************************************
     <div className="space-y-4">
 
       <SearchBarForAllOrderDetails
@@ -174,31 +172,14 @@ const AllOrderDetails = () => {
                     </span>
                   </TableCell>
                   <TableCell className="font-medium text-black">
-                    <Button
-                      variant="default"
-                      size="sm"
-                      className="bg-blue-600 hover:bg-blue-800 text-white hover:text-black"
-                      onClick={() => handleViewMoreDetails(order.orderId,order.quantity)}>
-                      More
-                    </Button>
+                    {/* more button */}
+                  <MoreAboutAnOrderPOPUPButton orderID={order.orderId} OrderQuantity={order.quantity}/>
                   </TableCell>
                 </TableRow>
               ))}
             </TableBody>
           </Table>
         </div>
-        {/* more details of requested order*/}
-        {selectedOrder !== null && orderQuantity !== null && (
-              <AllDetailsModal
-                isOpen={true}
-                onClose={() => {
-                  setSelectedOrder(null);
-                  setQuantity(null);
-                }}
-                orderID={selectedOrder}
-                OrderQuantity={orderQuantity}
-              />
-            )}
       </div>
     </div>
   );

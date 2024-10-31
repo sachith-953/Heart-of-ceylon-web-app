@@ -34,7 +34,7 @@ const AdminDetails = () => {
     const fetchAdminDetails = async () => {
         try {
             setIsLoading(true);
-            const res = await fetch('http://localhost:3000/api/admin-dashboard/get-admin-data-list', {
+            const res = await fetch('http://localhost:3000/api/admin-dashboard/ManageAdminAccounts/AdminDetails/get-admin-data-list', {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',

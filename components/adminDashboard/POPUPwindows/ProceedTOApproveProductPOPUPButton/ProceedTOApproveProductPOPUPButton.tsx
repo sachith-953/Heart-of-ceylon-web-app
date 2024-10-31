@@ -1,26 +1,31 @@
+
 import {
     Dialog,
     DialogContent,
     DialogHeader,
     DialogTitle,
-  } from "@/components/ui/dialog";
-  import { Badge } from "@/components/ui/badge";
-  import { useToast } from "@/components/ui/use-toast";
-  import { useRouter } from "next/navigation";
-  import React, { FC, useEffect, useState } from 'react';
-  import { 
+    DialogTrigger,
+} from "@/components/ui/dialog";
+
+import { useToast } from "@/components/ui/use-toast";
+import { useRouter } from "next/navigation";
+import { 
     Loader2, 
     Store,
     Star,
-  } from "lucide-react";
-import AllSellerDetailsPopupButton from "../AllSellerDetailsPopUps/AllSellerDetailsPopupButton";
+    Trash2,
+} from "lucide-react";
+import { Button } from "@/components/ui/button";
+import React, { useEffect } from 'react';
+import AllSellerDetailsPopupButton from "../AllSellerDetailsPopupButton/AllSellerDetailsPopupButton";
   
   
-interface ProductDetailsModalProps {
+interface ProductApprovalProps {
     isOpen: boolean;
     onClose: () => void;
     productID: number;
 }
+
 interface ProductDetails {
     productID: number;
     productName: string;
@@ -44,12 +49,13 @@ interface ProductDetails {
     productDiscountPrice: number;
 }
 
+interface ChildProps {
+    productID: number;
+}
 
-const ProductDetailsForApproveTheProductModel: React.FC<ProductDetailsModalProps> = ({
-    isOpen,
-    onClose,
-    productID,
-}) => {
+
+const ProceedTOApproveProductPOPUPButton: React.FC<ChildProps> = ({ productID, }) => {
+
     const [product, setProduct] = React.useState<ProductDetails | null>(null);
     const [isLoading, setIsLoading] = React.useState(false);
     const [error, setError] = React.useState<string | null>(null);
@@ -62,7 +68,7 @@ const ProductDetailsForApproveTheProductModel: React.FC<ProductDetailsModalProps
             setIsLoading(true);
             setError(null);
             
-            const res = await fetch('http://localhost:3000/api/admin-dashboard/POPUP-product-approval-Window', {
+            const res = await fetch('http://localhost:3000/api/admin-dashboard/POPUPwindows/POPUP-product-approval-Window', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -101,28 +107,26 @@ const ProductDetailsForApproveTheProductModel: React.FC<ProductDetailsModalProps
         }
     };
 
-    React.useEffect(() => {
-        let mounted = true;
-
-        if (isOpen && productID) {
-            fetchProductDetails();
+    useEffect(() => {
+        if(productID !== null && productID !== 0){
+            fetchProductDetails()
         }
-
-        return () => {
-            mounted = false;
-        };
-    }, [isOpen, productID]);
-
-    React.useEffect(() => {
-        if (!isOpen) {
-            setProduct(null);
-            setError(null);
-        }
-    }, [isOpen]);
+    }, [])
 
     return (
-        <Dialog open={isOpen} onOpenChange={onClose}>
-            <DialogContent className="w-[100vw] max-w-[100vw] h-dvh p-1 overflow-y-auto"> 
+        <Dialog>
+
+            <DialogTrigger asChild>
+                {/* this button is the on which visible to outside */}
+                <Button
+                    variant="outline"
+                    className='bg-green-600 w-full hover:bg-green-800 text-white hover:text-black'
+                >
+                    Proceed To Approve
+                </Button>
+            </DialogTrigger>
+
+            <DialogContent className="w-11/12 max-w-full h-full p-6"> 
             {/*overflow-y-auto is the scroll bar */}
                 <DialogHeader className="">
                     <DialogTitle className="text-4xl font-bold text-black text-center rounded-md mt-5">
@@ -137,9 +141,9 @@ const ProductDetailsForApproveTheProductModel: React.FC<ProductDetailsModalProps
                 ) : error ? (
                     <div className="text-center text-red-500 p-4">{error}</div>
                 ) : product ? (
-                    <div className="flex h-full">
+                    <div className="flex h-full overflow-y-auto">
                         {/* Left Sidebar - 1/4 width */}
-                        <div className="w-1/4 border-r border-gray-300 flex flex-col bg-gray-300 rounded-md ml-1 mr-1 mb-1 mt-0 p-2">
+                        <div className="w-1/4 border-r border-gray-300 flex flex-col rounded-md ml-1 mr-1 mb-1 mt-0 p-2">
                             {/* Profile Picture */}
                             <div className="flex justify-center w-full p-1">
                                 {product.productMainImage ? (
@@ -166,7 +170,7 @@ const ProductDetailsForApproveTheProductModel: React.FC<ProductDetailsModalProps
                         </div>
 
                         {/* Right Content - 3/4 width */}
-                        <div className="w-3/4 p-4 bg-gray-300 mr-1 mb-1 rounded-md overflow-y-auto">
+                        <div className="w-3/4 p-4 mr-1 mb-1 rounded-md overflow-y-auto">
                             {/* Product Name and ID */}
                             <div className="text-4xl font-bold text-black mb-4 rounded-md p-1">
                                 {product.productName}
@@ -260,4 +264,4 @@ const ProductDetailsForApproveTheProductModel: React.FC<ProductDetailsModalProps
     );
 };
 
-export default ProductDetailsForApproveTheProductModel;
+export default ProceedTOApproveProductPOPUPButton;

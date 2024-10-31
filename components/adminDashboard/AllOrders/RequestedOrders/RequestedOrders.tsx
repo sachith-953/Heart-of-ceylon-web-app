@@ -3,7 +3,7 @@ import { useToast } from "@/components/ui/use-toast";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from 'react';
 import MaxWidthWrapper from "@/components/MaxWidthWrapper";
-import BuyerDetailsModal from "@/components/adminDashboard/POPUPwindows/ViewBuyerAndOrderDetailsForARequestedOrder/ViewBuyerAndOrderDetailsForARequestedOrder"
+import BuyerDetailsModal from "@/components/adminDashboard/POPUPwindows/MoreAboutRequestedOrderOPUPButton/MoreAboutRequestedOrderOPUPButton"
 import {
   Table,
   TableBody,
@@ -16,6 +16,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Loader2 } from "lucide-react";
 import SearchBarForRequestedOrders from "./SearchBarForRequestedOrders";
+import MoreAboutRequestedOrderOPUPButton from "@/components/adminDashboard/POPUPwindows/MoreAboutRequestedOrderOPUPButton/MoreAboutRequestedOrderOPUPButton";
 
 interface RequestedOrderData {
   requestOrderId: number;
@@ -90,7 +91,7 @@ const RequestedOrders = () => {
       setError(null);
 
       setIsLoading(true);
-      const res = await fetch('http://localhost:3000/api/admin-dashboard/get-requested-order-list', {
+      const res = await fetch('http://localhost:3000/api/admin-dashboard/AllOrders/RequestwdOrders/get-requested-order-list', {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
@@ -215,13 +216,7 @@ const RequestedOrders = () => {
                       </span>
                     </TableCell>
                     <TableCell className="font-medium text-black">
-                      <Button
-                        variant="default"
-                        size="sm"
-                        className="bg-blue-600 hover:bg-blue-800 text-white hover:text-black"
-                        onClick={() => handleViewMoreDetails(order.requestOrderId)}>
-                        More
-                      </Button>
+                        <MoreAboutRequestedOrderOPUPButton requestedOrderID = {order.requestOrderId}/>
                     </TableCell>
                   </TableRow>
                 ))
@@ -229,16 +224,7 @@ const RequestedOrders = () => {
             </TableBody>
           </Table>
         </div>
-         {/* more details of requested order*/}
-            {selectedRequest !== null && (
-                <BuyerDetailsModal
-                    isOpen={selectedRequest !== null}
-                    onClose={() => setRequestedProduct(null)}
-                    requestedOrderID={selectedRequest} // this requestedOrderID comes from popup window component
-                />
-            )}
       </div>
-
     </div>
   );
 };
