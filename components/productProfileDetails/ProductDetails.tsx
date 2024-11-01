@@ -1,13 +1,12 @@
+"use client";
 
-"use client"
-
-import { useEffect, useState } from "react"
-import MaxWidthWrapper from "../MaxWidthWrapper"
-import ErrorForCatch from "../ErrorForCatch"
-import { useRouter } from "next/navigation" // Updated from next/router
-import { useToast } from "../ui/use-toast"
-import { Button } from "@/components/ui/button"
-import Image from "next/image"
+import { useEffect, useState } from "react";
+import MaxWidthWrapper from "../MaxWidthWrapper";
+import ErrorForCatch from "../ErrorForCatch";
+import { useRouter } from "next/navigation";
+import { useToast } from "../ui/use-toast";
+import { Button } from "@/components/ui/button";
+import Image from "next/image";
 
 interface ProductData {
   productId: number;
@@ -25,8 +24,8 @@ interface ProductData {
 }
 
 const ProductProfile = () => {
-  const router = useRouter()
-  const { toast } = useToast()
+  const router = useRouter();
+  const { toast } = useToast();
 
   const [product, setProduct] = useState<ProductData | null>(null);
   const [quantity, setQuantity] = useState(1);
@@ -34,13 +33,11 @@ const ProductProfile = () => {
   const [isError, setIsError] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
 
-
   const dataFetching = async () => {
     try {
-      const res = await fetch(
-        "http://localhost:3000/api/v1/pBuyer/getProductDetails?productId=203",
-        { cache: 'no-store' }
-      );
+      // Use the local API route instead of the direct backend URL
+      const res = await fetch("http://localhost:3000/api/product/productProfile/productDetails",
+         { cache: "no-store" });
 
       if (res.ok) {
         const responseData = await res.json();
@@ -52,9 +49,8 @@ const ProductProfile = () => {
           description: "Please Login again. Your Session has Expired!",
         });
         setIsError(true);
-    
       } else {
-        setIsLoading(true);
+        setIsLoading(false);
         toast({
           title: "Error",
           description: "Failed to fetch product details",
@@ -63,7 +59,7 @@ const ProductProfile = () => {
       }
     } catch (error) {
       setIsError(true);
-      return <ErrorForCatch />;
+      console.error("Error fetching product data:", error);
     }
   };
 
@@ -77,8 +73,8 @@ const ProductProfile = () => {
     };
 
     checkScreenSize();
-    window.addEventListener('resize', checkScreenSize);
-    return () => window.removeEventListener('resize', checkScreenSize);
+    window.addEventListener("resize", checkScreenSize);
+    return () => window.removeEventListener("resize", checkScreenSize);
   }, []);
 
   if (isLoading) {
@@ -97,7 +93,6 @@ const ProductProfile = () => {
   };
 
   const handleBuyNow = () => {
-    // Implement buy now functionality
     toast({
       title: "Processing",
       description: "Redirecting to checkout...",
@@ -105,7 +100,6 @@ const ProductProfile = () => {
   };
 
   const handleAddToCart = () => {
-    // Implement add to cart functionality
     toast({
       title: "Success",
       description: "Added to cart successfully!",
@@ -113,7 +107,6 @@ const ProductProfile = () => {
   };
 
   const handleWholesale = () => {
-    // Implement wholesale mode functionality
     toast({
       title: "Wholesale Mode",
       description: "Switching to wholesale pricing...",
@@ -204,5 +197,3 @@ const ProductProfile = () => {
 };
 
 export default ProductProfile;
-
-
