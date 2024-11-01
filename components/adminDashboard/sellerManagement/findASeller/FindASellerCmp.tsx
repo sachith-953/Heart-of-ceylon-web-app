@@ -210,7 +210,7 @@ const FindASellerCmp = () => {
 
   return (
     <>
-      <div className="w-full">
+      <div className="w-full mx-2">
         <SearchBarForSearchSellerCom />
         {sellers.length === 0 ? (
           <div className="p-4">No sellers found</div>

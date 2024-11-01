@@ -10,20 +10,21 @@ import {
     DialogTitle,
     DialogTrigger,
 } from "@/components/ui/dialog";
-import { 
-    Loader2, 
-    Mail, 
-    Phone, 
-    MapPin, 
+import {
+    Loader2,
+    Mail,
+    Phone,
+    MapPin,
     Store,
     Star,
 } from "lucide-react";
 import AllSellerDetailsPopupButton from "../AllSellerDetailsPopupButton/AllSellerDetailsPopupButton";
+import Link from "next/link";
 
 interface MoreDetailsOfAnOrderModalProps {
     isOpen: boolean;
     onClose: () => void;
-    orderID: number; 
+    orderID: number;
 }
 
 export enum sellerStatusEnum {
@@ -126,7 +127,7 @@ interface AllDetailsModalProps {
 
 interface ChildProps {
     orderID: number;
-    OrderQuantity:number;
+    OrderQuantity: number;
 }
 
 
@@ -165,7 +166,7 @@ const MoreAboutAnOrderPOPUPButton: React.FC<ChildProps> = ({ orderID, OrderQuant
                     description: "Please Login again. Your Session has Expired!",
                 });
                 await new Promise(resolve => setTimeout(resolve, 100));
-                router.push("/seller-log-in");
+                router.push("/log-in");
             } else {
                 const errorData = await res.json();
                 toast({
@@ -206,7 +207,7 @@ const MoreAboutAnOrderPOPUPButton: React.FC<ChildProps> = ({ orderID, OrderQuant
                     description: "Please Login again. Your Session has Expired!",
                 });
                 await new Promise(resolve => setTimeout(resolve, 100));
-                router.push("/seller-log-in");
+                router.push("/log-in");
             } else {
                 const errorData = await res.json();
                 toast({
@@ -247,7 +248,7 @@ const MoreAboutAnOrderPOPUPButton: React.FC<ChildProps> = ({ orderID, OrderQuant
                     description: "Please Login again. Your Session has Expired!",
                 });
                 await new Promise(resolve => setTimeout(resolve, 100));
-                router.push("/seller-log-in");
+                router.push("/log-in");
             } else {
                 const errorData = await res.json();
                 toast({
@@ -288,7 +289,7 @@ const MoreAboutAnOrderPOPUPButton: React.FC<ChildProps> = ({ orderID, OrderQuant
                     description: "Please Login again. Your Session has Expired!",
                 });
                 await new Promise(resolve => setTimeout(resolve, 100));
-                router.push("/seller-log-in");
+                router.push("/log-in");
             } else {
                 const errorData = await res.json();
                 toast({
@@ -306,7 +307,7 @@ const MoreAboutAnOrderPOPUPButton: React.FC<ChildProps> = ({ orderID, OrderQuant
     };
 
     useEffect(() => {
-        if(orderID !== null && orderID !== 0){
+        if (orderID !== null && orderID !== 0) {
             fetchSellerDetails();
             fetchBuyerDetails();
             fetchProductDetails();
@@ -410,14 +411,23 @@ const MoreAboutAnOrderPOPUPButton: React.FC<ChildProps> = ({ orderID, OrderQuant
                                         </p>
                                         {/* buttons */}
                                         <div className="flex items-center justify-center mt-5">
-                                            <Button
-                                                variant="default"
-                                                size="sm"
-                                                className="bg-blue-600 hover:bg-blue-800 text-white hover:text-black"
-                                                onClick={() => router.push(`/seller-store?sellerId=${seller.sellerID}`)}
-                                            >
-                                                View Shop
-                                            </Button>
+                                            
+                                            {/* View Seller Store : open in new tab */}
+                                            <div className='w-40 flex text-center'>
+                                                <Link
+                                                    className="w-full px-4 py-2 mx-3 my-2 rounded-lg bg-blue-600 hover:bg-blue-800 text-white"
+                                                    href={{
+                                                        pathname: '/seller-store',
+                                                        query: { sellerId: `${seller.sellerID}` },
+                                                    }}
+                                                    target="_blank"
+                                                    rel="noopener noreferrer"
+                                                >
+                                                    View Store
+                                                </Link>
+                                            </div>
+
+
                                             {/* this is the button view seller details */}
                                             <div className="w-40 mx-5">
                                                 <AllSellerDetailsPopupButton sellerID={seller.sellerID} />
