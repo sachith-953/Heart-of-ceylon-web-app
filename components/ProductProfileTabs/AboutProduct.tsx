@@ -5,6 +5,9 @@ import ItemsDesc from "./ItemDesc";
 import ItemSpecifics from "./ItemSpecifics";
 
 export default function AboutProduct() {
+
+  const BASE_URL = process.env.NEXT_PUBLIC_URL;
+
   interface aboutProductDataType {
     productId: number;
     productName: string;
@@ -29,7 +32,7 @@ export default function AboutProduct() {
 
     //sending request
     const res = await fetch(
-      "http://localhost:3000/api/product/productProfile/aboutProduct",
+      `${BASE_URL}/api/product/productProfile/aboutProduct`,
       {
         method: "POST",
         headers: {

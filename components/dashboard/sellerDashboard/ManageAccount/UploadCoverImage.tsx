@@ -98,7 +98,7 @@ const UploadCoverImage = () => {
                         </button>
                     </form>
                     <p className="mt-8 text-gray-500 text-sm text-justify">
-                        Image must be xxxx px wide by xxx px high and in JPEG or PNG format. (maximum image size : 5Mb)
+                        Image must be <b>1280x320px</b>  and in JPEG or PNG format. (maximum image size : 5Mb)
                     </p>
 
                 </div>

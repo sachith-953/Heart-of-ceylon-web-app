@@ -2,6 +2,7 @@
 
 import ErrorForCatch from "@/components/ErrorForCatch"
 import Navbar from "@/components/Navbar"
+import { useToast } from "@/components/ui/use-toast"
 import { useRouter } from "next/navigation"
 import { useEffect, useState } from "react"
 
@@ -13,6 +14,7 @@ import { useEffect, useState } from "react"
 export default function TestLogin2() {
 
     const router = useRouter()
+    const { toast } = useToast()
 
     const [serverError, setServerError] = useState("")
     const [success, setSuccess] = useState("")
@@ -46,6 +48,22 @@ export default function TestLogin2() {
             else if(ResponseData.success === true && ResponseData.role == "ROLE_SELLER"){
                 setServerError("Logged in. Please Wait...")
                 router.push(`${process.env.NEXT_PUBLIC_URL}/seller-dashboard`)
+            }
+            else if(ResponseData.success === true && ResponseData.role == "ROLE_SUPERIOR_ADMIN"){
+                setServerError("Logged in. Please Wait...")
+                toast({
+                    title: "Welcome Aboard, Captain! 🎖️",
+                    description: "The command deck is yours. Please proceed to your classified command center URL" 
+                })
+                router.push(`${process.env.NEXT_PUBLIC_URL}/`)
+            }
+            else if(ResponseData.success === true && ResponseData.role == "ROLE_ADMIN"){
+                setSuccess("Logged in. Please Wait...")
+                toast({
+                    title: "Welcome Aboard,",
+                    description: "Please proceed to your classified Admin Dashboard URL" 
+                })
+                router.push(`${process.env.NEXT_PUBLIC_URL}/`)
             }
             else {
                 setSuccess(ResponseData.success)

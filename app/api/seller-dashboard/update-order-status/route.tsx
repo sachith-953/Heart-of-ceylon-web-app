@@ -146,7 +146,7 @@ export async function POST(request: Request) {
             orderStatus: newStatus
         };
         const updateResponse = await fetch(`http://localhost:8080/api/v1/auth/update-order-status-by-seller?sellerEmail=${emailValueString}&orderId=${orderId}`, {
-            method: 'PUT',
+           method: 'PUT', 
             headers: {
                 'Authorization': `Bearer ${accessToken}`,
                 'accept-encoding': 'gzip, deflate, br',

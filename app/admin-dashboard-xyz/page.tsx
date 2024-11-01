@@ -1,13 +1,12 @@
 import SellerManagementsTabs from "@/components/adminDashboard/sellerManagement/SellerManagementsTabs";
-import ManageAccount from "@/components/dashboard/sellerDashboard/ManageAccount";
-import MyProducts from "@/components/dashboard/sellerDashboard/MyProducts";
-import MySales from "@/components/dashboard/sellerDashboard/MySales";
-import MaxWidthLg from "@/components/MaxWidthLg";
+import ManageAdminAccounts from "@/components/adminDashboard/ManageAdminAccounts/ManageAccounts"
 import Navbar from "@/components/Navbar";
 import { TabsTriggerForSellerDashboard } from "@/components/ui/seller-tabs-trigger";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { BadgeDollarSign, Box, Printer, UserCog, UserPlus, Users } from "lucide-react"
-
+import { BadgeDollarSign, Box, Printer, ShoppingBasket, Text, UserCog, UserPlus, UserRound, Users } from "lucide-react"
+import AllOrders from "@/components/adminDashboard/AllOrders/AllOrders";
+import ProductManagement from "@/components/adminDashboard/ProductManagement/ProductManagement"
+import GetLogs from "@/components/adminDashboard/Logs/GetLogs/GetLogs"
 
 
 
@@ -16,12 +15,12 @@ export default function SellerDashbard() {
         <>
 
             {/* add new navbar designed for the seller*/}
-            <Navbar />
+            {/* <Navbar /> */}
 
-            <div className="bg-white w-full h-svh pt-1">
+            <div className="bg-white w-full h-svh pt-4">
 
                 {/* tabs */}
-                <Tabs defaultValue="Seller Management" className="flex flex-row mx-3 h-full ">
+                <Tabs defaultValue="Logs" className="flex flex-row mx-3 h-full ">
                     <TabsList className="w-1/4 h-full flex flex-col bg-[#314659] justify-start">
 
                         {/* <div className="bg-zinc-400 h-20 w-full mb-2">
@@ -29,22 +28,22 @@ export default function SellerDashbard() {
                         </div> */}
 
                         <TabsTriggerForSellerDashboard className="w-full my-1 flex flex-row" value="Seller Management">
-                            <Box />
+                            <UserRound />
                             <span className="ml-1">Seller Management</span>
                         </TabsTriggerForSellerDashboard>
 
                         <TabsTriggerForSellerDashboard className="w-full my-1 flex flex-row" value="All Orders">
-                            <BadgeDollarSign />
+                            <Box />
                             <span className="ml-1">All Orders</span>
                         </TabsTriggerForSellerDashboard>
 
                         <TabsTriggerForSellerDashboard className="w-full my-1 flex flex-row" value="Product Management">
-                            <UserCog />
+                            <ShoppingBasket />
                             <span className="ml-1">Product Management</span>
                         </TabsTriggerForSellerDashboard>
 
                         <TabsTriggerForSellerDashboard className="w-full my-1 flex flex-row" value="Logs">
-                            <UserCog />
+                            <Text />
                             <span className="ml-1">Logs</span>
                         </TabsTriggerForSellerDashboard>
 
@@ -63,18 +62,25 @@ export default function SellerDashbard() {
 
                         <TabsContent value="All Orders">
                             {/* All Orders component here */}
+                            {/* DEV : madushan */}
+                            <AllOrders/>
                         </TabsContent>
 
                         <TabsContent value="Product Management">
                             {/*Product Management component here */}
+                             {/* DEV : madushan */}
+                            <ProductManagement/>
                         </TabsContent>
 
                         <TabsContent value="Logs">
                             {/*Logs component here */}
+                            <GetLogs/>
                         </TabsContent>
 
                         <TabsContent value="Manage Admin Accounts">
                             {/*Manage Admin Accounts component here */}
+                            {/* DEV -madushan */}
+                            <ManageAdminAccounts/>
                         </TabsContent>
 
                     </div>

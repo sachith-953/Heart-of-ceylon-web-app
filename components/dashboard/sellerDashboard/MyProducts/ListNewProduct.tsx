@@ -9,7 +9,7 @@ const ListNewProduct = () => {
 
     return (
         <>
-            <div className="bg-white mx-2 mt-2 p-4 border-2">
+            <div className="bg-white mx-2 mt-2 p-4">
                 
                 <div className="">
                     <button

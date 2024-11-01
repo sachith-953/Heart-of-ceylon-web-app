@@ -48,7 +48,7 @@ const Product: React.FC<ChildProps> = ({ productData, }) => {
                                                     src={pData.productMainImage}
                                                     width={2000}
                                                     height={2000}
-                                                    alt="sample image"
+                                                    alt={pData.productName}
 
                                                     style={{
                                                         objectFit: "cover",
