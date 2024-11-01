@@ -33,21 +33,29 @@ const ProductProfile = () => {
   const [isError, setIsError] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
 
-  const dataFetching = async () => {
+  const dataFetching = async (productId: string) => {
+   
     try {
-      // Use the local API route instead of the direct backend URL
-      const res = await fetch("http://localhost:3000/api/product/productProfile/productDetails",
-         { cache: "no-store" });
+    
+      const res = await fetch('http://localhost:3000/api/product/productProfile/productDetails', {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ productId }),
+      });
 
       if (res.ok) {
         const responseData = await res.json();
         setProduct(responseData);
+        console.log("Data Available")
+        console.log(responseData)
         setIsLoading(false);
       } else if (res.status === 403) {
-        toast({
-          title: "Sorry!",
-          description: "Please Login again. Your Session has Expired!",
-        });
+        // toast({
+        //   title: "Sorry!",
+        //   description: "Please Login again. Your Session has Expired!",
+        // });
         setIsError(true);
       } else {
         setIsLoading(false);
@@ -64,7 +72,7 @@ const ProductProfile = () => {
   };
 
   useEffect(() => {
-    dataFetching();
+    dataFetching("402");
   }, []);
 
   useEffect(() => {
@@ -135,11 +143,11 @@ const ProductProfile = () => {
             <p className="text-gray-600 text-sm mb-4">{product.productDescription}</p>
             <div className="flex items-center gap-2 mb-4">
               <p className="text-xl font-semibold text-green-600">
-                LKR {product.productPrice.toLocaleString()}
+                {/* LKR {product.productPrice.toLocaleString()} */}
               </p>
               {product.productDiscountPrice > 0 && (
                 <p className="text-sm text-gray-500 line-through">
-                  LKR {product.productDiscountPrice.toLocaleString()}
+                  {/* LKR {product.productDiscountPrice.toLocaleString()} */}
                 </p>
               )}
             </div>

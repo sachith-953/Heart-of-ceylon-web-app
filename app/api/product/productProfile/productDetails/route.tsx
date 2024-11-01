@@ -1,41 +1,63 @@
 export const dynamic = "force-dynamic";
 
-export async function GET(request: Request) {
-  console.log("Review comment API started");
+export async function POST(request: Request) {
+    const reqParam = await request.json();
+    const productId = reqParam.productId;
+   
+    console.log("Get product details for product profile API has been called");
+    try {
+        const response = await fetch(`http://localhost:8080/api/v1/pBuyer/getProductDetails?productId=${productId}`, {
+            method: 'GET', // Explicitly set method
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        });
 
-  // Extract query params from the URL
-  const { searchParams } = new URL(request.url);
-  const productId = searchParams.get("productId"); 
-
-  try {
-    // Fetch the product details from the backend API
-    const response = await fetch(
-      `http://localhost:8080/api/v1/pBuyer/getProductDetails?productId=203`,
-      { cache: "no-store" }
-    );
-
-    console.log("Request has been sent to backend API");
-
-    // Handle the response
-    if (response.ok) {
-      console.log("Response OK");
-
-      // Get the response body as JSON
-      const responseData = await response.json();
-      console.log(responseData);
-
-      // Return the response data
-      return new Response(JSON.stringify(responseData), { status: 200 });
-    } else {
-      console.log("Server response status: " + response.status);
-      const responseBodyText = await response.text();
-      console.log(responseBodyText);
-      const resData = { success: false, message: responseBodyText };
-      return new Response(JSON.stringify(resData), { status: response.status });
+        console.log("Get-product-details > product profile -----> request sent to backend");
+        
+        if (response.ok) {
+            const data = await response.json();  
+            console.log("Product data fetched successfully:", data);
+            
+            return new Response(
+                JSON.stringify(data),
+                {
+                    status: 200,
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                }
+            );
+        } else {
+            const responseBodyText = await response.text();
+            const resData = { message: responseBodyText };
+            console.warn(`${response.status} >> product details fetching >> ${responseBodyText}`);
+            
+            return new Response(
+                JSON.stringify(resData),
+                { 
+                    status: response.status,
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                }
+            );
+        }
+    } catch (error) {
+        console.error("Unexpected error:", error);
+        return new Response(
+            JSON.stringify({
+                error: {
+                    message: "Unexpected Error",
+                    details: error instanceof Error ? error.message : "Unknown error"
+                }
+            }), 
+            { 
+                status: 500,
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            }
+        );
     }
-  } catch (error) {
-    console.log("Error occurred:", error);
-    const resData = { success: false, message: "An error occurred: " + (error as Error).message };
-    return new Response(JSON.stringify(resData), { status: 500 });
-  }
 }
