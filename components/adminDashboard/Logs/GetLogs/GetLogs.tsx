@@ -19,6 +19,7 @@ interface Logs {
     logId: number;
     timestamp: string;
     activity: string;
+    adminEmail:string;
 }
 
 const GetLogs: FC = () => {
@@ -122,6 +123,7 @@ const GetLogs: FC = () => {
                                 <TableHead className="text-black text-lg">Log ID</TableHead>
                                 <TableHead className="text-black text-lg">Date</TableHead>
                                 <TableHead className="text-black text-lg">Time</TableHead>
+                                <TableHead className="text-black text-lg">Admin Email</TableHead>
                                 <TableHead className="text-black text-lg">Activity</TableHead>
                             </TableRow>
                         </TableHeader>
@@ -131,6 +133,7 @@ const GetLogs: FC = () => {
                                     <TableCell className="font-medium text-black">{log.logId}</TableCell>
                                     <TableCell className="font-medium text-black">{formatDate(log.timestamp)}</TableCell>
                                     <TableCell className="font-medium text-black">{formatTime(log.timestamp)}</TableCell>
+                                    <TableCell className="font-medium text-black">{log.adminEmail}</TableCell>
                                     <TableCell className="font-medium text-black">
                                         {log.activity}
                                     </TableCell>
