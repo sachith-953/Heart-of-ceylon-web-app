@@ -18,6 +18,7 @@ import {
 import AllSellerDetailsPopupButton from "../AllSellerDetailsPopupButton/AllSellerDetailsPopupButton";
 import AllReviewsAndRatingsPopupButton from "../ProductReviewsAndRatingsPopupButton/ProductReviewsAndRatingsPopupButton";
 import SuspendProductPOPUPWindowButton from "../SuspendProductPOPUPWindowButton/SuspendProductPOPUPWindowButton";
+import RemoveProductPOPUPButton from "../RemoveProductPOPUPButton/RemoveProductPOPUPButton";
   
   
 interface ProductAllDetailsModalProps {
@@ -115,6 +116,15 @@ const ViewAllDetailsOfAProductPOPUPButton:  React.FC<ChildProps> = ({ productID,
         });
     };
 
+      // Updated onProductDeleted function to trigger re-fetching of data
+      const onProductDeleted = async () => {
+        setReloadPage(prev => !prev); // Toggling reloadPage to trigger useEffect
+        toast({
+            title: "Page Updated",
+            description: "The page has been refreshed after remove product",
+        });
+    };
+
    // Updated useEffect to include reloadPage as a dependency
     useEffect(() => {
         if (productID !== null && productID !== 0) {
@@ -196,9 +206,14 @@ const ViewAllDetailsOfAProductPOPUPButton:  React.FC<ChildProps> = ({ productID,
                                         onProductSuspend={onProductSuspend}
                                     />
                                 </div>
-                                <button className="bg-red-600 hover:bg-red-800 text-white font-bold py-2 px-4 rounded w-2/3 hover:text-black">
-                                    Remove Product
-                                </button>
+                                {/* remove product button */}
+                                <div>
+                                    <RemoveProductPOPUPButton
+                                        productID={product.productID}
+                                        onProductDeleted = {onProductDeleted}
+                                    />
+                                </div>
+
                             </div>
                         </div>
 

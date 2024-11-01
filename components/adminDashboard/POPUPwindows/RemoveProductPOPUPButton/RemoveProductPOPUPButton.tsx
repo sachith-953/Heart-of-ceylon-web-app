@@ -13,11 +13,11 @@ import { useRouter } from "next/navigation";
 
 
 interface ChildProps {
-    reviewId: number;
-    onCommentDeleted: () => void;
+    productID: number;
+    onProductDeleted: () => void;
 }
 
-const DeleteCommentPOPUPButton: React.FC<ChildProps> = ({ reviewId,onCommentDeleted }) => {
+const RemoveProductPOPUPButton: React.FC<ChildProps> = ({ productID,onProductDeleted }) => {
     const [isLoading, setIsLoading] = useState(false);
     const [isOpen, setIsOpen] = useState(false);  // Added to control dialog state
     const { toast } = useToast();
@@ -25,17 +25,17 @@ const DeleteCommentPOPUPButton: React.FC<ChildProps> = ({ reviewId,onCommentDele
     const [error, setError] = useState<string | null>(null);
     const router = useRouter();
 
-    const handleDeleteComment = async () => {
+    const handleDeleteProduct = async () => {
         try {
             setIsLoading(true);
             setError(null);
             
-            const res = await fetch(`${BASE_URL}/api/admin-dashboard/POPUPwindows/POPUP-delete-comment`, { // Fixed template literal
+            const res = await fetch(`${BASE_URL}/api/admin-dashboard/POPUPwindows/POPUP-remove-product-button`, { // Fixed template literal
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({ reviewId }),
+                body: JSON.stringify({ productID }),
                 credentials: 'include',
             });
       
@@ -43,9 +43,9 @@ const DeleteCommentPOPUPButton: React.FC<ChildProps> = ({ reviewId,onCommentDele
                 const responseData = await res.json();
                 toast({
                     title: "Success",
-                    description: responseData.message || "comment deleted successfully",
+                    description: responseData.message || "product removed successfully",
                 });
-                onCommentDeleted(); // Refresh the product list
+                onProductDeleted(); // Refresh the product list
                 setIsOpen(false); // Close the dialog after successful suspension
                 
             } else if (res.status === 403) {
@@ -65,18 +65,18 @@ const DeleteCommentPOPUPButton: React.FC<ChildProps> = ({ reviewId,onCommentDele
                 });
             }
         } catch (error) {
-            console.error("Error deleteting product comment:", error);
-            setError("Failed to delete comment. Please try again.");
+            console.error("Error removing product :", error);
+            setError("Failed to removing product. Please try again.");
             toast({
                 variant: "destructive",
                 title: "Error",
-                description: "Failed to delete comment. Please try again.",
+                description: "removing product. Please try again.",
             });
         } finally {
             setIsLoading(false);
         }
       };
-      
+
       return (
         <Dialog open={isOpen} onOpenChange={setIsOpen}>
           <DialogTrigger asChild>
@@ -85,7 +85,7 @@ const DeleteCommentPOPUPButton: React.FC<ChildProps> = ({ reviewId,onCommentDele
               className='bg-red-600 w-full hover:bg-red-800 text-white hover:text-black'
             >
               <Trash2 className="w-4 h-4 mr-2" />  
-              <span>Delete</span> 
+              <span>Remove product</span> 
             </Button>
           </DialogTrigger>
           <DialogContent>
@@ -93,7 +93,7 @@ const DeleteCommentPOPUPButton: React.FC<ChildProps> = ({ reviewId,onCommentDele
               <DialogTitle className="text-red-500">Delete Comment</DialogTitle>
             </DialogHeader>
             <div className="space-y-4">
-              <p>Are you sure you want to delete this comment? This action cannot be undone.</p>
+              <p>Are you sure you want to remove product? This action cannot be undone.</p>
               {error && <p className="text-red-500">{error}</p>}
               <div className="flex justify-end space-x-2">
                 <Button 
@@ -104,7 +104,7 @@ const DeleteCommentPOPUPButton: React.FC<ChildProps> = ({ reviewId,onCommentDele
                 </Button>
                 <Button 
                   variant="destructive" 
-                  onClick={handleDeleteComment}
+                  onClick={handleDeleteProduct}
                   disabled={isLoading}
                 >
                   {isLoading ? (
@@ -113,7 +113,7 @@ const DeleteCommentPOPUPButton: React.FC<ChildProps> = ({ reviewId,onCommentDele
                       Deleting...
                     </span>
                   ) : (
-                    "delete review"
+                    "delete product"
                   )}
                 </Button>
               </div>
@@ -123,4 +123,5 @@ const DeleteCommentPOPUPButton: React.FC<ChildProps> = ({ reviewId,onCommentDele
       );
     };
     
-    export default DeleteCommentPOPUPButton;
+    export default RemoveProductPOPUPButton;
+

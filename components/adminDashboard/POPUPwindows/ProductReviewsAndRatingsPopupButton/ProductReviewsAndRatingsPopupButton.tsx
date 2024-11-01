@@ -52,11 +52,6 @@ const AllReviewsAndRatingsPopupButton: React.FC<ChildProps> = ({ productID, }) =
     const router = useRouter();
     const [reloadPage, setReloadPage] = useState(false);
 
-    //this handle by child component >> SearchBarForAllOrderDetails
-    const reloadParentFromChild = () => {
-        // if reloadPage is ture, them make it false. do this to chenge the useState, se useEffect will re-run
-        setReloadPage(!reloadPage);
-    }
 
     const fetchReviewsAndRatings = async () => {
         try {
