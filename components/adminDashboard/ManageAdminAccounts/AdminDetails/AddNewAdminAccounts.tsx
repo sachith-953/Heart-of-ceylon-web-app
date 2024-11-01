@@ -38,8 +38,6 @@ const AddNewAdminAccounts = () => {
 
     const handleFormSubmit = async (formData: FormData) => {
 
-        setIsSubmitting(true)
-        
         try {
             const res = await fetch(`${BASE_URL}/api/admin-dashboard/ManageAdminAccounts/add-new-admin`, {
                 method: 'POST',
@@ -91,6 +89,10 @@ const AddNewAdminAccounts = () => {
         }
     }
 
+    const buttonIsClicked = () => {
+        setIsSubmitting(true)
+    }
+
 
     // check the password and confirmPassword each time confirmPassword change
     useEffect(() => {
@@ -107,7 +109,7 @@ const AddNewAdminAccounts = () => {
                         <h2 className="text-2xl font-bold mb-6 text-center text-gray-800">
                             Create New Admin Account
                         </h2>
-                        <form action={handleFormSubmit} className="space-y-4">
+                        <form action={handleFormSubmit} onSubmit={buttonIsClicked} className="space-y-4">
                             <div>
                                 <label htmlFor="email" className="block text-sm font-medium text-gray-700">
                                     Email
