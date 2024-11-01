@@ -8,8 +8,8 @@ import {
   import { Badge } from "@/components/ui/badge";
   import { useToast } from "@/components/ui/use-toast";
   import { useRouter } from "next/navigation";
-  import React, { useEffect } from 'react';
   import { Button } from "@/components/ui/button";
+  import React, { FC, useEffect, useState } from 'react';
   import { 
     Loader2, 
     Store,
@@ -17,6 +17,7 @@ import {
   } from "lucide-react";
 import AllSellerDetailsPopupButton from "../AllSellerDetailsPopupButton/AllSellerDetailsPopupButton";
 import AllReviewsAndRatingsPopupButton from "../ProductReviewsAndRatingsPopupButton/ProductReviewsAndRatingsPopupButton";
+import SuspendProductPOPUPWindowButton from "../SuspendProductPOPUPWindowButton/SuspendProductPOPUPWindowButton";
   
   
 interface ProductAllDetailsModalProps {
@@ -59,6 +60,8 @@ const ViewAllDetailsOfAProductPOPUPButton:  React.FC<ChildProps> = ({ productID,
     const [error, setError] = React.useState<string | null>(null);
     const { toast } = useToast();
     const router = useRouter();
+    const [currentPage, setCurrentPage] = useState(1);
+    const [reloadPage, setReloadPage] = useState(false); // Added reload state
 
   
     const fetchProductDetails = async () => {
@@ -103,11 +106,21 @@ const ViewAllDetailsOfAProductPOPUPButton:  React.FC<ChildProps> = ({ productID,
         }
     };
 
+    // Updated onProductSuspend function to trigger re-fetching of data
+    const onProductSuspend = async () => {
+        setReloadPage(prev => !prev); // Toggling reloadPage to trigger useEffect
+        toast({
+            title: "Page Updated",
+            description: "The page has been refreshed after suspension",
+        });
+    };
+
+   // Updated useEffect to include reloadPage as a dependency
     useEffect(() => {
-        if(productID !== null && productID !== 0){
-            fetchProductDetails()
+        if (productID !== null && productID !== 0) {
+            fetchProductDetails();
         }
-    }, [])
+    }, [productID, reloadPage]);
 
     return (
         <Dialog>
@@ -176,9 +189,13 @@ const ViewAllDetailsOfAProductPOPUPButton:  React.FC<ChildProps> = ({ productID,
 
                             {/* Bottom Buttons */}
                             <div className="mt-auto flex flex-col gap-3 p-2 mb-4 items-center justify-center">
-                                <button className="bg-red-600 hover:bg-red-800 text-white font-bold py-2 px-4 rounded w-2/3 hover:text-black">
-                                    Suspend
-                                </button>
+                                {/* suspend product */}
+                                <div>
+                                    <SuspendProductPOPUPWindowButton 
+                                        productID={product.productID}
+                                        onProductSuspend={onProductSuspend}
+                                    />
+                                </div>
                                 <button className="bg-red-600 hover:bg-red-800 text-white font-bold py-2 px-4 rounded w-2/3 hover:text-black">
                                     Remove Product
                                 </button>
