@@ -120,7 +120,7 @@ const AllReviewsAndRatingsPopupButton: React.FC<ChildProps> = ({ productID, }) =
                 </Button>
             </DialogTrigger>
 
-            <DialogContent className="w-11/12 max-w-full h-full p-6">
+            <DialogContent className="w-11/12 max-w-full p-6">
                 <DialogHeader className=' rounded-md h-12 p-2'>
                     <DialogTitle className="text-xl font-semibold text-center">
                         Product Reviews and Ratings
@@ -128,13 +128,19 @@ const AllReviewsAndRatingsPopupButton: React.FC<ChildProps> = ({ productID, }) =
                 </DialogHeader>
                 
                 <div className="overflow-y-auto bg-gray-200 rounded-md mt-1 ">
-                    {isLoading ? (
-                        <div className="flex items-center justify-center p-4">
-                            <Loader2 className="w-6 h-6 animate-spin" />
-                        </div>
-                    ) : error ? (
-                        <div className="text-red-500 text-center p-4">{error}</div>
-                    ) : (
+
+                        {isLoading ? (
+                            <div className="flex items-center justify-center p-4">
+                                <Loader2 className="w-6 h-6 animate-spin" />
+                            </div>
+                        ) : error ? (
+                            <div className="text-red-500 text-center p-4">{error}</div>
+                        ) : reviews.length === 0 ? (
+                            <div className="flex flex-col items-center justify-center p-8 text-gray-500">
+                                <div className="text-xl font-semibold mb-2">No Reviews Yet</div>
+                                <p className="text-center text-red-500">This product hasn't received any reviews or ratings.</p>
+                            </div>
+                        ) : (
                         <Table className='hover:bg-transparent'>
                             <TableHeader className='bg-gray-400'>
                                 <TableRow className='hover:bg-transparent'>
