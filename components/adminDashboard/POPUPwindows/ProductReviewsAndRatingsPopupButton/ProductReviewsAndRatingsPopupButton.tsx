@@ -10,6 +10,7 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { useToast } from "@/components/ui/use-toast";
 import { useRouter } from "next/navigation";
+import React, { FC, useEffect, useState } from 'react';
 import { 
     Loader2, 
 } from "lucide-react";
@@ -22,7 +23,7 @@ import {
     TableRow,
 } from "@/components/ui/table";
 import { Button } from "@/components/ui/button";
-import React, { useEffect } from 'react';
+import DeleteCommentPOPUPButton from "../DeleteCommentPOPUPButton/DeleteCommentPOPUPButton";
 
 // interface ReviewsAndRatingsModalProps {
 //     isOpen: boolean;
@@ -49,6 +50,13 @@ const AllReviewsAndRatingsPopupButton: React.FC<ChildProps> = ({ productID, }) =
     const [error, setError] = React.useState<string | null>(null);
     const { toast } = useToast();
     const router = useRouter();
+    const [reloadPage, setReloadPage] = useState(false);
+
+    //this handle by child component >> SearchBarForAllOrderDetails
+    const reloadParentFromChild = () => {
+        // if reloadPage is ture, them make it false. do this to chenge the useState, se useEffect will re-run
+        setReloadPage(!reloadPage);
+    }
 
     const fetchReviewsAndRatings = async () => {
         try {
@@ -99,6 +107,15 @@ const AllReviewsAndRatingsPopupButton: React.FC<ChildProps> = ({ productID, }) =
             date: date.toLocaleDateString(),
             time: date.toLocaleTimeString()
         };
+    };
+
+    const onCommentDeleted = async () => {
+        // Refresh the data after a product is suspended
+        setReloadPage(prev => !prev); // This will trigger a re-fetch of data
+        toast({
+            title: "comment List Updated",
+            description: "The comment list has been refreshed after delete one comment",
+        });
     };
 
     useEffect(() => {
@@ -176,13 +193,11 @@ const AllReviewsAndRatingsPopupButton: React.FC<ChildProps> = ({ productID, }) =
                                                 : review.reviewText}
                                             </TableCell>
                                             <TableCell>
-                                                <Button className="bg-red-600 hover:bg-red-800 text-white font-bold rounded h-8 hover:text-black"
-                                            
-                                                    
-                                                    // onClick={() => handleDeleteReview(review.reviewId)}
-                                                >
-                                                    Delete
-                                                </Button>
+                                                {/* delete commet button */}
+                                                <DeleteCommentPOPUPButton
+                                                    reviewId = {review.reviewId}
+                                                    onCommentDeleted = {onCommentDeleted}
+                                                />
                                             </TableCell>
                                         </TableRow>
                                     );
