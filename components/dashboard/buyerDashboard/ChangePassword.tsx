@@ -1,8 +1,8 @@
 "use client"
 
 import { useState } from "react";
-import ValidatePassword from "../ValidatePassword";
-import SetNewPasswordCom from "../SetNewPasswordCom";
+import ValidatePassword from "../../ValidatePassword";
+import SetNewPasswordCom from "../../SetNewPasswordCom";
 
 
 const ChangePassword = () => {

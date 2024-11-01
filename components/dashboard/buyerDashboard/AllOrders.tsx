@@ -1,8 +1,8 @@
 "use client"
 
 import { useEffect, useState } from "react";
-import MaxWidthLg from "../MaxWidthLg";
-import ErrorForCatch from "../ErrorForCatch";
+import MaxWidthLg from "../../MaxWidthLg";
+import ErrorForCatch from "../../ErrorForCatch";
 import { cn } from "@/lib/utils";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
@@ -78,10 +78,24 @@ const AllOrders = () => {
                 // this trigger when referesh token has issure. 
                 // if token is expired this will trigger
                 toast({
+                    variant: "destructive",
                     title: "Sorry!",
                     description: "Please Login again. Your Session has Expired!",
                   })
                 console.log("****403****************")
+                console.log("Redirectiong to login. RT error")
+                setIsError(true)
+                pushToLogin()
+            }
+            else if (res.status === 401) {
+                // this trigger when referesh token has issure. 
+                // if token is expired this will trigger
+                toast({
+                    variant: "destructive",
+                    title: "Sorry!",
+                    description: "Please Login again. Un-Authorized Request!",
+                  })
+                console.log("****401****************")
                 console.log("Redirectiong to login. RT error")
                 setIsError(true)
                 pushToLogin()

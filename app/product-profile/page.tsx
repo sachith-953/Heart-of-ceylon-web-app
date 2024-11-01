@@ -14,35 +14,33 @@ export default function Page() {
       <Navbar />
       <SearchBar />
 
-
       <MaxWidthLg>
-
         {/* Sachith's content */}
         <ProductDetails />
+        <div className="my-8">
+          <Tabs defaultValue="about" className="flex flex-col justify-center">
+            <TabsList className="flex flex-col sm:flex-row w-full mt-4 sm:mt-0 mb-10 sm:mb-2">
+              <TabsTrigger className="basis-1/3 my-2" value="about">About this Product</TabsTrigger>
+              <TabsTrigger className="basis-1/3 my-2" value="shipping">
+                Shipping, Return and Payments
+              </TabsTrigger>
+              <TabsTrigger className="basis-1/3 my-2" value="reviews">Reviews</TabsTrigger>
+            </TabsList>
 
-        <Tabs defaultValue="account" className="flex flex-col justify-center">
-          <TabsList className="grid w-full grid-cols-3">
-            <TabsTrigger value="about">About this Product</TabsTrigger>
-            <TabsTrigger value="shipping">
-              Shipping, Return and Payments
-            </TabsTrigger>
-            <TabsTrigger value="reviews">Reviews</TabsTrigger>
-          </TabsList>
+            <TabsContent value="about">
+              <AboutProduct />
+            </TabsContent>
 
-          <TabsContent value="about">
-            <AboutProduct />
-          </TabsContent>
+            <TabsContent value="shipping">
+              <ShippingReturnPayment />
+            </TabsContent>
 
-          <TabsContent value="shipping">
-            <ShippingReturnPayment />
-          </TabsContent>
-
-          <TabsContent value="reviews">
-            <Reviews />
-          </TabsContent>
-        </Tabs>
+            <TabsContent value="reviews">
+              <Reviews />
+            </TabsContent>
+          </Tabs>
+        </div>
       </MaxWidthLg>
-      
       <Footer />
     </>
   );

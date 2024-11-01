@@ -169,9 +169,24 @@ export async function GET() {
             return new Response(JSON.stringify(data))
         }
         else {
-            console.log("getAllOrders > ***** Error ******")
-            const data = await response.json();
-            console.log("getAllOrders > data : " + data)
+            // console.log("getAllOrders > ***** Error ******")
+            // const data = await response.json();
+            // console.log("getAllOrders > data : " + data)
+
+            // console.log(response.status)
+
+            // Get the response body as text
+            const responseBodyText = await response.text();
+            // TODO : handle errors thrown by server side
+            console.log("Error in server API")
+            console.log(response.status)
+            console.log(responseBodyText)
+            // return the response 
+            const resData = { success: false, message: responseBodyText }
+
+            return new Response(JSON.stringify(resData), {
+                status: response.status
+            });
 
         }
 

@@ -46,7 +46,7 @@ export async function POST(request: Request) {
             error: {
                 message: "get-access-token > email found"
             }
-        }), { status: 404 });
+        }), { status: 403 });
     }
 
     //get email from the JSON object which taken from cookies
@@ -73,7 +73,7 @@ export async function POST(request: Request) {
             error: {
                 message: "get-access-token > Token not found"
             }
-        }), { status: 404 });
+        }), { status: 403 });
     }
 
     const refreshTokenValue = refreshToken?.value ?? '';

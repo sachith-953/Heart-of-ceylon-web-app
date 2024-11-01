@@ -32,12 +32,14 @@ export async function POST(request: Request) {
             const accessTokenExpiry = data.access_token_expiry;
             const tokenType = data.token_type;
             const userName = data.user_name;
+            const userRole  = data.user_role;
 
             // Handle the response data as needed
             console.log('Access Token:', accessToken);
             console.log('Access Token Expiry:', accessTokenExpiry);
             console.log('Token Type:', tokenType);
             console.log('User Name:', userName);
+            console.log('user Role:', userRole);
 
             // Get the HTTP-Only cookie
             let httpOnlyCookie = ""
@@ -56,6 +58,7 @@ export async function POST(request: Request) {
             cookies().set('userName', userName)
             cookies().set('tokenType', tokenType)
             cookies().set('email', userEmail)
+            cookies().set('userRole', userRole)
 
             // response
             const responseBodyText = "Success"
@@ -63,7 +66,7 @@ export async function POST(request: Request) {
             console.log(response.status)
             console.log(responseBodyText)
 
-            const resData = { success: true, message: responseBodyText }
+            const resData = { success: true, message: responseBodyText, role: userRole }
             return new Response(JSON.stringify(resData))
 
         }
