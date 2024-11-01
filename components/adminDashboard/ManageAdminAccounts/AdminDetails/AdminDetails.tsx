@@ -53,7 +53,7 @@ const AdminDetails = () => {
                 })
                 console.log("**** FetchAdminDetails >> 403 ****************")
                 console.log("Redirecting to login. RT error")
-                router.push("/seller-log-in");
+                router.push("/log-in");
             }
             else{
                 const data = await res.json();

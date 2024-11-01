@@ -1,6 +1,8 @@
 import React from 'react'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import AccountSettings from "@/components/adminDashboard/ManageAdminAccounts/AdminDetails/AdminDetails"
+import AdminDetails from '@/components/adminDashboard/ManageAdminAccounts/AdminDetails/AdminDetails'
+import AddNewAdminAccounts from './AdminDetails/AddNewAdminAccounts'
 
 const ManageAccounts = () => {
     return (
@@ -13,11 +15,11 @@ const ManageAccounts = () => {
                 
                 <TabsContent value="account">
                   {/* new admin componet here */}
-                   <h1 className='ml-10 bg-red-600'>NOt yet implemented</h1>
+                   <AddNewAdminAccounts />
                 </TabsContent>
                 <TabsContent value="password">
                     {/* acc.settings component */}
-                    <AccountSettings/>
+                    <AdminDetails />
                 </TabsContent>
             </Tabs>
 
