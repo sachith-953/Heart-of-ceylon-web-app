@@ -90,7 +90,7 @@ const RemoveProductPOPUPButton: React.FC<ChildProps> = ({ productID,onProductDel
           </DialogTrigger>
           <DialogContent>
             <DialogHeader>
-              <DialogTitle className="text-red-500">Delete Comment</DialogTitle>
+              <DialogTitle className="text-red-500">Delete product</DialogTitle>
             </DialogHeader>
             <div className="space-y-4">
               <p>Are you sure you want to remove product? This action cannot be undone.</p>
