@@ -24,11 +24,11 @@ import {
 import { Button } from "@/components/ui/button";
 import React, { useEffect } from 'react';
 
-interface ReviewsAndRatingsModalProps {
-    isOpen: boolean;
-    onClose: () => void;
-    productID: number;
-}
+// interface ReviewsAndRatingsModalProps {
+//     isOpen: boolean;
+//     onClose: () => void;
+//     productID: number;
+// }
 
 interface ReviewsAndRatings {  
     reviewId: number;

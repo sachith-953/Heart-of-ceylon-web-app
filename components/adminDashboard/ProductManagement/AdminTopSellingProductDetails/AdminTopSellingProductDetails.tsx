@@ -11,6 +11,7 @@ import SearchBarForSearchProductsFromAdminDashboard from './SearchBarForSearchPr
 import AllSellerDetailsPopupButton from '../../POPUPwindows/AllSellerDetailsPopupButton/AllSellerDetailsPopupButton';
 import AllReviewsAndRatingsPopupButton from '../../POPUPwindows/ProductReviewsAndRatingsPopupButton/ProductReviewsAndRatingsPopupButton';
 import ViewAllDetailsOfAProductPOPUPButton from '../../POPUPwindows/ViewAllDetailsOfAProductPOPUPButton/ViewAllDetailsOfAProductPOPUPButton';
+import SuspendProductPOPUPWindowButton from '../../POPUPwindows/SuspendProductPOPUPWindowButton/SuspendProductPOPUPWindowButton';
 
 interface RatingStarsProps {
     rating: number;
@@ -130,6 +131,15 @@ const TopSellingProductDetails: FC = () => {
         if (hasMorePages) {
             setCurrentPage(prev => prev + 1);
         }
+    };
+
+    const onProductSuspend = async () => {
+        // Refresh the data after a product is suspended
+        setReloadPage(prev => !prev); // This will trigger a re-fetch of data
+        toast({
+            title: "Product List Updated",
+            description: "The product list has been refreshed after suspension",
+        });
     };
 
     const handlePreviousPage = () => {
@@ -261,9 +271,12 @@ const TopSellingProductDetails: FC = () => {
                                     <AllSellerDetailsPopupButton sellerID={product.sellerID} />
                                 </div>
 
-                                <Button variant="destructive" size="sm" className="w-full bg-red-600 hover:bg-red-800 text-white hover:text-black">
-                                    Suspend
-                                </Button>
+                                <div>
+                                    <SuspendProductPOPUPWindowButton 
+                                        productID={product.productID}
+                                        onProductSuspend={onProductSuspend}
+                                    />
+                                </div>
                                 {/* more details button */}
                                 <ViewAllDetailsOfAProductPOPUPButton productID={product.productID}/>
                             </div>

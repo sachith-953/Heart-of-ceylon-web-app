@@ -1,14 +1,9 @@
 import { cookies } from "next/headers";
 
-/**
- * ==============================================================
- * 1.get email from cookies.
- * 2.get refresh token from cookies
- * 3.get access token from the /api/get-access-token
- * 4.send the request to backend to update sorder status >> My sales
- */
+export const dynamic = "force-dynamic";
 
 export async function POST(request: Request) {
+
     // decalare global variables 
     const cookieStore = cookies();
     let email = null;
@@ -16,16 +11,17 @@ export async function POST(request: Request) {
     let accessToken = null;
     let emailValueString = null;
     let refreshTokenString = null;
-      
-    console.log("\nSellerDashboardMySalesController > Get sales summery for sellar dashboard : Nextjs API has Called");
 
-     // ***************************************************************
+    // TODO : change all console.log fiels.  
+    console.log("\nSuspend product : Nextjs API has Called");
+
+    // ***************************************************************
     // ******************* 1. Get email From Cookies *****************
     // ***************************************************************
 
     if (cookieStore.has('email')) {
         email = cookieStore.get('email');
-        console.log("sellerSales   > email :" + JSON.stringify(email));
+        console.log("AdminDashboard > product management -->Suspend product-->> email :" + JSON.stringify(email));
         //output : 
         //get-access-token > email :{"name":"email","value":"s19093@sci.pdn.ac.lk","path":"/"}
     } else {
@@ -34,7 +30,7 @@ export async function POST(request: Request) {
             error: {
                 message: "get-access-token > email found"
             }
-        }), { status: 404 });
+        }), { status: 403 }); // if the email not in cookies again login
     }
 
     //get email from the JSON object which taken from cookies
@@ -45,7 +41,7 @@ export async function POST(request: Request) {
     //so those duble quotes should be removed before send to the backend. 
     //otherwise undetectable malfunctions can occures 
     emailValueString = emailValueString.replace(/"/g, "")
-    console.log("getSalesSummery  > email >>>: " + emailValueString);
+    console.log("AdminDashboard >Suspend product > email >>>: " + emailValueString);
 
      // *************************************************************
     // ************* 2. Get Refresh-Token From Cookies *************
@@ -61,7 +57,7 @@ export async function POST(request: Request) {
             error: {
                 message: "get-access-token > Token not found"
             }
-        }), { status: 404 });
+        }), { status: 403 }); // if the email not in cookies again login
     }
 
     const refreshTokenValue = refreshToken?.value ?? ''; // get the refresh token and store
@@ -80,7 +76,7 @@ export async function POST(request: Request) {
     // *************************************************************
 
     try {
-        
+
         const response = await fetch(`http://localhost:8080/api/v1/refresh-token`, {
             method: 'POST',
             headers: {
@@ -122,7 +118,7 @@ export async function POST(request: Request) {
                 error: {
                     message: "Un Expected Error. get-access-token"
                 }
-            }), { status: 403 });
+            }), { status: 403 }); // refresh token has expires
         }
     } catch (error) {
         return new Response(JSON.stringify({
@@ -133,53 +129,51 @@ export async function POST(request: Request) {
     }
 
     // *************************************************************
-    // **************** 4. Update Order Status  *******************
+    // ********* 4. Suspend product ********************************
     // *************************************************************
-    console.log("update order status Nextjs API has Called");
+    const reqParams = await request.json()
+    // store the seller id in a varible
+    const productID = reqParams.productID
+    console.log("productID is :" +productID)
+    console.log("Suspend product --> Nextjs API has Called");
 
-    try {
-        // Get orderId and newStatus from request body
-        const { orderId, newStatus } = await request.json();
-        console.log(`Updating orderId: ${orderId} to status: ${newStatus}`);
-        
-        const userData = {
-            orderStatus: newStatus
-        };
-        const updateResponse = await fetch(`http://localhost:8080/api/v1/auth/update-order-status-by-seller?sellerEmail=${emailValueString}&orderId=${orderId}`, {
-           method: 'PUT', 
+    try{
+        const response = await fetch(`http://localhost:8080/api/v1/auth/update-product-status-as-suspend-by-admin?adminEmail=${emailValueString}&productID=${productID}`, {
+            method: 'PUT', 
             headers: {
                 'Authorization': `Bearer ${accessToken}`,
-                'accept-encoding': 'gzip, deflate, br',
-                'Content-Type': 'application/json',
+                // no body to send
             },
-            body: JSON.stringify(userData),
         });
-    
-        let responseData;
-        const contentType = updateResponse.headers.get("content-type");
-        if (contentType && contentType.indexOf("application/json") !== -1) {
-            responseData = await updateResponse.json();
-        } else {
-            responseData = await updateResponse.text();
-        }
-    
-        if (updateResponse.ok) {
-            console.log("Order status updated successfully:", responseData);
-            return new Response(JSON.stringify({ message: "Order status updated successfully", data: responseData }), { 
+        console.log("Suspend product --> request Sent to backend");
+        if (response.ok) {
+            const data = await response.text(); // .text() because backend return string messages
+            // if the backend return a string this should response.text()
+            console.log("Suspend product -->successfully:", data);
+            return new Response(
+                JSON.stringify(data), 
+                {
                 status: 200,
-                headers: { 'Content-Type': 'application/json' },
+                headers: {
+                'Content-Type': 'application/json',
+                },
             });
-        } else {
-            console.warn(`${updateResponse.status} >> Error updating order status:`, responseData);
-            return new Response(JSON.stringify({ error: { message: responseData } }), { status: updateResponse.status });
+        }
+        else{
+            const responseBodyText = await response.text(); // .text() because backend return string messages
+            const resData = {message: responseBodyText};
+            console.warn(response.status + " >> Error from---> Suspend product>> " + responseBodyText)
+            return new Response(
+                JSON.stringify(resData),
+                { status: response.status }
+            );
         }
     }
     catch (error) {
-        console.error("Unexpected error:", error);
+        console.log(error)
         return new Response(JSON.stringify({
             error: {
-                message: "Unexpected Error",
-                details: error instanceof Error ? error.message : String(error)
+                message: "Un-Expected Error"
             }
         }), { status: 500 });
     }
