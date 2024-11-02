@@ -67,14 +67,14 @@ import { NextResponse } from "next/server";
 export async function POST(request: Request) {
     const reqParams = await request.json();
     const productId = reqParams.productId;
-    console.log("sachithge id........." + productId)
+    console.log("Request productId is" + productId)
     console.log(productId)
-    console.log("productId is ADOOOOOOOOOOOOOO :" + productId);
+    console.log("productId is :" + productId);
 
     try {
         const response = await fetch('http://localhost:8080/api/v1/pBuyer/get-details-of-a-product?productId=402', { cache: 'no-store' });
   
-        console.log("Sachithge request send to backend");
+        console.log("Frontend request send to backend");
     
         // Handle the response as needed
         if (response.ok) {
@@ -84,14 +84,14 @@ export async function POST(request: Request) {
   
           const data = await response.json();
   
-          console.log("sachithge data")
+          console.log("Product Details data")
           console.log(data)
   
           return new Response(JSON.stringify(data));
-            console.log("sachithge request dent to client side")
+            console.log("Product details request dent to client side")
         } else {
   
-          console.log("sachithge request failed " + response.status);
+          console.log("product details request failed " + response.status);
   
           const responseBodyText = "something not right";
           // return the response
