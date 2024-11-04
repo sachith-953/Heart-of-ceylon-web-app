@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 import {
   Dialog,
   DialogContent,
@@ -13,63 +13,72 @@ import { useRouter } from "next/navigation";
 
 interface ChildProps {
   productID: number;
-  onProductSuspend: () => void;   
+  onProductUnSuspend: () => void;
 }
 
-const SuspendProductPOPUPWindowButton: React.FC<ChildProps> = ({ productID, onProductSuspend }) => {
+const UnsuspendProductPOPUPWindowButton: React.FC<ChildProps> = ({
+  productID,
+  onProductUnSuspend,
+}) => {
   const [isLoading, setIsLoading] = useState(false);
-  const [isOpen, setIsOpen] = useState(false);  // Added to control dialog state
+  const [isOpen, setIsOpen] = useState(false); // Added to control dialog state
   const { toast } = useToast();
   const BASE_URL = process.env.NEXT_PUBLIC_URL;
   const [error, setError] = useState<string | null>(null);
   const router = useRouter();
 
-  const handleSuspend = async () => {
+  const handleUnSuspend = async () => {
     try {
       setIsLoading(true);
       setError(null);
 
-      const res = await fetch(`${BASE_URL}/api/admin-dashboard/POPUPwindows/POPUP-suspend-produt-button`, { // Fixed template literal
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ productID }),
-        credentials: 'include',
-      });
+      const res = await fetch(
+        `${BASE_URL}/api/admin-dashboard/POPUPwindows/POPUP-unsuspend-product-button`,
+        {
+          // Fixed template literal
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ productID }),
+          credentials: "include",
+        }
+      );
 
       if (res.ok) {
         const responseData = await res.json();
         toast({
           title: "Success",
-          description: responseData.message || "Product suspended successfully",
+          description:
+            responseData.message || "Product Unsuspended successfully",
         });
-        onProductSuspend(); // Refresh the product list
+        onProductUnSuspend(); // Refresh the product list
         setIsOpen(false); // Close the dialog after successful suspension
-
       } else if (res.status === 403) {
         toast({
           variant: "destructive",
           title: "Sorry!",
           description: "Please Login again. Your Session has Expired!",
         });
-        await new Promise(resolve => setTimeout(resolve, 100));
+        await new Promise((resolve) => setTimeout(resolve, 100));
         router.push("/seller-log-in");
       } else {
         const errorData = await res.json();
         toast({
           variant: "destructive",
           title: "Something went wrong.",
-          description: "Please Try Again. There was a problem with your request. " + errorData.message,
+          description:
+            "Please Try Again. There was a problem with your request. " +
+            errorData.message,
         });
       }
     } catch (error) {
       console.error("Error suspending product:", error);
-      setError("Failed to suspend. Please try again.");
+      setError("Failed to UnSuspend. Please try again.");
       toast({
         variant: "destructive",
         title: "Error",
-        description: "Failed to suspend product. Please try again.",
+        description: "Failed to UnSuspend product. Please try again.",
       });
     } finally {
       setIsLoading(false);
@@ -81,38 +90,35 @@ const SuspendProductPOPUPWindowButton: React.FC<ChildProps> = ({ productID, onPr
       <DialogTrigger asChild>
         <Button
           variant="outline"
-          className='bg-red-600 w-full hover:bg-red-800 text-white hover:text-black'
+          className="bg-green-600 w-full hover:bg-green-800 text-white hover:text-black"
         >
-          <Trash2 className="w-4 h-4 mr-2" /> {/* Removed text-red-500 since button is already red */}
-          <span>Suspend</span> {/* Removed text-red-500 since button is already red */}
+          <span>Unsuspend</span>{" "}
+          {/* Removed text-red-500 since button is already red */}
         </Button>
       </DialogTrigger>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle className="text-red-500">Suspend Product</DialogTitle>
+          <DialogTitle className="text-red-500">Unsuspend Product</DialogTitle>
         </DialogHeader>
         <div className="space-y-4">
-          <p>Are you sure you want to suspend this product? This action cannot be undone.</p>
+          <p>Are you sure you want to Unsuspend this product?</p>
           {error && <p className="text-red-500">{error}</p>}
           <div className="flex justify-end space-x-2">
-            <Button
-              variant="outline"
-              onClick={() => setIsOpen(false)}
-            >
+            <Button variant="outline" onClick={() => setIsOpen(false)}>
               Cancel
             </Button>
             <Button
               variant="destructive"
-              onClick={handleSuspend}
+              onClick={handleUnSuspend}
               disabled={isLoading}
             >
               {isLoading ? (
                 <span className="flex items-center">
                   <span className="animate-spin mr-2">⏳</span>
-                  Suspending...
+                  Unsuspending...
                 </span>
               ) : (
-                "Suspend Product"
+                "Unsuspend Product"
               )}
             </Button>
           </div>
@@ -122,4 +128,4 @@ const SuspendProductPOPUPWindowButton: React.FC<ChildProps> = ({ productID, onPr
   );
 };
 
-export default SuspendProductPOPUPWindowButton;
+export default UnsuspendProductPOPUPWindowButton;

@@ -20,7 +20,7 @@ export default function SellerDashbard() {
             <div className="bg-white w-full h-svh pt-4">
 
                 {/* tabs */}
-                <Tabs defaultValue="Logs" className="flex flex-row mx-3 h-full ">
+                <Tabs defaultValue="Product Management" className="flex flex-row mx-3 h-full ">
                     <TabsList className="w-1/4 h-full flex flex-col bg-[#314659] justify-start">
 
                         {/* <div className="bg-zinc-400 h-20 w-full mb-2">

@@ -13,7 +13,7 @@ export async function POST(request: Request) {
     let refreshTokenString = null;
 
     // TODO : change all console.log fiels.  
-    console.log("\nSuspend product : Nextjs API has Called");
+    console.log("\Unsuspend product : Nextjs API has Called");
 
     // ***************************************************************
     // ******************* 1. Get email From Cookies *****************
@@ -21,7 +21,7 @@ export async function POST(request: Request) {
 
     if (cookieStore.has('email')) {
         email = cookieStore.get('email');
-        console.log("AdminDashboard > product management -->Suspend product-->> email :" + JSON.stringify(email));
+        console.log("AdminDashboard > product management -->Unsuspend product-->> email :" + JSON.stringify(email));
         //output : 
         //get-access-token > email :{"name":"email","value":"s19093@sci.pdn.ac.lk","path":"/"}
     } else {
@@ -41,7 +41,7 @@ export async function POST(request: Request) {
     //so those duble quotes should be removed before send to the backend. 
     //otherwise undetectable malfunctions can occures 
     emailValueString = emailValueString.replace(/"/g, "")
-    console.log("AdminDashboard >Suspend product > email >>>: " + emailValueString);
+    console.log("AdminDashboard >Unsuspend product > email >>>: " + emailValueString);
 
     // *************************************************************
     // ************* 2. Get Refresh-Token From Cookies *************
@@ -129,27 +129,27 @@ export async function POST(request: Request) {
     }
 
     // *************************************************************
-    // ********* 4. Suspend product ********************************
+    // ********* 4. Unsuspend product ********************************
     // *************************************************************
     const reqParams = await request.json()
     // store the seller id in a varible
     const productID = reqParams.productID
     console.log("productID is :" + productID)
-    console.log("Suspend product --> Nextjs API has Called");
+    console.log("Unsuspend product --> Nextjs API has Called");
 
     try {
-        const response = await fetch(`http://localhost:8080/api/v1/auth/update-product-status-as-suspend-by-admin?adminEmail=${emailValueString}&productID=${productID}`, {
+        const response = await fetch(`http://localhost:8080/api/v1/auth/unsuspend-product-by-admin?adminEmail=${emailValueString}&productID=${productID}`, {
             method: 'PUT',
             headers: {
                 'Authorization': `Bearer ${accessToken}`,
                 // no body to send
             },
         });
-        console.log("Suspend product --> request Sent to backend");
+        console.log("Unsuspend product --> request Sent to backend");
         if (response.ok) {
             const data = await response.text(); // .text() because backend return string messages
             // if the backend return a string this should response.text()
-            console.log("Suspend product -->successfully:", data);
+            console.log("Unsuspend product -->successfully:", data);
             return new Response(
                 JSON.stringify(data),
                 {
@@ -162,7 +162,7 @@ export async function POST(request: Request) {
         else {
             const responseBodyText = await response.text(); // .text() because backend return string messages
             const resData = { message: responseBodyText };
-            console.warn(response.status + " >> Error from---> Suspend product>> " + responseBodyText)
+            console.warn(response.status + " >> Error from---> Unsuspend product>> " + responseBodyText)
             return new Response(
                 JSON.stringify(resData),
                 { status: response.status }
