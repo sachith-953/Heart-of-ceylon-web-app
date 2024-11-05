@@ -18,6 +18,7 @@ import {
     Star,
 } from "lucide-react";
 import { Button } from '@/components/ui/button';
+import Link from 'next/link';
 
 interface SellerDetailsModalProps {
     isOpen: boolean;
@@ -49,13 +50,13 @@ interface ChildProps {
 
 
 const AllSellerDetailsPopupButton: React.FC<ChildProps> = ({ sellerID, }) => {
-    
+
     const [seller, setSeller] = React.useState<SellerDetails | null>(null);
-    
+
     const [isLoading, setIsLoading] = React.useState(false);
-    
+
     const [error, setError] = React.useState<string | null>(null);
-    
+
     const { toast } = useToast();
     const router = useRouter();
 
@@ -109,7 +110,7 @@ const AllSellerDetailsPopupButton: React.FC<ChildProps> = ({ sellerID, }) => {
     };
 
     useEffect(() => {
-        if(sellerID !== null && sellerID !== 0){
+        if (sellerID !== null && sellerID !== 0) {
             fetchSellerDetails()
         }
         console.log("seller ID : " + sellerID)
@@ -184,17 +185,33 @@ const AllSellerDetailsPopupButton: React.FC<ChildProps> = ({ sellerID, }) => {
 
                             {/* Action Buttons */}
                             <div className="flex flex-col gap-3 mt-6 items-center justify-center p-1">
-                                {/* <button className="bg-blue-600 hover:bg-blue-800 text-white font-bold py-2 rounded w-1/2 px-4 hover:text-black">
+
+
+                                {/* <Button
+                                    variant="default"
+                                    size="sm"
+                                    className="bg-blue-600 hover:bg-blue-800 text-white hover:text-black"
+                                    onClick={() => router.push(`/seller-store?sellerId=${seller.sellerID}`)}
+                                >
                                     View Shop
-                                </button> */}
-                                  <Button
-                                                variant="default"
-                                                size="sm"
-                                                className="bg-blue-600 hover:bg-blue-800 text-white hover:text-black"
-                                                onClick={() => router.push(`/seller-store?sellerId=${seller.sellerID}`)}
-                                            >
-                                                View Shop
-                                            </Button>
+                                </Button> */}
+                                
+                                {/* view shop btn */}
+                                <div className='w-1/2 flex text-center'>
+                                    <Link
+                                        className="w-full px-4 py-2 mx-3 my-2 rounded-lg bg-blue-600 hover:bg-blue-800 text-white"
+                                        href={{
+                                            pathname: '/seller-store',
+                                            query: { sellerId: `${seller.sellerID}` },
+                                        }}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                    >
+                                        View Store
+                                    </Link>
+                                </div>
+
+
                                 <button className="bg-blue-600 hover:bg-blue-800 text-white font-bold py-2 rounded w-1/2 px-4 hover:text-black">
                                     Assign badges
                                 </button>

@@ -78,7 +78,11 @@ const SellerProductDetails: React.FC<ChildProps> = ({ sellerId }) => {
                 console.log(ResponseData)
                 console.log("successfully fetched seller info")
                 setData(ResponseData)
-            } else {
+            }
+            else if (res.status === 404) {
+                setData([])  // handle the error when product are not available for the seller
+            }
+            else {
                 toast({
                     variant: "destructive",
                     title: "Something went wrong.",
