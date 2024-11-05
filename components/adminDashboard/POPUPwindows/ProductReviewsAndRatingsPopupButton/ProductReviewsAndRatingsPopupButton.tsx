@@ -51,6 +51,7 @@ const AllReviewsAndRatingsPopupButton: React.FC<ChildProps> = ({ productID, }) =
     const { toast } = useToast();
     const router = useRouter();
     const [reloadPage, setReloadPage] = useState(false);
+    const [refreshTrigger, setRefreshTrigger] = useState(0);
 
 
     const fetchReviewsAndRatings = async () => {
@@ -117,7 +118,12 @@ const AllReviewsAndRatingsPopupButton: React.FC<ChildProps> = ({ productID, }) =
         if(productID !== null && productID !== 0){
             fetchReviewsAndRatings()
         }
-    }, [])
+    }, [refreshTrigger])
+
+    // Function to trigger a refresh
+  const handleRefresh = () => {
+    setRefreshTrigger(prev => prev + 1);
+  };
 
     return (
         <Dialog>
@@ -192,6 +198,7 @@ const AllReviewsAndRatingsPopupButton: React.FC<ChildProps> = ({ productID, }) =
                                                 <DeleteCommentPOPUPButton
                                                     reviewId = {review.reviewId}
                                                     onCommentDeleted = {onCommentDeleted}
+                                                    onReviewRemoved={handleRefresh}
                                                 />
                                             </TableCell>
                                         </TableRow>

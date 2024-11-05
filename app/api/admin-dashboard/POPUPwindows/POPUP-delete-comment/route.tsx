@@ -129,7 +129,7 @@ export async function POST(request: Request) {
     }
 
     // *************************************************************
-    // ********* 4. delete a comment for a product *****************
+    // ********* 4. delete a review of a product *****************
     // *************************************************************
     const reqParams = await request.json()
     // store the seller id in a varible

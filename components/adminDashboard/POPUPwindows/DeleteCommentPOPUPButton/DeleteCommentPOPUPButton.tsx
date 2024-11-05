@@ -15,9 +15,10 @@ import { useRouter } from "next/navigation";
 interface ChildProps {
     reviewId: number;
     onCommentDeleted: () => void;
+    onReviewRemoved: () => void;
 }
 
-const DeleteCommentPOPUPButton: React.FC<ChildProps> = ({ reviewId,onCommentDeleted }) => {
+const DeleteCommentPOPUPButton: React.FC<ChildProps> = ({ reviewId,onCommentDeleted, onReviewRemoved}) => {
     const [isLoading, setIsLoading] = useState(false);
     const [isOpen, setIsOpen] = useState(false);  // Added to control dialog state
     const { toast } = useToast();
@@ -45,7 +46,7 @@ const DeleteCommentPOPUPButton: React.FC<ChildProps> = ({ reviewId,onCommentDele
                     title: "Success",
                     description: responseData.message || "Review deleted successfully",
                 });
-                onCommentDeleted(); // Refresh the product list
+                onReviewRemoved(); // Refresh the product list
                 setIsOpen(false); // Close the dialog after successful suspension
                 
             } else if (res.status === 403) {
