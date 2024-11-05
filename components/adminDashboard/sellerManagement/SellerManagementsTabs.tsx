@@ -5,7 +5,7 @@ import SellerVerificationCmp from './sellerVerification/SellerVerificationCmp'
 
 const SellerManagementsTabs = () => {
     return (
-        <div>
+        <div className='w-full'>
             <Tabs defaultValue="account" className="w-full">
                 <TabsList>
                     <TabsTrigger value="account">Find a Seller</TabsTrigger>

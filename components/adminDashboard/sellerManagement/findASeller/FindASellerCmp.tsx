@@ -7,6 +7,7 @@ import React from 'react'
 import ErrorForCatch from "@/components/ErrorForCatch";
 import SellerDetailsCard from "../sellerDetailsCard/SellerDetailsCard";
 import SearchBarForSearchSellerCom from "../SearchBarForSearchSeller/SearchBarForSearchSellerCom";
+import SearchBarForFindSellers from "./SearchBarForFindSellers";
 
 interface SellerData {
   profilePicture: string;
@@ -31,6 +32,7 @@ const FindASellerCmp = () => {
   const [totalResultFound, setTotalResultFound] = useState(0);
   const [currentPage, setCurrentPage] = useState("1");
   const [isMobile, setIsMobile] = useState(false);
+  const [reloadPage, setReloadPage] = useState(false); // use to clear the search results by reload the page in useEffect
 
   const searchQuery = searchParams.get("query");
 
@@ -38,6 +40,18 @@ const FindASellerCmp = () => {
     console.log("pushed to login");
     router.push("/log-in");
   };
+
+  //this handle by child component >> SearchBarForAllOrderDetails
+  const handleChildDataChange = (newChildData: SellerData[]) => {
+    setData(newChildData)
+    console.log("child data updated to parent data")
+  };
+
+  //this handle by child component >> SearchBarForAllOrderDetails
+  const reloadParentFromChild = () => {
+    // if reloadPage is ture, them make it false. do this to chenge the useState, se useEffect will re-run
+    setReloadPage(!reloadPage);
+  }
 
   const handleProductSearch = async (searchKeyParam: string, requestedPage: string) => {
     try {
@@ -180,7 +194,7 @@ const FindASellerCmp = () => {
     } else {
       fetchAllSellers();
     }
-  }, [searchParams, searchQuery]);
+  }, [searchParams, searchQuery, reloadPage]);
 
   useEffect(() => {
     const checkScreenSize = () => {
@@ -210,8 +224,13 @@ const FindASellerCmp = () => {
 
   return (
     <>
-      <div className="w-full mx-2">
-        <SearchBarForSearchSellerCom />
+      <div className="w-full">
+
+        <SearchBarForFindSellers 
+        onChildDataChange={handleChildDataChange}
+        clearSearchResults={reloadParentFromChild}
+        />
+
         {sellers.length === 0 ? (
           <div className="p-4">No sellers found</div>
         ) : (
