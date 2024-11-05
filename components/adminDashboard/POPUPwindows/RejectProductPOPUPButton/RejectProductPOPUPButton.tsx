@@ -13,12 +13,12 @@ import { useRouter } from "next/navigation";
 
 interface ChildProps {
   productID: number;
-  onProductSuspend: () => void;
+  onProductReject: () => void;
 }
 
-const SuspendProductPOPUPWindowButton: React.FC<ChildProps> = ({
+const RejectProductPOPUPButton: React.FC<ChildProps> = ({
   productID,
-  onProductSuspend,
+  onProductReject,
 }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [isOpen, setIsOpen] = useState(false); // Added to control dialog state
@@ -27,13 +27,13 @@ const SuspendProductPOPUPWindowButton: React.FC<ChildProps> = ({
   const [error, setError] = useState<string | null>(null);
   const router = useRouter();
 
-  const handleSuspend = async () => {
+  const handleRejectProduct = async () => {
     try {
       setIsLoading(true);
       setError(null);
 
       const res = await fetch(
-        `${BASE_URL}/api/admin-dashboard/POPUPwindows/POPUP-suspend-produt-button`,
+        `${BASE_URL}/api/admin-dashboard/POPUPwindows/POPUP-reject-produt-button`,
         {
           // Fixed template literal
           method: "POST",
@@ -49,9 +49,9 @@ const SuspendProductPOPUPWindowButton: React.FC<ChildProps> = ({
         const responseData = await res.json();
         toast({
           title: "Success",
-          description: responseData.message || "Product suspended successfully",
+          description: responseData.message || "Product Rejected successfully",
         });
-        onProductSuspend(); // Refresh the product list
+        onProductReject(); // Refresh the product list
         setIsOpen(false); // Close the dialog after successful suspension
       } else if (res.status === 403) {
         toast({
@@ -72,12 +72,12 @@ const SuspendProductPOPUPWindowButton: React.FC<ChildProps> = ({
         });
       }
     } catch (error) {
-      console.error("Error suspending product:", error);
-      setError("Failed to suspend. Please try again.");
+      console.error("Error approving product:", error);
+      setError("Failed to reject product. Please try again.");
       toast({
         variant: "destructive",
         title: "Error",
-        description: "Failed to suspend product. Please try again.",
+        description: "Failed to reject product. Please try again.",
       });
     } finally {
       setIsLoading(false);
@@ -91,20 +91,20 @@ const SuspendProductPOPUPWindowButton: React.FC<ChildProps> = ({
           variant="outline"
           className="bg-red-600 w-full hover:bg-red-800 text-white hover:text-black"
         >
-          <Trash2 className="w-4 h-4 mr-2" />{" "}
+           
           {/* Removed text-red-500 since button is already red */}
-          <span>Suspend</span>{" "}
+          <span>Reject</span>{" "}
           {/* Removed text-red-500 since button is already red */}
         </Button>
       </DialogTrigger>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle className="text-red-500">Suspend Product</DialogTitle>
+          <DialogTitle className="text-red-500">Reject Product</DialogTitle>
         </DialogHeader>
         <div className="space-y-4">
           <p>
-            Are you sure you want to suspend this product? This action cannot be
-            undone.
+            Are you sure you want to reject this product?this action cannot be undone!
+            
           </p>
           {error && <p className="text-red-500">{error}</p>}
           <div className="flex justify-end space-x-2">
@@ -113,16 +113,16 @@ const SuspendProductPOPUPWindowButton: React.FC<ChildProps> = ({
             </Button>
             <Button
               variant="destructive"
-              onClick={handleSuspend}
+              onClick={handleRejectProduct}
               disabled={isLoading}
             >
               {isLoading ? (
                 <span className="flex items-center">
                   <span className="animate-spin mr-2">⏳</span>
-                  Suspending...
+                  Rejecting...
                 </span>
               ) : (
-                "Suspend Product"
+                "Reject Product"
               )}
             </Button>
           </div>
@@ -132,4 +132,4 @@ const SuspendProductPOPUPWindowButton: React.FC<ChildProps> = ({
   );
 };
 
-export default SuspendProductPOPUPWindowButton;
+export default RejectProductPOPUPButton;
