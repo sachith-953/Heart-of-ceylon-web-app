@@ -139,7 +139,7 @@ export async function POST(request: Request) {
 
     try{
         const response = await fetch(`http://localhost:8080/api/v1/auth/delete-product-review-by-admin?adminEmail=${emailValueString}&reviewId=${reviewId}`, {
-           method : "DELETE",
+           method : "PUT",
             headers: {
                 'Authorization': `Bearer ${accessToken}`,
                 // no body to send
