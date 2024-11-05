@@ -25,7 +25,7 @@ const DeleteCommentPOPUPButton: React.FC<ChildProps> = ({ reviewId,onCommentDele
     const [error, setError] = useState<string | null>(null);
     const router = useRouter();
 
-    const handleDeleteComment = async () => {
+    const handleDeleteReview = async () => {
         try {
             setIsLoading(true);
             setError(null);
@@ -43,7 +43,7 @@ const DeleteCommentPOPUPButton: React.FC<ChildProps> = ({ reviewId,onCommentDele
                 const responseData = await res.json();
                 toast({
                     title: "Success",
-                    description: responseData.message || "comment deleted successfully",
+                    description: responseData.message || "Review deleted successfully",
                 });
                 onCommentDeleted(); // Refresh the product list
                 setIsOpen(false); // Close the dialog after successful suspension
@@ -65,12 +65,12 @@ const DeleteCommentPOPUPButton: React.FC<ChildProps> = ({ reviewId,onCommentDele
                 });
             }
         } catch (error) {
-            console.error("Error deleteting product comment:", error);
-            setError("Failed to delete comment. Please try again.");
+            console.error("Error deleteting product review:", error);
+            setError("Failed to delete review. Please try again.");
             toast({
                 variant: "destructive",
                 title: "Error",
-                description: "Failed to delete comment. Please try again.",
+                description: "Failed to delete review. Please try again.",
             });
         } finally {
             setIsLoading(false);
@@ -90,10 +90,10 @@ const DeleteCommentPOPUPButton: React.FC<ChildProps> = ({ reviewId,onCommentDele
           </DialogTrigger>
           <DialogContent>
             <DialogHeader>
-              <DialogTitle className="text-red-500">Delete Comment</DialogTitle>
+              <DialogTitle className="text-red-500">Delete Review</DialogTitle>
             </DialogHeader>
             <div className="space-y-4">
-              <p>Are you sure you want to delete this comment? This action cannot be undone.</p>
+              <p>Are you sure you want to delete this review? This action cannot be undone.</p>
               {error && <p className="text-red-500">{error}</p>}
               <div className="flex justify-end space-x-2">
                 <Button 
@@ -104,7 +104,7 @@ const DeleteCommentPOPUPButton: React.FC<ChildProps> = ({ reviewId,onCommentDele
                 </Button>
                 <Button 
                   variant="destructive" 
-                  onClick={handleDeleteComment}
+                  onClick={handleDeleteReview}
                   disabled={isLoading}
                 >
                   {isLoading ? (

@@ -134,22 +134,22 @@ export async function POST(request: Request) {
     const reqParams = await request.json()
     // store the seller id in a varible
     const reviewId = reqParams.reviewId
-    console.log("delete a comment for a product--> Nextjs API has Called");
-    console.log("revireId = " + reviewId)
+    console.log("delete a review for a product--> Nextjs API has Called");
+    console.log("reviewId = " + reviewId)
 
     try{
-        const response = await fetch(`http://localhost:8080/api/v1/auth/delete-a-review-by-id?adminEmail=${emailValueString}&reviewId=${reviewId}`, {
+        const response = await fetch(`http://localhost:8080/api/v1/auth/delete-product-review-by-admin?adminEmail=${emailValueString}&reviewId=${reviewId}`, {
            method : "DELETE",
             headers: {
                 'Authorization': `Bearer ${accessToken}`,
                 // no body to send
             },
         });
-        console.log("delete a comment for a product--> request Sent to backend");
+        console.log("delete a review for a product--> request Sent to backend");
         if (response.ok) {
             const data = await response.text(); 
             // if the backend return a string this should response.text()
-            console.log("delete a comment for a product successfull:", data);
+            console.log("delete a review for a product successfull:", data);
             // return the backend response to the clien side
             return new Response(
                 JSON.stringify(data), 
@@ -163,7 +163,7 @@ export async function POST(request: Request) {
         else{
             const responseBodyText = await response.text(); // .text() because backend return string messages
             const resData = {message: responseBodyText};
-            console.warn(response.status + " >> Error from---> delete a comment for a product>> " + responseBodyText)
+            console.warn(response.status + " >> Error from---> delete a review for a product>> " + responseBodyText)
             return new Response(
                 JSON.stringify(resData),
                 { status: response.status }
