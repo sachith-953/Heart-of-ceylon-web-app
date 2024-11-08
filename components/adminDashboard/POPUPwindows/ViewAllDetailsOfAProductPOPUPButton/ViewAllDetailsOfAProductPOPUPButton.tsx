@@ -16,6 +16,7 @@ import AllReviewsAndRatingsPopupButton from "../ProductReviewsAndRatingsPopupBut
 import SuspendProductPOPUPWindowButton from "../SuspendProductPOPUPWindowButton/SuspendProductPOPUPWindowButton";
 import RemoveProductPOPUPButton from "../RemoveProductPOPUPButton/RemoveProductPOPUPButton";
 import UnsuspendProductPOPUPWindowButton from "../UnsuspendProductPOPUPWindowButton/UnsuspendProductPOPUPWindowButton";
+import UpdateProductNote from "./UpdateProductNote";
 
 interface ProductAllDetailsModalProps {
   isOpen: boolean;
@@ -53,6 +54,7 @@ interface ChildProps {
 const ViewAllDetailsOfAProductPOPUPButton: React.FC<ChildProps> = ({
   productID,
 }) => {
+
   const [product, setProduct] = React.useState<ProductDetails | null>(null);
   const [isLoading, setIsLoading] = React.useState(false);
   const [error, setError] = React.useState<string | null>(null);
@@ -60,6 +62,15 @@ const ViewAllDetailsOfAProductPOPUPButton: React.FC<ChildProps> = ({
   const router = useRouter();
   const [currentPage, setCurrentPage] = useState(1);
   const [reloadPage, setReloadPage] = useState(false); // Added reload state
+
+
+  // updated status
+  const handleUpdateParentNoteByChild = (newNote : string) => {
+    if(product !== null){
+      product.productNotes = newNote
+    }
+  }
+  
 
   const fetchProductDetails = async () => {
     try {
@@ -169,7 +180,7 @@ const ViewAllDetailsOfAProductPOPUPButton: React.FC<ChildProps> = ({
         ) : product ? (
           <div className="flex h-full mt-0 overflow-y-auto">
             {/* Left Sidebar - 1/4 width */}
-            <div className="w-1/4 border-r border-gray-300 flex flex-col bg-gray-300 rounded-md ml-1 mr-1 mb-1 mt-0 p-2">
+            <div className="w-1/4 flex flex-col rounded-md ml-1 mr-1 mb-1 mt-0 p-2">
               {/* Profile Picture */}
               <div className="flex justify-center w-full mb-4 p-1">
                 {product.productMainImage ? (
@@ -232,7 +243,7 @@ const ViewAllDetailsOfAProductPOPUPButton: React.FC<ChildProps> = ({
             </div>
 
             {/* Right Content - 3/4 width */}
-            <div className="w-3/4 p-4 bg-gray-300 mr-1 mb-1 rounded-md overflow-y-auto">
+            <div className="w-3/4 p-4 mr-1 mb-1 rounded-md overflow-y-auto">
               {/* Product Name and ID */}
               <div className="text-4xl font-bold text-black mb-4 rounded-md p-1">
                 {product.productName}
@@ -352,24 +363,13 @@ const ViewAllDetailsOfAProductPOPUPButton: React.FC<ChildProps> = ({
                 </div>
 
                 <div className="space-y-2">
-                  <div className="text-lg font-bold text-black">Notes</div>
-                  <div className="text-lg text-black bg-gray-400 rounded-md p-1 pl-3">
-                    {(() => {
-                      try {
-                        return JSON.parse(product.productNotes).newNote || "";
-                      } catch (e) {
-                        console.error(
-                          "Invalid JSON format in productNotes:",
-                          product.productNotes
-                        );
-                        return "Invalid Notes Format";
-                      }
-                    })()}
-                  </div>
-                  <button className="bg-blue-600 hover:bg-blue-800 text-white font-bold py-2 rounded w-1/5 px-4 hover:text-black">
-                    Update Notes
-                  </button>
+                  <UpdateProductNote
+                    note={product.productNotes}
+                    productId={product.productID}
+                    updateParentNote={handleUpdateParentNoteByChild}
+                  />
                 </div>
+
               </div>
             </div>
           </div>

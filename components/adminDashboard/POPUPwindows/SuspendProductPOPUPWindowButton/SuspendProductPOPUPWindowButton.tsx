@@ -7,7 +7,7 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
-import { Trash2 } from "lucide-react";
+import { OctagonX, Trash2 } from "lucide-react";
 import { useToast } from "@/components/ui/use-toast";
 import { useRouter } from "next/navigation";
 
@@ -91,7 +91,8 @@ const SuspendProductPOPUPWindowButton: React.FC<ChildProps> = ({
           variant="outline"
           className="bg-red-600 w-full hover:bg-red-800 text-white hover:text-black"
         >
-          <Trash2 className="w-4 h-4 mr-2" />{" "}
+          {/* <Trash2 className="w-4 h-4 mr-2" />{" "} */}
+          <OctagonX className="w-4 h-4 mr-2"/>{" "}
           {/* Removed text-red-500 since button is already red */}
           <span>Suspend</span>{" "}
           {/* Removed text-red-500 since button is already red */}

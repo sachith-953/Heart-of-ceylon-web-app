@@ -7,7 +7,7 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
-import { Trash2 } from "lucide-react";
+import { Activity, Trash2 } from "lucide-react";
 import { useToast } from "@/components/ui/use-toast";
 import { useRouter } from "next/navigation";
 
@@ -92,6 +92,8 @@ const UnsuspendProductPOPUPWindowButton: React.FC<ChildProps> = ({
           variant="outline"
           className="bg-green-600 w-full hover:bg-green-800 text-white hover:text-black"
         >
+          {/* <OctagonX className="w-4 h-4 mr-2"/>{" "} */}
+          <Activity className="w-4 h-4 mr-2"/>{" "} 
           <span>Unsuspend</span>{" "}
           {/* Removed text-red-500 since button is already red */}
         </Button>
