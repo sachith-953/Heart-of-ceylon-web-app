@@ -3,6 +3,7 @@
 import AllSellerDetailsPopupButton from "@/components/adminDashboard/POPUPwindows/AllSellerDetailsPopupButton/AllSellerDetailsPopupButton";
 import Link from "next/link";
 import Image from "next/image";
+import SellerApprovePopUpButton from "@/components/adminDashboard/POPUPwindows/SellerApprovePopUpButton/SellerApprovePopUpButton";
 
 interface ToBeVerifySellerData {
   sellerId: number;
@@ -44,22 +45,21 @@ const SingleSellerToBeVerified: React.FC<{
           <div className="flex flex-row w-8/12 bg-white ">
             <p>
               Submitted Date:{" "}
-                {new Date(parentData.accountCreatedDate)
-                  .toLocaleDateString("en-US", {
-                    day: "2-digit",
-                    month: "2-digit",
-                    year: "numeric",
-                  })
-                  .replace(/\//g, ".")}{" "}
-                {new Date(parentData.accountCreatedDate).toLocaleTimeString(
-                  "en-US",
-                  {
-                    hour: "2-digit",
-                    minute: "2-digit",
-                    hour12: true,
-                  }
-                )}
-
+              {new Date(parentData.accountCreatedDate)
+                .toLocaleDateString("en-US", {
+                  day: "2-digit",
+                  month: "2-digit",
+                  year: "numeric",
+                })
+                .replace(/\//g, ".")}{" "}
+              {new Date(parentData.accountCreatedDate).toLocaleTimeString(
+                "en-US",
+                {
+                  hour: "2-digit",
+                  minute: "2-digit",
+                  hour12: true,
+                }
+              )}
             </p>
           </div>
         </div>
@@ -73,7 +73,7 @@ const SingleSellerToBeVerified: React.FC<{
 
         {/* View Shop */}
         <div className="basis-1/3 mx-2">
-        <Link
+          <Link
             className="w-9/10 px-4 py-2 mx-3 my-2 rounded-lg bg-blue-600 hover:bg-blue-800 text-white hover:text-black m-1"
             href={{
               pathname: "/seller-store",
@@ -87,6 +87,12 @@ const SingleSellerToBeVerified: React.FC<{
         </div>
 
         {/* Proceed to approval */}
+        <div>
+          <SellerApprovePopUpButton 
+          sellerId={parentData.sellerId} 
+          onSellerApproval={onSellerApproval}
+          />
+        </div>
       </div>
     </div>
   );
