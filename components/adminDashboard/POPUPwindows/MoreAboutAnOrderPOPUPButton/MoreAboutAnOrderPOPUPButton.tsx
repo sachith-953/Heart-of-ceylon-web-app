@@ -2,7 +2,7 @@ import { Badge } from "@/components/ui/badge";
 import { useToast } from "@/components/ui/use-toast";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
     Dialog,
     DialogContent,
@@ -20,6 +20,7 @@ import {
 } from "lucide-react";
 import AllSellerDetailsPopupButton from "../AllSellerDetailsPopupButton/AllSellerDetailsPopupButton";
 import Link from "next/link";
+import UpdateOrderNote from "../../AllOrders/Orders/UpdateOrderDetails";
 
 interface MoreDetailsOfAnOrderModalProps {
     isOpen: boolean;
@@ -141,6 +142,17 @@ const MoreAboutAnOrderPOPUPButton: React.FC<ChildProps> = ({ orderID, OrderQuant
     const [error, setError] = React.useState<string | null>(null);
     const { toast } = useToast();
     const router = useRouter();
+
+    // separate use states needed for update purpose
+    const [productNote, setProductNote] = useState("")
+    const [newDeliveryDate, setNewDeliveryDate] = useState("")
+
+    // updated status
+    const handleUpdateParentNoteByChild = (newNote: string) => {
+        if (order !== null) {
+            order.notes = newNote
+        }
+    }
 
     const fetchSellerDetails = async () => {
         try {
@@ -315,6 +327,14 @@ const MoreAboutAnOrderPOPUPButton: React.FC<ChildProps> = ({ orderID, OrderQuant
         }
     }, [])
 
+    useEffect(() => {
+        // update note and delivery dat use state
+        if(order !== null){
+            setNewDeliveryDate(order.expectedDeliveryDate)
+            setProductNote(order.notes)
+        }
+    }, [order])
+
     return (
         <Dialog>
             <DialogTrigger asChild>
@@ -411,7 +431,7 @@ const MoreAboutAnOrderPOPUPButton: React.FC<ChildProps> = ({ orderID, OrderQuant
                                         </p>
                                         {/* buttons */}
                                         <div className="flex items-center justify-center mt-5">
-                                            
+
                                             {/* View Seller Store : open in new tab */}
                                             <div className='w-40 flex text-center'>
                                                 <Link
@@ -581,11 +601,17 @@ const MoreAboutAnOrderPOPUPButton: React.FC<ChildProps> = ({ orderID, OrderQuant
                                         </div>
                                         <div>
                                             <p className="font-semibold">Expected Delivery Date :</p>
-                                            <p>{new Date(order.expectedDeliveryDate).toLocaleDateString()}</p>
+                                            <input 
+                                            type="date" 
+                                            className="bg-gray-200" 
+                                            value={newDeliveryDate}
+                                            onChange={(e) => {setNewDeliveryDate(e.target.value)}}
+                                            />
+                                            {/* <p>{new Date(order.expectedDeliveryDate).toLocaleDateString()}</p> */}
                                         </div>
                                         <div className="flex">
                                             <p className="font-semibold ">Status :</p>
-                                            <span className={`px-4 py-1 ml-1 rounded-full pb-3 mb-3 h-6 ${order.orderStatus === 'PENDING' ? 'bg-blue-100 text-blue-800' :
+                                            <span className={`px-4 py-1 ml-1 rounded-full h-6 flex items-center ${order.orderStatus === 'PENDING' ? 'bg-blue-100 text-blue-800' :
                                                 order.orderStatus === 'PROCESSING' ? 'bg-yellow-100 text-yellow-800' :
                                                     order.orderStatus === 'SHIPPED' ? 'bg-purple-100 text-purple-800' :
                                                         order.orderStatus === 'DELIVERED' ? 'bg-green-100 text-green-800' :
@@ -600,21 +626,22 @@ const MoreAboutAnOrderPOPUPButton: React.FC<ChildProps> = ({ orderID, OrderQuant
                                             <p>{order.paymentMethod}</p>
                                         </div>
                                     </div>
-                                    <div className="">
-                                        <p className="font-semibold">Special Notes :</p>
-                                        <div className="rounded-md bg-gray-300 p-1">
-                                            {order.notes}
-                                        </div>
-                                    </div>
-                                    {/* button */}
-                                    <div className="">
-                                        <Button
-                                            variant="default"
-                                            size="sm"
-                                            className="bg-blue-600 hover:bg-blue-800 text-white hover:text-black">
-                                            Update Summery
-                                        </Button>
-                                    </div>
+
+                                    {/* ****** special notes *********** */}
+
+                                    {product !== null ? (
+                                        <UpdateOrderNote
+                                            note={order.notes}
+                                            orderId={orderID} 
+                                            newDeliveryDate={newDeliveryDate}
+                                            newStatus={order.orderStatus}
+                                            updateParentNote={handleUpdateParentNoteByChild}
+                                        />
+                                    ) : (
+                                        <p>product is null</p>
+                                    )}
+
+
                                 </div>
 
                             )}

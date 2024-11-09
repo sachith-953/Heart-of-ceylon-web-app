@@ -302,7 +302,7 @@ const TopSellingProductDetails: FC = () => {
               </div>
 
               {/* Section 4: Action Buttons */}
-              <div className="w-1/5 rounded-md p-1 space-y-6">
+              <div className="w-1/5 rounded-md p-1 space-y-6 flex flex-col justify-evenly">
                 {/* <Button variant="default" size="sm" className="bg-blue-600 w-full hover:bg-blue-800 text-white hover:text-black"
                                     onClick={() => handleViewSellerDetails(product.sellerID)}>
                                     View Seller Details
