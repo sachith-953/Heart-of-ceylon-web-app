@@ -39,8 +39,9 @@ const SellerVerificationCmp = () => {
       );
 
       if (res.ok) {
-        const responseData: ToBeVerifySellerData[] = await res.json();
+        const responseData = await res.json();
         setData(responseData);
+        console.log("fetch from SellerVerificationCmp >>>" + responseData[0])
       } else if (res.status === 403) {
         toast({
           variant: "destructive",

@@ -30,6 +30,7 @@ const SellerApprovePopUpButton: React.FC<{
   sellerId: number;
   onSellerApproval: () => void;
 }> = ({ sellerId, onSellerApproval }) => {
+  
   const [seller, setSeller] = React.useState<ToBeVerifiedSellerStore | null>(
     null
   );
@@ -55,6 +56,8 @@ const SellerApprovePopUpButton: React.FC<{
           body: JSON.stringify({ sellerId, }),
         }
       );
+
+      console.log("sellerId >>>" + sellerId)
 
       if (res.ok) {
         const responseData = await res.json();
@@ -212,11 +215,10 @@ const SellerApprovePopUpButton: React.FC<{
             <div className="mb-4">
               <h4 className="text-lg font-medium mb-2">Seller Status</h4>
               <Badge
-                className={`${
-                  seller.sellerStatus === "ACTIVE"
-                    ? "bg-green-500 text-white"
-                    : "bg-red-500 text-white"
-                }`}
+                className={`${seller.sellerStatus === "ACTIVE"
+                  ? "bg-green-500 text-white"
+                  : "bg-red-500 text-white"
+                  }`}
               >
                 {seller.sellerStatus}
               </Badge>
