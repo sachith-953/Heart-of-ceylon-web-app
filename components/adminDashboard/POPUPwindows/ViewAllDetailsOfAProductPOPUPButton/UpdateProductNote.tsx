@@ -119,8 +119,8 @@ const UpdateProductNote: React.FC<ChildProps> = ({ note, productId, updateParent
                         </div>
                     ) : (
                         <>
-                            <NotebookPen className="mr-2" />
-                            <span>Update Notes</span>
+                            <NotebookPen className="" />
+                            <span className="ml-1">Update Notes</span>
                         </>
                     )}
                 </button>

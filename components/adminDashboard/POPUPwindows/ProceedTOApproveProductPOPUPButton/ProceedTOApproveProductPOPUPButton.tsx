@@ -15,6 +15,7 @@ import AllSellerDetailsPopupButton from "../AllSellerDetailsPopupButton/AllSelle
 import { FC, useState } from "react";
 import ApproveProductPOPUPButton from "../ApproveProductPOPUPButton/ApproveProductPOPUPButton";
 import RejectProductPOPUPButton from "../RejectProductPOPUPButton/RejectProductPOPUPButton";
+import UpdateProfitMarginPOPUPButton from "../UpdateProfitMarginPOPUPButton/UpdateProfitMarginPOPUPButton";
 
 interface ProductApprovalProps {
   isOpen: boolean;
@@ -118,6 +119,14 @@ const ProceedTOApproveProductPOPUPButton: React.FC<ChildProps> = ({
     });
   };
 
+  const onProductUpdateProfitMargin = async () => {
+    setReloadPage((prev) => !prev); // Toggling reloadPage to trigger useEffect
+    toast({
+      title: "Page Updated",
+      description: "The page has been refreshed after Updating Profit margin",
+    });
+  };
+
   const onProductReject = async () => {
     // Refresh the data after a product is suspended
     setReloadPage((prev) => !prev); // This will trigger a re-fetch of data
@@ -127,11 +136,12 @@ const ProceedTOApproveProductPOPUPButton: React.FC<ChildProps> = ({
     });
   };
 
-  useEffect(() => {
-    if (productID !== null && productID !== 0) {
-      fetchProductDetails();
-    }
-  }, []);
+    // Updated useEffect to include reloadPage as a dependency
+    useEffect(() => {
+      if (productID !== null && productID !== 0) {
+        fetchProductDetails();
+      }
+    }, [productID, reloadPage]);
 
   return (
     <Dialog>
@@ -262,9 +272,14 @@ const ProceedTOApproveProductPOPUPButton: React.FC<ChildProps> = ({
                     <strong>Profit Margin:</strong>{" "}
                     {product.productProfitMarginPercentage}%
                   </div>
-                  <button className="bg-blue-600 hover:bg-blue-800 text-white font-bold py-2 rounded w-1/5 px-4 hover:text-black">
-                    Update
-                  </button>
+                  {/* update profit margin button */}
+                  <UpdateProfitMarginPOPUPButton
+                    productID={product.productID}
+                    ProfitMarginPercentage={
+                      product.productProfitMarginPercentage
+                    }
+                    onProductUpdateProfitMargin={onProductUpdateProfitMargin}
+                  />
                 </div>
 
                 <div className="space-y-2">

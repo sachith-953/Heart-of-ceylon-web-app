@@ -17,6 +17,7 @@ import SuspendProductPOPUPWindowButton from "../SuspendProductPOPUPWindowButton/
 import RemoveProductPOPUPButton from "../RemoveProductPOPUPButton/RemoveProductPOPUPButton";
 import UnsuspendProductPOPUPWindowButton from "../UnsuspendProductPOPUPWindowButton/UnsuspendProductPOPUPWindowButton";
 import UpdateProductNote from "./UpdateProductNote";
+import UpdateProfitMarginPOPUPButton from "../UpdateProfitMarginPOPUPButton/UpdateProfitMarginPOPUPButton";
 
 interface ProductAllDetailsModalProps {
   isOpen: boolean;
@@ -54,7 +55,6 @@ interface ChildProps {
 const ViewAllDetailsOfAProductPOPUPButton: React.FC<ChildProps> = ({
   productID,
 }) => {
-
   const [product, setProduct] = React.useState<ProductDetails | null>(null);
   const [isLoading, setIsLoading] = React.useState(false);
   const [error, setError] = React.useState<string | null>(null);
@@ -63,14 +63,12 @@ const ViewAllDetailsOfAProductPOPUPButton: React.FC<ChildProps> = ({
   const [currentPage, setCurrentPage] = useState(1);
   const [reloadPage, setReloadPage] = useState(false); // Added reload state
 
-
   // updated status
-  const handleUpdateParentNoteByChild = (newNote : string) => {
-    if(product !== null){
-      product.productNotes = newNote
+  const handleUpdateParentNoteByChild = (newNote: string) => {
+    if (product !== null) {
+      product.productNotes = newNote;
     }
-  }
-  
+  };
 
   const fetchProductDetails = async () => {
     try {
@@ -133,6 +131,14 @@ const ViewAllDetailsOfAProductPOPUPButton: React.FC<ChildProps> = ({
     toast({
       title: "Page Updated",
       description: "The page has been refreshed after Unsuspension",
+    });
+  };
+
+  const onProductUpdateProfitMargin = async () => {
+    setReloadPage((prev) => !prev); // Toggling reloadPage to trigger useEffect
+    toast({
+      title: "Page Updated",
+      description: "The page has been refreshed after Updating Profit margin",
     });
   };
 
@@ -220,7 +226,7 @@ const ViewAllDetailsOfAProductPOPUPButton: React.FC<ChildProps> = ({
               <div className="mt-auto flex flex-col gap-3 p-2 mb-4 items-center justify-center">
                 {/* suspend product */}
                 <div>
-                  {product.productStatus === 'SUSPEND' ? (
+                  {product.productStatus === "SUSPEND" ? (
                     <UnsuspendProductPOPUPWindowButton
                       productID={product.productID}
                       onProductUnSuspend={onProductUnSuspend}
@@ -357,19 +363,23 @@ const ViewAllDetailsOfAProductPOPUPButton: React.FC<ChildProps> = ({
                     <strong>Profit Margin:</strong>{" "}
                     {product.productProfitMarginPercentage}%
                   </div>
-                  <button className="bg-blue-600 hover:bg-blue-800 text-white font-bold py-2 rounded w-1/5 px-4 hover:text-black">
-                    Update
-                  </button>
+                  {/* update profit margin button */}
+                  <UpdateProfitMarginPOPUPButton
+                    productID={product.productID}
+                    ProfitMarginPercentage={
+                      product.productProfitMarginPercentage
+                    }
+                    onProductUpdateProfitMargin={onProductUpdateProfitMargin}
+                  />
                 </div>
 
-                <div className="space-y-2">
+                <div className="space-y-2 ">
                   <UpdateProductNote
                     note={product.productNotes}
                     productId={product.productID}
                     updateParentNote={handleUpdateParentNoteByChild}
                   />
                 </div>
-
               </div>
             </div>
           </div>
