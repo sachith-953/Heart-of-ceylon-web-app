@@ -9,6 +9,7 @@ import {
     PaginationNext,
     PaginationPrevious,
 } from "@/components/ui/pagination"
+import Link from "next/link";
 
 interface ChildProps {
     productData: productData[];
@@ -60,11 +61,19 @@ const Product: React.FC<ChildProps> = ({ productData, }) => {
 
                                             {/* content */}
                                             <div className="w-3/5 m-1 sm:m-2">
-                                                <p className="font-bold text-sm sm:text-lg lg:text-2xl leading-none">
-                                                    {pData.productName.length > 50
-                                                        ? `${pData.productName.substring(0, 60)}...`
-                                                        : pData.productName}
-                                                </p>
+
+                                                <Link href={{
+                                                    pathname: "product-profile",
+                                                    query: {
+                                                        pid: pData.productID,
+                                                    },
+                                                }}>
+                                                    <p className="font-bold text-sm sm:text-lg lg:text-2xl leading-none hover:underline">
+                                                        {pData.productName.length > 50
+                                                            ? `${pData.productName.substring(0, 60)}...`
+                                                            : pData.productName}
+                                                    </p>
+                                                </Link>
                                                 <p className="font-serif font-medium mt-0 sm:mt-1 text-sm lg:text-base">
                                                     {/* TODO : get this from the database */}
                                                     Watawela Tea Pvt Ltd
