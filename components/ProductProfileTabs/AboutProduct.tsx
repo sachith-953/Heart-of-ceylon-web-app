@@ -59,6 +59,7 @@ const AboutProduct : React.FC<ChildProps> = ({ pId,}) => {
 
   useEffect(() => {
     fetchAboutProduct(pId+""); // convert pid(number) to string just to match the function param datatypes
+    console.log("pId > " + pId)
   }, []);
 
   return (

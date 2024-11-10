@@ -16,13 +16,6 @@ export default function Page() {
 
   const searchParams = useSearchParams();
 
-  const [productId, setProductId] = useState(0)
-
-  useEffect(() => {
-
-    setProductId(Number(searchParams.get('pid')))
-
-  }, [])
 
   return (
     <>
@@ -46,15 +39,15 @@ export default function Page() {
             </TabsList>
 
             <TabsContent value="about">
-              <AboutProduct pId={productId} />
+              <AboutProduct pId={Number(searchParams.get('pid'))} />
             </TabsContent>
 
             <TabsContent value="shipping">
-              <ShippingReturnPayment pId={productId} />
+              <ShippingReturnPayment pId={Number(searchParams.get('pid'))} />
             </TabsContent>
 
             <TabsContent value="reviews">
-              <Reviews pId={productId} />
+              <Reviews pId={Number(searchParams.get('pid'))} />
             </TabsContent>
 
           </Tabs>
