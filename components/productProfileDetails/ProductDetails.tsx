@@ -18,6 +18,7 @@ interface ProductProfileProps {
 }
 
 const ProductProfile: React.FC<ProductProfileProps> = ({ product }) => {
+    
     return (
         <div className="flex flex-col md:flex-row bg-white shadow-lg rounded-lg overflow-hidden">
             {/* Product Image */}

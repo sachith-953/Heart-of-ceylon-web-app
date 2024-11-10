@@ -4,7 +4,11 @@ import { useEffect, useState } from "react";
 import ItemsDesc from "./ItemDesc";
 import ItemSpecifics from "./ItemSpecifics";
 
-export default function AboutProduct() {
+interface ChildProps {
+  pId: number;
+}
+
+const AboutProduct : React.FC<ChildProps> = ({ pId,}) => {
 
   const BASE_URL = process.env.NEXT_PUBLIC_URL;
 
@@ -54,7 +58,7 @@ export default function AboutProduct() {
   };
 
   useEffect(() => {
-    fetchAboutProduct("402");
+    fetchAboutProduct(pId+""); // convert pid(number) to string just to match the function param datatypes
   }, []);
 
   return (
@@ -85,3 +89,5 @@ export default function AboutProduct() {
     </>
   );
 }
+
+export default AboutProduct
