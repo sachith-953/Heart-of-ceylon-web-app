@@ -26,10 +26,12 @@ interface ToBeVerifiedSellerStore {
   categories: string;
 }
 
-const SellerApprovePopUpButton: React.FC<{
+interface ChildProps {
   sellerId: number;
-  onSellerApproval: () => void;
-}> = ({ sellerId, onSellerApproval }) => {
+  onSellerApproval : () => void;  
+}
+
+const SellerApprovePopUpButton: React.FC<ChildProps> = ({ sellerId, onSellerApproval}) => {
   
   const [seller, setSeller] = React.useState<ToBeVerifiedSellerStore | null>(
     null
@@ -43,19 +45,17 @@ const SellerApprovePopUpButton: React.FC<{
   const fetchSellerStore = async () => {
     if (isLoading) return;
 
-    setIsLoading(true);
     try {
+      setIsLoading(true);
       setError(null);
-      const res = await fetch(
-        `${BASE_URL}api/admin-dashboard/seller-verification/get-not-verified-seller-store`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ sellerId, }),
-        }
-      );
+      const res = await fetch(`${BASE_URL}/api/admin-dashboard/seller-verification/get-not-verified-seller-store`, { // Fixed template literal
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ sellerId }),
+        credentials: 'include',
+      });
 
       console.log("sellerId >>>" + sellerId)
 
@@ -80,7 +80,7 @@ const SellerApprovePopUpButton: React.FC<{
         });
       }
     } catch (error) {
-      console.error("Error fetching seller details:", error);
+      console.error("Error fetching seller details to approve seller:", error);
       setError(
         "An unexpected error occurred while fetching seller details to approve"
       );
@@ -88,7 +88,7 @@ const SellerApprovePopUpButton: React.FC<{
         variant: "destructive",
         title: "Error",
         description:
-          "An unexpected error occurred while fetching seller details to approve",
+          "An unexpected error occurred while fetching seller details to approve-JANATH",
       });
     } finally {
       setIsLoading(false);

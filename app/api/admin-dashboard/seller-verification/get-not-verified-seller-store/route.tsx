@@ -156,11 +156,12 @@ export async function POST(request: Request) {
                 // no body to send
             },
         });
-    console.log("getNotVerifiedSellerStore request Sent");
+    console.log("************************************************************")
+    console.log("getNotVerifiedSellerStore request Sent to backend");
     if (response.ok) {
         const data = await response.json(); // .json() since backend service class return DTO 
         // if the backend return a string this should response.text()
-        console.log("Not Verified Seller store fetched successfully:", data);
+        console.log("Not Verified Seller store fetched successfully!");
         return new Response(
             JSON.stringify(data), 
             {
