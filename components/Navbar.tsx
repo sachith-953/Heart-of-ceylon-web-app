@@ -13,6 +13,7 @@ import { getClientSideCookie } from "@/lib/utils";
 const Navbar = () => {
 
     const [user, setUser] = useState(false)
+    const [userRole, setUserRole] = useState("");
 
 
     useEffect(() => {
@@ -20,9 +21,17 @@ const Navbar = () => {
         const cookieVal = getClientSideCookie("userName")
         console.log("log " + cookieVal)
 
+        const cookieVal2 = getClientSideCookie("userRole")
+        console.log("log " + cookieVal2)
+
+
         if (typeof cookieVal === "string") {
             setUser(true)
-            console.log("log > user true")
+            console.log("log > user true" + user)
+
+            if (typeof cookieVal2 === "string") {
+                setUserRole(cookieVal2)
+            }
         }
         else {
             setUser(false)
@@ -60,7 +69,16 @@ const Navbar = () => {
 
                                     {/* ************** DashBoard button Start ************** */}
                                     {/* if user is logged in, then we show buyer dashboard */}
-                                    {user
+                                    {/* for sellers */}
+                                    {userRole === "ROLE_SELLER"
+                                        ?
+                                        (<Link href="/seller-dashboard" className={buttonVariants({ variant: "ghost" })}>DashBoard</Link>)
+                                        :
+                                        (<p></p>)
+                                    }
+
+                                    {/* for buyers */}
+                                    {userRole === "ROLE_BUYER"
                                         ?
                                         (<Link href="/buyer-dashboard" className={buttonVariants({ variant: "ghost" })}>DashBoard</Link>)
                                         :
