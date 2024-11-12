@@ -11,6 +11,7 @@ import Footer from "@/components/Footer";
 import ProductDetails from "@/components/productProfileDetails/ProductDetails";
 import { useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
+import SellerDetailsForProductProfile from "@/components/productProfileDetails/SellerDetailsForProductProfile";
 
 export default function Page() {
 
@@ -25,7 +26,7 @@ export default function Page() {
       <MaxWidthLg>
 
         {/* Sachith's content */}
-        <ProductDetails />
+        <ProductDetails pId={Number(searchParams.get('pid'))} />
 
         <div className="my-8">
           
@@ -53,7 +54,9 @@ export default function Page() {
           </Tabs>
 
         </div>
+        <SellerDetailsForProductProfile pId={Number(searchParams.get('pid'))}/>
       </MaxWidthLg>
+      
       <Footer />
     </>
   );
