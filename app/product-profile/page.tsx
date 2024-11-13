@@ -25,7 +25,6 @@ export default function Page() {
 
       <MaxWidthLg>
 
-        {/* Sachith's content */}
         <ProductDetails pId={Number(searchParams.get('pid'))} />
 
         <div className="my-8">

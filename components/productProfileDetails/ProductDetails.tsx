@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
+import AddToCartButton from "./AddToCartButton";
 
 
 interface ChildProps {
@@ -10,6 +11,7 @@ interface ChildProps {
 }
 
 const AboutProduct: React.FC<ChildProps> = ({ pId }) => {
+
   const BASE_URL = process.env.NEXT_PUBLIC_URL;
 
   interface aboutProductDataType {
@@ -121,15 +123,20 @@ const AboutProduct: React.FC<ChildProps> = ({ pId }) => {
           </p>
         </div>
         <div className="space-y-3">
+
           <Button className="w-full bg-blue-500 hover:bg-blue-600 text-white" variant="default">
             Buy It Now
           </Button>
-          <Button className="w-full bg-gray-200 hover:bg-gray-300 text-gray-800" variant="outline">
-            Add To Cart
-          </Button>
+
+          {/* add to cart button */}
+          <div>
+            <AddToCartButton pid={pId} />
+          </div>
+
           <Button className="w-full bg-blue-100 hover:bg-blue-200 text-blue-800" variant="outline">
             Wholesale Mode
           </Button>
+          
         </div>
       </div>
     </div>
