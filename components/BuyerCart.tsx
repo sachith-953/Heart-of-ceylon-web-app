@@ -180,15 +180,11 @@ const BuyerCart = () => {
   return (
     <>
       <Navbar />
-      <div className="">
-        <h1 className="m-2.5 pr-10 text-left font-bold text-2xl">Shopping Cart</h1>
-      </div>
-
-      <div className="flex flex-col items-center p-5 bg-gray-100">
-        <div className="flex w-full max-w-8xl justify-between bg-gray-200">
-          <div className="flex-3 mr-5 w-3/5 bg-gray-300 p-5 rounded-lg">
-            {data.cartProducts.map((product) => (
-              <div key={product.productId} className="divide-y flex mb-5 p-2 border border-gray-300 rounded-lg">
+      <div className="flex flex-col md:flex-row bg-gray-100 p-5">
+        <div className="md:flex-3 mr-5 w-full md:w-3/5 bg-white p-5 rounded-lg max-h-[80vh] overflow-y-auto">
+          {data.cartProducts.map((product) => (
+            <div key={product.productId} className="flex flex-col md:flex-row mb-5 p-4 border border-gray-300 rounded-lg bg-gray-100 hover:shadow-lg transition-all duration-300">
+              <div className="flex-shrink-0 md:mr-5">
                 <Image
                   src={product.productMainImage}
                   alt={product.productName}
@@ -196,43 +192,60 @@ const BuyerCart = () => {
                   height={200}
                   className="productImage rounded-lg"
                 />
-                <div className="ml-5 flex-1">
-                  <p className="text-2xl font-bold">{product.productName}</p>
-                  <p className="my-1 text-xl">LKR {product.price.toFixed(2)} (US ${(product.price / 360).toFixed(2)})</p>
-                  <p className="text-xl my-1">Quantity: {product.quantity}</p>
-                  <div className="flex items-center">
-                    <button onClick={() => handleDecreaseQuantity(product.productId)} className=" text-black py-1 px-3 rounded-lg bg-gray-400 text-xl font-bold">-</button>
-                    <span className="px-3">{product.quantity}</span>
-                    <button onClick={() => handleIncreaseQuantity(product.productId)} className=" text-black py-1 px-3 rounded-lg bg-gray-400 text-xl font-bold">+</button>
-                  </div>
-                  <button onClick={() => handleDeleteProduct(product.productId)} className="bg-red-500 text-white py-1 px-3 rounded mt-2 text-xl">Delete</button>
-                </div>
               </div>
-            ))}
-          </div>
-          <div className="flex-1 bg-gray-500 p-5 rounded-lg w-2/5">
-            <h2>Summary</h2>
-            <p className="my-2">Subtotal: US ${(data.totalPrice / 360).toFixed(2)}</p>
-            <p className="my-2">Shipping fee: US $19.25</p>
-            <p className="my-2">Saved: US $0.00</p>
-            <p className="my-2 font-bold">Total: US ${(data.totalPrice / 360 + 19.25).toFixed(2)}</p>
-            <button
-              className="bg-red-500 text-white py-2 w-full rounded my-5 hover:bg-red-900 hover:shadow-lg transition duration-300 ease-in-out"
-              onClick={handleCheckout}
-            >
-              Checkout ({totalItems})
-            </button>
-
-            <div className="text-center">
-              <h3 className="m-2.5 pr-10 text-middle font-bold text-2xl ">Pay with</h3>
-              <Image
-                src="https://www.4x50.com/fileadmin/_processed_/a/4/csm_paymentmethods_1f47eaef07.jpg"
-                alt="Payment Methods"
-                width={700}
-                height={50}
-                className='rounded-lg'
-              />
+              <div className="flex-1 mt-4 md:mt-0">
+                <p className="text-2xl font-bold">{product.productName}</p>
+                <div className="flex items-center justify-between">
+                  <p className="my-1 text-xl text-green-600">$ {product.price.toFixed(2)}</p>
+                  <div className="flex items-center">
+                    <button
+                      onClick={() => handleDecreaseQuantity(product.productId)}
+                      className="text-black py-1 px-3 rounded-lg bg-gray-300 text-xl font-bold hover:bg-gray-400"
+                    >
+                      -
+                    </button>
+                    <span className="px-3">{product.quantity}</span>
+                    <button
+                      onClick={() => handleIncreaseQuantity(product.productId)}
+                      className="text-black py-1 px-3 rounded-lg bg-gray-300 text-xl font-bold hover:bg-gray-400"
+                    >
+                      +
+                    </button>
+                  </div>
+                </div>
+                <p className="text-xl my-1">Quantity: {product.quantity}</p>
+                <button
+                  onClick={() => handleDeleteProduct(product.productId)}
+                  className="bg-red-500 text-white py-1 px-3 rounded mt-2 text-xl hover:bg-red-600 hover:shadow-lg transition-all duration-300"
+                >
+                  Delete
+                </button>
+              </div>
             </div>
+          ))}
+        </div>
+        <div className="md:flex-1 bg-gray-200 p-5 rounded-lg w-full md:w-2/5">
+          <h2 className="text-2xl font-bold mb-4">Summary</h2>
+          <p className="my-2">Subtotal: US ${(data.totalPrice / 360).toFixed(2)}</p>
+          <p className="my-2">Shipping fee: US $19.25</p>
+          <p className="my-2">Saved: US $0.00</p>
+          <p className="my-2 font-bold">Total: US ${(data.totalPrice / 360 + 19.25).toFixed(2)}</p>
+          <button
+            className="bg-red-500 text-white py-2 w-full rounded my-5 hover:bg-red-900 hover:shadow-lg transition duration-300 ease-in-out"
+            onClick={handleCheckout}
+          >
+            Checkout ({totalItems})
+          </button>
+
+          <div className="text-center">
+            <h3 className="m-2.5 pr-10 text-middle font-bold text-2xl ">Pay with</h3>
+            <Image
+              src="https://www.4x50.com/fileadmin/_processed_/a/4/csm_paymentmethods_1f47eaef07.jpg"
+              alt="Payment Methods"
+              width={700}
+              height={50}
+              className='rounded-lg'
+            />
           </div>
         </div>
       </div>
