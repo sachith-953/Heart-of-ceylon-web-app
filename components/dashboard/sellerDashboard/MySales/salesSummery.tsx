@@ -19,7 +19,7 @@ const MySales = () => {
     const fetchSalesSummary = async () => {
         try {
             setIsLoading(true);
-            const res = await fetch('http://localhost:3000/api/seller-dashboard/get-sales-summery', {
+            const res = await fetch(`${process.env.NEXT_PUBLIC_URL}/api/seller-dashboard/get-sales-summery`, {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',

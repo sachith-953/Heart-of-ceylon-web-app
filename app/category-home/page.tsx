@@ -50,7 +50,7 @@ export default function SearchPage() {
         console.log("sending parentId to Next.js get Child Categories API");
 
         const res = await fetch(
-            "http://localhost:3000/api/category-home",
+            `${process.env.NEXT_PUBLIC_URL}/api/category-home`,
             {
                 method: "POST",
                 headers: {

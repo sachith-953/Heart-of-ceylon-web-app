@@ -36,7 +36,7 @@ const ValidateSellerPassword: React.FC<ChildProps> = ({ onChildDataChange, }) =>
     const handleFormSubmit = async (formData: FormData) => {
 
         try {
-            const res = await fetch('http://localhost:3000/api/buyer/dashboard/verify-password', {
+            const res = await fetch(`${process.env.NEXT_PUBLIC_URL}/api/buyer/dashboard/verify-password`, {
                 method: 'POST',
                 body: formData
             })

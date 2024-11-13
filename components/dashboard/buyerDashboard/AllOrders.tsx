@@ -58,7 +58,7 @@ const AllOrders = () => {
             console.log("fetch All Orders start");
 
             const res = await fetch(
-                "http://localhost:3000/api/buyer/dashboard/get-all-orders",
+                `${process.env.NEXT_PUBLIC_URL}/api/buyer/dashboard/get-all-orders`,
                 { cache: 'no-store' }
             );
 

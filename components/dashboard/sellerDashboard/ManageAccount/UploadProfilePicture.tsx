@@ -22,7 +22,7 @@ const UploadProfilePicture = () => {
             const formElement = event.currentTarget;
             const formData = new FormData(formElement);
 
-            const response = await fetch('http://localhost:3000/api/seller-dashboard/upload-profile-picture', {
+            const response = await fetch(`${process.env.NEXT_PUBLIC_URL}/api/seller-dashboard/upload-profile-picture`, {
                 method: 'POST',
                 body: formData,
             });
