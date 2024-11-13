@@ -23,7 +23,7 @@ const UnSuspendSellerButtton: React.FC<ChildProps> = ({
   const [isLoading, setIsLoading] = useState(false);
   const [isOpen, setIsOpen] = useState(false); // Added to control dialog state
   const { toast } = useToast();
-  const BASE_URL = process.env.NEXT_PUBLIC_URL;
+  
   const [error, setError] = useState<string | null>(null);
   const router = useRouter();
 
@@ -33,7 +33,7 @@ const UnSuspendSellerButtton: React.FC<ChildProps> = ({
       setError(null);
 
       const res = await fetch(
-        `${BASE_URL}/api/admin-dashboard/POPUPwindows/POPUP-unsuspend-seller-button`,
+        `${process.env.NEXT_PUBLIC_URL}/api/admin-dashboard/POPUPwindows/POPUP-unsuspend-seller-button`,
         {
           // Fixed template literal
           method: "POST",

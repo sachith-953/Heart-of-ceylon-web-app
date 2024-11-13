@@ -21,7 +21,7 @@ export default function EmailVerifyTokenAccept({
       console.log("token: " + signToken);
 
       const res = await fetch(
-        "http://localhost:3000/api/signup/confirm-email",
+        `${process.env.NEXT_PUBLIC_URL}/api/signup/confirm-email`,
         {
           method: "POST",
           headers: {

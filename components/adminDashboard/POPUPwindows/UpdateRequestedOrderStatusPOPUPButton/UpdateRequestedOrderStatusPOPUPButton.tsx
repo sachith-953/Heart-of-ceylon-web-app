@@ -2,55 +2,48 @@ import { Badge } from "@/components/ui/badge";
 import { useToast } from "@/components/ui/use-toast";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState } from "react";
 import {
-    Dialog,
-    DialogContent,
-    DialogHeader,
-    DialogTitle,
-    DialogTrigger,
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
 } from "@/components/ui/dialog";
-import {
-    Loader2,
-    Mail,
-    Phone,
-    MapPin,
-    Store,
-    Star,
-} from "lucide-react";
-
+import { Loader2, Mail, Phone, MapPin, Store, Star } from "lucide-react";
 
 interface ChildProps {
-    requestedOrderID: number;
-    orderStatus: string; 
-    onUpdateRequestedOrderStatus: () => void;
+  requestedOrderID: number;
+  orderStatus: string;
+  onUpdateRequestedOrderStatus: () => void;
 }
 
+const UpdateRequestedOrderStatusPOPUPButton: React.FC<ChildProps> = ({
+  requestedOrderID,
+  orderStatus,
+  onUpdateRequestedOrderStatus,
+}) => {
+  const [isLoading, setIsLoading] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
+  const { toast } = useToast();
+  
+  const [error, setError] = useState<string | null>(null);
+  const router = useRouter();
 
-const UpdateRequestedOrderStatusPOPUPButton: React.FC<ChildProps> = ({ requestedOrderID,orderStatus, onUpdateRequestedOrderStatus }) => {
-
-    const [isLoading, setIsLoading] = useState(false);
-    const [isOpen, setIsOpen] = useState(false); 
-    const { toast } = useToast();
-    const BASE_URL = process.env.NEXT_PUBLIC_URL;
-    const [error, setError] = useState<string | null>(null);
-    const router = useRouter();
-
-    
   const handleUpdateRequestedOrderStatus = async () => {
     try {
       setIsLoading(true);
       setError(null);
 
       const res = await fetch(
-        `${BASE_URL}/api/admin-dashboard/POPUPwindows/POPUP-update-requested-order-status`,
+        `${process.env.NEXT_PUBLIC_URL}/api/admin-dashboard/POPUPwindows/POPUP-update-requested-order-status`,
         {
           // Fixed template literal
           method: "POST",
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify({ requestedOrderID, orderStatus}),
+          body: JSON.stringify({ requestedOrderID, orderStatus }),
           credentials: "include",
         }
       );
@@ -60,7 +53,8 @@ const UpdateRequestedOrderStatusPOPUPButton: React.FC<ChildProps> = ({ requested
         toast({
           title: "Success",
           description:
-            responseData.message || "Update--> requested order status successfully",
+            responseData.message ||
+            "Update--> requested order status successfully",
         });
         onUpdateRequestedOrderStatus(); // Refresh the product list
         setIsOpen(false); // Close the dialog after successful suspension
@@ -88,7 +82,8 @@ const UpdateRequestedOrderStatusPOPUPButton: React.FC<ChildProps> = ({ requested
       toast({
         variant: "destructive",
         title: "Error",
-        description: "Failed to Update--> requested order status. Please try again.",
+        description:
+          "Failed to Update--> requested order status. Please try again.",
       });
     } finally {
       setIsLoading(false);
@@ -108,7 +103,9 @@ const UpdateRequestedOrderStatusPOPUPButton: React.FC<ChildProps> = ({ requested
       </DialogTrigger>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle className="text-red-500">Update requested order Status</DialogTitle>
+          <DialogTitle className="text-red-500">
+            Update requested order Status
+          </DialogTitle>
         </DialogHeader>
         <div className="space-y-4">
           <p>Are you sure you want to Update this order status?</p>
