@@ -70,7 +70,7 @@ const AllOrderDetails = () => {
   const fetchAdminDetails = async () => {
     try {
       setIsLoading(true);
-      const res = await fetch('http://localhost:3000/api/admin-dashboard/AllOrders/Orders/get-50-order-details', {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_URL}/api/admin-dashboard/AllOrders/Orders/get-50-order-details`, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',

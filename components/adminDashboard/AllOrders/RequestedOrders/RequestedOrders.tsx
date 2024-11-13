@@ -91,7 +91,7 @@ const RequestedOrders = () => {
       setError(null);
 
       setIsLoading(true);
-      const res = await fetch('http://localhost:3000/api/admin-dashboard/AllOrders/RequestwdOrders/get-requested-order-list', {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_URL}/api/admin-dashboard/AllOrders/RequestwdOrders/get-requested-order-list`, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',

@@ -1,23 +1,23 @@
-"use client"
+"use client";
 
-import MaxWidthWrapper from "@/components/MaxWidthWrapper"
+import MaxWidthWrapper from "@/components/MaxWidthWrapper";
 import { useToast } from "@/components/ui/use-toast";
 import { Cross, X } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 
 export enum ProductStatusEnum {
-  PRODUCT_IS_ACTIVE = 'PRODUCT_IS_ACTIVE',
-  SUSPEND = 'SUSPEND',
-  DISCONTINUED = 'DISCONTINUED',
-  VERIFIED = 'VERIFIED',
-  TO_BE_VERIFIED = 'TO_BE_VERIFIED',
-  DELETED = 'DELETED'
+  PRODUCT_IS_ACTIVE = "PRODUCT_IS_ACTIVE",
+  SUSPEND = "SUSPEND",
+  DISCONTINUED = "DISCONTINUED",
+  VERIFIED = "VERIFIED",
+  TO_BE_VERIFIED = "TO_BE_VERIFIED",
+  DELETED = "DELETED",
 }
 
 export enum ProductVisibilityEnum {
-  PRIVATE = 'PRIVATE',
-  PUBLIC = 'PUBLIC'
+  PRIVATE = "PRIVATE",
+  PUBLIC = "PUBLIC",
 }
 
 export interface ToBeVerifyProductsData {
@@ -39,52 +39,53 @@ export interface ToBeVerifyProductsData {
   productProfitMarginPercentage: number;
   productManufacture: string;
   deleted: boolean;
-  sellerID: number
+  sellerID: number;
   productDiscountPrice: number;
 }
 
 interface ChildProps {
   onChildDataChange: (newChildData: ToBeVerifyProductsData[]) => void;
-  clearSearchResults: () => void
+  clearSearchResults: () => void;
 }
 
-const SearchBarForToBeVerifiedProducts: React.FC<ChildProps> = ({ onChildDataChange, clearSearchResults}) => {
-
-  const router = useRouter()
+const SearchBarForToBeVerifiedProducts: React.FC<ChildProps> = ({
+  onChildDataChange,
+  clearSearchResults,
+}) => {
+  const router = useRouter();
   // display messages
-  const { toast } = useToast()
-  const BASE_URL = process.env.NEXT_PUBLIC_URL;
+  const { toast } = useToast();
 
   const [searchQuery, setSearchQuery] = useState("");
-  const [requestedPageNo, setRequestedPageNo] = useState(1);// use this to add pages (pagination)
+  const [requestedPageNo, setRequestedPageNo] = useState(1); // use this to add pages (pagination)
 
   const [searchData, setSearchData] = useState<ToBeVerifyProductsData[]>([]);
   const [totalSearchResults, setTotalSearchResults] = useState(0);
 
-
   const handleSearch = async () => {
-
     try {
       ///
-      const res = await fetch(`${BASE_URL}/api/admin-dashboard/product-management/ProductManagement/ToBeVerifyProducts/search-tobe-verified-products`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ searchQuery, requestedPageNo }),
-      });
+      const res = await fetch(
+        `${process.env.NEXT_PUBLIC_URL}/api/admin-dashboard/ProductManagement/ToBeVerifyProducts/search-tobe-verified-products`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ searchQuery, requestedPageNo }),
+        }
+      );
 
       if (res.ok) {
         const responseData = await res.json();
-        console.log(responseData.orders)
-        console.log(responseData.totalCount)
+        console.log(responseData.orders);
+        console.log(responseData.totalCount);
         //*******set data to this component
-        setSearchData(responseData.productList)
-        setTotalSearchResults(responseData.totalResults)
+        setSearchData(responseData.productList);
+        setTotalSearchResults(responseData.totalResults);
         //*******pass data to parent component
-        onChildDataChange(responseData.productList)
-      }
-      else if (res.status === 403) {
+        onChildDataChange(responseData.productList);
+      } else if (res.status === 403) {
         toast({
           variant: "destructive",
           title: "Sorry!",
@@ -96,7 +97,9 @@ const SearchBarForToBeVerifiedProducts: React.FC<ChildProps> = ({ onChildDataCha
         toast({
           variant: "destructive",
           title: "Something went wrong.",
-          description: "Please Try Again. There was a problem with your request." + errorData.message,
+          description:
+            "Please Try Again. There was a problem with your request." +
+            errorData.message,
         });
       }
     } catch (error) {
@@ -111,11 +114,9 @@ const SearchBarForToBeVerifiedProducts: React.FC<ChildProps> = ({ onChildDataCha
     }
   };
 
-
   return (
     <>
       <MaxWidthWrapper>
-
         {/* if we need to add pages, then that should be in this component */}
 
         <div className="flex flex-col gap-10 items-center my-2">
@@ -137,26 +138,20 @@ const SearchBarForToBeVerifiedProducts: React.FC<ChildProps> = ({ onChildDataCha
 
                 {/* reset button */}
                 <div className="">
-                <button
-                  className="flex flex-row items-center bg-gray-300 h-full ml-3 px-6 rounded-3xl hover:bg-red-600 hover:text-white"
-                  onClick={() => clearSearchResults()}
-                >
-                  Clear
-                  <X />
-                </button>
-                
+                  <button
+                    className="flex flex-row items-center bg-gray-300 h-full ml-3 px-6 rounded-3xl hover:bg-red-600 hover:text-white"
+                    onClick={() => clearSearchResults()}
+                  >
+                    Clear
+                    <X />
+                  </button>
+                </div>
               </div>
-              </div>
-              
             </div>
           </div>
         </div>
       </MaxWidthWrapper>
-
     </>
-  )
-}
-export default SearchBarForToBeVerifiedProducts
-
-
-
+  );
+};
+export default SearchBarForToBeVerifiedProducts;

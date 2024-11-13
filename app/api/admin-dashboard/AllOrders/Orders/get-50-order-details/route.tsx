@@ -87,7 +87,7 @@ export async function GET() {
 
     try {
 
-        const response = await fetch(`http://localhost:8080/api/v1/refresh-token`, {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_SPRING_BOOT_SERVER_URL}/api/v1/refresh-token`, {
             method: 'POST',
             headers: {
                 'Authorization': `Bearer ${refreshTokenString}`, // pass refresh token under authentication
@@ -147,7 +147,7 @@ export async function GET() {
 
     try{
 
-        const response = await fetch(`http://localhost:8080/api/v1/auth/get-50-order-details?adminEmail=${emailValueString}`, {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_SPRING_BOOT_SERVER_URL}/api/v1/auth/get-50-order-details?adminEmail=${emailValueString}`, {
            // default it is GET
             headers: {
                 'Authorization': `Bearer ${accessToken}`,

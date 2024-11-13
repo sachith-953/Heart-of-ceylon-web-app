@@ -32,7 +32,7 @@ const SearchBarForRequestedOrders: React.FC<ChildProps> = ({ onChildDataChange, 
   const router = useRouter()
   // display messages
   const { toast } = useToast()
-  const BASE_URL = process.env.NEXT_PUBLIC_URL;
+ 
 
   const [searchQuery, setSearchQuery] = useState("");
   const [requestedPageNo, setRequestedPageNo] = useState(1); // use this to add pages (pagination)
@@ -45,7 +45,7 @@ const SearchBarForRequestedOrders: React.FC<ChildProps> = ({ onChildDataChange, 
 
     try {
 
-      const res = await fetch(`${BASE_URL}/api/admin-dashboard/AllOrders/RequestwdOrders/search-requested-orders`, {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_URL}/api/admin-dashboard/AllOrders/RequestwdOrders/search-requested-orders`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

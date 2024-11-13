@@ -84,7 +84,7 @@ const TopSellingProductDetails: FC = () => {
     try {
       setIsLoading(true);
       const res = await fetch(
-        "http://localhost:3000/api/admin-dashboard/ProductManagement/AdminTopSellingProductDetails/get-top-selling-products",
+        `${process.env.NEXT_PUBLIC_URL}/api/admin-dashboard/ProductManagement/AdminTopSellingProductDetails/get-top-selling-products`,
         {
           method: "POST",
           headers: {

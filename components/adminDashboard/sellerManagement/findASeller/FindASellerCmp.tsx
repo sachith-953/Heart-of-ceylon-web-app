@@ -35,6 +35,7 @@ const FindASellerCmp = () => {
   const [reloadPage, setReloadPage] = useState(false); // use to clear the search results by reload the page in useEffect
 
   const searchQuery = searchParams.get("query");
+  const BASE_URL = process.env.NEXT_PUBLIC_URL;
 
   const pushToLogin = () => {
     console.log("pushed to login");
@@ -128,7 +129,7 @@ const FindASellerCmp = () => {
     try {
       setIsLoading(true);
       const res = await fetch(
-        "http://localhost:3000/api/admin-dashboard/get-find-a-seller",
+        `${process.env.NEXT_PUBLIC_URL}/api/admin-dashboard/get-find-a-seller`,
         { cache: 'no-store' }
       );
 
