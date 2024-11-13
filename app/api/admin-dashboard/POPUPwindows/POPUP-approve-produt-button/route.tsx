@@ -12,7 +12,7 @@ export async function POST(request: Request) {
   let refreshTokenString = null;
 
   // TODO : change all console.log fiels.
-  console.log("\nSuspend product : Nextjs API has Called");
+  console.log("\nApprove product : Nextjs API has Called");
 
   // ***************************************************************
   // ******************* 1. Get email From Cookies *****************
@@ -21,7 +21,7 @@ export async function POST(request: Request) {
   if (cookieStore.has("email")) {
     email = cookieStore.get("email");
     console.log(
-      "AdminDashboard > product management -->Suspend product-->> email :" +
+      "AdminDashboard > product management -->Approve product-->> email :" +
         JSON.stringify(email)
     );
     //output :
@@ -47,7 +47,7 @@ export async function POST(request: Request) {
   //otherwise undetectable malfunctions can occures
   emailValueString = emailValueString.replace(/"/g, "");
   console.log(
-    "AdminDashboard >Suspend product > email >>>: " + emailValueString
+    "AdminDashboard >Approve product > email >>>: " + emailValueString
   );
 
   // *************************************************************
@@ -143,30 +143,33 @@ export async function POST(request: Request) {
   }
 
   // *************************************************************
-  // ********* 4. Suspend product ********************************
+  // ********* 4. Approvr product ********************************
   // *************************************************************
   const reqParams = await request.json();
   // store the seller id in a varible
   const productID = reqParams.productID;
   console.log("productID is :" + productID);
-  console.log("Suspend product --> Nextjs API has Called");
+  console.log("Approve product --> Nextjs API has Called");
 
   try {
     const response = await fetch(
-      `http://localhost:8080/api/v1/auth/update-product-status-as-suspend-by-admin?adminEmail=${emailValueString}&productID=${productID}`,
-      {
-        method: "PUT",
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-          // no body to send
-        },
-      }
-    );
-    console.log("Suspend product --> request Sent to backend");
+        `http://localhost:8080/api/v1/auth/verify-product-by-admin?adminEmail=${emailValueString}&productID=${productID}`,
+        {
+          method: "PUT",
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            verify: "VERIFIED",
+          }),
+        }
+      );
+    console.log("Approve product --> request Sent to backend");
     if (response.ok) {
       const data = await response.text(); // .text() because backend return string messages
       // if the backend return a string this should response.text()
-      console.log("Suspend product -->successfully:", data);
+      console.log("Approve product -->successfully:", data);
       return new Response(JSON.stringify(data), {
         status: 200,
         headers: {
@@ -178,7 +181,7 @@ export async function POST(request: Request) {
       const resData = { message: responseBodyText };
       console.warn(
         response.status +
-          " >> Error from---> Suspend product>> " +
+          " >> Error from---> Approve product>> " +
           responseBodyText
       );
       return new Response(JSON.stringify(resData), { status: response.status });

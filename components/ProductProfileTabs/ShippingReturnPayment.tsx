@@ -2,7 +2,14 @@ import PaymentDetails from "./PaymentDetails";
 import ReturnDetails from "./ReturnDetails";
 import ShippingDetails from "./ShippingDetails";
 
-export default function ShippingReturnPayment(){
+interface ChildProps {
+    pId: number;
+  }
+
+const ShippingReturnPayment : React.FC<ChildProps> = ({ pId,}) => {
+
+
+
     return(
         <>
         {/* Parent */}
@@ -27,3 +34,5 @@ export default function ShippingReturnPayment(){
         </>
     )
 }
+
+export default ShippingReturnPayment

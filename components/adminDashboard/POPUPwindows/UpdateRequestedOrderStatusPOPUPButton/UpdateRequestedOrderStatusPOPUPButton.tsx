@@ -1,46 +1,56 @@
-import React, { useState } from "react";
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog";
-import { Button } from "@/components/ui/button";
-import { Activity, Trash2 } from "lucide-react";
+import { Badge } from "@/components/ui/badge";
 import { useToast } from "@/components/ui/use-toast";
 import { useRouter } from "next/navigation";
+import { Button } from "@/components/ui/button";
+import React, { useEffect, useState } from 'react';
+import {
+    Dialog,
+    DialogContent,
+    DialogHeader,
+    DialogTitle,
+    DialogTrigger,
+} from "@/components/ui/dialog";
+import {
+    Loader2,
+    Mail,
+    Phone,
+    MapPin,
+    Store,
+    Star,
+} from "lucide-react";
+
 
 interface ChildProps {
-  productID: number;
-  onProductUnSuspend: () => void;
+    requestedOrderID: number;
+    orderStatus: string; 
+    onUpdateRequestedOrderStatus: () => void;
 }
 
-const UnsuspendProductPOPUPWindowButton: React.FC<ChildProps> = ({
-  productID,
-  onProductUnSuspend,
-}) => {
-  const [isLoading, setIsLoading] = useState(false);
-  const [isOpen, setIsOpen] = useState(false); // Added to control dialog state
-  const { toast } = useToast();
-  const BASE_URL = process.env.NEXT_PUBLIC_URL;
-  const [error, setError] = useState<string | null>(null);
-  const router = useRouter();
 
-  const handleUnSuspend = async () => {
+const UpdateRequestedOrderStatusPOPUPButton: React.FC<ChildProps> = ({ requestedOrderID,orderStatus, onUpdateRequestedOrderStatus }) => {
+
+    const [isLoading, setIsLoading] = useState(false);
+    const [isOpen, setIsOpen] = useState(false); 
+    const { toast } = useToast();
+    const BASE_URL = process.env.NEXT_PUBLIC_URL;
+    const [error, setError] = useState<string | null>(null);
+    const router = useRouter();
+
+    
+  const handleUpdateRequestedOrderStatus = async () => {
     try {
       setIsLoading(true);
       setError(null);
 
       const res = await fetch(
-        `${BASE_URL}/api/admin-dashboard/POPUPwindows/POPUP-unsuspend-product-button`,
+        `${BASE_URL}/api/admin-dashboard/POPUPwindows/POPUP-update-requested-order-status`,
         {
           // Fixed template literal
           method: "POST",
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify({ productID }),
+          body: JSON.stringify({ requestedOrderID, orderStatus}),
           credentials: "include",
         }
       );
@@ -50,9 +60,9 @@ const UnsuspendProductPOPUPWindowButton: React.FC<ChildProps> = ({
         toast({
           title: "Success",
           description:
-            responseData.message || "Product Unsuspended successfully",
+            responseData.message || "Update--> requested order status successfully",
         });
-        onProductUnSuspend(); // Refresh the product list
+        onUpdateRequestedOrderStatus(); // Refresh the product list
         setIsOpen(false); // Close the dialog after successful suspension
       } else if (res.status === 403) {
         toast({
@@ -73,12 +83,12 @@ const UnsuspendProductPOPUPWindowButton: React.FC<ChildProps> = ({
         });
       }
     } catch (error) {
-      console.error("Error suspending product:", error);
-      setError("Failed to UnSuspend. Please try again.");
+      console.error("Error Update--> requested order status:", error);
+      setError("Failed to Update--> requested order status. Please try again.");
       toast({
         variant: "destructive",
         title: "Error",
-        description: "Failed to UnSuspend product. Please try again.",
+        description: "Failed to Update--> requested order status. Please try again.",
       });
     } finally {
       setIsLoading(false);
@@ -90,20 +100,18 @@ const UnsuspendProductPOPUPWindowButton: React.FC<ChildProps> = ({
       <DialogTrigger asChild>
         <Button
           variant="outline"
-          className="bg-green-600 w-full hover:bg-green-800 text-white hover:text-black"
+          className="bg-blue-600 w-full hover:bg-blue-800 text-white hover:text-black"
         >
-          {/* <OctagonX className="w-4 h-4 mr-2"/>{" "} */}
-          <Activity className="w-4 h-4 mr-2"/>{" "} 
-          <span>Unsuspend</span>{" "}
+          <span>Update</span>{" "}
           {/* Removed text-red-500 since button is already red */}
         </Button>
       </DialogTrigger>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle className="text-red-500">Unsuspend Product</DialogTitle>
+          <DialogTitle className="text-red-500">Update requested order Status</DialogTitle>
         </DialogHeader>
         <div className="space-y-4">
-          <p>Are you sure you want to Unsuspend this product?</p>
+          <p>Are you sure you want to Update this order status?</p>
           {error && <p className="text-red-500">{error}</p>}
           <div className="flex justify-end space-x-2">
             <Button variant="outline" onClick={() => setIsOpen(false)}>
@@ -111,16 +119,16 @@ const UnsuspendProductPOPUPWindowButton: React.FC<ChildProps> = ({
             </Button>
             <Button
               variant="destructive"
-              onClick={handleUnSuspend}
+              onClick={handleUpdateRequestedOrderStatus}
               disabled={isLoading}
             >
               {isLoading ? (
                 <span className="flex items-center">
                   <span className="animate-spin mr-2">⏳</span>
-                  Unsuspending...
+                  Updating...
                 </span>
               ) : (
-                "Unsuspend Product"
+                "Update"
               )}
             </Button>
           </div>
@@ -130,4 +138,4 @@ const UnsuspendProductPOPUPWindowButton: React.FC<ChildProps> = ({
   );
 };
 
-export default UnsuspendProductPOPUPWindowButton;
+export default UpdateRequestedOrderStatusPOPUPButton;

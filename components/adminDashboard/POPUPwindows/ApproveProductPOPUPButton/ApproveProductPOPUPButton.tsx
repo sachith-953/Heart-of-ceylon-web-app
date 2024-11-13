@@ -7,18 +7,18 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
-import { Activity, Trash2 } from "lucide-react";
+import { Trash2 } from "lucide-react";
 import { useToast } from "@/components/ui/use-toast";
 import { useRouter } from "next/navigation";
 
 interface ChildProps {
   productID: number;
-  onProductUnSuspend: () => void;
+  onProductApprove: () => void;
 }
 
-const UnsuspendProductPOPUPWindowButton: React.FC<ChildProps> = ({
+const ApproveProductPOPUPButton: React.FC<ChildProps> = ({
   productID,
-  onProductUnSuspend,
+  onProductApprove,
 }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [isOpen, setIsOpen] = useState(false); // Added to control dialog state
@@ -27,13 +27,13 @@ const UnsuspendProductPOPUPWindowButton: React.FC<ChildProps> = ({
   const [error, setError] = useState<string | null>(null);
   const router = useRouter();
 
-  const handleUnSuspend = async () => {
+  const handleApprovProduct = async () => {
     try {
       setIsLoading(true);
       setError(null);
 
       const res = await fetch(
-        `${BASE_URL}/api/admin-dashboard/POPUPwindows/POPUP-unsuspend-product-button`,
+        `${BASE_URL}/api/admin-dashboard/POPUPwindows/POPUP-approve-produt-button`,
         {
           // Fixed template literal
           method: "POST",
@@ -49,10 +49,9 @@ const UnsuspendProductPOPUPWindowButton: React.FC<ChildProps> = ({
         const responseData = await res.json();
         toast({
           title: "Success",
-          description:
-            responseData.message || "Product Unsuspended successfully",
+          description: responseData.message || "Product approved successfully",
         });
-        onProductUnSuspend(); // Refresh the product list
+        onProductApprove(); // Refresh the product list
         setIsOpen(false); // Close the dialog after successful suspension
       } else if (res.status === 403) {
         toast({
@@ -73,12 +72,12 @@ const UnsuspendProductPOPUPWindowButton: React.FC<ChildProps> = ({
         });
       }
     } catch (error) {
-      console.error("Error suspending product:", error);
-      setError("Failed to UnSuspend. Please try again.");
+      console.error("Error approving product:", error);
+      setError("Failed to approve product. Please try again.");
       toast({
         variant: "destructive",
         title: "Error",
-        description: "Failed to UnSuspend product. Please try again.",
+        description: "Failed to approve product. Please try again.",
       });
     } finally {
       setIsLoading(false);
@@ -92,18 +91,21 @@ const UnsuspendProductPOPUPWindowButton: React.FC<ChildProps> = ({
           variant="outline"
           className="bg-green-600 w-full hover:bg-green-800 text-white hover:text-black"
         >
-          {/* <OctagonX className="w-4 h-4 mr-2"/>{" "} */}
-          <Activity className="w-4 h-4 mr-2"/>{" "} 
-          <span>Unsuspend</span>{" "}
+           
+          {/* Removed text-red-500 since button is already red */}
+          <span>Approve</span>{" "}
           {/* Removed text-red-500 since button is already red */}
         </Button>
       </DialogTrigger>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle className="text-red-500">Unsuspend Product</DialogTitle>
+          <DialogTitle className="text-red-500">Aprove Product</DialogTitle>
         </DialogHeader>
         <div className="space-y-4">
-          <p>Are you sure you want to Unsuspend this product?</p>
+          <p>
+            Are you sure you want to approve this product?
+            
+          </p>
           {error && <p className="text-red-500">{error}</p>}
           <div className="flex justify-end space-x-2">
             <Button variant="outline" onClick={() => setIsOpen(false)}>
@@ -111,16 +113,16 @@ const UnsuspendProductPOPUPWindowButton: React.FC<ChildProps> = ({
             </Button>
             <Button
               variant="destructive"
-              onClick={handleUnSuspend}
+              onClick={handleApprovProduct}
               disabled={isLoading}
             >
               {isLoading ? (
                 <span className="flex items-center">
                   <span className="animate-spin mr-2">⏳</span>
-                  Unsuspending...
+                  Approving...
                 </span>
               ) : (
-                "Unsuspend Product"
+                "Approve Product"
               )}
             </Button>
           </div>
@@ -130,4 +132,4 @@ const UnsuspendProductPOPUPWindowButton: React.FC<ChildProps> = ({
   );
 };
 
-export default UnsuspendProductPOPUPWindowButton;
+export default ApproveProductPOPUPButton;

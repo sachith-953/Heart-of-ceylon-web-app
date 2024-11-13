@@ -4,7 +4,11 @@ import { useEffect, useState } from "react";
 import ReviewChart from "./ReviewChart";
 import ReviewComment from "./ReviewComment";
 
-export default function Reviews() {
+interface ChildProps {
+  pId: number;
+}
+
+const Reviews : React.FC<ChildProps> = ({ pId,}) => {
 
   const BASE_URL = process.env.NEXT_PUBLIC_URL;
 
@@ -83,7 +87,7 @@ export default function Reviews() {
   };
 
   useEffect(() => {
-    fetchReview("402");
+    fetchReview(pId+"");
   }, []);
 
   return (
@@ -115,3 +119,5 @@ export default function Reviews() {
     </>
   );
 }
+
+export default Reviews

@@ -1,75 +1,139 @@
+"use client";
 
-//For Testing Purpose
-import React from "react";
+import { useEffect, useState } from "react";
 import Image from "next/image";
-import { Button } from "../ui/button";
-import teaImage from "../Images/ceylon-Tea.jpg"; // Imported image
+import { Button } from "@/components/ui/button";
 
-interface Product {
-    title?: string;
-    description?: string;
-    price?: number;
-    stock?: number;
-    image?: string;
+
+interface ChildProps {
+  pId: number;
 }
 
-interface ProductProfileProps {
-    product?: Product;
-}
+const AboutProduct: React.FC<ChildProps> = ({ pId }) => {
+  const BASE_URL = process.env.NEXT_PUBLIC_URL;
 
-const ProductProfile: React.FC<ProductProfileProps> = ({ product }) => {
-    return (
-        <div className="flex flex-col md:flex-row bg-white shadow-lg rounded-lg overflow-hidden">
-            {/* Product Image */}
-            <div className="w-full md:w-2/3">
-                <div className="relative h-96 md:h-full">
-                    <Image 
-                        src={teaImage} // Directly using imported image
-                        alt={product?.title || "Ceylon Tea"}
-                        layout="fill"
-                        objectFit="cover"
-                        className="rounded-t-lg md:rounded-l-lg md:rounded-t-none"
-                    />
-                </div>
-            </div>
-            
-            {/* Product details */}
-            <div className="w-full md:w-1/3 p-6 flex flex-col justify-between">
-                <div>
-                    <h2 className="text-2xl font-bold text-gray-800 mb-2">Ceylon Tea {product?.title}</h2>
-                    <p className="text-gray-600 text-sm mb-4">The finest cup of tea,the name Ceylon had become synonymous with the world{"'"}s finest tea. {product?.description}</p>
-                    <p className="text-xl font-semibold text-green-600 mb-4">
-                        LKR {product?.price} / ${((product?.price || 3499.00)).toFixed(2)}
-                    </p>
-                    <div className="flex items-center mb-4">
-                        <span className="mr-2 text-gray-700">Quantity:</span>
-                        <input 
-                            type="number" 
-                            min="1" 
-                            max={product?.stock} 
-                            defaultValue="1"
-                            className="w-16 px-2 py-1 border rounded"
-                        />
-                    </div>
-                    <p className="text-sm text-gray-500 mb-6">Available: 5Kg {product?.stock}</p>
-                </div>
-                <div className="space-y-3">
-                    <Button className="w-full bg-blue-500 hover:bg-blue-600 text-white" variant="default">
-                        Buy It Now
-                    </Button>
-                    <Button className="w-full bg-gray-200 hover:bg-gray-300 text-gray-800" variant="outline">
-                        Add To Cart
-                    </Button>
-                    <Button className="w-full bg-blue-100 hover:bg-blue-200 text-blue-800" variant="outline">
-                        Wholesale Mode
-                    </Button>
-                </div>
-            </div>
-        </div>
+  interface aboutProductDataType {
+    productId: number;
+    productName: string;
+    productAvailableStocks: number;
+    productDescription: string;
+    productPrice: number;
+    productDiscountPrice: number;
+    productMainImage: string;
+    productOtherImage: string;
+    productWeight: number;
+    productDimensions: string;
+    productRatings: number;
+    productTotalItemSold: number;
+  }
+
+  const [aboutProduct, setAboutProduct] = useState<aboutProductDataType | null>(
+    null
+  );
+  const [quantity, setQuantity] = useState(1);
+
+  const fetchAboutProduct = async (productId: string) => {
+    // Requesting data from NextJs backend
+    console.log("request sending to fetch about product API");
+
+    // sending request
+    const res = await fetch(
+      `${BASE_URL}/api/product/productProfile/aboutProduct`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ productId }),
+      }
     );
+
+    // printing response
+    if (res.ok) {
+      console.log("res" + res);
+      const responseData = await res.json();
+      setAboutProduct(responseData[0]);
+      console.log(responseData[0]);
+    } else {
+      console.log("Fetching Error!");
+    }
+  };
+
+  const handleDecreaseQuantity = () => {
+    if (quantity > 1) {
+      setQuantity(quantity - 1);
+    }
+  };
+
+  const handleIncreaseQuantity = () => {
+    setQuantity(quantity + 1);
+  };
+
+  useEffect(() => {
+    fetchAboutProduct(pId + ""); // convert pid(number) to string just to match the function param datatypes
+    console.log("pId > " + pId);
+  }, [pId]);
+
+  if (!aboutProduct) {
+    return <div>Loading...</div>;
+  }
+
+  return (
+    <div className="flex flex-col md:flex-row bg-white shadow-lg rounded-lg overflow-hidden">
+      {/* Product Image */}
+      <div className="w-full md:w-2/3">
+        <div className="relative h-96 md:h-full">
+          <Image
+            src={aboutProduct.productMainImage}
+            alt={aboutProduct.productName}
+            layout="fill"
+            objectFit="cover"
+            className="rounded-md"
+          />
+        </div>
+      </div>
+
+      {/* Product details */}
+      <div className="w-full md:w-1/3 p-6 flex flex-col justify-between">
+        <div>
+          <h2 className="text-2xl font-bold text-gray-800 mb-2">
+            {aboutProduct.productName}
+          </h2>
+          <p className="text-gray-600 text-sm mb-4">
+            {aboutProduct.productDescription}
+          </p>
+          <p className="text-xl font-semibold text-green-600 mb-4">
+            ${aboutProduct.productPrice}
+          </p>
+          <div className="flex items-center mb-4">
+          <p className="text-xl my-1">Quantity:</p>
+                  <div className="flex items-center">
+                    <button onClick={handleDecreaseQuantity} className=" text-black py-1 px-3 rounded-lg bg-gray-400 text-xl font-bold">-</button>
+                    <span className="px-3">{quantity}</span>
+                    <button onClick={handleIncreaseQuantity} className=" text-black py-1 px-3 rounded-lg bg-gray-400 text-xl font-bold">+</button>
+                  </div>
+          </div>
+          <p className="text-sm text-gray-500 mb-6 font-semibold">
+            Available: {aboutProduct.productAvailableStocks}
+          </p>
+          <p className="text-sm text-gray-500 mb-6 font-semibold">
+            Total items sold: {aboutProduct.productTotalItemSold}
+          </p>
+        </div>
+        <div className="space-y-3">
+          <Button className="w-full bg-blue-500 hover:bg-blue-600 text-white" variant="default">
+            Buy It Now
+          </Button>
+          <Button className="w-full bg-gray-200 hover:bg-gray-300 text-gray-800" variant="outline">
+            Add To Cart
+          </Button>
+          <Button className="w-full bg-blue-100 hover:bg-blue-200 text-blue-800" variant="outline">
+            Wholesale Mode
+          </Button>
+        </div>
+      </div>
+    </div>
+  );
 };
 
-export default ProductProfile;
-
-
-
+export default AboutProduct;
