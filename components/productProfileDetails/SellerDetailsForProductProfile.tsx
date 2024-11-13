@@ -4,12 +4,14 @@ import { useEffect, useState } from "react";
 import Image from "next/image";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { Store, Star } from "lucide-react";
+import Link from "next/link"
 
 interface ChildProps {
   pId: number;
 }
 
 const SellerDetailsForProductProfile: React.FC<ChildProps> = ({ pId }) => {
+
   const BASE_URL = process.env.NEXT_PUBLIC_URL;
 
   interface aboutProductDataType {
@@ -24,6 +26,7 @@ const SellerDetailsForProductProfile: React.FC<ChildProps> = ({ pId }) => {
     sellerAddress: string;
     district: string;
     profilePicture: string;
+    sellerId: number;
   }
 
   const [aboutProduct, setAboutProduct] = useState<aboutProductDataType | null>(
@@ -59,7 +62,7 @@ const SellerDetailsForProductProfile: React.FC<ChildProps> = ({ pId }) => {
   }, [pId]);
 
   return (
-    <Card className="w-full bg-gray-300 mb-2">
+    <Card className="w-full bg-gray-300 mb-40">
       <CardHeader>
         <CardTitle className="">Seller of this product</CardTitle>
       </CardHeader>
@@ -77,12 +80,23 @@ const SellerDetailsForProductProfile: React.FC<ChildProps> = ({ pId }) => {
             </div>
             {/* middle part */}
             <div className="w-3/4 ">
-            <div className="flex">
-                <Store className="mt-1"></Store>
-                <h2 className="text-2xl font-bold ml-2">{aboutProduct.storeName}</h2>
-            </div>
-             {/* Ratings */}
-             <div className="flex flex-col">
+              <div className="flex">
+                <Link
+                  className="flex"
+                  href={{
+                    pathname: "/seller-store",
+                    query: { sellerId: `${aboutProduct.sellerId}` },
+                  }}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <Store className="mt-1"></Store>
+                  <h2 className="text-2xl font-bold ml-2 hover:underline">{aboutProduct.storeName}</h2>
+                </Link>
+
+              </div>
+              {/* Ratings */}
+              <div className="flex flex-col">
                 <div className="flex flex-row">
                   <p className="font-medium mt-1">Ratings :</p>
                   <div className="flex flex-row mt-2">
@@ -105,7 +119,7 @@ const SellerDetailsForProductProfile: React.FC<ChildProps> = ({ pId }) => {
                   </div>
                 </div>
               </div>
-                
+
               <div className="">
                 <span className="font-medium">Store Description:</span>{" "}
                 {aboutProduct.storeDescription}
@@ -122,10 +136,10 @@ const SellerDetailsForProductProfile: React.FC<ChildProps> = ({ pId }) => {
                 <span className="font-medium">Seller Address:</span>{" "}
                 {aboutProduct.sellerAddress}, {aboutProduct.district}
               </div>
-        
+
             </div>
             <div>
-            {/* <div className=" flex">
+              {/* <div className=" flex">
                 <span className="font-medium">Status:</span>{" "}
                 <span
                   className={`px-2 py-1 rounded-full ${
@@ -137,7 +151,7 @@ const SellerDetailsForProductProfile: React.FC<ChildProps> = ({ pId }) => {
                   {aboutProduct.sellerStatus}
                 </span>
               </div> */}
-              
+
               {/* <div className="">
                 <span className="font-medium">Badges:</span> {aboutProduct.badges}
               </div> */}

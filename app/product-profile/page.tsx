@@ -13,6 +13,8 @@ import { useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import SellerDetailsForProductProfile from "@/components/productProfileDetails/SellerDetailsForProductProfile";
 
+
+
 export default function Page() {
 
   const searchParams = useSearchParams();
@@ -53,7 +55,9 @@ export default function Page() {
           </Tabs>
 
         </div>
+
         <SellerDetailsForProductProfile pId={Number(searchParams.get('pid'))}/>
+      
       </MaxWidthLg>
       
       <Footer />
