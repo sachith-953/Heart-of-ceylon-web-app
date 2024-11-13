@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import AddToCartButton from "./AddToCartButton";
+import { formatPrice } from "@/lib/utils";
 
 
 interface ChildProps {
@@ -105,7 +106,7 @@ const AboutProduct: React.FC<ChildProps> = ({ pId }) => {
             {aboutProduct.productDescription}
           </p>
           <p className="text-xl font-semibold text-green-600 mb-4">
-            ${aboutProduct.productPrice}
+            {formatPrice(aboutProduct.productPrice) }
           </p>
           <div className="flex items-center mb-4">
           <p className="text-xl my-1">Quantity:</p>

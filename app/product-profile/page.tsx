@@ -53,7 +53,9 @@ export default function Page() {
           </Tabs>
 
         </div>
+
         <SellerDetailsForProductProfile pId={Number(searchParams.get('pid'))}/>
+      
       </MaxWidthLg>
       
       <Footer />

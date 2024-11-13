@@ -14,7 +14,7 @@ export async function POST(request: Request) {
     try {
 
         const response = await fetch(
-            `http://localhost:8080/api/v1/pBuyer/get-seller-details-for-product-for-product-profile?productId=${productId}`,
+            `${process.env.NEXT_PUBLIC_SPRING_BOOT_SERVER_URL}/api/v1/pBuyer/get-seller-details-for-product-for-product-profile?productId=${productId}`,
             { cache: 'no-store' }
         );
 
