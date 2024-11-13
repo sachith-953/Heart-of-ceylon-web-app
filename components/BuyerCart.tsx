@@ -216,12 +216,12 @@ const BuyerCart = () => {
             <p className="my-2">Shipping fee: US $19.25</p>
             <p className="my-2">Saved: US $0.00</p>
             <p className="my-2 font-bold">Total: US ${(data.totalPrice / 360 + 19.25).toFixed(2)}</p>
-            <button 
-              className="bg-red-500 text-white py-2 w-full rounded my-5 hover:bg-red-900 hover:shadow-lg transition duration-300 ease-in-out" 
+            <button
+              className="bg-red-500 text-white py-2 w-full rounded my-5 hover:bg-red-900 hover:shadow-lg transition duration-300 ease-in-out"
               onClick={handleCheckout}
             >
-  Checkout ({totalItems})
-</button>
+              Checkout ({totalItems})
+            </button>
 
             <div className="text-center">
               <h3 className="m-2.5 pr-10 text-middle font-bold text-2xl ">Pay with</h3>

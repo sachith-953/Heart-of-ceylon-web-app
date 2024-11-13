@@ -5,6 +5,7 @@ import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import AddToCartButton from "./AddToCartButton";
 import { formatPrice } from "@/lib/utils";
+import BuyItNowButton from "./BuyItNowButton";
 
 interface ChildProps {
   pId: number;
@@ -150,12 +151,10 @@ const AboutProduct: React.FC<ChildProps> = ({ pId }) => {
           <p></p>
         ) : (
           <div className="space-y-3">
-            <Button
-              className="w-full bg-blue-500 hover:bg-blue-600 text-white"
-              variant="default"
-            >
-              Buy It Now
-            </Button>
+            
+            <div>
+              <BuyItNowButton pid={pId} />
+            </div>
 
             {/* add to cart button */}
             <div>
