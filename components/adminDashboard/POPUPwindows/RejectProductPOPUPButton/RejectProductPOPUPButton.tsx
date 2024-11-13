@@ -91,7 +91,6 @@ const RejectProductPOPUPButton: React.FC<ChildProps> = ({
           variant="outline"
           className="bg-red-600 w-full hover:bg-red-800 text-white hover:text-black"
         >
-           
           {/* Removed text-red-500 since button is already red */}
           <span>Reject</span>{" "}
           {/* Removed text-red-500 since button is already red */}
@@ -103,8 +102,8 @@ const RejectProductPOPUPButton: React.FC<ChildProps> = ({
         </DialogHeader>
         <div className="space-y-4">
           <p>
-            Are you sure you want to reject this product?this action cannot be undone!
-            
+            Are you sure you want to reject this product?this action cannot be
+            undone!
           </p>
           {error && <p className="text-red-500">{error}</p>}
           <div className="flex justify-end space-x-2">

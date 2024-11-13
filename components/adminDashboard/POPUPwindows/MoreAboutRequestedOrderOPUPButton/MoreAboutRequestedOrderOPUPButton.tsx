@@ -77,7 +77,7 @@ const MoreAboutRequestedOrderOPUPButton: React.FC<ChildProps> = ({
       setIsLoading(true);
       setError(null);
       const res = await fetch(
-        "http://localhost:3000/api/admin-dashboard/POPUPwindows/POPUP-get-buyer-for-a-requested-order",
+        `${process.env.NEXT_PUBLIC_URL}/api/admin-dashboard/POPUPwindows/POPUP-get-buyer-for-a-requested-order`,
         {
           method: "POST",
           headers: {
@@ -126,7 +126,7 @@ const MoreAboutRequestedOrderOPUPButton: React.FC<ChildProps> = ({
       setIsLoading(true);
       setError(null);
       const res = await fetch(
-        "http://localhost:3000/api/admin-dashboard/POPUPwindows/POPUP-get-requested-order-details-by-id",
+        `${process.env.NEXT_PUBLIC_URL}/api/admin-dashboard/POPUPwindows/POPUP-get-requested-order-details-by-id`,
         {
           method: "POST",
           headers: {
@@ -188,12 +188,12 @@ const MoreAboutRequestedOrderOPUPButton: React.FC<ChildProps> = ({
     }
   }, []);
 
-    // Updated useEffect to include reloadPage as a dependency
-    useEffect(() => {
-      if (requestedOrderID !== null && requestedOrderID !== 0) {
-        fetchReqOrderDetails();
-      }
-    }, [requestedOrderID, reloadPage]);
+  // Updated useEffect to include reloadPage as a dependency
+  useEffect(() => {
+    if (requestedOrderID !== null && requestedOrderID !== 0) {
+      fetchReqOrderDetails();
+    }
+  }, [requestedOrderID, reloadPage]);
 
   return (
     <Dialog>

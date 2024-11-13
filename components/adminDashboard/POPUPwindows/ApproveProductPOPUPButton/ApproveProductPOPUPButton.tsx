@@ -91,7 +91,6 @@ const ApproveProductPOPUPButton: React.FC<ChildProps> = ({
           variant="outline"
           className="bg-green-600 w-full hover:bg-green-800 text-white hover:text-black"
         >
-           
           {/* Removed text-red-500 since button is already red */}
           <span>Approve</span>{" "}
           {/* Removed text-red-500 since button is already red */}
@@ -102,10 +101,7 @@ const ApproveProductPOPUPButton: React.FC<ChildProps> = ({
           <DialogTitle className="text-red-500">Aprove Product</DialogTitle>
         </DialogHeader>
         <div className="space-y-4">
-          <p>
-            Are you sure you want to approve this product?
-            
-          </p>
+          <p>Are you sure you want to approve this product?</p>
           {error && <p className="text-red-500">{error}</p>}
           <div className="flex justify-end space-x-2">
             <Button variant="outline" onClick={() => setIsOpen(false)}>

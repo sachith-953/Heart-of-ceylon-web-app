@@ -153,7 +153,7 @@ const MoreAboutAnOrderPOPUPButton: React.FC<ChildProps> = ({
       setIsLoading(true);
       setError(null);
       const res = await fetch(
-        "http://localhost:3000/api/admin-dashboard/POPUPwindows/MoreDetailsOfAnOrder/POPUP-all-details-of-an-order-Seller-details",
+        `${process.env.NEXT_PUBLIC_URL}/api/admin-dashboard/POPUPwindows/MoreDetailsOfAnOrder/POPUP-all-details-of-an-order-Seller-details`,
         {
           method: "POST",
           headers: {
@@ -202,7 +202,7 @@ const MoreAboutAnOrderPOPUPButton: React.FC<ChildProps> = ({
       setIsLoading(true);
       setError(null);
       const res = await fetch(
-        "http://localhost:3000/api/admin-dashboard/POPUPwindows/MoreDetailsOfAnOrder/POPUP-all-details-of-an-order-Buyer-details",
+        `${process.env.NEXT_PUBLIC_URL}/api/admin-dashboard/POPUPwindows/MoreDetailsOfAnOrder/POPUP-all-details-of-an-order-Buyer-details`,
         {
           method: "POST",
           headers: {
@@ -251,7 +251,7 @@ const MoreAboutAnOrderPOPUPButton: React.FC<ChildProps> = ({
       setIsLoading(true);
       setError(null);
       const res = await fetch(
-        "http://localhost:3000/api/admin-dashboard/POPUPwindows/MoreDetailsOfAnOrder/POPUP-all-details-of-an-order-Product-details",
+        `${process.env.NEXT_PUBLIC_URL}/api/admin-dashboard/POPUPwindows/MoreDetailsOfAnOrder/POPUP-all-details-of-an-order-Product-details`,
         {
           method: "POST",
           headers: {
@@ -300,7 +300,7 @@ const MoreAboutAnOrderPOPUPButton: React.FC<ChildProps> = ({
       setIsLoading(true);
       setError(null);
       const res = await fetch(
-        "http://localhost:3000/api/admin-dashboard/POPUPwindows/MoreDetailsOfAnOrder/POPUP-all-details-of-an-order-Order-summery",
+        `${process.env.NEXT_PUBLIC_URL}/api/admin-dashboard/POPUPwindows/MoreDetailsOfAnOrder/POPUP-all-details-of-an-order-Order-summery`,
         {
           method: "POST",
           headers: {
@@ -727,19 +727,17 @@ const MoreAboutAnOrderPOPUPButton: React.FC<ChildProps> = ({
 
                       {/* select new status */}
                       <div className="h-1/2 mt-2 flex">
-                      <p>Select status: </p>
+                        <p>Select status: </p>
                         <select
                           className="rounded-md border border-gray-300 focus:outline-none focus:ring-2 text-black bg-gray-400 ml-1"
                           value={selectedStatus}
                           onChange={(e) => handleStatusChange(e.target.value)}
                         >
-                          {Object.values(OrderStatusEnum).map(
-                            (status) => (
-                              <option key={status} value={status}>
-                                {status}
-                              </option>
-                            )
-                          )}
+                          {Object.values(OrderStatusEnum).map((status) => (
+                            <option key={status} value={status}>
+                              {status}
+                            </option>
+                          ))}
                         </select>
                       </div>
                     </div>

@@ -86,7 +86,7 @@ export async function POST(request: Request) {
   // *************************************************************
 
   try {
-    const response = await fetch(`http://localhost:8080/api/v1/refresh-token`, {
+    const response = await fetch(`${process.env.NEXT_PUBLIC_SPRING_BOOT_SERVER_URL}/api/v1/refresh-token`, {
       method: "POST",
       headers: {
         Authorization: `Bearer ${refreshTokenString}`, // pass refresh token under authentication
@@ -153,18 +153,18 @@ export async function POST(request: Request) {
 
   try {
     const response = await fetch(
-        `http://localhost:8080/api/v1/auth/verify-product-by-admin?adminEmail=${emailValueString}&productID=${productID}`,
-        {
-          method: "PUT",
-          headers: {
-            Authorization: `Bearer ${accessToken}`,
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            verify: "VERIFIED",
-          }),
-        }
-      );
+      `${process.env.NEXT_PUBLIC_SPRING_BOOT_SERVER_URL}/api/v1/auth/verify-product-by-admin?adminEmail=${emailValueString}&productID=${productID}`,
+      {
+        method: "PUT",
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          verify: "VERIFIED",
+        }),
+      }
+    );
     console.log("Approve product --> request Sent to backend");
     if (response.ok) {
       const data = await response.text(); // .text() because backend return string messages

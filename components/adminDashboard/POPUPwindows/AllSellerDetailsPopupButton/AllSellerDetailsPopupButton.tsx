@@ -1,4 +1,4 @@
-import  { useEffect } from "react";
+import { useEffect } from "react";
 import {
   Dialog,
   DialogContent,
@@ -61,7 +61,7 @@ const AllSellerDetailsPopupButton: React.FC<ChildProps> = ({ sellerID }) => {
       setIsLoading(true);
       setError(null);
       const res = await fetch(
-        "http://localhost:3000/api/admin-dashboard/POPUPwindows/POP-view-seller-details-by-id",
+        `${process.env.NEXT_PUBLIC_URL}/api/admin-dashboard/POPUPwindows/POP-view-seller-details-by-id`,
         {
           method: "POST",
           headers: {
