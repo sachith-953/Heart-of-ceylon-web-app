@@ -116,24 +116,27 @@ const AboutProduct: React.FC<ChildProps> = ({ pId }) => {
             <p className="text-xl font-semibold text-green-600 mb-4">
               {formatPrice(aboutProduct?.productPrice || 0)}
             </p>
+            
+            {/* quantity change buttons */}
             <div className="flex items-center mb-4">
-              <p className="text-xl my-1">Quantity:</p>
+              <p className="my-1">Quantity:</p>
               <div className="flex items-center">
                 <button
                   onClick={handleDecreaseQuantity}
-                  className=" text-black py-1 px-3 rounded-lg bg-gray-400 text-xl font-bold"
+                  className=" text-black ml-2 py-1 px-3 rounded-lg bg-gray-200 text-xl font-bold"
                 >
                   -
                 </button>
                 <span className="px-3">{quantity}</span>
                 <button
                   onClick={handleIncreaseQuantity}
-                  className=" text-black py-1 px-3 rounded-lg bg-gray-400 text-xl font-bold"
+                  className=" text-black py-1 px-3 rounded-lg bg-gray-200 text-xl font-bold"
                 >
                   +
                 </button>
               </div>
             </div>
+
             <p className="text-sm text-gray-500 mb-6 font-semibold">
               Available: {aboutProduct?.productAvailableStocks}
             </p>
