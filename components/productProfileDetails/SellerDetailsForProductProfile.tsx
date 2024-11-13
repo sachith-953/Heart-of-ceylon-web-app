@@ -62,7 +62,7 @@ const SellerDetailsForProductProfile: React.FC<ChildProps> = ({ pId }) => {
   }, [pId]);
 
   return (
-    <Card className="w-full bg-gray-300 mb-2">
+    <Card className="w-full bg-gray-300 mb-40">
       <CardHeader>
         <CardTitle className="">Seller of this product</CardTitle>
       </CardHeader>

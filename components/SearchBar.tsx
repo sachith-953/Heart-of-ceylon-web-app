@@ -166,7 +166,7 @@ export default function SearchBar() {
 
               {/* Suggestion Section */}
               {suggestions.length > 0 && isFocused && (
-                <div className="absolute inset-x-0 top-5 pt-8 pb-3 text-left bg-gray-100 w-full rounded-b-3xl max-h-96 overflow-auto overscroll-contain">
+                <div className="absolute inset-x-0 top-5 pt-8 pb-3 text-left bg-gray-100 w-full rounded-b-3xl max-h-96 overflow-auto overscroll-contain z-20">
                   {suggestions.map((suggestion, index) => (
                     <p
                       key={index}
