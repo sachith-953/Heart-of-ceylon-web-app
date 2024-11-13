@@ -71,6 +71,7 @@ const AboutProduct : React.FC<ChildProps> = ({ pId,}) => {
         </p>
         {/* Item specifications space*/}
         <div className="my-4">
+          
           <h3 className="text-xl font-semibold mb-2">Item specifications</h3>
           {/* Specifications */}
           {/* dealing with a single product's details. */}
