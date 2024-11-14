@@ -165,11 +165,10 @@ export async function POST(request: Request) {
     //get the sellerId here
     // Get the request body containing verification Update
     const requestBody = await request.json();
-    const { sellerId, sellerVerification } = requestBody;
+    const sellerId = requestBody.sellerId;
+    const sellerVerification = requestBody.sellerStatus;
 
-    const url = new URL(`${process.env.NEXT_PUBLIC_SPRING_BOOT_SERVER_URL}/api/v1/auth/update-seller-verification`);
-    url.searchParams.append('adminEmail', emailValueString);
-    url.searchParams.append('sellerId', sellerId.toString());
+    const url = new URL(`${process.env.NEXT_PUBLIC_SPRING_BOOT_SERVER_URL}/api/v1/auth/update-seller-verification?adminEmail=${emailValueString}&sellerId=${sellerId}`);
 
     const response = await fetch(url, {
       method: "PUT",
@@ -177,7 +176,9 @@ export async function POST(request: Request) {
         Authorization: `Bearer ${accessToken}`,
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ sellerVerification: sellerVerification  }) // Send only newStatus in body // Wrap productVisibility in an object matching the DTO structure
+      body: JSON.stringify({ sellerVerification: sellerVerification, 
+        ...(sellerVerification === "NOT_APPROVED" && { mailText: requestBody.reason })
+      })
     });
 
     if (!response.ok) {
