@@ -92,7 +92,7 @@ const SuspendProductPOPUPWindowButton: React.FC<ChildProps> = ({
           className="bg-red-600 w-full hover:bg-red-800 text-white hover:text-black"
         >
           {/* <Trash2 className="w-4 h-4 mr-2" />{" "} */}
-          <OctagonX className="w-4 h-4 mr-2"/>{" "}
+          <OctagonX className="w-4 h-4 mr-2" />{" "}
           {/* Removed text-red-500 since button is already red */}
           <span>Suspend</span>{" "}
           {/* Removed text-red-500 since button is already red */}

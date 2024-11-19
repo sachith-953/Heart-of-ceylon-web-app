@@ -28,7 +28,7 @@ const BuyerCart = () => {
     const fetchCartData = async () => {
       try {
         setIsLoading(true);
-        const res = await fetch('http://localhost:3000/api/product/buyer-cart', {
+        const res = await fetch(`${process.env.NEXT_PUBLIC_URL}/api/product/buyer-cart`, {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',

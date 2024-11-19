@@ -46,7 +46,7 @@ const SetNewSellerPasswordCom: React.FC<ChildProps> = ({ verifiesPasswordFromPar
     const handleFormSubmit = async (formData: FormData) => {
 
         try {
-            const res = await fetch('http://localhost:3000/api/buyer/dashboard/change-password', {
+            const res = await fetch(`${process.env.NEXT_PUBLIC_URL}/api/buyer/dashboard/change-password`, {
                 method: 'POST',
                 body: formData
             })

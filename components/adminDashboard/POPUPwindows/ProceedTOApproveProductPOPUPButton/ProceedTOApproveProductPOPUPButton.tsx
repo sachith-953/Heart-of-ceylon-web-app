@@ -67,7 +67,7 @@ const ProceedTOApproveProductPOPUPButton: React.FC<ChildProps> = ({
       setError(null);
 
       const res = await fetch(
-        "http://localhost:3000/api/admin-dashboard/POPUPwindows/POPUP-product-approval-Window",
+        `${process.env.NEXT_PUBLIC_URL}/api/admin-dashboard/POPUPwindows/POPUP-product-approval-Window`,
         {
           method: "POST",
           headers: {
@@ -136,12 +136,12 @@ const ProceedTOApproveProductPOPUPButton: React.FC<ChildProps> = ({
     });
   };
 
-    // Updated useEffect to include reloadPage as a dependency
-    useEffect(() => {
-      if (productID !== null && productID !== 0) {
-        fetchProductDetails();
-      }
-    }, [productID, reloadPage]);
+  // Updated useEffect to include reloadPage as a dependency
+  useEffect(() => {
+    if (productID !== null && productID !== 0) {
+      fetchProductDetails();
+    }
+  }, [productID, reloadPage]);
 
   return (
     <Dialog>

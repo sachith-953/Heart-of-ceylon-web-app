@@ -33,7 +33,7 @@ const UnsuspendProductPOPUPWindowButton: React.FC<ChildProps> = ({
       setError(null);
 
       const res = await fetch(
-        `${BASE_URL}/api/admin-dashboard/POPUPwindows/POPUP-unsuspend-product-button`,
+        `${process.env.NEXT_PUBLIC_URL}/api/admin-dashboard/POPUPwindows/POPUP-unsuspend-product-button`,
         {
           // Fixed template literal
           method: "POST",
@@ -93,8 +93,7 @@ const UnsuspendProductPOPUPWindowButton: React.FC<ChildProps> = ({
           className="bg-green-600 w-full hover:bg-green-800 text-white hover:text-black"
         >
           {/* <OctagonX className="w-4 h-4 mr-2"/>{" "} */}
-          <Activity className="w-4 h-4 mr-2"/>{" "} 
-          <span>Unsuspend</span>{" "}
+          <Activity className="w-4 h-4 mr-2" /> <span>Unsuspend</span>{" "}
           {/* Removed text-red-500 since button is already red */}
         </Button>
       </DialogTrigger>

@@ -86,7 +86,7 @@ export async function POST(request: Request) {
   // *************************************************************
 
   try {
-    const response = await fetch(`http://localhost:8080/api/v1/refresh-token`, {
+    const response = await fetch(`${process.env.NEXT_PUBLIC_SPRING_BOOT_SERVER_URL}/api/v1/refresh-token`, {
       method: "POST",
       headers: {
         Authorization: `Bearer ${refreshTokenString}`, // pass refresh token under authentication
@@ -155,7 +155,7 @@ export async function POST(request: Request) {
 
   try {
     const response = await fetch(
-      `http://localhost:8080/api/v1/auth/update-requested-order-status-by-admin?adminEmail=${emailValueString}&requestedOrderID=${requestedOrderID}`,
+      `${process.env.NEXT_PUBLIC_SPRING_BOOT_SERVER_URL}/api/v1/auth/update-requested-order-status-by-admin?adminEmail=${emailValueString}&requestedOrderID=${requestedOrderID}`,
       {
         method: "PUT",
         headers: {
@@ -163,7 +163,7 @@ export async function POST(request: Request) {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-            orderStatus: orderStatus,
+          orderStatus: orderStatus,
         }),
       }
     );

@@ -27,7 +27,7 @@ const SearchBarForSearchProduct = () => {
             console.log("sending keyword to Next.js GetKeyword API");
 
             const res = await fetch(
-                "http://localhost:3000/api/product/getKeywords",
+                `${process.env.NEXT_PUBLIC_URL}/api/product/getKeywords`,
                 {
                     method: "POST",
                     headers: {

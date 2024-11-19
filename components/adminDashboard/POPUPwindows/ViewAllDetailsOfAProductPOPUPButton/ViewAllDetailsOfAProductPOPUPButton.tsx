@@ -76,7 +76,7 @@ const ViewAllDetailsOfAProductPOPUPButton: React.FC<ChildProps> = ({
       setError(null);
 
       const res = await fetch(
-        "http://localhost:3000/api/admin-dashboard/POPUPwindows/POPUP-view-product-all-details-by-id",
+        `${process.env.NEXT_PUBLIC_URL}/api/admin-dashboard/POPUPwindows/POPUP-view-product-all-details-by-id`,
         {
           method: "POST",
           headers: {

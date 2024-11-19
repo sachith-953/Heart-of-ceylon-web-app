@@ -38,7 +38,7 @@ const MySales = () => {
     const fetchSellerSales = async () => {
         try {
             setIsLoading(true);
-            const res = await fetch('http://localhost:3000/api/seller-dashboard/get-seller-sales', {
+            const res = await fetch(`${process.env.NEXT_PUBLIC_URL}/api/seller-dashboard/get-seller-sales`, {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',
@@ -86,7 +86,7 @@ const MySales = () => {
 const handleStatusUpdate = async (orderId: string, newStatus: string) => {
     try {
         setIsLoading(true);
-        const response = await fetch('http://localhost:3000/api/seller-dashboard/update-order-status', {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_URL}/api/seller-dashboard/update-order-status`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',

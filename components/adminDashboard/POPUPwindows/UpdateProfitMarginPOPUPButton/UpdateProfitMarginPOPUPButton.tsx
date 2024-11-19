@@ -25,7 +25,6 @@ const UpdateProfitMarginPOPUPButton: React.FC<{
   );
   const [error, setError] = useState("");
   const { toast } = useToast();
-  const BASE_URL = process.env.NEXT_PUBLIC_URL;
 
   const validateAndUpdate = (e: React.FormEvent) => {
     e.preventDefault();
@@ -62,7 +61,7 @@ const UpdateProfitMarginPOPUPButton: React.FC<{
     setIsLoading(true);
     try {
       const res = await fetch(
-        `${BASE_URL}/api/admin-dashboard/POPUPwindows/POPUP-update-profit-margin-for-product`,
+        `${process.env.NEXT_PUBLIC_URL}/api/admin-dashboard/POPUPwindows/POPUP-update-profit-margin-for-product`,
         {
           method: "POST",
           headers: {
