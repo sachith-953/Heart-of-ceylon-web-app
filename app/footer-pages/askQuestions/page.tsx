@@ -1,5 +1,6 @@
 
 import React from 'react';
+import Link from 'next/link';
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { MessageSquare } from 'lucide-react';
@@ -13,7 +14,7 @@ const FAQItem = ({ question, answer }) => (
   </Card>
 );
 
-const AskQuestions = () => {
+const AskQuestions: React.FC = () => {
   const faqs = [
     {
       question: "How do I create an account?",
@@ -47,12 +48,12 @@ const AskQuestions = () => {
         <section className="text-center">
           <h2 className="text-2xl font-semibold mb-4">Contact Admin</h2>
           <p className="mb-6">If you can't find the answer you're looking for, reach out to our admin team:</p>
-          <Button asChild className="bg-blue-600 hover:bg-blue-700">
-            <a href="/contact-admin" className="inline-flex items-center">
+          <Link href="/contact-admin">
+            <Button className="bg-blue-600 hover:bg-blue-700 inline-flex items-center">
               <MessageSquare className="mr-2" size={18} />
               Contact Admin
-            </a>
-          </Button>
+            </Button>
+          </Link>
         </section>
       </div>
     </div>

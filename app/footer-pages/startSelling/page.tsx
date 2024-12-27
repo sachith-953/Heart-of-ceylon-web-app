@@ -1,28 +1,33 @@
+
 import React from 'react';
 import Link from 'next/link';
 import { ArrowRight, ShoppingBag, Upload, Package, LayoutDashboard } from 'lucide-react';
 
-const StartSelling = () => {
+const StartSelling: React.FC = () => {
   const steps = [
     {
       title: 'Create an Account',
       description: 'Sign up as a seller by providing basic details',
-      icon: ShoppingBag
+      icon: ShoppingBag,
+      link: '/seller/signup' 
     },
     {
       title: 'List Your Products',
       description: 'Upload product images, descriptions, and prices',
-      icon: Upload
+      icon: Upload,
+      link: '/seller/list-products' 
     },
     {
       title: 'Start Selling',
       description: 'Your products will be visible to millions of customers',
-      icon: Package
+      icon: Package,
+      link: '/seller/start-selling' 
     },
     {
       title: 'Manage Orders',
       description: 'Fulfill orders and track shipments through our dashboard',
-      icon: LayoutDashboard
+      icon: LayoutDashboard,
+      link: '/seller/manage-orders' 
     }
   ];
 
@@ -42,17 +47,19 @@ const StartSelling = () => {
           <div className="grid gap-8 md:grid-cols-2">
             {steps.map((step, index) => (
               <div key={index} className="bg-white rounded-lg shadow-sm p-6 hover:shadow-md transition-shadow">
-                <div className="flex items-start space-x-4">
-                  <div className="flex-shrink-0">
-                    <step.icon className="h-6 w-6 text-blue-600" />
+                <Link href={step.link}>
+                  <div className="flex items-start space-x-4 cursor-pointer">
+                    <div className="flex-shrink-0">
+                      <step.icon className="h-6 w-6 text-blue-600" />
+                    </div>
+                    <div>
+                      <h3 className="text-lg font-medium text-gray-900">
+                        {index + 1}. {step.title}
+                      </h3>
+                      <p className="mt-2 text-gray-600">{step.description}</p>
+                    </div>
                   </div>
-                  <div>
-                    <h3 className="text-lg font-medium text-gray-900">
-                      {index + 1}. {step.title}
-                    </h3>
-                    <p className="mt-2 text-gray-600">{step.description}</p>
-                  </div>
-                </div>
+                </Link>
               </div>
             ))}
           </div>
