@@ -3,6 +3,9 @@ import React from 'react';
 import Link from 'next/link';
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+import Footer from '@/components/Footer';
+import Navbar from '@/components/Navbar';
+import MaxWidthWrapper from '@/components/MaxWidthWrapper';
 import { MessageSquare } from 'lucide-react';
 
 const FAQItem = ({ question, answer }) => (
@@ -28,6 +31,10 @@ const AskQuestions: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-gray-50 py-12">
+
+      <Navbar />
+      
+      <MaxWidthWrapper>
       <div className="max-w-3xl mx-auto px-4">
         <div className="text-center mb-12">
           <h1 className="text-4xl font-bold text-gray-900 mb-4">
@@ -56,6 +63,10 @@ const AskQuestions: React.FC = () => {
           </Link>
         </section>
       </div>
+
+      </MaxWidthWrapper>
+
+      <Footer />
     </div>
   );
 };

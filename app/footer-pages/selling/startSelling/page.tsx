@@ -1,6 +1,9 @@
 
 import React from 'react';
 import Link from 'next/link';
+import Footer from '@/components/Footer';
+import Navbar from '@/components/Navbar';
+import MaxWidthWrapper from '@/components/MaxWidthWrapper';
 import { ArrowRight, ShoppingBag, Upload, Package, LayoutDashboard } from 'lucide-react';
 
 const StartSelling: React.FC = () => {
@@ -33,6 +36,9 @@ const StartSelling: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-gray-50">
+      <Navbar />
+
+      <MaxWidthWrapper>
       <div className="max-w-4xl mx-auto px-4 py-16 sm:px-6 lg:px-8">
         <div className="text-center">
           <h1 className="text-4xl font-extrabold tracking-tight text-gray-900 sm:text-5xl">
@@ -84,6 +90,10 @@ const StartSelling: React.FC = () => {
           </div>
         </div>
       </div>
+
+      </MaxWidthWrapper>
+
+      <Footer />
     </div>
   );
 };

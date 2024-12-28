@@ -2,6 +2,9 @@
 import React from 'react';
 import Link from 'next/link';
 import { Card, CardContent } from '@/components/ui/card';
+import Footer from '@/components/Footer';
+import Navbar from '@/components/Navbar';
+import MaxWidthWrapper from '@/components/MaxWidthWrapper';
 import { ChevronRight, Store, Image, Search, Package, MessageSquare } from 'lucide-react';
 
 const StepCard = ({ icon: Icon, title, description }) => (
@@ -49,6 +52,9 @@ const LearnToSell: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-gray-50">
+      <Navbar />
+
+      <MaxWidthWrapper>
       <div className="max-w-4xl mx-auto px-4 py-12">
         <div className="text-center mb-12">
           <h1 className="text-4xl font-bold text-gray-900 mb-4">
@@ -75,6 +81,8 @@ const LearnToSell: React.FC = () => {
           </Link>
         </div>
       </div>
+       </MaxWidthWrapper>
+      <Footer />
     </div>
   );
 };
