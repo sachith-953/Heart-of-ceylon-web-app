@@ -33,10 +33,10 @@ const Footer = () => {
                     <div>
                         <h2 className="text-lg font-bold mb-4 text-center">About Us</h2>
                         <ul className="text-center">
-                            <li className="mb-2 hover:font-bold">Main Company</li>
-                            <li className="mb-2 hover:font-bold">Learn to Sell</li>
-                            <li className="mb-2 hover:font-bold">Policies</li>
-                            <li className="mb-2 hover:font-bold">Terms And Conditions</li>
+                            <li className="mb-2 hover:font-bold">Learn About Us</li>
+                            <li className="mb-2 hover:font-bold">Mother Company</li>
+                            <li className="mb-2 hover:font-bold">Terms & Conditions</li>
+                            <li className="mb-2 hover:font-bold">Trading and Supply Policy</li>
                         </ul>
                     </div>
                     <div>
