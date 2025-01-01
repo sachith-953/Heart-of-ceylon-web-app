@@ -118,6 +118,7 @@ const AllReviewsAndRatingsPopupButton: React.FC<ChildProps> = ({ productID, }) =
         if(productID !== null && productID !== 0){
             fetchReviewsAndRatings()
         }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [refreshTrigger])
 
     // Function to trigger a refresh

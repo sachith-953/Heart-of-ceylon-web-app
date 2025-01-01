@@ -1,3 +1,7 @@
+bug fix artcles : useEffect
+https://stackoverflow.com/questions/55840294/how-to-fix-missing-dependency-warning-when-using-useeffect-react-hook
+
+
 # Heart Of Ceylon FrontEnd
 
 To Start, 
