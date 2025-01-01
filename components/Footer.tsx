@@ -12,13 +12,13 @@ const Footer = () => {
                         <h2 className="text-lg font-bold mb-4 text-center">Selling</h2>
                         <ul className="text-center">
                             <li className="mb-2 hover:font-bold">
-                                <Link href="/app/footer-pages/startSelling/page.tsx">Start Selling</Link>
+                                <Link href="/footer-pages/selling/start-selling">Start Selling</Link>
                             </li>
                             <li className="mb-2 hover:font-bold">
-                                <Link href="/app/footer-pages/learnToSell/page.tsx">Learn to Sell</Link>
+                                <Link href="/footer-pages/selling/learn-to-sell">Learn to Sell</Link>
                             </li>
                             <li className="mb-2 hover:font-bold">
-                                <Link href="/app/footer-pages/askQuestions/page.tsx">Ask Questions</Link>
+                                <Link href="/footer-pages/selling/ask-questions">Ask Questions</Link>
                             </li>
                         </ul>
                     </div>
