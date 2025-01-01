@@ -7,6 +7,7 @@ const Footer = () => {
         <footer className="bg-blue-900 text-white py-8">
             <div className="max-w-7xl mx-auto px-4">
                 <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-5 lg:grid-cols-5 gap-8 text-center md:text-left">
+                    {/* Selling Section */}
                     <div>
                         <h2 className="text-lg font-bold mb-4 text-center">Selling</h2>
                         <ul className="text-center">
@@ -21,6 +22,8 @@ const Footer = () => {
                             </li>
                         </ul>
                     </div>
+
+                    {/* Buying Section */}
                     <div>
                         <h2 className="text-lg font-bold mb-4 text-center">Buying</h2>
                         <ul className="text-center">
@@ -30,6 +33,8 @@ const Footer = () => {
                             <li className="mb-2 hover:font-bold">Request a new product</li>
                         </ul>
                     </div>
+
+                    {/* About Us Section */}
                     <div>
                         <h2 className="text-lg font-bold mb-4 text-center">About Us</h2>
                         <ul className="text-center">
@@ -39,25 +44,47 @@ const Footer = () => {
                             <li className="mb-2 hover:font-bold">Trading and Supply Policy</li>
                         </ul>
                     </div>
+
+                    {/* Help and Support Section */}
                     <div>
                         <h2 className="text-lg font-bold mb-4 text-center">Help and Support</h2>
                         <ul className="text-center">
-                            <li className="mb-2 hover:font-bold">Start Selling</li>
-                            <li className="mb-2 hover:font-bold">Learn to Sell</li>
-                            <li className="mb-2 hover:font-bold">Ask Questions</li>
-                            <li className="mb-2 hover:font-bold">bala bal</li>
+                            <li className="mb-2 hover:font-bold">Order Tracking</li>
+                            <li className="mb-2 hover:font-bold">Payment Methods</li>
+                            <li className="mb-2 hover:font-bold">Return and Exchange Policies</li>
+                            <li className="mb-2 hover:font-bold">Shipping and Delivery</li>
                         </ul>
                     </div>
+
+                    {/* Follow Us Section */}
                     <div>
                         <h2 className="text-lg font-bold mb-4 text-center">Follow us</h2>
                         <ul className="text-center">
-                            <li className="mb-2 hover:font-bold">Facebook</li>
-                            <li className="mb-2 hover:font-bold">Youtube</li>
-                            <li className="mb-2 hover:font-bold">Pinterest</li>
-                            <li className="mb-2 hover:font-bold">Instagram</li>
+                            <li className="mb-2 hover:font-bold">
+                                <a href="https://www.facebook.com" target="_blank" rel="noopener noreferrer">
+                                    Facebook
+                                </a>
+                            </li>
+                            <li className="mb-2 hover:font-bold">
+                                <a href="https://www.linkedin.com" target="_blank" rel="noopener noreferrer">
+                                    LinkedIn
+                                </a>
+                            </li>
+                            <li className="mb-2 hover:font-bold">
+                                <a href="https://www.instagram.com" target="_blank" rel="noopener noreferrer">
+                                    Instagram
+                                </a>
+                            </li>
+                            <li className="mb-2 hover:font-bold">
+                                <a href="https://www.youtube.com" target="_blank" rel="noopener noreferrer">
+                                    YouTube
+                                </a>
+                            </li>
                         </ul>
                     </div>
                 </div>
+
+                {/* Footer Copyright Section */}
                 <div className="border-t border-gray-400 mt-8 pt-4 text-center">
                     <p>Copyright © all rights reserved Heart-Of-Ceylon</p>
                 </div>
