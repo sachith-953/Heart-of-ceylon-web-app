@@ -8,7 +8,7 @@ import Category_Level_1 from "@/components/CategoryLevel1";
 import SearchProductSortDropDown from "@/components/SearchProductSortDropDown";
 import { ArrowDownNarrowWide, ChevronLeft, ChevronRight } from "lucide-react";
 import { useSearchParams } from "next/navigation";
-import { useEffect, useState } from "react";
+import { Suspense, useEffect, useState } from "react";
 import ProductSkeliton from "@/components/ProductSkeliton";
 import CategoryLevel1Skeliton from "@/components/CategoryLevel1Skeliton";
 import Link from "next/link";
@@ -24,7 +24,7 @@ import SearchBarForSearchProduct from "@/components/ProductSearchBar";
  * 
  */
 
-export default function SearchPage() {
+function SearchPage() {
 
     //TODO : add this to env file
     const PRODUCTS_PER_PRODUCT_SEARCH_RESULT = 4;
@@ -324,3 +324,12 @@ export default function SearchPage() {
 
     );
 }
+
+export function Searchbar() {
+    return (
+      // You could have a loading skeleton as the `fallback` too
+      <Suspense>
+        <SearchPage />
+      </Suspense>
+    )
+  }
