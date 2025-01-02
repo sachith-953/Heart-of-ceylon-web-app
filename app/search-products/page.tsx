@@ -24,7 +24,7 @@ import SearchBarForSearchProduct from "@/components/ProductSearchBar";
  * 
  */
 
-function SearchPage() {
+const SearchPage = () => {
 
     //TODO : add this to env file
     const PRODUCTS_PER_PRODUCT_SEARCH_RESULT = 4;
@@ -325,11 +325,16 @@ function SearchPage() {
     );
 }
 
-export function Searchbar() {
+const SearchWholePage = () => {
     return (
-      // You could have a loading skeleton as the `fallback` too
-      <Suspense>
-        <SearchPage />
-      </Suspense>
+        <>
+            <div className="bg-white">
+            <Suspense>
+                <SearchPage />
+            </Suspense>
+            </div>
+        </>
     )
-  }
+}
+
+export default SearchWholePage;

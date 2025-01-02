@@ -2,9 +2,10 @@
 
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
+import { Suspense } from "react";
 
 
-export default function AddProductPage() {
+const Page = () => {
 
     const searchParams = useSearchParams();
     const sellerId = searchParams.get('sellerId');
@@ -24,4 +25,18 @@ export default function AddProductPage() {
         </div>
     );
 }
+
+const TestWholePage = () => {
+  return (
+    <>
+      <div className="bg-white">
+        <Suspense>
+          <Page />
+        </Suspense>
+      </div>
+    </>
+  )
+}
+
+export default TestWholePage;
 
