@@ -15,6 +15,7 @@ import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import UnSuspendSellerButtton from "../UnSuspendSellerButtton/UnSuspendSellerButtton";
 import SuspendSellerPOPUPButton from "../SuspendSellerPOPUPButton/SuspendSellerPOPUPButton";
+import Image from "next/image";
 
 interface SellerDetailsModalProps {
   isOpen: boolean;
@@ -163,12 +164,18 @@ const AllSellerDetailsPopupButton: React.FC<ChildProps> = ({ sellerID }) => {
             {/* Left Sidebar - 1/4 width */}
             <div className="w-1/4 border-r border-gray-300 flex flex-col bg-white rounded-md ml-1 mr-1 mb-1 mt-0 p-2">
               {/* Profile Picture */}
-              <div className="flex justify-center">
+              <div className="relative w-full h-60 rounded-full first-letter:flex justify-center">
                 {seller.profilePicture ? (
-                  <img
-                    src={seller.profilePicture}
-                    alt="Store Profile"
-                    className="w-40 h-40 rounded-full object-cover"
+                  // <img
+                  //   src={seller.profilePicture}
+                  //   alt="Store Profile"
+                  //   className="w-40 h-40 rounded-full object-cover"
+                  // />
+                  <Image 
+                  src={seller.profilePicture}
+                  alt="Store Profile"
+                  className='object-cover'
+			            fill
                   />
                 ) : (
                   // if the profile not there display ray round like a profile
