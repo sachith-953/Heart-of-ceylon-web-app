@@ -51,6 +51,7 @@ const MySales = () => {
 
     useEffect(() => {
         fetchSalesSummary();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     // Function to handle refresh button click

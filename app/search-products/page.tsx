@@ -167,6 +167,7 @@ export default function SearchPage() {
         //send data to to API
         handleProductSearch(searchQuery || "", page || "1");
 
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [searchParams]); // without [] this run non-stop
     // we add variable names inside [] to ensure useEffect re-excecure when theose variable change values
 

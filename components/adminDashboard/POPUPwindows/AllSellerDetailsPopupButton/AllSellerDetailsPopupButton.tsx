@@ -130,6 +130,7 @@ const AllSellerDetailsPopupButton: React.FC<ChildProps> = ({ sellerID }) => {
       fetchSellerDetails();
     }
     console.log("seller ID : " + sellerID);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (

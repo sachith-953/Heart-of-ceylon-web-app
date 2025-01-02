@@ -158,6 +158,7 @@ const getStatusStyle = (status: string | undefined) => {
 
     useEffect(() => {
         fetchSellerSales();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     // 

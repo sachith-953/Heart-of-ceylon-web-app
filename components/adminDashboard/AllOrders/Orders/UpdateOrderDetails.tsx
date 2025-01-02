@@ -88,6 +88,7 @@ const UpdateOrderDetails: React.FC<ChildProps> = ({ note, orderId, newDeliveryDa
 
     useEffect(() => {
         setProductNote(note)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
     return (

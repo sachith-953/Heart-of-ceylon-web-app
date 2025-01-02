@@ -109,6 +109,7 @@ const SetNewSellerPasswordCom: React.FC<ChildProps> = ({ verifiesPasswordFromPar
             setTouched(false)
         }
 
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [password,]);
 
     // to close dialog box

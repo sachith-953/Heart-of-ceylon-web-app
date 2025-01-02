@@ -363,6 +363,7 @@ const MoreAboutAnOrderPOPUPButton: React.FC<ChildProps> = ({
       fetchProductDetails();
       fetchOrderDetails();
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {

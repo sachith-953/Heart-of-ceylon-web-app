@@ -143,6 +143,7 @@ const RequestedOrders = () => {
 
   useEffect(() => {
     fetchRequestedOrders();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [reloadPage]);
 
   const filteredData = data.filter(order =>

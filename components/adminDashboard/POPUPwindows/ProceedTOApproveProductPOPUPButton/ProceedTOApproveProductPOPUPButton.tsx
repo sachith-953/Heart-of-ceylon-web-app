@@ -141,6 +141,7 @@ const ProceedTOApproveProductPOPUPButton: React.FC<ChildProps> = ({
       if (productID !== null && productID !== 0) {
         fetchProductDetails();
       }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [productID, reloadPage]);
 
   return (

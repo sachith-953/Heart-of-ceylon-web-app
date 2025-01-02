@@ -86,6 +86,7 @@ const UpdateProductNote: React.FC<ChildProps> = ({ note, productId, updateParent
 
     useEffect(() => {
         setProductNote(note)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
     return (

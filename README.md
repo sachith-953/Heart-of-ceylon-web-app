@@ -1,5 +1,11 @@
+# Deploy issues
+
 bug fix artcles : useEffect
 https://stackoverflow.com/questions/55840294/how-to-fix-missing-dependency-warning-when-using-useeffect-react-hook
+
+
+there was issue with the useSearchParams()
+to fix that, we can refer to this : https://nextjs.org/docs/messages/missing-suspense-with-csr-bailout
 
 
 # Heart Of Ceylon FrontEnd

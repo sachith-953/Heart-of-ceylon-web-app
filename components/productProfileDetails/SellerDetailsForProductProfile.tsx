@@ -59,6 +59,7 @@ const SellerDetailsForProductProfile: React.FC<ChildProps> = ({ pId }) => {
   useEffect(() => {
     fetchAboutProduct(String(pId));
     console.log("pId > " + pId);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [pId]);
 
   return (

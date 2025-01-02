@@ -115,6 +115,7 @@ const BuyerAccountInformation = () => {
         }
         dataFetching()
 
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [isDataUpdated]);
 
 

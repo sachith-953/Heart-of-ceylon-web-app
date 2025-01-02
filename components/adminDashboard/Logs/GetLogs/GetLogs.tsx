@@ -98,6 +98,7 @@ const GetLogs: FC = () => {
 
     useEffect(() => {
         fetchLogs(currentPage);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [currentPage]);
 
     if (isLoading) {

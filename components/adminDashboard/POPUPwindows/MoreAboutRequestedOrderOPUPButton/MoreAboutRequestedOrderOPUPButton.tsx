@@ -186,14 +186,16 @@ const MoreAboutRequestedOrderOPUPButton: React.FC<ChildProps> = ({
       fetchBuyerDetails();
       fetchReqOrderDetails();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-    // Updated useEffect to include reloadPage as a dependency
-    useEffect(() => {
-      if (requestedOrderID !== null && requestedOrderID !== 0) {
-        fetchReqOrderDetails();
-      }
-    }, [requestedOrderID, reloadPage]);
+  // Updated useEffect to include reloadPage as a dependency
+  useEffect(() => {
+    if (requestedOrderID !== null && requestedOrderID !== 0) {
+      fetchReqOrderDetails();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [requestedOrderID, reloadPage]);
 
   return (
     <Dialog>

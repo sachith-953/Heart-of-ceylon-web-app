@@ -74,6 +74,7 @@ const AdminDetails = () => {
 
     useEffect(() => {
         fetchAdminDetails();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     const handleMoreClick = (adminId: number) => {

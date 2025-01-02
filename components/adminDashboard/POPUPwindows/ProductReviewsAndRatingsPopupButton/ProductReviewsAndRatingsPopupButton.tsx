@@ -157,7 +157,7 @@ const AllReviewsAndRatingsPopupButton: React.FC<ChildProps> = ({ productID, }) =
                         ) : reviews.length === 0 ? (
                             <div className="flex flex-col items-center justify-center p-8 text-gray-500">
                                 <div className="text-xl font-semibold mb-2">No Reviews Yet</div>
-                                <p className="text-center text-red-500">This product hasn't received any reviews or ratings.</p>
+                                <p className="text-center text-red-500">This product hasn{"'"}t received any reviews or ratings.</p>
                             </div>
                         ) : (
                         <Table className='hover:bg-transparent'>
