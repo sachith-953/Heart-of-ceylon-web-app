@@ -8,7 +8,7 @@ import Category_Level_1 from "@/components/CategoryLevel1";
 import SearchProductSortDropDown from "@/components/SearchProductSortDropDown";
 import { ArrowDownNarrowWide, ChevronLeft, ChevronRight } from "lucide-react";
 import { useSearchParams } from "next/navigation";
-import { useEffect, useState } from "react";
+import { Suspense, useEffect, useState } from "react";
 import ProductSkeliton from "@/components/ProductSkeliton";
 import CategoryLevel1Skeliton from "@/components/CategoryLevel1Skeliton";
 import Link from "next/link";
@@ -24,7 +24,7 @@ import SearchBarForSearchProduct from "@/components/ProductSearchBar";
  * 
  */
 
-export default function SearchPage() {
+const SearchPage = () => {
 
     //TODO : add this to env file
     const PRODUCTS_PER_PRODUCT_SEARCH_RESULT = 4;
@@ -167,6 +167,7 @@ export default function SearchPage() {
         //send data to to API
         handleProductSearch(searchQuery || "", page || "1");
 
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [searchParams]); // without [] this run non-stop
     // we add variable names inside [] to ensure useEffect re-excecure when theose variable change values
 
@@ -323,3 +324,17 @@ export default function SearchPage() {
 
     );
 }
+
+const SearchWholePage = () => {
+    return (
+        <>
+            <div className="bg-white">
+            <Suspense>
+                <SearchPage />
+            </Suspense>
+            </div>
+        </>
+    )
+}
+
+export default SearchWholePage;

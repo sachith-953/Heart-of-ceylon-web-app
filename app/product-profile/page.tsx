@@ -10,12 +10,12 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import Footer from "@/components/Footer";
 import ProductDetails from "@/components/productProfileDetails/ProductDetails";
 import { useSearchParams } from "next/navigation";
-import { useEffect, useState } from "react";
+import { Suspense, useEffect, useState } from "react";
 import SellerDetailsForProductProfile from "@/components/productProfileDetails/SellerDetailsForProductProfile";
 
 
 
-export default function Page() {
+const Page = () => {
 
   const searchParams = useSearchParams();
 
@@ -30,7 +30,7 @@ export default function Page() {
         <ProductDetails pId={Number(searchParams.get('pid'))} />
 
         <div className="my-8">
-          
+
           <Tabs defaultValue="about" className="flex flex-col justify-center">
             <TabsList className="flex flex-col sm:flex-row w-full mt-4 sm:mt-0 mb-10 sm:mb-2">
               <TabsTrigger className="basis-1/3 my-2" value="about">About this Product</TabsTrigger>
@@ -56,11 +56,26 @@ export default function Page() {
 
         </div>
 
-        <SellerDetailsForProductProfile pId={Number(searchParams.get('pid'))}/>
-      
+        <SellerDetailsForProductProfile pId={Number(searchParams.get('pid'))} />
+
       </MaxWidthLg>
-      
+
       <Footer />
     </>
   );
 }
+
+const ProductProfileWholePage = () => {
+  return (
+    <>
+      <div className="bg-white">
+        <Suspense>
+          <Page />
+        </Suspense>
+      </div>
+    </>
+  )
+}
+
+
+export default ProductProfileWholePage;

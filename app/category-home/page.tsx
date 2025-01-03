@@ -4,13 +4,13 @@ import Footer from "@/components/Footer";
 import Navbar from "@/components/Navbar";
 import Category_Level_1 from "@/components/CategoryLevel1";
 import { useSearchParams } from "next/navigation";
-import { useEffect, useState } from "react";
+import { Suspense, useEffect, useState } from "react";
 import SearchBar from "@/components/SearchBar";
 import SubCategories from "@/components/SubCategories";
 import SubCategoriesSkeliton from "@/components/SubCategoriesSkeliton";
 
 
-export default function SearchPage() {
+const SearchPage = () => {
 
     //get parameters
     const searchParams = useSearchParams();
@@ -140,3 +140,18 @@ export default function SearchPage() {
 
     );
 }
+
+const CategoryHomeWholePage = () => {
+    return (
+        <>
+            <div className="bg-white">
+            <Suspense>
+                <SearchPage />
+            </Suspense>
+            </div>
+        </>
+    )
+}
+
+
+export default CategoryHomeWholePage;

@@ -14,6 +14,7 @@ import { Loader2, Mail, Phone, MapPin, Store, Star } from "lucide-react";
 import AllSellerDetailsPopupButton from "../AllSellerDetailsPopupButton/AllSellerDetailsPopupButton";
 import Link from "next/link";
 import UpdateOrderNote from "../../AllOrders/Orders/UpdateOrderDetails";
+import Image from "next/image";
 
 interface MoreDetailsOfAnOrderModalProps {
   isOpen: boolean;
@@ -363,6 +364,7 @@ const MoreAboutAnOrderPOPUPButton: React.FC<ChildProps> = ({
       fetchProductDetails();
       fetchOrderDetails();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
@@ -409,13 +411,19 @@ const MoreAboutAnOrderPOPUPButton: React.FC<ChildProps> = ({
               {seller && (
                 <div className="">
                   <div className="flex space-x-4">
-                    <div className=" w-32 h-32 mt-1 rounded-md">
-                      <img
+                    <div className="relative w-32 h-32 mt-1 rounded-md">
+                      {/* <img
                         src={
                           seller.profilePicture || "/api/placeholder/100/100"
                         }
                         alt="Store"
                         className="w-full h-full rounded-lg object-cover"
+                      /> */}
+                      <Image
+                        src={seller.profilePicture}
+                        alt="Store"
+                        className='object-cover'
+                        fill
                       />
                     </div>
                     <div className=" h-32 mt-1 rounded-md">
@@ -577,12 +585,18 @@ const MoreAboutAnOrderPOPUPButton: React.FC<ChildProps> = ({
                 <div className=" bg-r  ">
                   <div className="flex items-center space-x-4  p-1 rounded-md">
                     {/* prodcut image */}
-                    <div className="w-32 h-32 mt-1 rounded-md">
-                      <img
+                    <div className="relative w-32 h-32 mt-1 rounded-md">
+                      {/* <img
                         src={product.productMainImage}
                         alt={product.productName}
                         className="w-full h-full rounded-lg object-cover"
-                      />
+                      /> */}
+                      <Image
+                        src={product.productMainImage}
+                        alt={product.productName}
+                        className='object-cover'
+                        fill
+                        />
                     </div>
                     {/* right side of the image */}
                     <div>
@@ -662,12 +676,12 @@ const MoreAboutAnOrderPOPUPButton: React.FC<ChildProps> = ({
                         Total Price:{" "}
                         {order && product
                           ? (
-                              product.productPrice * OrderQuantity +
-                              product.productPrice *
-                                OrderQuantity *
-                                (product.productProfitMarginPercentage / 100) +
-                              (order.shippingCost || 0)
-                            ).toFixed(2)
+                            product.productPrice * OrderQuantity +
+                            product.productPrice *
+                            OrderQuantity *
+                            (product.productProfitMarginPercentage / 100) +
+                            (order.shippingCost || 0)
+                          ).toFixed(2)
                           : 0}
                       </p>
                     </div>
@@ -707,19 +721,18 @@ const MoreAboutAnOrderPOPUPButton: React.FC<ChildProps> = ({
                       <div className="flex">
                         <p className="font-semibold ">Status :</p>
                         <span
-                          className={`px-4 py-1 ml-9 rounded-full h-6 flex items-center ${
-                            order.orderStatus === "PENDING"
+                          className={`px-4 py-1 ml-9 rounded-full h-6 flex items-center ${order.orderStatus === "PENDING"
                               ? "bg-blue-100 text-blue-800"
                               : order.orderStatus === "PROCESSING"
-                              ? "bg-yellow-100 text-yellow-800"
-                              : order.orderStatus === "SHIPPED"
-                              ? "bg-purple-100 text-purple-800"
-                              : order.orderStatus === "DELIVERED"
-                              ? "bg-green-100 text-green-800"
-                              : order.orderStatus === "CANCELLED"
-                              ? "bg-red-100 text-red-800"
-                              : "bg-gray-100 text-gray-800"
-                          }`}
+                                ? "bg-yellow-100 text-yellow-800"
+                                : order.orderStatus === "SHIPPED"
+                                  ? "bg-purple-100 text-purple-800"
+                                  : order.orderStatus === "DELIVERED"
+                                    ? "bg-green-100 text-green-800"
+                                    : order.orderStatus === "CANCELLED"
+                                      ? "bg-red-100 text-red-800"
+                                      : "bg-gray-100 text-gray-800"
+                            }`}
                         >
                           {order.orderStatus}
                         </span>

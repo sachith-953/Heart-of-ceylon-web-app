@@ -18,6 +18,7 @@ import RemoveProductPOPUPButton from "../RemoveProductPOPUPButton/RemoveProductP
 import UnsuspendProductPOPUPWindowButton from "../UnsuspendProductPOPUPWindowButton/UnsuspendProductPOPUPWindowButton";
 import UpdateProductNote from "./UpdateProductNote";
 import UpdateProfitMarginPOPUPButton from "../UpdateProfitMarginPOPUPButton/UpdateProfitMarginPOPUPButton";
+import Image from "next/image";
 
 interface ProductAllDetailsModalProps {
   isOpen: boolean;
@@ -156,6 +157,7 @@ const ViewAllDetailsOfAProductPOPUPButton: React.FC<ChildProps> = ({
     if (productID !== null && productID !== 0) {
       fetchProductDetails();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [productID, reloadPage]);
 
   return (
@@ -188,12 +190,18 @@ const ViewAllDetailsOfAProductPOPUPButton: React.FC<ChildProps> = ({
             {/* Left Sidebar - 1/4 width */}
             <div className="w-1/4 flex flex-col rounded-md ml-1 mr-1 mb-1 mt-0 p-2">
               {/* Profile Picture */}
-              <div className="flex justify-center w-full mb-4 p-1">
+              <div className="relative flex justify-center rounded-lg w-full h-60 mb-4 p-1">
                 {product.productMainImage ? (
-                  <img
+                  // <img
+                  //   src={product.productMainImage}
+                  //   alt="Product Image"
+                  //   className="w-42 h-full object-cover rounded-3xl"
+                  // />
+                  <Image
                     src={product.productMainImage}
                     alt="Product Image"
-                    className="w-42 h-full object-cover rounded-3xl"
+                    className="object-cover"
+                    fill
                   />
                 ) : (
                   <div className="w-40 h-40 rounded-md bg-gray-200 flex items-center justify-center">

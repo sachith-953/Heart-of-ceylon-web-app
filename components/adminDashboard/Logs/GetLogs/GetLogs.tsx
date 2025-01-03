@@ -63,47 +63,46 @@ const GetLogs: FC = () => {
         }
       );
 
-      if (res.ok) {
-        const responseData: Logs[] = await res.json();
-        setData(responseData);
-      } else if (res.status === 403) {
-        toast({
-          variant: "destructive",
-          title: "Sorry!",
-          description: "Please Login again. Your Session has Expired!",
-        });
-        router.push("/log-in");
-      } else {
-        const errorData = await res.json();
-        toast({
-          variant: "destructive",
-          title: "Something went wrong.",
-          description:
-            "Please Try Again. There was a problem with your request." +
-            errorData.message,
-        });
-      }
-    } catch (error) {
-      console.error("Error fetching LOGS details:", error);
-      setError("Failed to load LOGS data. Please try again.");
-    } finally {
-      setIsLoading(false);
-    }
-  };
+            if (res.ok) {
+                const responseData: Logs[] = await res.json();
+                setData(responseData);
+            } else if (res.status === 403) {
+                toast({
+                    variant: "destructive",
+                    title: "Sorry!",
+                    description: "Please Login again. Your Session has Expired!",
+                });
+                router.push("/log-in");
+            } else {
+                const errorData = await res.json();
+                toast({
+                    variant: "destructive",
+                    title: "Something went wrong.",
+                    description: "Please Try Again. There was a problem with your request." + errorData.message,
+                });
+            }
+        } catch (error) {
+            console.error("Error fetching LOGS details:", error);
+            setError("Failed to load LOGS data. Please try again.");
+        } finally {
+            setIsLoading(false);
+        }
+    };
 
   const handleNextPage = () => {
     setCurrentPage((prev) => prev + 1);
   };
 
-  const handlePreviousPage = () => {
-    if (currentPage > 1) {
-      setCurrentPage((prev) => prev - 1);
-    }
-  };
+    const handlePreviousPage = () => {
+        if (currentPage > 1) {
+            setCurrentPage(prev => prev - 1);
+        }
+    };
 
-  useEffect(() => {
-    fetchLogs(currentPage);
-  }, [currentPage]);
+    useEffect(() => {
+        fetchLogs(currentPage);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [currentPage]);
 
   if (isLoading) {
     return (
