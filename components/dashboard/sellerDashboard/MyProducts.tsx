@@ -75,6 +75,7 @@ const MyProducts = () => {
 
   useEffect(() => {
     fetchSellerProducts();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [refreshTrigger]); // Add refreshTrigger to dependency array
 
   // Function to trigger a refresh

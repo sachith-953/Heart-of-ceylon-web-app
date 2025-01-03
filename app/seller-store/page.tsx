@@ -3,7 +3,7 @@
 import Footer from "@/components/Footer";
 import Navbar from "@/components/Navbar";
 import { useSearchParams } from "next/navigation";
-import { useEffect, useState } from "react";
+import { Suspense, useEffect, useState } from "react";
 import CategoryLevel1 from "@/components/CategoryLevel1";
 import NameConverAndProfilePic from "@/components/sellerStore/NameConverAndProfilePic";
 import SearchBar from "@/components/SearchBar";
@@ -11,7 +11,7 @@ import SellerProductDetails from "@/components/sellerStore/SellerProductDetails"
 import MaxWidthLg from "@/components/MaxWidthLg";
 
 
-export default function SearchPage() {
+const Page = () => {
 
     const searchParams = useSearchParams();
 
@@ -63,3 +63,19 @@ export default function SearchPage() {
 
     );
 }
+
+const SellerStoreWholePage = () => {
+  return (
+    <>
+      <div className="bg-white">
+        <Suspense>
+          <Page />
+        </Suspense>
+      </div>
+    </>
+  )
+}
+
+export default SellerStoreWholePage;
+
+

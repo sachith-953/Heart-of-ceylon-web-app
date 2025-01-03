@@ -75,9 +75,10 @@ const AdminDetails = () => {
     }
   };
 
-  useEffect(() => {
-    fetchAdminDetails();
-  }, []);
+    useEffect(() => {
+        fetchAdminDetails();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
 
   const handleMoreClick = (adminId: number) => {
     // handle click button

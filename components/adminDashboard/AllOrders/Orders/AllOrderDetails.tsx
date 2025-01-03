@@ -111,6 +111,7 @@ const AllOrderDetails = () => {
 
   useEffect(() => {
     fetchAdminDetails();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [reloadPage]);
 
   if (isLoading) {

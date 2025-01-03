@@ -147,6 +147,7 @@ const ChangeSellerAccountDetails = () => {
             setDistrict(sellerDetails.district)
         }
 
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [isReload]);
 
     return (

@@ -64,6 +64,7 @@ const NameCoverAndProfilePic: React.FC<ChildProps> = ({ sellerId }) => {
 
     useEffect(() => {
         fetchSellerDetails();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     return (

@@ -16,6 +16,7 @@ import { FC, useState } from "react";
 import ApproveProductPOPUPButton from "../ApproveProductPOPUPButton/ApproveProductPOPUPButton";
 import RejectProductPOPUPButton from "../RejectProductPOPUPButton/RejectProductPOPUPButton";
 import UpdateProfitMarginPOPUPButton from "../UpdateProfitMarginPOPUPButton/UpdateProfitMarginPOPUPButton";
+import Image from "next/image";
 
 interface ProductApprovalProps {
   isOpen: boolean;
@@ -141,6 +142,7 @@ const ProceedTOApproveProductPOPUPButton: React.FC<ChildProps> = ({
     if (productID !== null && productID !== 0) {
       fetchProductDetails();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [productID, reloadPage]);
 
   return (
@@ -174,12 +176,18 @@ const ProceedTOApproveProductPOPUPButton: React.FC<ChildProps> = ({
             {/* Left Sidebar - 1/4 width */}
             <div className="w-1/4 border-r border-gray-300 flex flex-col rounded-md ml-1 mr-1 mb-1 mt-0 p-2">
               {/* Profile Picture */}
-              <div className="flex justify-center w-full p-1">
+              <div className="relative flex justify-center w-full p-1 h-60">
                 {product.productMainImage ? (
-                  <img
+                  // <img
+                  //   src={product.productMainImage}
+                  //   alt="Product Image"
+                  //   className="w-42 h-60 object-cover rounded-3xl"
+                  // />
+                  <Image
                     src={product.productMainImage}
                     alt="Product Image"
-                    className="w-42 h-60 object-cover rounded-3xl"
+                    className="object-cover rounded-3xl"
+                    fill
                   />
                 ) : (
                   <div className="w-40 h-40 rounded-md bg-gray-200 flex items-center justify-center">

@@ -124,9 +124,10 @@ const ToBeVerifyProducts: FC = () => {
     }
   };
 
-  useEffect(() => {
-    fetchProducts(currentPage);
-  }, [currentPage]);
+    useEffect(() => {
+        fetchProducts(currentPage);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [currentPage]);
 
   const handleNextPage = () => {
     if (hasMorePages) {
