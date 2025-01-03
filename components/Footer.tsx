@@ -27,10 +27,18 @@ const Footer = () => {
                     <div>
                         <h2 className="text-lg font-bold mb-4 text-center">Buying</h2>
                         <ul className="text-center">
-                            <li className="mb-2 hover:font-bold">Start Buying</li>
-                            <li className="mb-2 hover:font-bold">How to Buy</li>
-                            <li className="mb-2 hover:font-bold">Get Offers</li>
-                            <li className="mb-2 hover:font-bold">Request a new product</li>
+                            <li className="mb-2 hover:font-bold">
+                                <Link href="/footer-pages/buying/startBuying">Start Buying</Link>
+                                </li>
+                            <li className="mb-2 hover:font-bold">
+                                <Link href="/footer-pages/buying/howToBuying">How to Buy</Link>
+                                </li>
+                            <li className="mb-2 hover:font-bold">
+                                <Link href="/footer-pages/buying/getOffers">Get Offers</Link>
+                                </li>
+                            <li className="mb-2 hover:font-bold">
+                                <Link href="/footer-pages/buying/requestNewProduct">Request a new product</Link>
+                                </li>
                         </ul>
                     </div>
 
@@ -38,10 +46,18 @@ const Footer = () => {
                     <div>
                         <h2 className="text-lg font-bold mb-4 text-center">About Us</h2>
                         <ul className="text-center">
-                            <li className="mb-2 hover:font-bold">Learn About Us</li>
-                            <li className="mb-2 hover:font-bold">Mother Company</li>
-                            <li className="mb-2 hover:font-bold">Terms & Conditions</li>
-                            <li className="mb-2 hover:font-bold">Trading and Supply Policy</li>
+                            <li className="mb-2 hover:font-bold">
+                                <Link href="/footer-pages/about-us/learnAbout">Learn About Us</Link>
+                                </li>
+                            <li className="mb-2 hover:font-bold">
+                                <Link href="/footer-pages/about-us/mainCompany">Mother Company</Link>
+                                </li>
+                            <li className="mb-2 hover:font-bold">
+                            <Link href="/footer-pages/about-us/termsAndConditions">Terms & Conditions</Link>
+                            </li>
+                            <li className="mb-2 hover:font-bold">
+                                <Link href="/footer-pages/about-us/tradingSupplyPolicy">Trading and Supply Policy</Link> 
+                            </li>
                         </ul>
                     </div>
 
@@ -49,10 +65,18 @@ const Footer = () => {
                     <div>
                         <h2 className="text-lg font-bold mb-4 text-center">Help and Support</h2>
                         <ul className="text-center">
-                            <li className="mb-2 hover:font-bold">Order Tracking</li>
-                            <li className="mb-2 hover:font-bold">Payment Methods</li>
-                            <li className="mb-2 hover:font-bold">Return and Exchange Policies</li>
-                            <li className="mb-2 hover:font-bold">Shipping and Delivery</li>
+                            <li className="mb-2 hover:font-bold">
+                                <Link href="/footer-pages/helpAndSupport/orderTracking">Order Tracking</Link>
+                                </li>
+                            <li className="mb-2 hover:font-bold">
+                            <Link href="/footer-pages/helpAndSupport/paymentMethods">Payment Methods</Link>
+                            </li>
+                            <li className="mb-2 hover:font-bold"> 
+                                <Link href="/footer-pages/helpAndSupport/returnAndExchangePolicy">Return and Exchange Policies</Link>
+                            </li>
+                            <li className="mb-2 hover:font-bold">
+                            <Link href="/footer-pages/helpAndSupport/shippingAndDelivery">Shipping and Delivery</Link>
+                            </li>
                         </ul>
                     </div>
 
