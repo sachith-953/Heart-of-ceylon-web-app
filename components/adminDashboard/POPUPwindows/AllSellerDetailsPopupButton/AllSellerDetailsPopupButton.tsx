@@ -138,7 +138,7 @@ const AllSellerDetailsPopupButton: React.FC<ChildProps> = ({ sellerID }) => {
         {/* this button is the on which visible to outside */}
         <Button
           variant="outline"
-          className="bg-blue-600 w-full hover:bg-blue-800 text-white hover:text-black"
+          className="bg-blue-600 w-full hover:bg-blue-800 text-white hover:text-white"
         >
           View Seller Details
         </Button>
