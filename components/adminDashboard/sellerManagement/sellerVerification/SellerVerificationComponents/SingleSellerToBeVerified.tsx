@@ -77,7 +77,7 @@ const SingleSellerToBeVerified: React.FC<{
           <Button
             asChild
             variant="outline" // Adjust variant if needed (e.g., secondary, outline)
-            className="bg-blue-600 w-full hover:bg-blue-800 text-white hover:text-black"
+            className="bg-blue-600 w-full hover:bg-blue-800 text-white hover:text-white"
             size="default" // Adjust size if needed (e.g., sm, lg)
           >
             <a
@@ -89,6 +89,7 @@ const SingleSellerToBeVerified: React.FC<{
             </a>
           </Button>
         </div>
+
         {/* Proceed to approval */}
         <div>
           <SellerApprovePopUpButton
