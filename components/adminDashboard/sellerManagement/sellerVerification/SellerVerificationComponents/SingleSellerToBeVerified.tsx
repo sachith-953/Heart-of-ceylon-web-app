@@ -4,6 +4,7 @@ import AllSellerDetailsPopupButton from "@/components/adminDashboard/POPUPwindow
 import Link from "next/link";
 import Image from "next/image";
 import SellerApprovePopUpButton from "@/components/adminDashboard/POPUPwindows/SellerApprovePopUpButton/SellerApprovePopUpButton";
+import { Button } from "@/components/ui/button";
 
 interface ToBeVerifySellerData {
   sellerId: number;
@@ -33,7 +34,7 @@ const SingleSellerToBeVerified: React.FC<{
       </div>
 
       {/* Content */}
-      <div className="w-3/6 py-1 px-3 border-2 border-red-600">
+      <div className="w-3/6 py-1 px-3">
         <p className="text-xl font-bold">{parentData.storeName}</p>
         <div className="flex flex-col ms:flex-row mt-0 md:mt-1">
           {/* Seller details */}
@@ -65,32 +66,34 @@ const SingleSellerToBeVerified: React.FC<{
         </div>
       </div>
 
-      <div className="w-2/6 flex flex-col border-2 border-blue-950">
-        {/* View all data*/}
+      <div className="w-2/6 flex flex-col">
+        {/* View Seller Details*/}
         <div className="basis-1/3 mx-2">
           <AllSellerDetailsPopupButton sellerID={parentData.sellerId} />
         </div>
 
-        {/* View Shop */}
+        {/* View Store */}
         <div className="basis-1/3 mx-2">
-          <Link
-            className="w-9/10 px-4 py-2 mx-3 my-2 rounded-lg bg-blue-600 hover:bg-blue-800 text-white hover:text-black m-1"
-            href={{
-              pathname: "/seller-store",
-              query: { sellerId: `${parentData.sellerId}` },
-            }}
-            target="_blank"
-            rel="noopener noreferrer"
+          <Button
+            asChild
+            variant="outline" // Adjust variant if needed (e.g., secondary, outline)
+            className="bg-blue-600 w-full hover:bg-blue-800 text-white hover:text-black"
+            size="default" // Adjust size if needed (e.g., sm, lg)
           >
-            View Store
-          </Link>
+            <a
+              href={`/seller-store?sellerId=${parentData.sellerId}`}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              View Store
+            </a>
+          </Button>
         </div>
-
         {/* Proceed to approval */}
         <div>
-          <SellerApprovePopUpButton 
-          sellerId={parentData.sellerId} 
-          onSellerApproval={onSellerApproval}
+          <SellerApprovePopUpButton
+            sellerId={parentData.sellerId}
+            onSellerApproval={onSellerApproval}
           />
         </div>
       </div>

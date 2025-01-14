@@ -206,6 +206,7 @@ const SellerApprovePopUpButton: React.FC<ChildProps> = ({
         <Button
           variant="outline"
           className="bg-blue-600 w-full hover:bg-blue-800 text-white hover:text-white"
+          size="default"
         >
           Proceed to Approve
         </Button>
