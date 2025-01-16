@@ -4,9 +4,15 @@ import Footer from '@/components/Footer';
 import Navbar from '@/components/Navbar';
 import MaxWidthWrapper from '@/components/MaxWidthWrapper';
 import { Card, CardContent } from '@/components/ui/card';
-import { ChevronRight, ShoppingCart, PackageSearch, CreditCard, PackageCheck, Headphones } from 'lucide-react';
+import { ChevronRight, ShoppingCart, PackageSearch, CreditCard, PackageCheck, Headphones, LucideIcon } from 'lucide-react';
 
-const StepCard = ({ icon: Icon, title, description }) => (
+interface StepCardProps {
+  icon: LucideIcon;
+  title: string;
+  description: string;
+}
+
+const StepCard: React.FC<StepCardProps> = ({ icon: Icon, title, description }) => (
   <Card className="mb-4 hover:shadow-lg transition-shadow">
     <CardContent className="flex items-start p-6">
       <div className="mr-4">
@@ -20,8 +26,14 @@ const StepCard = ({ icon: Icon, title, description }) => (
   </Card>
 );
 
+interface Step {
+  icon: LucideIcon;
+  title: string;
+  description: string;
+}
+
 const HowToBuy: React.FC = () => {
-  const steps = [
+  const steps: Step[] = [
     {
       icon: ShoppingCart,
       title: "Browse and Select Products",
@@ -51,37 +63,36 @@ const HowToBuy: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-gray-50">
+      <Navbar />
+      
+      <MaxWidthWrapper>
+        <div className="max-w-4xl mx-auto px-4 py-12">
+          <div className="text-center mb-12">
+            <h1 className="text-4xl font-bold text-gray-900 mb-4">
+              Learn How to Buy on Our Platform
+            </h1>
+            <p className="text-xl text-gray-600">
+              Follow these simple steps to enjoy a smooth shopping experience
+            </p>
+          </div>
 
-        <Navbar />
+          <div className="space-y-6">
+            {steps.map((step, index) => (
+              <StepCard key={index} {...step} />
+            ))}
+          </div>
 
-        <MaxWidthWrapper>
-      <div className="max-w-4xl mx-auto px-4 py-12">
-        <div className="text-center mb-12">
-          <h1 className="text-4xl font-bold text-gray-900 mb-4">
-            Learn How to Buy on Our Platform
-          </h1>
-          <p className="text-xl text-gray-600">
-            Follow these simple steps to enjoy a smooth shopping experience
-          </p>
+          <div className="text-center mt-12">
+            <p className="text-xl mb-6">Ready to start shopping?</p>
+            <Link href="/buyer/signup">
+              <div 
+                className="inline-flex items-center px-8 py-3 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+                Start Shopping Now
+                <ChevronRight className="ml-2" size={20} />
+              </div>
+            </Link>
+          </div>
         </div>
-
-        <div className="space-y-6">
-          {steps.map((step, index) => (
-            <StepCard key={index} {...step} />
-          ))}
-        </div>
-
-        <div className="text-center mt-12">
-          <p className="text-xl mb-6">Ready to start shopping?</p>
-          <Link href="/buyer/signup">
-            <div 
-              className="inline-flex items-center px-8 py-3 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
-              Start Shopping Now
-              <ChevronRight className="ml-2" size={20} />
-            </div>
-          </Link>
-        </div>
-      </div>
       </MaxWidthWrapper>
 
       <Footer />

@@ -1,14 +1,13 @@
-
 import React from 'react';
 import Link from 'next/link';
 import { Card, CardContent } from '@/components/ui/card';
 import Footer from '@/components/Footer';
 import Navbar from '@/components/Navbar';
 import MaxWidthWrapper from '@/components/MaxWidthWrapper';
-import { Gift, ClipboardCheck, BadgePercent, UserPlus, LogIn } from 'lucide-react';
+import { Gift, ClipboardCheck, BadgePercent, UserPlus, LogIn, LucideIcon } from 'lucide-react';
 
 interface OfferCardProps {
-  icon: React.ComponentType<{ size: number, className?: string }>;
+  icon: LucideIcon;
   title: string;
   description: string;
 }
@@ -28,7 +27,7 @@ const OfferCard: React.FC<OfferCardProps> = ({ icon: Icon, title, description })
 );
 
 const GetOffers: React.FC = () => {
-  const offers = [
+  const offers: OfferCardProps[] = [
     {
       icon: Gift,
       title: "Welcome Offer",
@@ -48,12 +47,10 @@ const GetOffers: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-gray-50">
-    
       <Navbar />
 
       <MaxWidthWrapper>
         <div className="max-w-4xl mx-auto px-4 py-12">
-          {/* Title and description */}
           <div className="text-center mb-12">
             <h1 className="text-4xl font-bold text-gray-900 mb-4">
               Explore Exclusive Offers
@@ -63,18 +60,15 @@ const GetOffers: React.FC = () => {
             </p>
           </div>
 
-          {/* List of offers */}
           <div className="space-y-6">
             {offers.map((offer) => (
               <OfferCard key={offer.title} {...offer} />
             ))}
           </div>
 
-          {/* Call-to-action buttons */}
           <div className="text-center mt-12">
             <p className="text-xl mb-6">Want to get more exclusive offers?</p>
             <div className="space-x-4">
-              {/* Sign Up button */}
               <Link href="/buyer/signup">
                 <div 
                   aria-label="Sign up for exclusive offers"
@@ -84,7 +78,6 @@ const GetOffers: React.FC = () => {
                 </div>
               </Link>
 
-              {/* Log In button */}
               <Link href="/buyer/login">
                 <div 
                   aria-label="Log in to your account"
@@ -98,7 +91,6 @@ const GetOffers: React.FC = () => {
         </div>
       </MaxWidthWrapper>
 
-      {/* Footer */}
       <Footer />
     </div>
   );

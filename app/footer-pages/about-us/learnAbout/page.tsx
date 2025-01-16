@@ -92,7 +92,7 @@ const About: React.FC = () => {
               <h2 className="text-3xl font-semibold text-gray-800 mb-6">Our Values</h2>
               <p className="text-gray-600 leading-relaxed">
                 Sustainability, ethical sourcing, and supporting small businesses are at the core of our values. 
-                We believe in creating opportunities for local artisans while honoring our island's rich heritage.
+                We believe in creating opportunities for local artisans while honoring our island{"'"}s rich heritage.
               </p>
             </section>
           </div>

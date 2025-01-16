@@ -72,6 +72,7 @@ const SellerVerificationCmp = () => {
 
   useEffect(() => {
     fetchToBeVerifiedSellers();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [refreshTrigger])// Add refreshTrigger to dependency array
   
    // Function to trigger a refresh

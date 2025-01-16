@@ -7,14 +7,22 @@ import Footer from '@/components/Footer';
 import Navbar from '@/components/Navbar';
 import MaxWidthWrapper from '@/components/MaxWidthWrapper';
 
+// Define the type for order status
+interface OrderStatus {
+  orderId: string;
+  status: string;
+  estimatedDelivery: string;
+  location: string;
+}
+
 const OrderTracking: React.FC = () => {
   const [trackingNumber, setTrackingNumber] = useState('');
-  const [orderStatus, setOrderStatus] = useState(null);
+  const [orderStatus, setOrderStatus] = useState<OrderStatus | null>(null);
   const [customerType, setCustomerType] = useState<'local' | 'international'>('local');
 
   const handleTrackOrder = () => {
     // Simulated order status
-    const mockStatus = {
+    const mockStatus: OrderStatus = {
       orderId: trackingNumber,
       status: 'Shipped',
       estimatedDelivery: customerType === 'local' ? '2025-01-05' : '2025-01-15',

@@ -120,6 +120,7 @@ const SellerApprovePopUpButton: React.FC<ChildProps> = ({
 
   useEffect(() => {
     fetchSellerStore();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const updateSellerStatus = async (

@@ -4,9 +4,15 @@ import Footer from '@/components/Footer';
 import Navbar from '@/components/Navbar';
 import MaxWidthWrapper from '@/components/MaxWidthWrapper';
 import { Card, CardContent } from '@/components/ui/card';
-import { FileText, Truck, ShieldCheck, RefreshCcw, AlertCircle, ChevronRight } from 'lucide-react';
+import { FileText, Truck, ShieldCheck, RefreshCcw, AlertCircle, ChevronRight, LucideIcon } from 'lucide-react';
 
-const PolicyCard = ({ icon: Icon, title, description }) => (
+interface PolicyCardProps {
+  icon: LucideIcon;
+  title: string;
+  description: string;
+}
+
+const PolicyCard: React.FC<PolicyCardProps> = ({ icon: Icon, title, description }) => (
   <Card className="mb-4 hover:shadow-lg transition-shadow">
     <CardContent className="flex items-start p-6">
       <div className="mr-4">
@@ -21,7 +27,7 @@ const PolicyCard = ({ icon: Icon, title, description }) => (
 );
 
 const TradingSupplyPolicy: React.FC = () => {
-  const policies = [
+  const policies: PolicyCardProps[] = [
     {
       icon: FileText,
       title: "Order Processing",
