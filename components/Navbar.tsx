@@ -60,6 +60,13 @@ const Navbar = () => {
                                 </Link>
                             </div>
 
+                            <div className="h-7 w-px bg-gray-200" aria-hidden="true" />
+
+                            <div className="flex flex-col">
+                            <span className="text-xl font-bold  text-blue-800 ">Heart Of Ceylon</span>
+                            <span className="text-xs   text-gray-900  -mt-1">Authentic Sri Lankan Treasures</span>
+                            </div>   
+
                             {/* hidden this for non-mobile screens */}
                             <div className="hidden z-50 lg:ml-8 lg:block lg:self-stretch">
                                 {/* <NavItems /> */}
