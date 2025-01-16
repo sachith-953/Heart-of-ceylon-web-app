@@ -1,3 +1,21 @@
+# reqeuirements 
+
+add `.env` file to root directory 
+```
+###### set this to you local ip address ######
+NEXT_PUBLIC_URL=http://145.223.83.153:3000/
+# NEXT_PUBLIC_URL=http://localhost:3000
+
+######### Spring Boot Backend Base-URL #####
+NEXT_PUBLIC_SPRING_BOOT_SERVER_URL= http://localhost:8080
+
+PRODUCTS_PER_PRODUCT_SEARCH_RESULT=4
+```
+
+
+
+---
+
 # Deploy issues
 
 bug fix artcles : useEffect
