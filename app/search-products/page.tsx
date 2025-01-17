@@ -45,6 +45,7 @@ const SearchPage = () => {
         productPrice: number
         productRatings: number
         productTotalItemSold: number
+        storeName : string;
         //todo : add seller details
         // change this in product.tsx too
     }

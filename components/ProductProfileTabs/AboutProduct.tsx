@@ -25,6 +25,7 @@ const AboutProduct : React.FC<ChildProps> = ({ pId,}) => {
     productDimensions: string;
     productRatings: number;
     productTotalItemSold: number;
+    
   }
 
 //   If you always expect only one item in the aboutProduct array, you can update your state to hold a single object instead of an array:

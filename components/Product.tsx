@@ -24,6 +24,7 @@ interface productData {
     productPrice: number
     productRatings: number
     productTotalItemSold: number
+    storeName : string;
     //todo : add seller details
     // change this in search-result page.tsx too
 }
@@ -75,8 +76,9 @@ const Product: React.FC<ChildProps> = ({ productData, }) => {
                                                     </p>
                                                 </Link>
                                                 <p className="font-serif font-medium mt-0 sm:mt-1 text-sm lg:text-base">
-                                                    {/* TODO : get this from the database */}
-                                                    Watawela Tea Pvt Ltd
+                                                    {pData.storeName.length > 50
+                                                                ? `${pData.storeName.substring(0, 60)}...`
+                                                                : pData.storeName}
                                                 </p>
 
                                                 {/* ratings */}
