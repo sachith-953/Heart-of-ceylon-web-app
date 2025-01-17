@@ -2,6 +2,8 @@
 
 import React, { useEffect, useState } from 'react';
 import Image from 'next/image';
+import { useRouter } from 'next/navigation';
+import { useToast } from "@/components/ui/use-toast";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 
@@ -23,6 +25,9 @@ const BuyerCart = () => {
   const [data, setData] = useState<CartData | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [reloadPage, setReloadPage] = useState(false);
+  const router = useRouter();
+  const { toast } = useToast();
 
   useEffect(() => {
     const fetchCartData = async () => {
@@ -34,21 +39,42 @@ const BuyerCart = () => {
             'Content-Type': 'application/json',
           },
         });
-        if (!res.ok) {
-          throw new Error("Failed to fetch cart data");
+
+        if (res.ok) {
+          const responseData = await res.json();
+          setData(responseData);
+        } else if (res.status === 403) {
+          // Clear existing cookiesinp 
+          document.cookie = 'email=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+          document.cookie = 'refreshToken=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+          document.cookie = 'accessToken=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+          
+          toast({
+            variant: "destructive",
+            title: "Session Expired",
+            description: "Please login again to continue.",
+          });
+          router.push("/log-in");
+          return;
+        } else {
+          const errorData = await res.json();
+          toast({
+            variant: "destructive",
+            title: "Error",
+            description: errorData.message || "Failed to load cart data",
+          });
         }
-        const responseData: CartData = await res.json();
-        const totalPrice = responseData.cartProducts.reduce((total, product) => total + product.price * product.quantity, 0);
-        setData({ ...responseData, totalPrice });
       } catch (error) {
-        console.error("Error fetching cart data:", error);
+        console.error("Error fetching cart details:", error);
         setError("Failed to load cart data. Please try again.");
       } finally {
         setIsLoading(false);
       }
     };
+
     fetchCartData();
-  }, []);
+  }, [router, reloadPage, toast]);
+
 
   const updateCart = async (updatedProducts: CartProduct[]) => {
     if (data) {
@@ -120,15 +146,26 @@ const BuyerCart = () => {
 
         if (response.ok) {
           const resData = await response.json();
-          alert(resData.message);
-          // Optionally, fetch the updated cart data here
+          toast({
+            title: "Success",
+            description: resData.message,
+          });
+          setReloadPage(prev => !prev); // Trigger a reload
         } else {
           const errorData = await response.json();
-          alert(errorData.error);
+          toast({
+            variant: "destructive",
+            title: "Error",
+            description: errorData.error,
+          });
         }
       } catch (error) {
         console.error("Error updating quantities:", error);
-        alert('Updating quantities failed. Please try again.');
+        toast({
+          variant: "destructive",
+          title: "Error",
+          description: "Updating quantities failed. Please try again.",
+        });
       }
     }
   };
@@ -149,16 +186,27 @@ const BuyerCart = () => {
 
         if (response.ok) {
           const resData = await response.json();
-          alert(resData.message);
-          // Optionally, clear the cart data here or fetch the updated cart data
+          toast({
+            title: "Success",
+            description: resData.message,
+          });
           setData(null);
+          router.push('/checkout-success'); // Add a success page redirect
         } else {
           const errorData = await response.json();
-          alert(errorData.error);
+          toast({
+            variant: "destructive",
+            title: "Error",
+            description: errorData.error,
+          });
         }
       } catch (error) {
         console.error("Error during checkout:", error);
-        alert('Checkout failed. Please try again.');
+        toast({
+          variant: "destructive",
+          title: "Error",
+          description: "Checkout failed. Please try again.",
+        });
       }
     }
   };
@@ -226,10 +274,10 @@ const BuyerCart = () => {
         </div>
         <div className="md:flex-1 bg-gray-200 p-5 rounded-lg w-full md:w-2/5">
           <h2 className="text-2xl font-bold mb-4">Summary</h2>
-          <p className="my-2">Subtotal: US ${(data.totalPrice / 360).toFixed(2)}</p>
+          <p className="my-2">Subtotal: US ${data.totalPrice.toFixed(2)}</p>
           <p className="my-2">Shipping fee: US $19.25</p>
           <p className="my-2">Saved: US $0.00</p>
-          <p className="my-2 font-bold">Total: US ${(data.totalPrice / 360 + 19.25).toFixed(2)}</p>
+          <p className="my-2 font-bold">Total: US ${(data.totalPrice + 19.25).toFixed(2)}</p>
           <button
             className="bg-red-500 text-white py-2 w-full rounded my-5 hover:bg-red-900 hover:shadow-lg transition duration-300 ease-in-out"
             onClick={handleCheckout}
@@ -238,13 +286,13 @@ const BuyerCart = () => {
           </button>
 
           <div className="text-center">
-            <h3 className="m-2.5 pr-10 text-middle font-bold text-2xl ">Pay with</h3>
+            <h3 className="m-2.5 pr-10 text-middle font-bold text-2xl">Pay with</h3>
             <Image
               src="https://www.4x50.com/fileadmin/_processed_/a/4/csm_paymentmethods_1f47eaef07.jpg"
               alt="Payment Methods"
               width={700}
               height={50}
-              className='rounded-lg'
+              className="rounded-lg"
             />
           </div>
         </div>
