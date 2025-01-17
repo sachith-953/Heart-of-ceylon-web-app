@@ -43,20 +43,18 @@ const BuyerCart = () => {
         if (res.ok) {
           const responseData = await res.json();
           setData(responseData);
-        } else if (res.status === 403) {
-          // Clear existing cookiesinp 
-          document.cookie = 'email=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;';
-          document.cookie = 'refreshToken=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;';
-          document.cookie = 'accessToken=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;';
-          
+        } else if (res.status === 403) { // 403 error come from route--> expire refresh token
+          // this trigger when referesh token has issure. 
+          // if token is expired this will trigger
           toast({
-            variant: "destructive",
-            title: "Session Expired",
-            description: "Please login again to continue.",
-          });
+              variant: "destructive",
+              title: "Sorry!",
+              description: "Please Login again. Your Session has Expired!",
+          })
+          console.log("**** FetchSellerSales >> 403 ****************")
+          console.log("Redirectiong to login. RT error")
           router.push("/log-in");
-          return;
-        } else {
+      } else {
           const errorData = await res.json();
           toast({
             variant: "destructive",

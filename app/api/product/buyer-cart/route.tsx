@@ -37,10 +37,9 @@ export async function GET() {
     } else {
         console.log("get-access-token > email not found");
         return new Response(JSON.stringify({
-            error: {
-                message: "get-access-token > email found"
-            }
-        }), { status: 403 }); // if the email not in cookies again login
+            error: { message: "Session expired. Redirecting to login." }
+        }), { status: 403, headers: { 'X-Redirect': '/log-in' } });
+         // if the email not in cookies again login
     }
 
     //get email from the JSON object which taken from cookies
@@ -140,14 +139,14 @@ export async function GET() {
 
 
     // *************************************************************
-    // **4. Get seller information to find a seller section  *******
+    // **************4. Get cart items *****************************
     // ************************************************************* 
 
     console.log("Buyer cart  -->  fetch cart products--> Nextjs API has Called");
 
     try{
 
-        const response = await fetch(`${process.env.NEXT_PUBLIC_SPRING_BOOT_SERVER_URL}/api/v1/pBuyer/get-cart-items?email=${emailValueString}`, {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_SPRING_BOOT_SERVER_URL}/api/v1/auth/get-cart-items?email=${emailValueString}`, {
            // default it is GET
             headers: {
                 'Authorization': `Bearer ${accessToken}`,
@@ -190,55 +189,3 @@ export async function GET() {
 }
 
 
-// =========================================================
-// import { cookies } from "next/headers";
-
-// export async function GET() {
-//   console.log("getCartDetails Nextjs API has Called");
-//   const cookieStore = cookies(); // access cookies
-//   let email: string | undefined = undefined;
-
-//   if (cookieStore.has('email')) {   // check whether email exists
-//     email = cookieStore.get('email')?.value; // if the email is in the cookies get email value
-//     console.log("cart data > email :" + email);
-//   } else {
-//     console.log("cart data > email not found");
-//     return new Response(JSON.stringify({ error: "Email not found in cookies" }), { status: 400 });
-//   }
-
-//   if (email === undefined) {
-//     return new Response(JSON.stringify({ error: "Email not found in cookies" }), { status: 400 });
-//   }
-
-//   try {
-//     const response = await fetch(`http://localhost:8080/api/v1/pBuyer/get-cart-items?email=${encodeURIComponent(email)}`, {
-//       method: 'GET',
-//       headers: {
-//         'Content-Type': 'application/json',
-//       },
-//     });
-
-//     console.log("Request sent to backend with email:", email);
-
-//     if (!response.ok) {
-//       const error = await response.text();
-//       console.log("Error fetching cart details:", error);
-//       return new Response(
-//         JSON.stringify({ error }),
-//         { status: response.status }
-//       );
-//     }
-
-//     const data = await response.json();
-//     console.log("Cart details fetched successfully:", data);
-//     return new Response(JSON.stringify(data), {
-//       status: 200,
-//       headers: {
-//         'Content-Type': 'application/json',
-//       },
-//     });
-//   } catch (error) {
-//     console.log("Failed to fetch cart details:", error);
-//     return new Response(JSON.stringify({ error: "Failed to fetch cart details" }), { status: 500 });
-//   }
-// }

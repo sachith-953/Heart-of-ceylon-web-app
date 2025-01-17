@@ -1,84 +1,74 @@
-"use client"
+"use client";
 
-import Navbar from '@/components/Navbar';
-import { useRouter } from 'next/navigation';
-import { useState } from 'react';
+import Navbar from "@/components/Navbar";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
 
 export default function SignupSachith() {
+  const router = useRouter();
 
-  const router = useRouter()
+  const [serverError, setServerError] = useState("");
+  const [success, setSuccess] = useState("");
 
-  const [serverError, setServerError] = useState("")
-  const [success, setSuccess] = useState("")
-
-  // for form submit tracking 
+  // for form submit tracking
   const [isSub, setIsSub] = useState(false);
 
   // for form data validation and guid user to input valid data
-  const [firstName, setFirstName] = useState("sample data")
-  const [lastName, setLastName] = useState("sample data")
-  const [email, setEmail] = useState("sample@mail.com")
-  const [password, setPassword] = useState("testData!12#")
-  const [confPassword, setConfPassword] = useState("testData!12#")
-  const [phoneNo, setPhoneNo] = useState("12345")
-
-
+  const [firstName, setFirstName] = useState("sample data");
+  const [lastName, setLastName] = useState("sample data");
+  const [email, setEmail] = useState("sample@mail.com");
+  const [password, setPassword] = useState("testData!12#");
+  const [confPassword, setConfPassword] = useState("testData!12#");
+  const [phoneNo, setPhoneNo] = useState("12345");
 
   //*************REGEX*************
-  // Use for show errors 
+  // Use for show errors
   const nameRegex = /^[a-zA-Z\s]+$/; // Regular expression pattern for names (only letters and spaces allowed)
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  const atleastOneDigitRegex = /^(?=.*\d)/;  // password should contain atleas one digit 
-  const specialCharRegex = /^(?=.*?[!@#$%^&*()_+\-=\[\]{};:"\\|,.<>\/?])[a-zA-Z\d!@#$%^&*()_+\-=\[\]{};:"\\|,.<>\/?]+$/;
-  const oneSimpleAndOneCapitalRegex = /^(?=.*[a-z])(?=.*[A-Z])[a-zA-Z\d!@#$%^&*(),.?":{}|<>]+$/; // password should contain atleas one simple and capital letters
+  const atleastOneDigitRegex = /^(?=.*\d)/; // password should contain atleas one digit
+  const specialCharRegex =
+    /^(?=.*?[!@#$%^&*()_+\-=\[\]{};:"\\|,.<>\/?])[a-zA-Z\d!@#$%^&*()_+\-=\[\]{};:"\\|,.<>\/?]+$/;
+  const oneSimpleAndOneCapitalRegex =
+    /^(?=.*[a-z])(?=.*[A-Z])[a-zA-Z\d!@#$%^&*(),.?":{}|<>]+$/; // password should contain atleas one simple and capital letters
   const eightCharRegex = /^.{8,}$/;
-  const numericRegex = /^[0-9]+$/;
-
+  const numericRegex = /^[0-9]{10,10}$/;
 
   const buttonIsClicked = async () => {
     // Set isSubmitting to true when the form is being submitted
-    setIsSub(true)
-    console.log("submitting :" + isSub)
-  }
+    setIsSub(true);
+    console.log("submitting :" + isSub);
+  };
 
   const handleFormSubmit = async (formData: FormData) => {
-
     try {
       const BASE_URL = process.env.NEXT_PUBLIC_URL;
       const res = await fetch(`${BASE_URL}/api/signup`, {
-        method: 'POST',
-        body: formData
-      })
+        method: "POST",
+        body: formData,
+      });
 
-      const ResponseData = await res.json()
-      console.log(ResponseData)
-      console.log(ResponseData.message)
+      const ResponseData = await res.json();
+      console.log(ResponseData);
+      console.log(ResponseData.message);
 
       if (ResponseData.success === true) {
-        router.push('/sign-up/email-verification-message')
-      }
-      else {
+        router.push("/sign-up/email-verification-message");
+      } else {
         // if not success, show the error message
-        setSuccess(ResponseData.success)
-        setServerError(ResponseData.message)
+        setSuccess(ResponseData.success);
+        setServerError(ResponseData.message);
       }
-    }
-    catch (error) {
-      console.error('Error submitting form:', error);
+    } catch (error) {
+      console.error("Error submitting form:", error);
     } finally {
       // Set isSubmitting back to false after form submission
       setIsSub(false);
-      console.log("finally block line:50")
+      console.log("finally block line:50");
     }
-
-
-
-
-  }
+  };
 
   return (
     <>
-
       <Navbar />
 
       <div className=" flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
@@ -86,16 +76,22 @@ export default function SignupSachith() {
           <h2 className="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">
             Sign-Up to your account
           </h2>
-          <p className='text-center mt-3 text-red-600'>
+          <p className="text-center mt-3 text-red-600">
             {!success && serverError}
           </p>
         </div>
 
         <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
-
-          <form className="space-y-3" action={handleFormSubmit} onSubmit={buttonIsClicked}>
+          <form
+            className="space-y-3"
+            action={handleFormSubmit}
+            onSubmit={buttonIsClicked}
+          >
             <div>
-              <label htmlFor="firstName" className="block text-sm font-medium leading-6 text-gray-900">
+              <label
+                htmlFor="firstName"
+                className="block text-sm font-medium leading-6 text-gray-900"
+              >
                 First Name
               </label>
               <div className="">
@@ -107,19 +103,25 @@ export default function SignupSachith() {
                   required
                   placeholder="Kevin"
                   className="pl-3 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                  onChange={(data) => { setFirstName(data.target.value) }}
+                  onChange={(data) => {
+                    setFirstName(data.target.value);
+                  }}
                 />
-                {!nameRegex.test(firstName.trim())
-                  ?
-                  <p className='text-sm text-red-600'>Name can only have Letters</p>
-                  :
+                {!nameRegex.test(firstName.trim()) ? (
+                  <p className="text-sm text-red-600">
+                    Name can only have Letters
+                  </p>
+                ) : (
                   <p></p>
-                }
+                )}
               </div>
             </div>
 
             <div>
-              <label htmlFor="lastName" className="block text-sm font-medium leading-6 text-gray-900">
+              <label
+                htmlFor="lastName"
+                className="block text-sm font-medium leading-6 text-gray-900"
+              >
                 Last Name
               </label>
               <div className="">
@@ -131,19 +133,25 @@ export default function SignupSachith() {
                   required
                   placeholder="Peterson"
                   className="pl-3 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                  onChange={(data) => { setLastName(data.target.value) }}
+                  onChange={(data) => {
+                    setLastName(data.target.value);
+                  }}
                 />
-                {!nameRegex.test(lastName.trim())
-                  ?
-                  <p className='text-sm text-red-600'>Name can only have Letters</p>
-                  :
+                {!nameRegex.test(lastName.trim()) ? (
+                  <p className="text-sm text-red-600">
+                    Name can only have Letters
+                  </p>
+                ) : (
                   <p></p>
-                }
+                )}
               </div>
             </div>
 
             <div>
-              <label htmlFor="email" className="block text-sm font-medium leading-6 text-gray-900">
+              <label
+                htmlFor="email"
+                className="block text-sm font-medium leading-6 text-gray-900"
+              >
                 Email address
               </label>
               <div className="">
@@ -155,19 +163,25 @@ export default function SignupSachith() {
                   required
                   placeholder="example@gmail.com"
                   className="pl-3 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                  onChange={(data) => { setEmail(data.target.value) }}
+                  onChange={(data) => {
+                    setEmail(data.target.value);
+                  }}
                 />
-                {!emailRegex.test(email.trim())
-                  ?
-                  <p className='text-sm text-red-600'>Plese Enter a valid Email</p>
-                  :
+                {!emailRegex.test(email.trim()) ? (
+                  <p className="text-sm text-red-600">
+                    Plese Enter a valid Email
+                  </p>
+                ) : (
                   <p></p>
-                }
+                )}
               </div>
             </div>
 
             <div>
-              <label htmlFor="password" className="block text-sm font-medium leading-6 text-gray-900">
+              <label
+                htmlFor="password"
+                className="block text-sm font-medium leading-6 text-gray-900"
+              >
                 Password
               </label>
               <div className="">
@@ -178,43 +192,52 @@ export default function SignupSachith() {
                   autoComplete="new-password"
                   required
                   className="pl-3 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                  onChange={(data) => { setPassword(data.target.value); setConfPassword(data.target.value) }}
+                  onChange={(data) => {
+                    setPassword(data.target.value);
+                    setConfPassword(data.target.value);
+                  }}
                 />
-                {(!eightCharRegex.test(password.trim()))
-                  ?
-                  <p className='text-sm text-red-600'>Password must contain at least 8 Characters</p>
-                  :
+                {!eightCharRegex.test(password.trim()) ? (
+                  <p className="text-sm text-red-600">
+                    Password must contain at least 8 Characters
+                  </p>
+                ) : (
                   <p></p>
-                }
-                {(!atleastOneDigitRegex.test(password.trim())) || (!specialCharRegex.test(password.trim())) || !oneSimpleAndOneCapitalRegex.test(password.trim())
-                  ?
-                  <p className='text-sm text-red-600'>Please add at least:</p>
-                  :
+                )}
+                {!atleastOneDigitRegex.test(password.trim()) ||
+                !specialCharRegex.test(password.trim()) ||
+                !oneSimpleAndOneCapitalRegex.test(password.trim()) ? (
+                  <p className="text-sm text-red-600">Please add at least:</p>
+                ) : (
                   <p></p>
-                }
-                {!atleastOneDigitRegex.test(password.trim())
-                  ?
-                  <p className='text-sm text-red-600 ml-2'>One Number</p>
-                  :
+                )}
+                {!atleastOneDigitRegex.test(password.trim()) ? (
+                  <p className="text-sm text-red-600 ml-2">One Number</p>
+                ) : (
                   <p></p>
-                }
-                {!specialCharRegex.test(password.trim())
-                  ?
-                  <p className='text-sm text-red-600 ml-2'>One Special character</p>
-                  :
+                )}
+                {!specialCharRegex.test(password.trim()) ? (
+                  <p className="text-sm text-red-600 ml-2">
+                    One Special character
+                  </p>
+                ) : (
                   <p></p>
-                }
-                {!oneSimpleAndOneCapitalRegex.test(password.trim())
-                  ?
-                  <p className='text-sm text-red-600 ml-2'>One Simple Letter and One Capital Letter</p>
-                  :
+                )}
+                {!oneSimpleAndOneCapitalRegex.test(password.trim()) ? (
+                  <p className="text-sm text-red-600 ml-2">
+                    One Simple Letter and One Capital Letter
+                  </p>
+                ) : (
                   <p></p>
-                }
+                )}
               </div>
             </div>
 
             <div>
-              <label htmlFor="confirmPassword" className="block text-sm font-medium leading-6 text-gray-900">
+              <label
+                htmlFor="confirmPassword"
+                className="block text-sm font-medium leading-6 text-gray-900"
+              >
                 Confirm Password
               </label>
               <div className="">
@@ -225,43 +248,55 @@ export default function SignupSachith() {
                   autoComplete="new-password"
                   required
                   className="pl-3 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                  onChange={(data) => { setConfPassword(data.target.value) }}
+                  onChange={(data) => {
+                    setConfPassword(data.target.value);
+                  }}
                 />
-                {!(password === confPassword)
-                  ?
-                  <p className='text-sm text-red-600'>Passwords are not matching</p>
-                  :
+                {!(password === confPassword) ? (
+                  <p className="text-sm text-red-600">
+                    Passwords are not matching
+                  </p>
+                ) : (
                   <p></p>
-                }
+                )}
               </div>
             </div>
 
             <div>
-              <label htmlFor="phone number" className="block text-sm font-medium leading-6 text-gray-900">
+              <label
+                htmlFor="phone number"
+                className="block text-sm font-medium leading-6 text-gray-900"
+              >
                 Phone number
               </label>
               <div className="">
                 <input
                   id="phoneNumber"
                   name="phoneNumber"
-                  type='text'
+                  type="text"
                   autoComplete="cc-number"
                   required
                   placeholder="0111234567"
                   className="pl-3 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                  onChange={(data) => { setPhoneNo(data.target.value) }}
+                  onChange={(data) => {
+                    setPhoneNo(data.target.value);
+                  }}
                 />
-                {!numericRegex.test(phoneNo.trim())
-                  ?
-                  <p className='text-sm text-red-600'>Please add only Numbers</p>
-                  :
+                {!numericRegex.test(phoneNo.trim()) ? (
+                  <p className="text-sm text-red-600">
+                    Please enter a valid number
+                  </p>
+                ) : (
                   <p></p>
-                }
+                )}
               </div>
             </div>
 
             <div>
-              <label htmlFor="address" className="block text-sm font-medium leading-6 text-gray-900">
+              <label
+                htmlFor="address"
+                className="block text-sm font-medium leading-6 text-gray-900"
+              >
                 Address
               </label>
               <div className="">
@@ -279,7 +314,10 @@ export default function SignupSachith() {
 
             <div className="grid grid-cols-2 gap-x-4 mt-4">
               <div>
-                <label htmlFor="city" className="block text-sm font-medium leading-6 text-gray-900">
+                <label
+                  htmlFor="city"
+                  className="block text-sm font-medium leading-6 text-gray-900"
+                >
                   City
                 </label>
                 <div className="">
@@ -296,7 +334,10 @@ export default function SignupSachith() {
               </div>
 
               <div>
-                <label htmlFor="state" className="block text-sm font-medium leading-6 text-gray-900">
+                <label
+                  htmlFor="state"
+                  className="block text-sm font-medium leading-6 text-gray-900"
+                >
                   State/Province
                 </label>
                 <div className="">
@@ -314,9 +355,11 @@ export default function SignupSachith() {
             </div>
 
             <div className="grid grid-cols-2 gap-x-4 mt-4">
-
               <div>
-                <label htmlFor="postalCode" className="block text-sm font-medium leading-6 text-gray-900">
+                <label
+                  htmlFor="postalCode"
+                  className="block text-sm font-medium leading-6 text-gray-900"
+                >
                   Postal Code / Zip Code
                 </label>
                 <div className="">
@@ -333,7 +376,10 @@ export default function SignupSachith() {
               </div>
 
               <div>
-                <label htmlFor="country" className="block text-sm font-medium leading-6 text-gray-900">
+                <label
+                  htmlFor="country"
+                  className="block text-sm font-medium leading-6 text-gray-900"
+                >
                   Country
                 </label>
                 <div className="">
@@ -349,8 +395,6 @@ export default function SignupSachith() {
                 </div>
               </div>
             </div>
-
-
 
             <div>
               <button
@@ -383,15 +427,13 @@ export default function SignupSachith() {
                     Submitting...
                   </div>
                 ) : (
-                  'Sign in'
+                  "Sign in"
                 )}
               </button>
             </div>
-
           </form>
         </div>
       </div>
     </>
   );
 }
-
