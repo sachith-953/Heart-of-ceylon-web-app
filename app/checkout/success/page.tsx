@@ -1,8 +1,10 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { PaymentIntent } from "@stripe/stripe-js";
-import { useStripe } from "@stripe/react-stripe-js";
+import { loadStripe, PaymentIntent } from "@stripe/stripe-js";
+import { Elements, useStripe } from "@stripe/react-stripe-js";
+
+const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY!);
 
 // Define only the status types we want to handle specifically
 type HandleableStatus = 'succeeded' | 'processing' | 'requires_payment_method' | 'default';
@@ -50,7 +52,7 @@ const STATUS_CONTENT_MAP = {
   }
 } as const;
 
-export default function CompletePage() {
+const CompletePage = () => {
   const stripe = useStripe();
   const [status, setStatus] = useState<PaymentIntent['status'] | 'default'>('default');
   const [intentId, setIntentId] = useState<string | null>(null);
@@ -123,3 +125,13 @@ export default function CompletePage() {
     </div>
   );
 }
+
+const ElementWrappedCompletePage = () => {
+    return (
+        <Elements stripe={stripePromise}>
+        <CompletePage />
+        </Elements>
+    );
+}
+
+export default ElementWrappedCompletePage;
