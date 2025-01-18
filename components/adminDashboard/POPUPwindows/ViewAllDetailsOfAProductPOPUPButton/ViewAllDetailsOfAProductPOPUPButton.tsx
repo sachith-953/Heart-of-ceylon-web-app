@@ -219,9 +219,9 @@ const ViewAllDetailsOfAProductPOPUPButton: React.FC<ChildProps> = ({
                 <div className="w-2/3 mx-5">
                   <AllSellerDetailsPopupButton sellerID={product.sellerID} />
                 </div>
-                <button className="bg-blue-600 hover:bg-blue-800 text-white font-bold py-2 rounded w-2/3 px-4 hover:text-black">
+                {/* <button className="bg-blue-600 hover:bg-blue-800 text-white font-bold py-2 rounded w-2/3 px-4 hover:text-black">
                   Comments
-                </button>
+                </button> */}
                 {/*ratings button  */}
                 <div className="w-2/3 ">
                   <AllReviewsAndRatingsPopupButton

@@ -120,7 +120,7 @@ const AboutProduct: React.FC<ChildProps> = ({ pId }) => {
             </p>
             
             {/* quantity change buttons */}
-            <div className="flex items-center mb-4">
+            {/* <div className="flex items-center mb-4">
               <p className="my-1">Quantity:</p>
               <div className="flex items-center">
                 <button
@@ -137,7 +137,7 @@ const AboutProduct: React.FC<ChildProps> = ({ pId }) => {
                   +
                 </button>
               </div>
-            </div>
+            </div> */}
 
             <p className="text-sm text-gray-500 mb-6 font-semibold">
               Available: {aboutProduct?.productAvailableStocks}

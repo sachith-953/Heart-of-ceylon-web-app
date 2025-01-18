@@ -272,9 +272,9 @@ const TopSellingProductDetails: FC = () => {
               </div>
 
               {/* Section 3: Seller Info & Status */}
-              <div className="w-48 space-y-2">
+              <div className="w-48 ">
                 {/* Product Manufacture */}
-                <p className="text-sm font-medium">
+                <p className="mb-10 mt-3 font-medium text-sm">
                   Manuf. : {product.productManufacture}
                 </p>
                 <div className="space-y-1">
@@ -286,15 +286,15 @@ const TopSellingProductDetails: FC = () => {
                   </p>
                 </div>
                 <div className="space-y-2 mt-4">
-                  <Button
+                  {/* <Button
                     variant="outline"
                     size="sm"
                     className="bg-blue-600 w-full hover:bg-blue-800 text-white hover:text-black"
                   >
                     Comments
-                  </Button>
+                  </Button> */}
                   {/* ratings buton */}
-                  <div>
+                  <div className="mb-1">
                     <AllReviewsAndRatingsPopupButton
                       productID={product.productID}
                     />
