@@ -1,11 +1,11 @@
 "use client";
 
-import React, { FC, useEffect, useState } from "react";
-import { useToast } from "@/components/ui/use-toast";
-import { useRouter } from "next/navigation";
-import { Button } from "@/components/ui/button";
-import { Card } from "@/components/ui/card";
-import { Loader2, Star } from "lucide-react";
+import React, { FC, useEffect, useState } from "react"; // React: For building UI components
+import { useToast } from "@/components/ui/use-toast"; //useToast: A hook for displaying toast notifications.
+import { useRouter } from "next/navigation";  // useRouter: A hook from Next.js for navigation between pages.
+import { Button } from "@/components/ui/button"; //Button, Card: UI components for consistent design
+import { Card } from "@/components/ui/card";  // Loader2, Star: Icons from lucide-react
+import { Loader2, Star } from "lucide-react"; // Image: Next.js optimized image component for better performance.
 import Image from "next/image";
 import SearchBarForSearchProductsFromAdminDashboard from "./SearchBarForSearchProductsFromAdminDashboard";
 import AllSellerDetailsPopupButton from "../../POPUPwindows/AllSellerDetailsPopupButton/AllSellerDetailsPopupButton";
@@ -55,6 +55,23 @@ export interface TopSellingProductData {
   productDiscountPrice: number;
 }
 
+interface ApiResponse {
+  content: TopSellingProductData[];
+  pageable: {
+    pageNumber: number;
+    pageSize: number;
+    offset: number;
+  };
+  last: boolean;
+  totalElements: number;
+  totalPages: number;
+  size: number;
+  number: number;
+  first: boolean;
+  numberOfElements: number;
+  empty: boolean;
+}
+
 const TopSellingProductDetails: FC = () => {
   const [data, setData] = useState<TopSellingProductData[]>([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -67,6 +84,21 @@ const TopSellingProductDetails: FC = () => {
   const [selectedProduct, setSelectedProduct] = useState<number | null>(null); // pop up for all details of a product
   const [reloadPage, setReloadPage] = useState(false);
   const [reviews, setReviews] = useState<number | null>(null); // pop up for all reviews
+  const [pageInfo, setPageInfo] = useState<{
+    currentPage: number;
+    totalPages: number;
+    isFirst: boolean;
+    isLast: boolean;
+    totalElements: number;
+    pageSize: number;
+  }>({
+    currentPage: 0,
+    totalPages: 0,
+    isFirst: true,
+    isLast: false,
+    totalElements: 0,
+    pageSize: 50,
+  });
 
   //this handle by child component >> SearchBarForAllOrderDetails
   const handleChildDataChange = (newChildData: TopSellingProductData[]) => {
@@ -94,49 +126,59 @@ const TopSellingProductDetails: FC = () => {
         }
       );
 
-      if (res.ok) {
-        const responseData = await res.json();
-        if (Array.isArray(responseData) && responseData.length > 0) {
-          setData(responseData);
-          setHasMorePages(responseData.length >= 10); // Assuming 10 items per page
-        } else {
-          setHasMorePages(false);
+      if (!res.ok) {
+        if (res.status === 403) {
+          toast({
+            variant: "destructive",
+            title: "Session Expired",
+            description: "Please login again to continue.",
+          });
+          router.push("/log-in");
+          return;
         }
-      } else if (res.status === 403) {
-        toast({
-          variant: "destructive",
-          title: "Sorry!",
-          description: "Please Login again. Your Session has Expired!",
-        });
-        router.push("/log-in");
-      } else {
-        const errorData = await res.json();
-        toast({
-          variant: "destructive",
-          title: "Something went wrong.",
-          description:
-            "Please Try Again. There was a problem with your request. " +
-            errorData.message,
-        });
+        throw new Error("Failed to fetch products");
       }
+
+      const responseData: ApiResponse = await res.json();
+
+      setData(responseData.content);
+      setPageInfo({
+        currentPage: responseData.number,
+        totalPages: responseData.totalPages,
+        isFirst: responseData.first,
+        isLast: responseData.last,
+        totalElements: responseData.totalElements,
+        pageSize: responseData.size,
+      });
     } catch (error) {
       console.error("Error fetching products:", error);
-      setError("Failed to load product data. Please try again.");
+      setError("Failed to load products. Please try again.");
+      toast({
+        variant: "destructive",
+        title: "Error",
+        description: "Failed to load products. Please try again.",
+      });
     } finally {
       setIsLoading(false);
     }
   };
 
-  useEffect(() => {
-    fetchProducts(currentPage);
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [currentPage, reloadPage]);
-
   const handleNextPage = () => {
-    if (hasMorePages) {
-      setCurrentPage((prev) => prev + 1);
+    if (!pageInfo.isLast) {
+      fetchProducts(pageInfo.currentPage + 1);
     }
   };
+
+  const handlePreviousPage = () => {
+    if (!pageInfo.isFirst) {
+      fetchProducts(pageInfo.currentPage - 1);
+    }
+  };
+
+  useEffect(() => {
+    fetchProducts(0);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const onProductSuspend = async () => {
     // Refresh the data after a product is suspended
@@ -154,12 +196,6 @@ const TopSellingProductDetails: FC = () => {
       title: "Product List Updated",
       description: "The product list has been refreshed after Unsuspension",
     });
-  };
-
-  const handlePreviousPage = () => {
-    if (currentPage > 1) {
-      setCurrentPage((prev) => prev - 1);
-    }
   };
 
   if (isLoading) {
@@ -182,6 +218,13 @@ const TopSellingProductDetails: FC = () => {
     });
   };
 
+  const startEntry = pageInfo.currentPage * pageInfo.pageSize + 1;
+  const endEntry = Math.min(
+    (pageInfo.currentPage + 1) * pageInfo.pageSize,
+    pageInfo.totalElements
+  );
+
+
   return (
     <div className="pl-0 rounded-md ml-1 mr-1">
       <SearchBarForSearchProductsFromAdminDashboard
@@ -189,10 +232,15 @@ const TopSellingProductDetails: FC = () => {
         clearSearchResults={reloadParentFromChild}
       />
 
+      <div className="flex justify-between items-center px-4">
+      <h1 className="text-lg font-bold ml-2">Top Selling Products</h1>
+        <span className="text-sm text-gray-500">
+          Showing {startEntry}-{endEntry} of {pageInfo.totalElements} entries
+        </span>
+      </div>
+
       <div className="pl-0 rounded-md ml-1 mr-1">
-        <div className="h-9 pb-1">
-          <h1 className="text-lg font-bold ml-2">Top Selling Products</h1>
-        </div>
+      
         {data.map((product) => (
           <Card key={product.productID} className="mb-2">
             {/* div tag for each product */}
@@ -334,24 +382,28 @@ const TopSellingProductDetails: FC = () => {
           </Card>
         ))}
         {/* pagination buttons */}
-        <div className="flex justify-center mt-6">
-          <Button
-            onClick={handlePreviousPage}
-            disabled={currentPage === 1}
-            variant="outline"
-            className="hover:bg-gray-600 text-black pl-2 bg-gray-400"
-          >
-            Previous Page
-          </Button>
-          <span className="py-2">Page {currentPage}</span>
-          <Button
-            onClick={handleNextPage}
-            disabled={!hasMorePages}
-            variant="outline"
-            className="hover:bg-gray-600 text-black pr-2 bg-gray-400"
-          >
-            Next Page
-          </Button>
+        <div className="flex justify-between items-center mt-4 px-4">
+          <div className="text-sm text-gray-500">
+            Page {pageInfo.currentPage + 1} of {pageInfo.totalPages}
+          </div>
+          <div className="flex space-x-2">
+            <Button
+              onClick={handlePreviousPage}
+              disabled={pageInfo.isFirst}
+              variant="outline"
+              size="sm"
+            >
+              Previous
+            </Button>
+            <Button
+              onClick={handleNextPage}
+              disabled={pageInfo.isLast}
+              variant="outline"
+              size="sm"
+            >
+              Next
+            </Button>
+          </div>
         </div>
       </div>
     </div>
