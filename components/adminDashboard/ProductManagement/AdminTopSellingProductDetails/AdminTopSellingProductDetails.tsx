@@ -177,7 +177,7 @@ const TopSellingProductDetails: FC = () => {
 
   useEffect(() => {
     fetchProducts(0);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    // backend is likely designed to treat page number 0 as the first page.
   }, []);
 
   const onProductSuspend = async () => {

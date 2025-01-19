@@ -53,6 +53,23 @@ export interface ToBeVerifyProductsData {
   productDiscountPrice: number;
 }
 
+interface ApiResponse {
+  content: ToBeVerifyProductsData[];
+  pageable: {
+    pageNumber: number;
+    pageSize: number;
+    offset: number;
+  };
+  last: boolean;
+  totalElements: number;
+  totalPages: number;
+  size: number;
+  number: number;
+  first: boolean;
+  numberOfElements: number;
+  empty: boolean;
+}
+
 const ToBeVerifyProducts: FC = () => {
   const [data, setData] = useState<ToBeVerifyProductsData[]>([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -64,6 +81,21 @@ const ToBeVerifyProducts: FC = () => {
   const [selectedSeller, setSelectedSeller] = useState<number | null>(null); // pop up for seller view
   const [selectedProduct, setSelectedProduct] = useState<number | null>(null); // popup product details window
   const [reloadPage, setReloadPage] = useState(false);
+  const [pageInfo, setPageInfo] = useState<{
+    currentPage: number;
+    totalPages: number;
+    isFirst: boolean;
+    isLast: boolean;
+    totalElements: number;
+    pageSize: number;
+  }>({
+    currentPage: 0,
+    totalPages: 0,
+    isFirst: true,
+    isLast: false,
+    totalElements: 0,
+    pageSize: 50,
+  });
 
   //this handle by child component >> SearchBarForAllOrderDetails
   const handleChildDataChange = (newChildData: ToBeVerifyProductsData[]) => {
@@ -91,53 +123,57 @@ const ToBeVerifyProducts: FC = () => {
         }
       );
 
-      if (res.ok) {
-        const responseData = await res.json();
-        if (Array.isArray(responseData) && responseData.length > 0) {
-          setData(responseData);
-          setHasMorePages(responseData.length >= 10); // Assuming 10 items per page
-        } else {
-          setHasMorePages(false);
+      if (!res.ok) {
+        if (res.status === 403) {
+          toast({
+            variant: "destructive",
+            title: "Session Expired",
+            description: "Please login again to continue.",
+          });
+          router.push("/log-in");
+          return;
         }
-      } else if (res.status === 403) {
-        toast({
-          variant: "destructive",
-          title: "Sorry!",
-          description: "Please Login again. Your Session has Expired!",
-        });
-        router.push("/seller-log-in");
-      } else {
-        const errorData = await res.json();
-        toast({
-          variant: "destructive",
-          title: "Something went wrong.",
-          description:
-            "Please Try Again. There was a problem with your request. " +
-            errorData.message,
-        });
+        throw new Error("Failed to fetch products");
       }
+
+      const responseData: ApiResponse = await res.json();
+
+      setData(responseData.content);
+      setPageInfo({
+        currentPage: responseData.number,
+        totalPages: responseData.totalPages,
+        isFirst: responseData.first,
+        isLast: responseData.last,
+        totalElements: responseData.totalElements,
+        pageSize: responseData.size,
+      });
     } catch (error) {
       console.error("Error fetching products:", error);
-      setError("Failed to load product data. Please try again.");
+      setError("Failed to load products. Please try again.");
+      toast({
+        variant: "destructive",
+        title: "Error",
+        description: "Failed to load products. Please try again.",
+      });
     } finally {
       setIsLoading(false);
     }
   };
 
-    useEffect(() => {
-        fetchProducts(currentPage);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [currentPage]);
+  useEffect(() => {
+    fetchProducts(0);
+    // backend is likely designed to treat page number 0 as the first page.
+  }, []);
 
   const handleNextPage = () => {
-    if (hasMorePages) {
-      setCurrentPage((prev) => prev + 1);
+    if (!pageInfo.isLast) {
+      fetchProducts(pageInfo.currentPage + 1);
     }
   };
 
   const handlePreviousPage = () => {
-    if (currentPage > 1) {
-      setCurrentPage((prev) => prev - 1);
+    if (!pageInfo.isFirst) {
+      fetchProducts(pageInfo.currentPage - 1);
     }
   };
   // handle view seller button click
@@ -168,6 +204,13 @@ const ToBeVerifyProducts: FC = () => {
       day: "numeric",
     });
   };
+
+  const startEntry = pageInfo.currentPage * pageInfo.pageSize + 1;
+  const endEntry = Math.min(
+    (pageInfo.currentPage + 1) * pageInfo.pageSize,
+    pageInfo.totalElements
+  );
+
   return (
     // <div>
     //     search products component here
@@ -178,12 +221,15 @@ const ToBeVerifyProducts: FC = () => {
         clearSearchResults={reloadParentFromChild}
       />
 
+      <div className="flex justify-between items-center px-4">
+        <h1 className="text-lg font-bold ml-2">Product To Be Verified</h1>
+        <span className="text-sm text-gray-500">
+          Showing {startEntry}-{endEntry} of {pageInfo.totalElements} entries
+        </span>
+      </div>
       {/* display products component here */}
 
       <div className="pl-0 rounded-md ml-1 mr-1">
-        <div className="h-9 pb-1">
-          <h1 className="text-lg font-bold ml-2">Products To Verify</h1>
-        </div>
         {data.map((product) => (
           <Card key={product.productID} className="mb-2">
             {/* div tag for each product */}
@@ -271,24 +317,28 @@ const ToBeVerifyProducts: FC = () => {
           </Card>
         ))}
 
-        <div className="flex justify-center mt-6">
-          <Button
-            onClick={handlePreviousPage}
-            disabled={currentPage === 1}
-            variant="outline"
-            className="hover:bg-gray-600 text-black pl-2 bg-gray-400"
-          >
-            Previous Page
-          </Button>
-          <span className="py-2">Page {currentPage}</span>
-          <Button
-            onClick={handleNextPage}
-            disabled={!hasMorePages}
-            variant="outline"
-            className="hover:bg-gray-600 text-black pr-2 bg-gray-400"
-          >
-            Next Page
-          </Button>
+        <div className="flex justify-between items-center mt-4 px-4">
+          <div className="text-sm text-gray-500">
+            Page {pageInfo.currentPage + 1} of {pageInfo.totalPages}
+          </div>
+          <div className="flex space-x-2">
+            <Button
+              onClick={handlePreviousPage}
+              disabled={pageInfo.isFirst}
+              variant="outline"
+              size="sm"
+            >
+              Previous
+            </Button>
+            <Button
+              onClick={handleNextPage}
+              disabled={pageInfo.isLast}
+              variant="outline"
+              size="sm"
+            >
+              Next
+            </Button>
+          </div>
         </div>
       </div>
     </div>
