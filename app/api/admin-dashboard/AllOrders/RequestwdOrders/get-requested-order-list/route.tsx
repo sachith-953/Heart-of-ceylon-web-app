@@ -13,7 +13,9 @@ import { cookies } from "next/headers";
  */
 
 
-export async function GET() {
+export const dynamic = "force-dynamic";
+
+export async function POST(request: Request) {
     // decalare global variables 
     const cookieStore = cookies();
     let email = null;
@@ -144,10 +146,14 @@ export async function GET() {
     // *************************************************************
 
     console.log("Admindashboard --> All orders--> requested orders. Nextjs API has Called");
+    const reqParams = await request.json();
+    console.log("reqParams.requestedPage :" + reqParams.requestedPage);
+    const requestedPageNo = reqParams.requestedPage;
+
 
     try{
 
-        const response = await fetch(`${process.env.NEXT_PUBLIC_SPRING_BOOT_SERVER_URL}/api/v1/auth/get-50-requested-order-details?adminEmail=${emailValueString}`, {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_SPRING_BOOT_SERVER_URL}/api/v1/auth/get-50-requested-order-details?adminEmail=${emailValueString}&pageNumber=${requestedPageNo}`, {
            // default it is GET
             headers: {
                 'Authorization': `Bearer ${accessToken}`,
