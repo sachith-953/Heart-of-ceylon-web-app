@@ -148,12 +148,14 @@ export async function POST(request: Request) {
   const reqParams = await request.json();
   // store the seller id in a varible
   const productID = reqParams.productID;
+  const reasonToReject = reqParams.rejectionReason;
   console.log("productID is :" + productID);
+  console.log("The reason to reject product  :" + reasonToReject);
   console.log("Reject product --> Nextjs API has Called");
 
   try {
     const response = await fetch(
-      `${process.env.NEXT_PUBLIC_SPRING_BOOT_SERVER_URL}/api/v1/auth/reject-product-by-admin?adminEmail=${emailValueString}&productID=${productID}`,
+      `${process.env.NEXT_PUBLIC_SPRING_BOOT_SERVER_URL}/api/v1/auth/reject-product-by-admin?adminEmail=${emailValueString}&productID=${productID}&reasonToReject=${reasonToReject}`,
       {
         method: "DELETE",
         headers: {

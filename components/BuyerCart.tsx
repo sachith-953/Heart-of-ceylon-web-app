@@ -7,6 +7,8 @@ import { useToast } from "@/components/ui/use-toast";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 
+
+//Defines TypeScript types for cart products and overall cart data for type safety and clarity
 type CartProduct = {
   productId: number;
   productName: string;
@@ -23,16 +25,35 @@ type CartData = {
 
 const BuyerCart = () => {
   const [data, setData] = useState<CartData | null>(null);
-  const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
-  const [reloadPage, setReloadPage] = useState(false);
-  const router = useRouter();
-  const { toast } = useToast();
+  const [isLoading, setIsLoading] = useState(true);  // isLoading: Indicates if the data is being fetched.
+  const [error, setError] = useState<string | null>(null); //error: Stores any error message.
+  const [reloadPage, setReloadPage] = useState(false); // reloadPage: Triggers re-fetching of cart data.
+  const router = useRouter(); // router: Allows navigation to other pages.
+  const { toast } = useToast(); // toast: Displays notifications for success or errors.
 
+  // Effect to recalculate total when cart products change
   useEffect(() => {
-    const fetchCartData = async () => {
+    if (data && data.cartProducts) { // Guard Clause: Ensures the logic only executes when data and data.cartProducts are defined (not null or undefined).
+      const newTotalPrice = data.cartProducts.reduce( // reduce---> this is used to iterates over the cartProducts array.
+        (total, product) => total + (product.price * product.quantity),
+        0
+      );
+      
+      if (newTotalPrice !== data.totalPrice) {  // Compares the newly calculated newTotalPrice with the current data.totalPrice.
+        // If they differ, the total price in the state (data.totalPrice) is out-of-date and needs to be updated.
+        setData(prevData => ({
+          ...prevData!, // prevData!: The current state of data before the update. The ! operator is used to assert that prevData is not null
+          totalPrice: newTotalPrice // Creates a new state object by copying all existing properties from prevData and updating the totalPrice property with the new value.
+        }));
+      }
+    }
+  }, [data?.cartProducts]); // The useEffect will run whenever data.cartProducts changes. This includes 1) Adding or removing products. 2)Modifying the quantity or price of any product
+
+  // Fetch cart data
+  useEffect(() => {
+    const fetchCartData = async () => { // An async function defined inside the useEffect to handle fetching the cart data.
       try {
-        setIsLoading(true);
+        setIsLoading(true); //This shows a loading spinner or message in the UI.
         const res = await fetch(`${process.env.NEXT_PUBLIC_URL}/api/product/buyer-cart`, {
           method: 'GET',
           headers: {
@@ -42,19 +63,25 @@ const BuyerCart = () => {
 
         if (res.ok) {
           const responseData = await res.json();
-          setData(responseData);
-        } else if (res.status === 403) { // 403 error come from route--> expire refresh token
-          // this trigger when referesh token has issure. 
-          // if token is expired this will trigger
+          // Loops through all products (cartProducts) to compute the initial total price.
+          const calculatedTotalPrice = responseData.cartProducts.reduce(
+            (total: number, product: CartProduct) => 
+              total + (product.price * product.quantity), 
+            0
+          );
+          
+          setData({
+            ...responseData,
+            totalPrice: calculatedTotalPrice
+          });
+        } else if (res.status === 403) {
           toast({
-              variant: "destructive",
-              title: "Sorry!",
-              description: "Please Login again. Your Session has Expired!",
-          })
-          console.log("**** FetchSellerSales >> 403 ****************")
-          console.log("Redirectiong to login. RT error")
+            variant: "destructive",
+            title: "Sorry!",
+            description: "Please Login again. Your Session has Expired!",
+          });
           router.push("/log-in");
-      } else {
+        } else {
           const errorData = await res.json();
           toast({
             variant: "destructive",
@@ -71,16 +98,19 @@ const BuyerCart = () => {
     };
 
     fetchCartData();
-  }, [router, reloadPage, toast]);
-
+  }, [router, reloadPage, toast]); // This runs the fetchCartData function on the initial render or when dependencies (router, reloadPage, or toast) change.
 
   const updateCart = async (updatedProducts: CartProduct[]) => {
     if (data) {
-      const totalPrice = updatedProducts.reduce((total, product) => total + product.price * product.quantity, 0);
+      const totalPrice = updatedProducts.reduce(
+        (total, product) => total + (product.price * product.quantity),
+        0
+      );
+      
       setData({
         ...data,
         cartProducts: updatedProducts,
-        totalPrice,
+        totalPrice: totalPrice
       });
 
       try {
@@ -89,7 +119,10 @@ const BuyerCart = () => {
           headers: {
             'Content-Type': 'application/json',
           },
-          body: JSON.stringify({ cartProducts: updatedProducts }),
+          body: JSON.stringify({ 
+            cartProducts: updatedProducts,
+            totalPrice: totalPrice
+          }),
         });
       } catch (error) {
         console.error("Error updating cart:", error);
@@ -148,7 +181,7 @@ const BuyerCart = () => {
             title: "Success",
             description: resData.message,
           });
-          setReloadPage(prev => !prev); // Trigger a reload
+          setReloadPage(prev => !prev);
         } else {
           const errorData = await response.json();
           toast({
@@ -189,7 +222,7 @@ const BuyerCart = () => {
             description: resData.message,
           });
           setData(null);
-          router.push('/checkout-success'); // Add a success page redirect
+          router.push('/checkout-success');
         } else {
           const errorData = await response.json();
           toast({
@@ -222,6 +255,7 @@ const BuyerCart = () => {
   }
 
   const totalItems = data.cartProducts.reduce((sum, product) => sum + product.quantity, 0);
+  const SHIPPING_FEE = 19.25;
 
   return (
     <>
@@ -259,7 +293,7 @@ const BuyerCart = () => {
                     </button>
                   </div>
                 </div>
-                <p className="text-xl my-1">Quantity: {product.quantity}</p>
+                <p className="text-xl my-1">Total: ${(product.price * product.quantity).toFixed(2)}</p>
                 <button
                   onClick={() => handleDeleteProduct(product.productId)}
                   className="bg-red-500 text-white py-1 px-3 rounded mt-2 text-xl hover:bg-red-600 hover:shadow-lg transition-all duration-300"
@@ -273,14 +307,14 @@ const BuyerCart = () => {
         <div className="md:flex-1 bg-gray-200 p-5 rounded-lg w-full md:w-2/5">
           <h2 className="text-2xl font-bold mb-4">Summary</h2>
           <p className="my-2">Subtotal: US ${data.totalPrice.toFixed(2)}</p>
-          <p className="my-2">Shipping fee: US $19.25</p>
+          <p className="my-2">Shipping fee: US ${SHIPPING_FEE.toFixed(2)}</p>
           <p className="my-2">Saved: US $0.00</p>
-          <p className="my-2 font-bold">Total: US ${(data.totalPrice + 19.25).toFixed(2)}</p>
+          <p className="my-2 font-bold">Total: US ${(data.totalPrice + SHIPPING_FEE).toFixed(2)}</p>
           <button
             className="bg-red-500 text-white py-2 w-full rounded my-5 hover:bg-red-900 hover:shadow-lg transition duration-300 ease-in-out"
             onClick={handleCheckout}
           >
-            Checkout ({totalItems})
+            Checkout ({totalItems} items)
           </button>
 
           <div className="text-center">
