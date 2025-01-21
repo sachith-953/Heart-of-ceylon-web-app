@@ -69,6 +69,7 @@ export default function CheckoutPage() {
     return (
 
         <>
+        <p>client Secret : {clientSecret}</p>
             {
                 clientSecret === ""
                     ?
