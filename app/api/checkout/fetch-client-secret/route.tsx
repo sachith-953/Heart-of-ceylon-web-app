@@ -7,7 +7,7 @@ export async function GET() {
 
     try {
 
-        const response = await fetch(`${process.env.NEXT_PUBLIC_SPRING_BOOT_SERVER_URL}/api/v1/pBuyer/create-payment-intent`,
+        const response = await fetch(`${process.env.NEXT_PUBLIC_SPRING_BOOT_SERVER_URL}/api/v1/pBuyer/create-payment-intent?email=s19003@sci.pdn.ac.lk`,
             { cache: 'no-store' }
         );
 
