@@ -5,8 +5,10 @@ import { loadStripe } from '@stripe/stripe-js';
 import { useEffect, useState } from 'react';
 import { Elements, useElements, useStripe } from "@stripe/react-stripe-js";
 import CheckoutForm from '@/components/paymentGateway/CheckoutForm';
+import CheckOutCart from '@/components/checkoutCart/CheckOutCart';
 import CompletePage from './success/page';
 import { Loader2, } from 'lucide-react';
+import Navbar from "@/components/Navbar";
 
 
 const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY!);
@@ -71,14 +73,14 @@ export default function CheckoutPage() {
     return (
 
         <>
-
-            <div className="flex flex-col min-h-screen sm:flex-row w-full bg-white">
+            <Navbar />
+            <div className="flex flex-col min-h-screen sm:flex-row w-full bg-gray-100">
 
                 {/* ************ product details goes ************ */}
-                <div className="w-full md:w-3/5 border-2 border-green-400">
+                <div className="w-full md:w-3/5 ">
                     {/* !!!!! just modify this componet and add new modified compoent */}
                     {/* <BuyerCartOrderDetails /> */}
-                    <span>Product details goes here</span>
+                    <CheckOutCart />
                 </div>
 
                 {/* ************ payemt gateway form ************* */}

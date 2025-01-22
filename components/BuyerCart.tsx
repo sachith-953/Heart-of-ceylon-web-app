@@ -7,8 +7,6 @@ import { useToast } from "@/components/ui/use-toast";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 
-
-//Defines TypeScript types for cart products and overall cart data for type safety and clarity
 type CartProduct = {
   productId: number;
   productName: string;
@@ -20,41 +18,39 @@ type CartProduct = {
 type CartData = {
   cartId: number;
   totalPrice: number;
+  buyerId: number;
   cartProducts: CartProduct[];
 };
 
 const BuyerCart = () => {
   const [data, setData] = useState<CartData | null>(null);
-  const [isLoading, setIsLoading] = useState(true);  // isLoading: Indicates if the data is being fetched.
-  const [error, setError] = useState<string | null>(null); //error: Stores any error message.
-  const [reloadPage, setReloadPage] = useState(false); // reloadPage: Triggers re-fetching of cart data.
-  const router = useRouter(); // router: Allows navigation to other pages.
-  const { toast } = useToast(); // toast: Displays notifications for success or errors.
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+  const [reloadPage, setReloadPage] = useState(false);
+  const router = useRouter();
+  const { toast } = useToast();
 
-  // Effect to recalculate total when cart products change
   useEffect(() => {
-    if (data && data.cartProducts) { // Guard Clause: Ensures the logic only executes when data and data.cartProducts are defined (not null or undefined).
-      const newTotalPrice = data.cartProducts.reduce( // reduce---> this is used to iterates over the cartProducts array.
+    if (data && data.cartProducts) {
+      const newTotalPrice = data.cartProducts.reduce(
         (total, product) => total + (product.price * product.quantity),
         0
       );
       
-      if (newTotalPrice !== data.totalPrice) {  // Compares the newly calculated newTotalPrice with the current data.totalPrice.
-        // If they differ, the total price in the state (data.totalPrice) is out-of-date and needs to be updated.
+      if (newTotalPrice !== data.totalPrice) {
         setData(prevData => ({
-          ...prevData!, // prevData!: The current state of data before the update. The ! operator is used to assert that prevData is not null
-          totalPrice: newTotalPrice // Creates a new state object by copying all existing properties from prevData and updating the totalPrice property with the new value.
+          ...prevData!,
+          totalPrice: newTotalPrice
         }));
       }
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [data?.cartProducts]); // The useEffect will run whenever data.cartProducts changes. This includes 1) Adding or removing products. 2)Modifying the quantity or price of any product
+  }, [data?.cartProducts]);
 
-  // Fetch cart data
   useEffect(() => {
-    const fetchCartData = async () => { // An async function defined inside the useEffect to handle fetching the cart data.
+    const fetchCartData = async () => {
       try {
-        setIsLoading(true); //This shows a loading spinner or message in the UI.
+        setIsLoading(true);
         const res = await fetch(`${process.env.NEXT_PUBLIC_URL}/api/product/buyer-cart`, {
           method: 'GET',
           headers: {
@@ -64,7 +60,6 @@ const BuyerCart = () => {
 
         if (res.ok) {
           const responseData = await res.json();
-          // Loops through all products (cartProducts) to compute the initial total price.
           const calculatedTotalPrice = responseData.cartProducts.reduce(
             (total: number, product: CartProduct) => 
               total + (product.price * product.quantity), 
@@ -99,7 +94,7 @@ const BuyerCart = () => {
     };
 
     fetchCartData();
-  }, [router, reloadPage, toast]); // This runs the fetchCartData function on the initial render or when dependencies (router, reloadPage, or toast) change.
+  }, [router, reloadPage, toast]);
 
   const updateCart = async (updatedProducts: CartProduct[]) => {
     if (data) {
@@ -113,21 +108,6 @@ const BuyerCart = () => {
         cartProducts: updatedProducts,
         totalPrice: totalPrice
       });
-
-      try {
-        await fetch('/api/cart', {
-          method: 'PUT',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({ 
-            cartProducts: updatedProducts,
-            totalPrice: totalPrice
-          }),
-        });
-      } catch (error) {
-        console.error("Error updating cart:", error);
-      }
     }
   };
 
@@ -157,79 +137,43 @@ const BuyerCart = () => {
 
   const handleDeleteProduct = (productId: number) => {
     if (data) {
-      const updatedProducts = data.cartProducts.filter((product) => product.productId !== productId);
+      const updatedProducts = data.cartProducts.filter(
+        (product) => product.productId !== productId
+      );
       updateCart(updatedProducts);
-    }
-  };
-
-  const handleUpdateQuantities = async () => {
-    if (data) {
-      try {
-        const response = await fetch('/api/update-cart-quantities', {
-          method: 'PUT',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            cartId: data.cartId,
-            cartProducts: data.cartProducts,
-          }),
-        });
-
-        if (response.ok) {
-          const resData = await response.json();
-          toast({
-            title: "Success",
-            description: resData.message,
-          });
-          setReloadPage(prev => !prev);
-        } else {
-          const errorData = await response.json();
-          toast({
-            variant: "destructive",
-            title: "Error",
-            description: errorData.error,
-          });
-        }
-      } catch (error) {
-        console.error("Error updating quantities:", error);
-        toast({
-          variant: "destructive",
-          title: "Error",
-          description: "Updating quantities failed. Please try again.",
-        });
-      }
     }
   };
 
   const handleCheckout = async () => {
     if (data) {
       try {
-        const response = await fetch('/api/checkout-buyer-cart', {
+        // First update the cart products table
+        const updateCartResponse = await fetch(`${process.env.NEXT_PUBLIC_URL}/api/product/checkout-cart`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
           },
           body: JSON.stringify({
             cartId: data.cartId,
-            cartProducts: data.cartProducts,
+            buyerId: data.buyerId,
+            cartProducts: data.cartProducts.map(product => ({
+              productId: product.productId,
+              quantity: product.quantity,
+              price: product.price
+            }))
           }),
         });
 
-        if (response.ok) {
-          const resData = await response.json();
-          toast({
-            title: "Success",
-            description: resData.message,
-          });
-          setData(null);
-          router.push('/checkout-success');
+        if (updateCartResponse.ok) {
+          // If cart update is successful, redirect to payment page
+          //const totalAmount = data.totalPrice + 19.25; // Including shipping fee
+          router.push(`/checkout`);
         } else {
-          const errorData = await response.json();
+          const errorData = await updateCartResponse.json();
           toast({
             variant: "destructive",
             title: "Error",
-            description: errorData.error,
+            description: errorData.message || "Failed to checkout cart",
           });
         }
       } catch (error) {
