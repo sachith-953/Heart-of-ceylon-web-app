@@ -48,15 +48,22 @@ export default function CheckoutForm() {
 
   return (
     <form
-      className="w-1/3 ml-10 mt-10"
+      className="mx-5 mt-10"
       id="payment-form"
       onSubmit={handleSubmit}>
       <PaymentElement id="payment-element" options={paymentElementOptions} />
-      <button disabled={isLoading || !stripe || !elements} id="submit" className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" type="submit">
-        <span id="button-text">
-          {isLoading ? <div className="spinner" id="spinner"></div> : "Pay now"}
-        </span>
+      <div className="flex justify-center">
+      <button 
+        disabled={isLoading || !stripe || !elements} 
+        id="submit" 
+        className="bg-blue-500 w-3/5 mt-2 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" 
+        type="submit">
+          <span id="button-text">
+            {isLoading ? <div className="spinner" id="spinner"></div> : "Pay now"}
+          </span>
       </button>
+      </div>
+      
       {message && <div id="payment-message">{message}</div>}
     </form>
   );
