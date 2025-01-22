@@ -74,10 +74,10 @@ export default function CheckoutPage() {
 
         <>
             <Navbar />
-            <div className="flex flex-col min-h-screen sm:flex-row w-full bg-white">
+            <div className="flex flex-col min-h-screen sm:flex-row w-full bg-gray-100">
 
                 {/* ************ product details goes ************ */}
-                <div className="w-full md:w-3/5 border-2 ">
+                <div className="w-full md:w-3/5 ">
                     {/* !!!!! just modify this componet and add new modified compoent */}
                     {/* <BuyerCartOrderDetails /> */}
                     <CheckOutCart />

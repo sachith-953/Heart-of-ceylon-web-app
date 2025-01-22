@@ -96,10 +96,10 @@ const BuyerCart = () => {
   return (
     <>
       {/* <Navbar /> */}
-      <div className="flex flex-col md:flex-row bg-gray-100 p-5 w-full">
-        <div className=" bg-white p-5 rounded-lg max-h-[80vh] overflow-y-auto">
+      <div className="flex flex-col md:flex-row  p-5 w-full">
+        <div className=" bg-white p-5 rounded-lg max-h-[80vh] overflow-y-auto w-full">
           {data.cartProducts.map((product) => (
-            <div key={product.productId} className="flex flex-col md:flex-row mb-5 p-4 border border-gray-300 rounded-lg bg-gray-100 hover:shadow-lg transition-all duration-300">
+            <div key={product.productId} className="flex flex-col md:flex-row mb-5 p-4 border border-gray-300 rounded-lg  hover:shadow-lg transition-all duration-300">
               <div className="flex-shrink-0 md:mr-5">
                 <Image
                   src={product.productMainImage}
