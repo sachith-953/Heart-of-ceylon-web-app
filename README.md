@@ -12,6 +12,9 @@ NEXT_PUBLIC_SPRING_BOOT_SERVER_URL= http://localhost:8080
 PRODUCTS_PER_PRODUCT_SEARCH_RESULT=4
 ```
 
+---
+
+Stripe payment gatway test cards : https://docs.stripe.com/payments/accept-a-payment?platform=web&ui=elements#web-test-the-integration
 
 
 ---
