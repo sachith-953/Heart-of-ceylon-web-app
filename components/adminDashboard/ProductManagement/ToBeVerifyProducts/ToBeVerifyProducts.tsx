@@ -163,6 +163,7 @@ const ToBeVerifyProducts: FC = () => {
   useEffect(() => {
     fetchProducts(0);
     // backend is likely designed to treat page number 0 as the first page.
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const handleNextPage = () => {

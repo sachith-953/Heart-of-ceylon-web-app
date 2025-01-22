@@ -47,6 +47,7 @@ const BuyerCart = () => {
         }));
       }
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [data?.cartProducts]); // The useEffect will run whenever data.cartProducts changes. This includes 1) Adding or removing products. 2)Modifying the quantity or price of any product
 
   // Fetch cart data
