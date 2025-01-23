@@ -75,11 +75,11 @@ const Product: React.FC<ChildProps> = ({ productData, }) => {
                                                             : pData.productName}
                                                     </p>
                                                 </Link>
-                                                <p className="font-serif font-medium mt-0 sm:mt-1 text-sm lg:text-base">
+                                                {/* <p className="font-serif font-medium mt-0 sm:mt-1 text-sm lg:text-base">
                                                     {pData.storeName.length > 50
                                                                 ? `${pData.storeName.substring(0, 60)}...`
                                                                 : pData.storeName}
-                                                </p>
+                                                </p> */}
 
                                                 {/* ratings */}
                                                 <div className="flex flex-col md:flex-row mt-0 md:mt-1 ">
