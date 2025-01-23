@@ -206,13 +206,14 @@ const SellerApprovePopUpButton: React.FC<ChildProps> = ({
       <DialogTrigger asChild>
         <Button
           variant="outline"
-          className="bg-blue-600 w-full hover:bg-blue-800 text-white hover:text-white"
+          className="bg-red-500 w-full hover:bg-red-700 text-white hover:text-white"
           size="default"
         >
           Proceed to Approve
         </Button>
       </DialogTrigger>
 
+      {/*Pop up */}
       <DialogContent className="max-h-[90vh] p-0">
         <DialogHeader className="px-6 pt-6">
           <DialogTitle>Approve Seller Account</DialogTitle>
