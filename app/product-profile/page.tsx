@@ -33,10 +33,13 @@ const Page = () => {
 
           <Tabs defaultValue="about" className="flex flex-col justify-center">
             <TabsList className="flex flex-col sm:flex-row w-full mt-4 sm:mt-0 mb-10 sm:mb-2">
+              {/*About product tag*/}
               <TabsTrigger className="basis-1/3 my-2" value="about">About this Product</TabsTrigger>
+              {/*Shipping tag*/}
               <TabsTrigger className="basis-1/3 my-2" value="shipping">
                 Shipping, Return and Payments
               </TabsTrigger>
+              {/*Reviews tag*/}
               <TabsTrigger className="basis-1/3 my-2" value="reviews">Reviews</TabsTrigger>
             </TabsList>
 
