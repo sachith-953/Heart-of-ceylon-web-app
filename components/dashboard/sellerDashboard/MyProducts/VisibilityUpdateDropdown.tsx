@@ -22,6 +22,7 @@ const VisibilityUpdateDropdown: React.FC<VisibilityUpdateDropdownProps> = ({
   currentStatus,
 }) => {
   // Make sure these match exactly with your backend ProductVisibilityEnum values
+  //Dropdown values
   const statuses = ["PRIVATE", "PUBLIC"];
 
   const handleStatusSelect = (status: string) => {

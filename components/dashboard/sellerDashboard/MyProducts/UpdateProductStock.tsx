@@ -99,6 +99,7 @@ const UpdateProductStock: React.FC<{
   return (
     <Dialog>
       <DialogTrigger asChild>
+        {/*Button for update stock */}
         <Button variant="outline" size="sm" className="w-full">
           <PackageOpen className="w-4 h-4 mr-2" />
           Update Stock
@@ -109,6 +110,7 @@ const UpdateProductStock: React.FC<{
           <DialogTitle>Update Product Stock</DialogTitle>
         </DialogHeader>
         <form onSubmit={validateAndUpdate} className="space-y-4">
+          {/*Label the current stock */}
           <div className="space-y-2">
             <Label htmlFor="currentStock">Current Stock</Label>
             <Input
@@ -118,6 +120,7 @@ const UpdateProductStock: React.FC<{
               className="bg-gray-100"
             />
           </div>
+          {/*Update new stock */}
           <div className="space-y-2">
             <Label htmlFor="newStock">New Stock Amount</Label>
             <Input
