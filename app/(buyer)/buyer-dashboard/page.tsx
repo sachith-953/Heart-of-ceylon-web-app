@@ -38,9 +38,9 @@ export default function Page() {
                     <div className="grid grid-cols-1 sm:grid-cols-2 mt-5">
 
                         {/* Recently Viewd */}
-                        <div className="border-2 border-yellow-500 p-1">
+                        {/* <div className="border-2 border-yellow-500 p-1">
                             <RecentViewdProducts />
-                        </div>
+                        </div> */}
 
                         {/* Account Information */}
                         <div className="p-1">
